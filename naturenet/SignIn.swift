@@ -23,13 +23,10 @@ class SignIn: UIViewController {
     }
     
     @IBAction func btnSignIn() {
-        println("sign in clicked")
-//        var user = User()
-//        user.doPullByName("car")
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         var user = Account()
-        user.doPullByName("car")
-//        NNModel.resolveByName(appDelegate, name: "car")
+//        user.doPullByNameFromServer("caty")
+        AccountEntity.doPullByNameFromCoreData("caty")
     }
     
 }

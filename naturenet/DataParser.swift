@@ -16,7 +16,7 @@ protocol DataParserProtocol {
 
 class DataParser {
     var parseService: APIService
-    var user : Account?
+//    var user : Account?
   
     init() {
         parseService = APIService()

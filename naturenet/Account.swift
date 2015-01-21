@@ -7,17 +7,38 @@
 //
 
 import Foundation
+import UIKit
+import CoreData
 
 class Account: APIControllerProtocol {
-    var parseService: APIService = APIService()
+    var parseService: APIService?
+    var username: String?
+    var password: String?
+    var fullname: String?
+    var createdAt: NSNumber?
+    var uid: NSNumber?
+    var email: String?
+    
+    var entityRef: AccountEntity?
 
     init() {
-        parseService.delegate = self
+        parseService = APIService()
+        parseService!.delegate = self
     }
     
+    init(username: String, password: String, fullname: String, createdAt: NSNumber, uid: NSNumber, email: String) {
+        self.username = username
+        self.password = password
+        self.fullname = fullname
+        self.createdAt = createdAt
+        self.uid = uid
+        self.email = email
+    }
+    
+    // after getting data from server
     func didReceiveResults(response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            println(response["data"])
+            println("data is loaded");
             var data = response["data"] as NSDictionary!
             var id = data["id"] as Int
             var username = data["username"] as String
@@ -25,14 +46,25 @@ class Account: APIControllerProtocol {
             var pass = data["password"] as String
             var email = data["email"] as String
             var created_at = data["created_at"] as Int
-            ManagedAccount.createInManagedObjectContext(username, password: pass, name: fullname, created_at: created_at, uid: id, email: email)
+            println("\(id) \(username) \(fullname) \(pass) \(created_at)")
+            var account = Account(username: username, password: pass, fullname: fullname, createdAt: created_at, uid: id, email: email)
+            var user = AccountEntity.createInManagedObjectContext(ManagedObjectContext.context, account: account)
+            // assign a reference to the entity of this account
+            self.entityRef = user
         })
     }
 
-    func doPullByName(name: String) {
-        var apiLink = API()
-        var accountUrl = apiLink.getAccountLink(name)
-        parseService.getResponse(accountUrl)
+    func doPullByNameFromServer(name: String) {
+        var accountUrl = APIAdapter.api.getAccountLink(name)
+        if (parseService != nil) {
+            parseService!.getResponse(accountUrl)
+        }
     }
+    
+    func isValidUser(name: String, pass: String) -> Bool {
+        
+        return false
+    }
+
 
 }

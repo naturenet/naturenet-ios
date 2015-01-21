@@ -13,21 +13,11 @@ class HomeController : UIViewController, UICollectionViewDataSource,
                         UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
 
     @IBOutlet weak var homeCollectionView: UICollectionView!
-    var user: Account?
     var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
     var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-//        var apiLink = API()
-//        var accountUrl = apiLink.getAccountLink("car")
-//        var noteUrl = apiLink.getAccountNotesLink("car")
-//        var nnparser = DataParser()
-//        nnparser.parseAccount(accountUrl)
-        // nnparser.paserNotes(noteUrl)
-
     }
     
     
