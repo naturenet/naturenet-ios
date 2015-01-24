@@ -10,7 +10,7 @@
         <!--NatureNet-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="HomeController" customModule="nn" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="HomeController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -42,7 +42,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="homecell" id="DOj-KB-QfN" customClass="HomeCell" customModule="nn" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="homecell" id="DOj-KB-QfN" customClass="HomeCell" customModule="naturenet" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -153,7 +153,7 @@
         <!--Sign In-->
         <scene sceneID="85P-qF-8A2">
             <objects>
-                <viewController id="PsJ-bN-In7" customClass="SignIn" customModule="nn" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PsJ-bN-In7" customClass="SignIn" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nuS-QR-2De"/>
                         <viewControllerLayoutGuide type="bottom" id="bZL-O3-J9F"/>
@@ -210,7 +210,11 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Sign In" id="hLx-jx-8cl">
-                        <barButtonItem key="rightBarButtonItem" title="Sign Up" id="e3K-4C-Fif"/>
+                        <barButtonItem key="rightBarButtonItem" title="Sign Up" id="e3K-4C-Fif">
+                            <connections>
+                                <segue destination="e41-FN-LsY" kind="show" id="S5a-Td-MC1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="textFieldUname" destination="L5u-1n-78D" id="dGT-qL-q1M"/>
@@ -220,6 +224,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Y1-Gq-va3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="506" y="908"/>
+        </scene>
+        <!--Signup One-->
+        <scene sceneID="3yZ-uG-DVh">
+            <objects>
+                <viewController title="Signup One" id="e41-FN-LsY" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HDR-T8-sfX"/>
+                        <viewControllerLayoutGuide type="bottom" id="XjC-ce-dfB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F3g-zF-pg6">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0E5-Vo-U6x">
+                                <rect key="frame" x="0.0" y="5" width="600" height="587"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">You are invited to participate in NatureNet, a research project being conducted by the researchers listed on the bottom of the page in consultation with Jim Kravitz, Director of Naturalist Programs at ACES. In order for us to collect and study the way people are 
+using technology like NatureNet, we must have your consent. In simplest terms, we hope you will use a mobile device, multi-touch display, and website to:
+1) Take pictures and make observations about the natural world
+2) Share those observations with other visitors
+3) Share ideas you have about improving the design of our application
+4) Comment on the observations and ideas of others.
+The researchers and other visitors will be able to look at your contributions and comments 
+via the tabletop or website, and we may ask you if you are willing to answer a few questions 
+(either on paper, by phone, or face to face) about your whole experience. You may stop participating at any time.
+A longer version of this consent form is available [at the ACES front desk/from Prof Yeh/Maher/Preece] or [nature-net.org], or you can indicate your understanding and willingness to participate in our study by checking off the boxes on the next screen.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0E5-Vo-U6x" secondAttribute="trailing" id="431-2e-UPt"/>
+                            <constraint firstItem="XjC-ce-dfB" firstAttribute="top" secondItem="0E5-Vo-U6x" secondAttribute="bottom" constant="8" symbolic="YES" id="7lx-Rb-iGy"/>
+                            <constraint firstItem="0E5-Vo-U6x" firstAttribute="top" secondItem="F3g-zF-pg6" secondAttribute="topMargin" constant="5" id="B1T-Kz-FAD"/>
+                            <constraint firstItem="0E5-Vo-U6x" firstAttribute="leading" secondItem="F3g-zF-pg6" secondAttribute="leading" id="afE-V6-BmK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="About The Project" id="0MA-ne-5ek">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="ecd-ei-VC6"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UbR-en-8t5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1151" y="908"/>
         </scene>
         <!--Observations-->
         <scene sceneID="mha-Xk-4jn">
