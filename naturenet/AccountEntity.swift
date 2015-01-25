@@ -54,6 +54,11 @@ class AccountEntity: NNModel {
             return newAccount
     }
 
+    // pull info from remote server
+    class func doPullByNameFromServer(parseService: APIService, name: String) {
+        var accountUrl = APIAdapter.api.getAccountLink(name)
+        parseService.getResponse(accountUrl)
+    }
     
     // pull information from coredata
     class func doPullByNameFromCoreData(name: String) -> Void {
