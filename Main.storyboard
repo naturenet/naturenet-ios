@@ -162,7 +162,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8bA-iF-ez9">
+                            <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="4-digit password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8bA-iF-ez9">
                                 <rect key="frame" x="200" y="190" width="200" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
@@ -240,7 +240,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0E5-Vo-U6x">
                                 <rect key="frame" x="0.0" y="5" width="600" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">You are invited to participate in NatureNet, a research project being conducted by the researchers listed on the bottom of the page in consultation with Jim Kravitz, Director of Naturalist Programs at ACES. In order for us to collect and study the way people are 
+                                <string key="text">You are invited to participate in NatureNet, a research project being conducted by the researchers listed on the bottom of the page in consultation with Jim Kravitz, Director of Naturalist Programs at ACES. In order for us to collect and study the way people are 
 using technology like NatureNet, we must have your consent. In simplest terms, we hope you will use a mobile device, multi-touch display, and website to:
 1) Take pictures and make observations about the natural world
 2) Share those observations with other visitors
@@ -249,7 +249,7 @@ using technology like NatureNet, we must have your consent. In simplest terms, w
 The researchers and other visitors will be able to look at your contributions and comments 
 via the tabletop or website, and we may ask you if you are willing to answer a few questions 
 (either on paper, by phone, or face to face) about your whole experience. You may stop participating at any time.
-A longer version of this consent form is available [at the ACES front desk/from Prof Yeh/Maher/Preece] or [nature-net.org], or you can indicate your understanding and willingness to participate in our study by checking off the boxes on the next screen.</mutableString>
+A longer version of this consent form is available [at the ACES front desk/from Prof Yeh/Maher/Preece] or [nature-net.org], or you can indicate your understanding and willingness to participate in our study by checking off the boxes on the next screen.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

@@ -22,7 +22,6 @@
 		FC1134C91A6430EF00D548E8 /* DataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134C61A6430EF00D548E8 /* DataParser.swift */; };
 		FC1134CB1A64310100D548E8 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134CA1A64310100D548E8 /* HomeCell.swift */; };
 		FC1134CE1A64317F00D548E8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC1134CD1A64317F00D548E8 /* CoreData.framework */; };
-		FC3D91421A662DDF00DA8B68 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3D91411A662DDF00DA8B68 /* Account.swift */; };
 		FC3EDBE81A678840008C0293 /* AccountEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3EDBE71A678840008C0293 /* AccountEntity.swift */; };
 		FCE67D7F1A6F0DB30096D594 /* ManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D7E1A6F0DB30096D594 /* ManagedObjectContext.swift */; };
 		FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D801A6F7BC30096D594 /* APIAdapter.swift */; };
@@ -58,7 +57,6 @@
 		FC1134C61A6430EF00D548E8 /* DataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataParser.swift; sourceTree = "<group>"; };
 		FC1134CA1A64310100D548E8 /* HomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		FC1134CD1A64317F00D548E8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		FC3D91411A662DDF00DA8B68 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		FC3EDBE71A678840008C0293 /* AccountEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountEntity.swift; sourceTree = "<group>"; };
 		FCE67D7E1A6F0DB30096D594 /* ManagedObjectContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectContext.swift; sourceTree = "<group>"; };
 		FCE67D801A6F7BC30096D594 /* APIAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAdapter.swift; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 			children = (
 				FC1134C21A6430D900D548E8 /* NNModel.swift */,
 				FC3EDBE71A678840008C0293 /* AccountEntity.swift */,
-				FC3D91411A662DDF00DA8B68 /* Account.swift */,
 			);
 			name = dataModel;
 			sourceTree = "<group>";
@@ -277,7 +274,6 @@
 				FC3EDBE81A678840008C0293 /* AccountEntity.swift in Sources */,
 				FC1134BD1A64308D00D548E8 /* SignIn.swift in Sources */,
 				FC1134BF1A64309E00D548E8 /* HomeController.swift in Sources */,
-				FC3D91421A662DDF00DA8B68 /* Account.swift in Sources */,
 				FC1134C91A6430EF00D548E8 /* DataParser.swift in Sources */,
 				FC1134C71A6430EF00D548E8 /* API.swift in Sources */,
 				FCE67D7F1A6F0DB30096D594 /* ManagedObjectContext.swift in Sources */,

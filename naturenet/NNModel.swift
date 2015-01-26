@@ -12,6 +12,7 @@ import CoreData
 class NNModel: NSManagedObject {
     @NSManaged var uID: NSNumber
     @NSManaged var created_at: NSNumber
+    @NSManaged var modified_at: NSNumber
     @NSManaged var state: NSNumber
     
     struct State {

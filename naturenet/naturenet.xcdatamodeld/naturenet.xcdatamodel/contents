@@ -3,6 +3,7 @@
     <entity name="Account" representedClassName="AccountEntity" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -10,6 +11,6 @@
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Account" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="Account" positionX="-63" positionY="-18" width="128" height="165"/>
     </elements>
 </model>
