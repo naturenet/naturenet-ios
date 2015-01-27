@@ -53,8 +53,6 @@ class SignIn: UIViewController, APIControllerProtocol {
             if model == "Site" {
                 self.handleSiteData(data)
             }
-            // self.pauseIndicator()
-            // self.navigationController?.popToRootViewControllerAnimated(true)
         })
     }
     
@@ -104,22 +102,54 @@ class SignIn: UIViewController, APIControllerProtocol {
     func handleSiteData(data: NSDictionary) {
         // println("site is : \(data)")
         var contexts = data["contexts"] as NSArray
-        println("site contexts is : \(contexts[1])")
+        // println("site contexts is : \(contexts[1])")
         var description = data["description"] as String
         var uid = data["id"] as Int
         var image_url = data["image_url"] as String
         var name = data["name"] as String
-        let site_contexts: [[String: AnyObject?]] = self.convertContextData(contexts)
-        
+        // let site_contexts: [[String: AnyObject?]] = self.convertContextData(contexts)
         var exisitingSite = Site.doPullByNameFromCoreData("aces")?
         if exisitingSite != nil {
-            println("You have aces site in core data")
-
+            println("You have aces site in core data: "  + exisitingSite!.toString())
         } else {
-            println("You do not have aces site in core data")
+            self.handleContextData(uid, contexts: contexts)
+            var site = Site.createInManagedObjectContext(name, uid: uid, description: description, imageURL: image_url)
+            site.commit()
+            println("A new site " + site.toString() + " saved")
+        }
+        
+         self.pauseIndicator()
+         self.navigationController?.popToRootViewControllerAnimated(true)
 
+    }
+    
+    // save context
+    func handleContextData(siteID: Int, contexts: NSArray) {
+        if (contexts.count == 0) {
+            return
+        }
+        
+        for tContext in contexts {
+            var contextUID = tContext["id"] as Int
+            var name = tContext["name"] as String
+            var cDescription: String?
+            if tContext["description"] != nil {
+                cDescription = tContext["description"] as? String
+            }
+            
+            var extras: String?
+            if var ext = tContext["extras"] as? String {
+                extras = ext as String
+            }
+            var title = tContext["title"] as String
+            var kind = tContext["kind"] as String
+            var context = Context.createInManagedObjectContext(name, description: cDescription, uid: contextUID,
+                            siteID: siteID, kind: kind, title: title, extras: extras)
+            context.commit()
+            println("A new context " + context.toString() + " saved!")
         }
 
+        
     }
     
     // parse contexts json to an array contains a list of dictionary

@@ -34,7 +34,6 @@ class Site: NNModel {
         if results.count > 0 {
             for res in results {
                 if let tSite = res as? Site {
-                    // println(tUser.toString())
                     site = tSite
                 }
             }
@@ -45,34 +44,34 @@ class Site: NNModel {
     }
     
     // save a new site in coredata
-    class func createInManagedObjectContext(name: String, uid: Int, description: String, imageURL: String, contexts: NSArray ) -> Site {
-            let context: NSManagedObjectContext = ManagedObjectContext.context
-            let ent = NSEntityDescription.entityForName("Site", inManagedObjectContext: context)!
-            let newSite = Site(entity: ent, insertIntoManagedObjectContext: context)
-            newSite.name = name
-            newSite.uid = uid
-            newSite.site_description = description
-            newSite.image_url = imageURL
-            newSite.state = STATE.DOWNLOADED
-            newSite.contexts = contexts
-            context.save(nil)
-            println("newSite is : \(newSite)" + "Site entity is: \(newSite.toString())")
-            return newSite
+    class func createInManagedObjectContext(name: String, uid: Int, description: String, imageURL: String) -> Site {
+        let context: NSManagedObjectContext = ManagedObjectContext.context
+        let ent = NSEntityDescription.entityForName("Site", inManagedObjectContext: context)!
+        let newSite = Site(entity: ent, insertIntoManagedObjectContext: context)
+        newSite.created_at = NSDate().timeIntervalSince1970
+        newSite.name = name
+        newSite.uid = uid
+        newSite.site_description = description
+        newSite.image_url = imageURL
+        newSite.state = STATE.DOWNLOADED
+        context.save(nil)
+        println("newSite is : \(newSite)" + "Site entity is: \(newSite.toString())")
+        return newSite
     }
     
     func toString() -> String {
-        var string = "name: \(name) uid: \(uid) modified: \(modified_at) state: \(state)"
+        var string = "name: \(name) uid: \(uid) created: \(created_at) state: \(state)"
         return string
     }
     
-    override func resolveDependencies() {
-        if (contexts.count > 0) {
-            for context in contexts {
-                if let tContext = context as? Context {
-                    tContext.state = STATE.DOWNLOADED
-                }
-            }
-        }
-    }
+//    override func resolveDependencies() {
+//        if (contexts.count > 0) {
+//            for context in contexts {
+//                if let tContext = context as? Context {
+//                    tContext.state = STATE.DOWNLOADED
+//                }
+//            }
+//        }
+//    }
 
 }

@@ -21,21 +21,21 @@ class AccountEntity: NNModel {
 
     // save a new account in coredata
     class func createInManagedObjectContext(username: String, password: String,
-        name: String, created_at: Int, modified_at: Int, uid: Int, email: String) -> AccountEntity {
-            let context: NSManagedObjectContext = ManagedObjectContext.context
-            let ent = NSEntityDescription.entityForName("Account", inManagedObjectContext: context)!
-            let newAccount = AccountEntity(entity: ent, insertIntoManagedObjectContext: context)
-            newAccount.username = username
-            newAccount.password = password
-            newAccount.name = name
-            newAccount.created_at = created_at
-            newAccount.modified_at = modified_at
-            newAccount.uid = uid
-            newAccount.email = email
-            newAccount.state = STATE.DOWNLOADED
-            context.save(nil)
-            println("newAccount is : \(newAccount)" + "Account entity is: " + newAccount.toString())
-            return newAccount
+                name: String, created_at: Int, modified_at: Int, uid: Int, email: String) -> AccountEntity {
+        let context: NSManagedObjectContext = ManagedObjectContext.context
+        let ent = NSEntityDescription.entityForName("Account", inManagedObjectContext: context)!
+        let newAccount = AccountEntity(entity: ent, insertIntoManagedObjectContext: context)
+        newAccount.username = username
+        newAccount.password = password
+        newAccount.name = name
+        newAccount.created_at = created_at
+        newAccount.modified_at = modified_at
+        newAccount.uid = uid
+        newAccount.email = email
+        newAccount.state = STATE.DOWNLOADED
+        context.save(nil)
+        println("newAccount is : \(newAccount)" + "Account entity is: " + newAccount.toString())
+        return newAccount
     }
 
     // pull info from remote server
