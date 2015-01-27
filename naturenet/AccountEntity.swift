@@ -15,8 +15,9 @@ class AccountEntity: NNModel {
     @NSManaged var email: String
     @NSManaged var name: String
     @NSManaged var password: String
-    @NSManaged var uid: NSNumber
     @NSManaged var username: String
+    let context: NSManagedObjectContext = ManagedObjectContext.context
+
 
     // save a new account in coredata
     class func createInManagedObjectContext(username: String, password: String,
@@ -31,9 +32,9 @@ class AccountEntity: NNModel {
             newAccount.modified_at = modified_at
             newAccount.uid = uid
             newAccount.email = email
-            newAccount.state = State.NEW
+            newAccount.state = STATE.DOWNLOADED
             context.save(nil)
-            println("newAccount is : \(newAccount)")
+            println("newAccount is : \(newAccount)" + "Account entity is: " + newAccount.toString())
             return newAccount
     }
 
@@ -48,6 +49,14 @@ class AccountEntity: NNModel {
         self.setValue(pass, forKey: "password")
         self.setValue(email, forKey: "email")
         self.setValue(modified_at, forKey: "modified_at")
+        context.save(nil)
+    }
+    
+    // update state 
+    override func doUpdataState() {
+        println("after update, state is changed to: \(state)")
+        self.setValue(state, forKey: "state")
+        context.save(nil)
     }
     
     // pull information from coredata
@@ -61,7 +70,7 @@ class AccountEntity: NNModel {
         if results.count > 0 {
             for user in results {
                 if let tUser = user as? AccountEntity {
-                    println(tUser.toString())
+                    // println(tUser.toString())
                     account = tUser
                 }
             }
@@ -73,7 +82,7 @@ class AccountEntity: NNModel {
     
     // toString, debug use
     func toString() -> String {
-        var string = "name: \(name)" + " pass: \(password)" + " uid: \(uid)" + " username: \(username)" + " email: \(email)"
+        var string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"
         return string
     }
     

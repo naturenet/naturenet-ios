@@ -25,5 +25,8 @@ class API {
         return root + "account/" + userName + "/notes"
     }
     
-    
+    // get site api link
+    func getSiteLink(siteName: String) -> String {
+        return root + "site/" + siteName + "/long"
+    }
 }
