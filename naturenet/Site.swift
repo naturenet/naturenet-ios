@@ -19,14 +19,14 @@ class Site: NNModel {
     
     // pull info from remote server
     class func doPullByNameFromServer(parseService: APIService, name: String) {
-        var accountUrl = APIAdapter.api.getSiteLink(name)
-        parseService.getResponse(accountUrl)
+        var siteUrl = APIAdapter.api.getSiteLink(name)
+        parseService.getResponse(NSStringFromClass(Site), url: siteUrl)
     }
     
     // pull information from coredata
     class func doPullByNameFromCoreData(name: String) -> Site? {
         var site: Site?
-        let context: NSManagedObjectContext = ManagedObjectContext.context
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let request = NSFetchRequest(entityName: "Site")
         request.returnsDistinctResults = false
         request.predicate = NSPredicate(format: "name = %@", name)
@@ -45,7 +45,7 @@ class Site: NNModel {
     
     // save a new site in coredata
     class func createInManagedObjectContext(name: String, uid: Int, description: String, imageURL: String) -> Site {
-        let context: NSManagedObjectContext = ManagedObjectContext.context
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let ent = NSEntityDescription.entityForName("Site", inManagedObjectContext: context)!
         let newSite = Site(entity: ent, insertIntoManagedObjectContext: context)
         newSite.created_at = NSDate().timeIntervalSince1970

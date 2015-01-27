@@ -14,7 +14,8 @@ class SignIn: UIViewController, APIControllerProtocol {
 
     @IBOutlet weak var textFieldUname: UITextField!
     @IBOutlet weak var textFieldUpass: UITextField!
-    
+    var parseService = APIService()
+
     @IBAction func textFieldDoneEditing(sender: UITextField) {
         sender.resignFirstResponder()
     }
@@ -27,15 +28,14 @@ class SignIn: UIViewController, APIControllerProtocol {
     @IBAction func btnSignIn() {
         textFieldUname.resignFirstResponder()
         textFieldUpass.resignFirstResponder()
-        var parseService = APIService()
         parseService.delegate = self
         let inputUser = textFieldUname.text
         createIndicator()
-        AccountEntity.doPullByNameFromServer(parseService, name: inputUser)
+        Account.doPullByNameFromServer(parseService, name: inputUser)
     }
     
     // after getting data from server
-    func didReceiveResults(response: NSDictionary) -> Void {
+    func didReceiveResults(from: String, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {
@@ -44,21 +44,33 @@ class SignIn: UIViewController, APIControllerProtocol {
                 self.pauseIndicator()
                 return
             }
-            var data = response["data"] as NSDictionary!
-            var model = data["_model_"] as String
-            if model == "Account" {
+            
+            println("received results from \(from)")
+
+            if from == "Account" {
+                // var data = response["data"] as NSDictionary!
+                var data = response["data"] as NSDictionary!
+                var model = data["_model_"] as String
                 self.handleUserData(data)
             }
             
-            if model == "Site" {
+            if from == "Site" {
+                var data = response["data"] as NSDictionary!
+                var model = data["_model_"] as String
+                // var data = response["data"] as NSDictionary!
                 self.handleSiteData(data)
+            }
+            
+            if from == "Note" {
+                var data = response["data"] as NSArray!
+                // println("notes are: \(data)")
+                self.handleNoteData(data)
             }
         })
     }
     
     // parse account info and save
     func handleUserData(data: NSDictionary) {
-        // var data = response["data"] as NSDictionary!
         var id = data["id"] as Int
         var username = data["username"] as String
         var fullname = data["name"] as String
@@ -74,7 +86,7 @@ class SignIn: UIViewController, APIControllerProtocol {
             return
         }
         
-        var existingAccount = AccountEntity.doPullByNameFromCoreData(username)?
+        var existingAccount = Account.doPullByNameFromCoreData(username)?
         if existingAccount != nil {
             println("input user existing in core date: \(existingAccount?.toString())")
             // println("You have this user in core data: \(inputUser)")
@@ -85,17 +97,16 @@ class SignIn: UIViewController, APIControllerProtocol {
                 existingAccount!.doUpdateCoreData(pass, email: email, modified_at: modified_at)
                 existingAccount!.commit()
             }
+            existingAccount!.pullnotes(parseService)
         } else {
             // println("You don't have this user in core data: \(username)")
-            var user = AccountEntity.createInManagedObjectContext(username, password: pass, name: fullname,
+            var user = Account.createInManagedObjectContext(username, password: pass, name: fullname,
                 created_at: created_at, modified_at: modified_at, uid: id, email: email)
             user.commit()
+            user.pullnotes(parseService)
         }
         
-        var parseService = APIService()
-        parseService.delegate = self
         Site.doPullByNameFromServer(parseService, name: "aces")
-
     }
     
     // parse site info and save
@@ -112,8 +123,8 @@ class SignIn: UIViewController, APIControllerProtocol {
         if exisitingSite != nil {
             println("You have aces site in core data: "  + exisitingSite!.toString())
         } else {
-            self.handleContextData(uid, contexts: contexts)
             var site = Site.createInManagedObjectContext(name, uid: uid, description: description, imageURL: image_url)
+            self.handleContextData(site, contexts: contexts)
             site.commit()
             println("A new site " + site.toString() + " saved")
         }
@@ -124,7 +135,7 @@ class SignIn: UIViewController, APIControllerProtocol {
     }
     
     // save context
-    func handleContextData(siteID: Int, contexts: NSArray) {
+    func handleContextData(site: Site, contexts: NSArray) {
         if (contexts.count == 0) {
             return
         }
@@ -144,12 +155,26 @@ class SignIn: UIViewController, APIControllerProtocol {
             var title = tContext["title"] as String
             var kind = tContext["kind"] as String
             var context = Context.createInManagedObjectContext(name, description: cDescription, uid: contextUID,
-                            siteID: siteID, kind: kind, title: title, extras: extras)
+                            site: site, kind: kind, title: title, extras: extras)
             context.commit()
-            println("A new context " + context.toString() + " saved!")
+            println("A new context:{ " + context.toString() + " } saved!")
         }
-
+    }
+    
+    // save notes
+    func handleNoteData(notes: NSArray) {
+        // println("notes are: \(notes)")
+        if (notes.count == 0) {
+            return
+        }
         
+        for mNote in notes {
+            let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as Note
+            note.parseNoteJSON(mNote as NSDictionary)
+            println("note with \(note.uid) is: { \(note.toString()) }")
+            SwiftCoreDataHelper.saveManagedObjectContext(context)
+        }
     }
     
     // parse contexts json to an array contains a list of dictionary

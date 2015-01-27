@@ -21,8 +21,8 @@ class Context: NNModel {
     @NSManaged var site: Site
     
     // save a new account in coredata
-    class func createInManagedObjectContext(name: String, description: String?, uid: Int, siteID: Int, kind: String, title: String, extras: String?) -> Context {
-        let context: NSManagedObjectContext = ManagedObjectContext.context
+    class func createInManagedObjectContext(name: String, description: String?, uid: Int, site: Site, kind: String, title: String, extras: String?) -> Context {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let ent = NSEntityDescription.entityForName("Context", inManagedObjectContext: context)!
         let newContext = Context(entity: ent, insertIntoManagedObjectContext: context)
         // newContext.created_at = NSDate().timeIntervalSince1970
@@ -32,8 +32,9 @@ class Context: NNModel {
         newContext.kind = kind
         newContext.name = name
         newContext.uid = uid
-        newContext.site_id = siteID
+        newContext.site_id = site.uid
         newContext.title = title
+        newContext.site = site
         if extras != nil {
             newContext.extras = extras!
         }
@@ -44,7 +45,6 @@ class Context: NNModel {
     }
 
     func toString() -> String {
-        return "name: \(name) description: \(context_description) title: \(title)"
+        return  "name: \(name) title: \(title)"
     }
-    
 }

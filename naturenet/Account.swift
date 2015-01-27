@@ -9,22 +9,23 @@
 import Foundation
 import CoreData
 
-@objc(AccountEntity)
-class AccountEntity: NNModel {
+@objc(Account)
+class Account: NNModel {
 
     @NSManaged var email: String
     @NSManaged var name: String
     @NSManaged var password: String
     @NSManaged var username: String
-    let context: NSManagedObjectContext = ManagedObjectContext.context
+    let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
 
 
     // save a new account in coredata
     class func createInManagedObjectContext(username: String, password: String,
-                name: String, created_at: Int, modified_at: Int, uid: Int, email: String) -> AccountEntity {
-        let context: NSManagedObjectContext = ManagedObjectContext.context
+                name: String, created_at: Int, modified_at: Int, uid: Int, email: String) -> Account {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let ent = NSEntityDescription.entityForName("Account", inManagedObjectContext: context)!
-        let newAccount = AccountEntity(entity: ent, insertIntoManagedObjectContext: context)
+        // let newAccount = Account(entity: ent, insertIntoManagedObjectContext: context)
+        let newAccount =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Account
         newAccount.username = username
         newAccount.password = password
         newAccount.name = name
@@ -41,7 +42,7 @@ class AccountEntity: NNModel {
     // pull info from remote server
     class func doPullByNameFromServer(parseService: APIService, name: String) {
         var accountUrl = APIAdapter.api.getAccountLink(name)
-        parseService.getResponse(accountUrl)
+        parseService.getResponse(NSStringFromClass(Account), url: accountUrl)
     }
     
     // update data in core data
@@ -54,22 +55,22 @@ class AccountEntity: NNModel {
     
     // update state 
     override func doUpdataState() {
-        println("after update, state is changed to: \(state)")
+        // println("after update, state is changed to: \(state)")
         self.setValue(state, forKey: "state")
         context.save(nil)
     }
     
     // pull information from coredata
-    class func doPullByNameFromCoreData(name: String) -> AccountEntity? {
-        var account: AccountEntity?
-        let context: NSManagedObjectContext = ManagedObjectContext.context
+    class func doPullByNameFromCoreData(name: String) -> Account? {
+        var account: Account?
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let request = NSFetchRequest(entityName: "Account")
         request.returnsDistinctResults = false
         request.predicate = NSPredicate(format: "username = %@", name)
         var results: NSArray = context.executeFetchRequest(request, error: nil)!
         if results.count > 0 {
             for user in results {
-                if let tUser = user as? AccountEntity {
+                if let tUser = user as? Account {
                     // println(tUser.toString())
                     account = tUser
                 }
@@ -84,6 +85,13 @@ class AccountEntity: NNModel {
     func toString() -> String {
         var string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"
         return string
+    }
+    
+    // pull this user's note
+    func pullnotes(parseService: APIService) {
+        var accountUrl = APIAdapter.api.getAccountNotesLink(self.username)
+        println("api service is from \(NSStringFromClass(Note)) url is: \(accountUrl) " )
+        parseService.getResponse(NSStringFromClass(Note), url: accountUrl)
     }
     
 }

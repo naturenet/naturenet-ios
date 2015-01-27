@@ -9,7 +9,7 @@
 import Foundation
 
 protocol APIControllerProtocol {
-    func didReceiveResults(response: NSDictionary) -> Void
+    func didReceiveResults(from: String, response: NSDictionary) -> Void
 }
 
 class APIService {
@@ -18,13 +18,13 @@ class APIService {
     init() {
     }
     
-    func getResponse(url: String) {
+    func getResponse(from: String, url: String) {
         // request(settings.getAccountNotesLink(name), callback)
-        request(url)
+        request(from, url: url)
 
     }
     
-    func request(url: String) {
+    func request(from: String, url: String) {
         var nsURL = NSURL(string: url)
         let task = NSURLSession.sharedSession().dataTaskWithURL(nsURL!, completionHandler: {
             (data, response, error) in
@@ -33,7 +33,7 @@ class APIService {
                 println(error!)
             } else {
                 var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
-                self.delegate?.didReceiveResults(jsonResult)
+                self.delegate?.didReceiveResults(from, response: jsonResult)
             }
         })
         

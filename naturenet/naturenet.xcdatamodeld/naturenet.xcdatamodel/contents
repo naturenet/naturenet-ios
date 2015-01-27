@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Account" representedClassName="AccountEntity" syncable="YES">
+    <entity name="Account" representedClassName="Account" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -9,6 +9,8 @@
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feedback" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Feedback" inverseName="account" inverseEntity="Feedback" syncable="YES"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="account" inverseEntity="Session" syncable="YES"/>
     </entity>
     <entity name="Context" representedClassName="Context" syncable="YES">
         <attribute name="context_description" optional="YES" attributeType="String" syncable="YES"/>
@@ -21,11 +23,51 @@
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="contextsite" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="sitecontext" inverseEntity="Site" syncable="YES"/>
+        <relationship name="site" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="contexts" inverseEntity="Site" syncable="YES"/>
+    </entity>
+    <entity name="Feedback" syncable="YES">
+        <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="target_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="target_model" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="feedback" inverseEntity="Account" syncable="YES"/>
+        <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="feedback" inverseEntity="Note" syncable="YES"/>
+    </entity>
+    <entity name="Media" representedClassName="Media" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="note_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="media" inverseEntity="Note" syncable="YES"/>
+    </entity>
+    <entity name="Note" representedClassName="Note" syncable="YES">
+        <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="context_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="feedback" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Feedback" inverseName="note" inverseEntity="Feedback" syncable="YES"/>
+        <relationship name="media" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Media" inverseName="note" inverseEntity="Media" syncable="YES"/>
     </entity>
     <entity name="Session" representedClassName="Session" syncable="YES">
-        <attribute name="account_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="site_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="site_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="session" inverseEntity="Account" syncable="YES"/>
     </entity>
     <entity name="Site" representedClassName="Site" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -36,12 +78,15 @@
         <attribute name="site_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="sitecontext" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Context" inverseName="contextsite" inverseEntity="Context" syncable="YES"/>
+        <relationship name="contexts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Context" inverseName="site" inverseEntity="Context" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Account" positionX="-216" positionY="-81" width="128" height="165"/>
-        <element name="Session" positionX="169" positionY="141" width="128" height="75"/>
-        <element name="Site" positionX="-380" positionY="53" width="128" height="178"/>
-        <element name="Context" positionX="-36" positionY="63" width="128" height="208"/>
+        <element name="Account" positionX="97" positionY="-180" width="128" height="193"/>
+        <element name="Context" positionX="-144" positionY="-225" width="128" height="208"/>
+        <element name="Session" positionX="169" positionY="141" width="128" height="88"/>
+        <element name="Site" positionX="-441" positionY="-144" width="128" height="178"/>
+        <element name="Note" positionX="-360" positionY="98" width="128" height="238"/>
+        <element name="Media" positionX="-135" positionY="317" width="128" height="178"/>
+        <element name="Feedback" positionX="-144" positionY="27" width="128" height="208"/>
     </elements>
 </model>
