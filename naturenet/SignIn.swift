@@ -32,6 +32,11 @@ class SignIn: UIViewController, APIControllerProtocol {
         let inputUser = textFieldUname.text
         createIndicator()
         Account.doPullByNameFromServer(parseService, name: inputUser)
+        Site.doPullByNameFromServer(parseService, name: "aces")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     // after getting data from server
@@ -45,8 +50,7 @@ class SignIn: UIViewController, APIControllerProtocol {
                 return
             }
             
-            println("received results from \(from)")
-
+            // println("received results from \(from)")
             if from == "Account" {
                 // var data = response["data"] as NSDictionary!
                 var data = response["data"] as NSDictionary!
@@ -57,26 +61,24 @@ class SignIn: UIViewController, APIControllerProtocol {
             if from == "Site" {
                 var data = response["data"] as NSDictionary!
                 var model = data["_model_"] as String
-                // var data = response["data"] as NSDictionary!
                 self.handleSiteData(data)
             }
             
             if from == "Note" {
+                // response["data"] is an array of notes
                 var data = response["data"] as NSArray!
-                // println("notes are: \(data)")
                 self.handleNoteData(data)
+                self.pauseIndicator()
+                self.navigationController?.popToRootViewControllerAnimated(true)
             }
         })
     }
     
     // parse account info and save
     func handleUserData(data: NSDictionary) {
-        var id = data["id"] as Int
         var username = data["username"] as String
-        var fullname = data["name"] as String
         var pass = data["password"] as String
         var email = data["email"] as String
-        var created_at = data["created_at"] as Int
         var modified_at = data["modified_at"] as Int
         
         if pass != self.textFieldUpass.text {
@@ -85,82 +87,49 @@ class SignIn: UIViewController, APIControllerProtocol {
             self.pauseIndicator()
             return
         }
-        
+                
+        var account: Account!
         var existingAccount = Account.doPullByNameFromCoreData(username)?
         if existingAccount != nil {
-            println("input user existing in core date: \(existingAccount?.toString())")
+            // println("input user existing in core date: \(existingAccount?.toString())")
             // println("You have this user in core data: \(inputUser)")
-            var existingPass = existingAccount!.password
             var existingModifiedAt = existingAccount!.modified_at
             if existingModifiedAt != modified_at {
                 // usually user only is alllowed to change pass, email
                 existingAccount!.doUpdateCoreData(pass, email: email, modified_at: modified_at)
                 existingAccount!.commit()
             }
-            existingAccount!.pullnotes(parseService)
+            account = existingAccount
         } else {
             // println("You don't have this user in core data: \(username)")
-            var user = Account.createInManagedObjectContext(username, password: pass, name: fullname,
-                created_at: created_at, modified_at: modified_at, uid: id, email: email)
-            user.commit()
-            user.pullnotes(parseService)
+            let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var mAccount = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: managedContext) as Account
+            mAccount.parseUserJSON(data)
+            mAccount.commit()
+            SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
+            account = mAccount
         }
-        
-        Site.doPullByNameFromServer(parseService, name: "aces")
+        account.pullnotes(parseService)
     }
     
     // parse site info and save
+    // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
-        // println("site is : \(data)")
-        var contexts = data["contexts"] as NSArray
-        // println("site contexts is : \(contexts[1])")
-        var description = data["description"] as String
-        var uid = data["id"] as Int
-        var image_url = data["image_url"] as String
-        var name = data["name"] as String
-        // let site_contexts: [[String: AnyObject?]] = self.convertContextData(contexts)
-        var exisitingSite = Site.doPullByNameFromCoreData("aces")?
+        var sitename = data["name"] as String
+        var exisitingSite = NNModel.doPullByNameFromCoreData(NSStringFromClass(Site), name: "aces") as? Site
         if exisitingSite != nil {
-            println("You have aces site in core data: "  + exisitingSite!.toString())
+            // println("You have aces site in core data: "  + exisitingSite!.toString())
+            // should check if modified date is changed here!! but no modified date returned from API
         } else {
-            var site = Site.createInManagedObjectContext(name, uid: uid, description: description, imageURL: image_url)
-            self.handleContextData(site, contexts: contexts)
-            site.commit()
-            println("A new site " + site.toString() + " saved")
-        }
-        
-         self.pauseIndicator()
-         self.navigationController?.popToRootViewControllerAnimated(true)
-
-    }
-    
-    // save context
-    func handleContextData(site: Site, contexts: NSArray) {
-        if (contexts.count == 0) {
-            return
-        }
-        
-        for tContext in contexts {
-            var contextUID = tContext["id"] as Int
-            var name = tContext["name"] as String
-            var cDescription: String?
-            if tContext["description"] != nil {
-                cDescription = tContext["description"] as? String
-            }
-            
-            var extras: String?
-            if var ext = tContext["extras"] as? String {
-                extras = ext as String
-            }
-            var title = tContext["title"] as String
-            var kind = tContext["kind"] as String
-            var context = Context.createInManagedObjectContext(name, description: cDescription, uid: contextUID,
-                            site: site, kind: kind, title: title, extras: extras)
-            context.commit()
-            println("A new context:{ " + context.toString() + " } saved!")
+            let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as Site
+            mSite.parseSiteJSON(data)
+            mSite.commit()
+            SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
         }
     }
     
+       
     // save notes
     func handleNoteData(notes: NSArray) {
         // println("notes are: \(notes)")
@@ -174,39 +143,10 @@ class SignIn: UIViewController, APIControllerProtocol {
             note.parseNoteJSON(mNote as NSDictionary)
             println("note with \(note.uid) is: { \(note.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
+            note.commit()
         }
     }
-    
-    // parse contexts json to an array contains a list of dictionary
-    func convertContextData(contexts: NSArray) -> [[String: AnyObject?]]  {
-        var contextDictArrays: [[String: AnyObject?]] = []
-        if (contexts.count == 0) {
-            return contextDictArrays
-        }
-        
-        for tContext in contexts {
-            var contextUID = tContext["id"] as Int
-            var name = tContext["name"] as String
-            var cDescription: String?
-            if tContext["description"] != nil {
-                cDescription = tContext["description"] as? String
-            }
-            
-            var extras: String?
-            if var ext = tContext["extras"] as? String {
-                extras = ext as String
-            }
-            var title = tContext["title"] as String
-            var kind = tContext["kind"] as String
-            var contextDict: [String: AnyObject?]  = ["uid": contextUID, "description": cDescription, "title": title, "kind": kind, "extras": extras]
-            contextDictArrays.append(contextDict)
-        }
-        
-        // println(contextDictArrays)
-        return contextDictArrays
-    }
-    
-    
+
     // create a loading indicator for sign in
     func createIndicator() {
         signInIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))

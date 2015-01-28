@@ -19,6 +19,7 @@ class Note: NNModel {
     @NSManaged var context_id: NSNumber
     @NSManaged var account_id: NSNumber
     @NSManaged var content: String
+    @NSManaged var context: Context
     
     // parse a note JSON
     func parseNoteJSON(mNote: NSDictionary) -> Note {
@@ -41,27 +42,40 @@ class Note: NNModel {
         }
 
         self.content = mNote["content"] as String
-        self.context_id = mNote["context"]!["id"] as Int
+        var contextID = mNote["context"]!["id"] as Int
+        self.context_id = contextID
+        var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
+        self.context = context
         self.account_id = mNote["account"]!["id"] as Int
         self.status = mNote["status"] as String
         self.state = STATE.DOWNLOADED
         
         var medias = mNote["medias"] as NSArray
-        getMedias(medias)
+        setMedias(medias)
         return self
     }
     
-    
-    func getMedias(medias: NSArray) {
+    // given JSON response of medias of a note, save medias into core data
+    func setMedias(medias: NSArray) {
         for mediaDict in medias {
             let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
             var media =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: context) as Media
             media.parseMediaJSON(mediaDict as NSDictionary)
             media.note = self
             println("media with note \(media.note.uid) is: { \(media.toString()) }")
-            // SwiftCoreDataHelper.saveManagedObjectContext(context)
+            SwiftCoreDataHelper.saveManagedObjectContext(context)
         }
         
+    }
+    
+    // given a note id, get medias from core data
+    func getMedias(noteID: Int) -> NSArray {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let request = NSFetchRequest(entityName: NSStringFromClass(Media))
+        request.returnsDistinctResults = false
+        request.predicate = NSPredicate(format: "note_id = %@", noteID)
+        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        return results
     }
     
     func toString() -> String {

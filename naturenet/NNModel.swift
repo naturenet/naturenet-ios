@@ -39,6 +39,58 @@ class NNModel: NSManagedObject {
     
     }
     
+    // pull information from coredata
+    class func doPullByNameFromCoreData(entityname: String, name: String?) -> NNModel? {
+        var model: NNModel?
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let request = NSFetchRequest(entityName: entityname)
+        request.returnsDistinctResults = false
+        if name != nil {
+            request.predicate = NSPredicate(format: "name = %@", name!)
+        }
+        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        if results.count > 0 {
+            for res in results {
+                if let tModel = res as? NNModel {
+                    model = tModel
+                }
+            }
+        } else {
+            println("no site matched in site's doPullByNameFromCoreData")
+        }
+        return model
+    }
+    
+    // pull information from coredata
+    class func doPullByUIDFromCoreData(entityname: String, uid: Int) -> NNModel? {
+        var model: NNModel?
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let request = NSFetchRequest(entityName: entityname)
+        request.returnsDistinctResults = false
+        request.predicate = NSPredicate(format: "uid = \(uid)")
+        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        if results.count > 0 {
+            for res in results {
+                if let tModel = res as? NNModel {
+                    model = tModel
+                }
+            }
+        } else {
+            println("no site matched in site's doPullByNameFromCoreData")
+        }
+        return model
+    }
+
+    
+    // pull information from coredata
+    class func doPullAllByEntityFromCoreData(entityname: String) -> NSArray {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let request = NSFetchRequest(entityName: entityname)
+        request.returnsDistinctResults = false
+        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        return results
+    }
+    
     func doUpdataState() {}
     
     func doCommitChildren() {}

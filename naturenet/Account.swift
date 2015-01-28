@@ -45,6 +45,17 @@ class Account: NNModel {
         parseService.getResponse(NSStringFromClass(Account), url: accountUrl)
     }
     
+    func parseUserJSON(data: NSDictionary) -> Account {
+        self.uid = data["id"] as Int
+        self.username = data["username"] as String
+        self.name = data["name"] as String
+        self.password = data["password"] as String
+        self.email = data["email"] as String
+        self.created_at = data["created_at"] as Int
+        self.modified_at = data["modified_at"] as Int
+        return self
+    }
+    
     // update data in core data
     func doUpdateCoreData(pass: String, email: String, modified_at: Int) {
         self.setValue(pass, forKey: "password")

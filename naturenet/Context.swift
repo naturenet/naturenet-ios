@@ -16,8 +16,8 @@ class Context: NNModel {
     @NSManaged var extras: String
     @NSManaged var kind: String
     @NSManaged var name: String
-    @NSManaged var site_id: NSNumber
     @NSManaged var title: String
+    @NSManaged var site_uid: NSNumber
     @NSManaged var site: Site
     
     // save a new account in coredata
@@ -32,7 +32,7 @@ class Context: NNModel {
         newContext.kind = kind
         newContext.name = name
         newContext.uid = uid
-        newContext.site_id = site.uid
+        newContext.site_uid = site.uid
         newContext.title = title
         newContext.site = site
         if extras != nil {
@@ -42,6 +42,27 @@ class Context: NNModel {
         context.save(nil)
         // println("newContext is : \(newContext)" + "Account entity is: " + newContext.toString())
         return newContext
+    }
+    
+    func parseContextJSON(context: NSDictionary) -> Context {
+        self.uid = context["id"] as Int
+        self.name = context["name"] as String
+        if let desc = context["description"] as? String {
+            self.context_description = desc
+        } else {
+            self.context_description = ""
+        }
+        
+        if let extras = context["extras"] as? String {
+            self.extras = extras
+        } else {
+            self.extras = ""
+        }
+  
+        self.title = context["title"] as String
+        self.kind = context["kind"] as String
+        self.state = STATE.DOWNLOADED
+        return self
     }
 
     func toString() -> String {
