@@ -15,23 +15,23 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
     var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     var notes = NNModel.doPullAllByEntityFromCoreData(NSStringFromClass(Note))
     var celldata = [ObservationCell]()
-    var urls = [String] ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
         for note in notes {
             var mNote = note as Note
             var medias = mNote.getMedias()
             for media in medias {
                 var mMedia = media as Media
                 println("in obs: \(mMedia.toString())")
-                var obscell = ObservationCell(url: mMedia.getMediaURL(), status: mNote.status)
+                // var obscell = ObservationCell(url: mMedia.getMediaURL(), status: mNote.status).getStatus()
+                var obscell = ObservationCell(url: mMedia.getMediaURL(), id: mMedia.uid.integerValue,
+                            state: mMedia.state.integerValue, modifiedAt: mMedia.modified_at.integerValue)
                 // mNote.modified_at
-                urls.append(mMedia.getMediaURL())
                 celldata.append(obscell)
             }
         }
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,14 +51,15 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
 //        cell.mLabel.text = self.items[indexPath.row]
 //        cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.whiteColor() : UIColor.lightGrayColor()
 //        cell.mImageView.image = UIImage(named: self.images[indexPath.row])
-        let url = NSURL(string: self.celldata[indexPath.row].imageURL)
-        cell.mLabel.text = self.celldata[indexPath.row].status
+        var newurl = self.celldata[indexPath.row].getThumbnailURL()
+        let url = NSURL(string: newurl)
+        cell.mLabel.text = self.celldata[indexPath.row].getStatus()
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         cell.addSubview(activityIndicator)
         activityIndicator.frame = cell.bounds
         activityIndicator.startAnimating()
 //        let url = NSURL(string: self.urls[indexPath.row])
-
+        println("haha, I am here againn ")
         let urlRequest = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
             response, data, error in
@@ -120,10 +121,117 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
 
 class ObservationCell {
     var imageURL: String
-    var status: String
+    // var status: String
+    var modifiedAt: Int
+    var state: Int
+    var uid: Int
     
-    init(url: String, status: String) {
+    init(url: String, id: Int, state: Int, modifiedAt: Int) {
         self.imageURL = url
-        self.status = status
+        self.uid = id
+        self.state = state
+        self.modifiedAt = modifiedAt
+    }
+    
+    func getStatus() -> String {
+        var status: String = "ready to send"
+        if (self.state == NNModel.STATE.DOWNLOADED || self.state == NNModel.STATE.NEW) {
+            status = "ready to send"
+        }
+        
+        if (self.state == NNModel.STATE.SYNCED) {
+            status = "sent"
+        }
+        
+        return status
+    }
+    
+    func getThumbnailURL() -> String {
+        var urlArr = split(imageURL) {$0 == "/"}
+        var newURL = "http:"
+        for str in urlArr {
+            if str == "http:" {
+                newURL += "/"
+            } else {
+                newURL += "/" + str
+            }
+            if str == "upload" {
+                newURL += "/w_600,h_600,c_fit"
+            }
+        }
+        println("new url is " + newURL)
+        return newURL
+    }
+    
+    func getThumbPath(data: NSData, name: String) -> String? {
+        var documentDirectory: String?
+        var savedPath: String?
+        var paths:[AnyObject] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentationDirectory,
+                    NSSearchPathDomainMask.UserDomainMask, true)
+        if paths.count > 0 {
+
+            documentDirectory = paths[0] as? String
+            savedPath = documentDirectory! + "/" + name
+            NSFileManager.defaultManager().createFileAtPath(savedPath!, contents: data, attributes: nil)
+        }
+        
+        return savedPath
+    }
+    
+    subscript(localThumbPath: String) -> String {
+        get {
+            return self.imageURL
+        }
+        set {
+            
+        }
+    }
+
+}
+
+class ObservationPhoto {
+    var thumbnail: UIImage?
+    var largeImage: UIImage?
+    var modifiedAt: Int
+    var state: Int
+    var imageURL: String
+    
+    init(imageURL: String, state: Int, modifiedAt: Int) {
+        self.imageURL = imageURL
+        self.modifiedAt = modifiedAt
+        self.state = state
+    }
+    
+    func getStatus() -> String {
+        var status: String = "ready to send"
+        if (self.state == NNModel.STATE.DOWNLOADED || self.state == NNModel.STATE.NEW) {
+            status = "ready to send"
+        }
+        
+        if (self.state == NNModel.STATE.SYNCED) {
+            status = "sent"
+        }
+        
+        return status
     }
 }
+
+class NNNote {
+    var notes = NNModel.doPullAllByEntityFromCoreData(NSStringFromClass(Note))
+    
+    func convertNote() {
+        for note in notes {
+            var mNote = note as Note
+            var medias = mNote.getMedias()
+            for media in medias {
+                var mMedia = media as Media
+                
+            }
+        }
+    }
+    
+    func convertNote(completion: (results: [ObservationPhoto], error: NSError?) -> Void) {
+        
+    }
+}
+

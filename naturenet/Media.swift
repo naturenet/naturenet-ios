@@ -18,6 +18,8 @@ class Media: NNModel {
     @NSManaged var url: String
     @NSManaged var note: Note
     
+    let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+
     func parseMediaJSON(media: NSDictionary) {
         self.uid = media["id"] as Int
         self.url = media["link"] as String
@@ -32,5 +34,11 @@ class Media: NNModel {
     
     func getMediaURL() -> String {
         return self.url
+    }
+    
+    func setLocalThumbPath(path: String) {
+        self.path = path
+        self.setValue(path, forKey: "path")
+        SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
     }
 }

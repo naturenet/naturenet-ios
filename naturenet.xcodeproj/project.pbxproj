@@ -170,8 +170,8 @@
 				FC3EDBE71A678840008C0293 /* Account.swift */,
 				FCAE49AF1A75E31E0011283A /* Session.swift */,
 				FC012CBF1A769E3F00D9CBF1 /* Site.swift */,
-				FC012CC11A76AD9800D9CBF1 /* Context.swift */,
 				FC5BA3831A77FE1D0069D59F /* Note.swift */,
+				FC012CC11A76AD9800D9CBF1 /* Context.swift */,
 				FC5BA3881A7859400069D59F /* Media.swift */,
 			);
 			name = dataModel;
