@@ -65,18 +65,23 @@ class Note: NNModel {
             println("media with note \(media.note.uid) is: { \(media.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
         }
-        
     }
     
     // given a note id, get medias from core data
-    func getMedias(noteID: Int) -> NSArray {
+    func getMedias() -> NSArray {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let request = NSFetchRequest(entityName: NSStringFromClass(Media))
         request.returnsDistinctResults = false
-        request.predicate = NSPredicate(format: "note_id = %@", noteID)
+        request.predicate = NSPredicate(format: "note = %@", self.objectID)
         var results: NSArray = context.executeFetchRequest(request, error: nil)!
         return results
     }
+    
+    // update media with a local path
+    func updateMedia(path: String) {
+        
+    }
+    
     
     func toString() -> String {
         return "noteid: \(uid) createdAt: \(created_at) latitude: \(latitude) logitutde: \(longitude) status: \(status)"

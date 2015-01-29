@@ -29,4 +29,8 @@ class Media: NNModel {
     func toString() -> String {
         return "media id: \(uid) url: \(url) note_id: \(note.uid)"
     }
+    
+    func getMediaURL() -> String {
+        return self.url
+    }
 }

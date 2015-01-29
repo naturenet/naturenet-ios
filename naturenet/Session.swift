@@ -14,6 +14,8 @@ class Session: NSManagedObject {
 
     @NSManaged var account_id: NSNumber
     @NSManaged var site_id: NSNumber
+    @NSManaged var account: Account
+    @NSManaged var context: Context
     
     class func isSignedIn() -> Bool {
         var isSigned: Bool = false;
@@ -42,4 +44,15 @@ class Session: NSManagedObject {
         session.site_id = siteID
         context.save(nil)
     }
+    
+    class func signIn(account: Account, context: Context) {
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let ent = NSEntityDescription.entityForName("Session", inManagedObjectContext: managedContext)!
+        var session = Session(entity: ent, insertIntoManagedObjectContext: managedContext)
+        session.account = account
+        session.context = context
+        managedContext.save(nil)
+    }
+    
+  
 }

@@ -89,7 +89,8 @@ class SignIn: UIViewController, APIControllerProtocol {
         }
                 
         var account: Account!
-        var existingAccount = Account.doPullByNameFromCoreData(username)?
+        // var existingAccount = Account.doPullByNameFromCoreData(username)?
+        var existingAccount = NNModel.doPullByNameFromCoreData(NSStringFromClass(Account), name: username) as Account?
         if existingAccount != nil {
             // println("input user existing in core date: \(existingAccount?.toString())")
             // println("You have this user in core data: \(inputUser)")

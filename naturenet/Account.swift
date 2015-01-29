@@ -64,6 +64,15 @@ class Account: NNModel {
         context.save(nil)
     }
     
+    func getNotes() -> NSArray {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let request = NSFetchRequest(entityName: NSStringFromClass(Note))
+        request.returnsDistinctResults = false
+        request.predicate = NSPredicate(format: "uid = \(uid)")
+        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        return results
+    }
+    
     // update state 
     override func doUpdataState() {
         // println("after update, state is changed to: \(state)")
@@ -72,25 +81,25 @@ class Account: NNModel {
     }
     
     // pull information from coredata
-    class func doPullByNameFromCoreData(name: String) -> Account? {
-        var account: Account?
-        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let request = NSFetchRequest(entityName: "Account")
-        request.returnsDistinctResults = false
-        request.predicate = NSPredicate(format: "username = %@", name)
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
-        if results.count > 0 {
-            for user in results {
-                if let tUser = user as? Account {
-                    // println(tUser.toString())
-                    account = tUser
-                }
-            }
-        } else {
-            println("no user matched")
-        }
-        return account
-    }
+//    class func doPullByNameFromCoreData(name: String) -> Account? {
+//        var account: Account?
+//        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+//        let request = NSFetchRequest(entityName: "Account")
+//        request.returnsDistinctResults = false
+//        request.predicate = NSPredicate(format: "username = %@", name)
+//        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+//        if results.count > 0 {
+//            for user in results {
+//                if let tUser = user as? Account {
+//                    // println(tUser.toString())
+//                    account = tUser
+//                }
+//            }
+//        } else {
+//            println("no user matched")
+//        }
+//        return account
+//    }
     
     // toString, debug use
     func toString() -> String {
