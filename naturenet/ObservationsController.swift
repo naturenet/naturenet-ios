@@ -11,8 +11,6 @@ import UIKit
 class ObservationsController: UIViewController, UICollectionViewDataSource,
                     UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
-    var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     var notes = NNModel.doPullAllByEntityFromCoreData(NSStringFromClass(Note))
     var celldata = [ObservationCell]()
     
