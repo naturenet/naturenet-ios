@@ -9,7 +9,6 @@
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="feedback" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Feedback" inverseName="account" inverseEntity="Feedback" syncable="YES"/>
         <relationship name="note" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="account" inverseEntity="Note" syncable="YES"/>
         <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="account" inverseEntity="Session" syncable="YES"/>
     </entity>
@@ -37,15 +36,14 @@
         <attribute name="target_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="target_model" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="feedback" inverseEntity="Account" syncable="YES"/>
         <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="feedback" inverseEntity="Note" syncable="YES"/>
     </entity>
     <entity name="Media" representedClassName="Media" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="note_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="thumb_path" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
@@ -85,12 +83,12 @@
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Account" positionX="-153" positionY="-297" width="128" height="208"/>
+        <element name="Account" positionX="-153" positionY="-297" width="128" height="193"/>
         <element name="Context" positionX="-378" positionY="-313" width="128" height="223"/>
+        <element name="Feedback" positionX="-56" positionY="-19" width="128" height="193"/>
+        <element name="Media" positionX="-65" positionY="209" width="128" height="178"/>
+        <element name="Note" positionX="-360" positionY="-34" width="128" height="268"/>
         <element name="Session" positionX="196" positionY="-189" width="128" height="103"/>
         <element name="Site" positionX="-351" positionY="-585" width="128" height="163"/>
-        <element name="Note" positionX="-360" positionY="-34" width="128" height="268"/>
-        <element name="Media" positionX="-65" positionY="209" width="128" height="178"/>
-        <element name="Feedback" positionX="-56" positionY="-19" width="128" height="208"/>
     </elements>
 </model>

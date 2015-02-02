@@ -50,7 +50,7 @@ class Site: NNModel {
         self.state = STATE.DOWNLOADED
         self.uid = data["id"] as Int
         self.resovleContextData(contexts)
-        println("A new site " + self.toString() + " saved")
+        // println("A new site " + self.toString() + " saved")
         return self
         
     }

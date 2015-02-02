@@ -80,27 +80,6 @@ class Account: NNModel {
         context.save(nil)
     }
     
-    // pull information from coredata
-//    class func doPullByNameFromCoreData(name: String) -> Account? {
-//        var account: Account?
-//        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-//        let request = NSFetchRequest(entityName: "Account")
-//        request.returnsDistinctResults = false
-//        request.predicate = NSPredicate(format: "username = %@", name)
-//        var results: NSArray = context.executeFetchRequest(request, error: nil)!
-//        if results.count > 0 {
-//            for user in results {
-//                if let tUser = user as? Account {
-//                    // println(tUser.toString())
-//                    account = tUser
-//                }
-//            }
-//        } else {
-//            println("no user matched")
-//        }
-//        return account
-//    }
-    
     // toString, debug use
     func toString() -> String {
         var string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"

@@ -411,11 +411,49 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sjU-Nr-6HC">
-                                <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="60V-vU-acE">
+                                <rect key="frame" x="0.0" y="292" width="600" height="238"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LLK-Hm-stg">
+                                <rect key="frame" x="81" y="562" width="79" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="79" id="RGK-aO-dLO"/>
+                                </constraints>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqC-W6-any">
+                                <rect key="frame" x="459" y="562" width="77" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="77" id="0Pj-GB-dyV"/>
+                                </constraints>
+                                <state key="normal" title="Submit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sjU-Nr-6HC">
+                                <rect key="frame" x="0.0" y="64" width="600" height="230"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="230" id="kFS-mc-MVR"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dqC-W6-any" firstAttribute="baseline" secondItem="LLK-Hm-stg" secondAttribute="baseline" id="2Xp-qp-adp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dqC-W6-any" secondAttribute="trailing" constant="48" id="45z-ml-rb9"/>
+                            <constraint firstItem="sjU-Nr-6HC" firstAttribute="top" secondItem="hXD-X6-i1m" secondAttribute="bottom" id="6GR-K5-btA"/>
+                            <constraint firstItem="sjU-Nr-6HC" firstAttribute="leading" secondItem="60V-vU-acE" secondAttribute="leading" id="6Vg-cF-wut"/>
+                            <constraint firstItem="7rv-yk-ufc" firstAttribute="top" secondItem="LLK-Hm-stg" secondAttribute="bottom" constant="8" symbolic="YES" id="9bB-1F-tzN"/>
+                            <constraint firstAttribute="trailing" secondItem="sjU-Nr-6HC" secondAttribute="trailing" id="D6e-gc-r50"/>
+                            <constraint firstItem="LLK-Hm-stg" firstAttribute="leading" secondItem="m60-Ap-u3h" secondAttribute="leadingMargin" constant="65" id="Gfh-ws-9bJ"/>
+                            <constraint firstItem="60V-vU-acE" firstAttribute="trailing" secondItem="sjU-Nr-6HC" secondAttribute="trailing" id="Sdn-JN-KlI"/>
+                            <constraint firstItem="LLK-Hm-stg" firstAttribute="top" secondItem="60V-vU-acE" secondAttribute="bottom" constant="32" id="q7j-AI-7rn"/>
+                            <constraint firstItem="60V-vU-acE" firstAttribute="leading" secondItem="m60-Ap-u3h" secondAttribute="leading" id="qGK-9j-e6I"/>
+                            <constraint firstItem="60V-vU-acE" firstAttribute="top" secondItem="hXD-X6-i1m" secondAttribute="bottom" constant="228" id="sg7-yq-iGU"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add Observation" id="ddh-Hb-d43"/>
                 </viewController>

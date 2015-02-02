@@ -17,6 +17,13 @@ class Session: NSManagedObject {
     @NSManaged var account: Account
     @NSManaged var context: Context
     
+    class var sharedInstance: Session {
+        struct Singleton {
+            static let instance = Session()
+        }
+        return Singleton.instance
+    }
+    
     class func isSignedIn() -> Bool {
         var isSigned: Bool = false;
         
@@ -37,21 +44,23 @@ class Session: NSManagedObject {
     }
     
     class func signIn(accountID: Int, siteID: Int) {
-        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let ent = NSEntityDescription.entityForName("Session", inManagedObjectContext: context)!
-        var session = Session(entity: ent, insertIntoManagedObjectContext: context)
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as Session
         session.account_id = accountID
         session.site_id = siteID
-        context.save(nil)
+        SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
     }
     
     class func signIn(account: Account, context: Context) {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let ent = NSEntityDescription.entityForName("Session", inManagedObjectContext: managedContext)!
-        var session = Session(entity: ent, insertIntoManagedObjectContext: managedContext)
+        var session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as Session
         session.account = account
         session.context = context
-        managedContext.save(nil)
+        SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
+    }
+    
+    class func signOut() {
+        
     }
     
   

@@ -12,13 +12,12 @@ import CoreData
 @objc(Media)
 class Media: NNModel {
     
-    @NSManaged var path: String
+    @NSManaged var thumb_path: String?
     @NSManaged var note_id: NSNumber
     @NSManaged var title: String
     @NSManaged var url: String
     @NSManaged var note: Note
     
-    let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
 
     func parseMediaJSON(media: NSDictionary) {
         self.uid = media["id"] as Int
@@ -37,8 +36,9 @@ class Media: NNModel {
     }
     
     func setLocalThumbPath(path: String) {
-        self.path = path
-        self.setValue(path, forKey: "path")
+        let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        self.thumb_path = path
+        self.setValue(path, forKey: "thumb_path")
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
     }
 }

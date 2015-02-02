@@ -76,7 +76,7 @@ class NNModel: NSManagedObject {
                 }
             }
         } else {
-            println("no site matched in site's doPullByNameFromCoreData")
+            println("no site matched in doPullByNameFromCoreData")
         }
         return model
     }
