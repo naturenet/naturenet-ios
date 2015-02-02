@@ -28,6 +28,7 @@
 		FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */; };
 		FC5BA3891A7859400069D59F /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3881A7859400069D59F /* Media.swift */; };
 		FC5BA38B1A78BACF0069D59F /* ObservationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */; };
+		FC8007A91A80336400510E30 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007A81A80336400510E30 /* ProfileController.swift */; };
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
 		FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D801A6F7BC30096D594 /* APIAdapter.swift */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 		FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftCoreDataHelper.swift; sourceTree = "<group>"; };
 		FC5BA3881A7859400069D59F /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationsController.swift; sourceTree = "<group>"; };
+		FC8007A81A80336400510E30 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		FCE67D801A6F7BC30096D594 /* APIAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -159,6 +161,7 @@
 				FC11349A1A642DD500D548E8 /* ViewController.swift */,
 				FC1134CA1A64310100D548E8 /* HomeCell.swift */,
 				FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */,
+				FC8007A81A80336400510E30 /* ProfileController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 			files = (
 				FCAE49B01A75E31E0011283A /* Session.swift in Sources */,
 				FC012CC01A769E3F00D9CBF1 /* Site.swift in Sources */,
+				FC8007A91A80336400510E30 /* ProfileController.swift in Sources */,
 				FC11349B1A642DD500D548E8 /* ViewController.swift in Sources */,
 				FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */,
 				FC1134C31A6430D900D548E8 /* NNModel.swift in Sources */,

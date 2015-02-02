@@ -64,10 +64,8 @@ class Account: NNModel {
     }
     
     func getNotes() -> NSArray {
-        let request = NSFetchRequest(entityName: NSStringFromClass(Note))
-        request.returnsDistinctResults = false
-        request.predicate = NSPredicate(format: "uid = \(uid)")
-        var results: NSArray = nsManagedContext.executeFetchRequest(request, error: nil)!
+        var predicate = NSPredicate(format: "account_id = \(uid)")
+        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as [Note]
         return results
     }
     

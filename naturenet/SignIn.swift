@@ -147,8 +147,8 @@ class SignIn: UIViewController, APIControllerProtocol {
             let noteUID = serverNote["id"] as Int
             let predicate = NSPredicate(format: "uid = \(noteUID)")
             let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            let items = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext)
-                            as [Note]
+            let items = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext) as [Note]
+
             if (items.count > 0) {
                 localNote = items[0]
             }

@@ -66,7 +66,7 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
         activityIndicator.startAnimating()
         println("haha, I am here againn \(indexPath.row)th")
         if let lPath = cellImage.localThumbPath {
-            println("image local path is :  \(lPath)")
+            // println("image local path is :  \(lPath)")
             let fileManager = NSFileManager.defaultManager()
             if fileManager.fileExistsAtPath(lPath) {
                 // println("FILE AVAILABLE");
@@ -75,30 +75,11 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
                 activityIndicator.removeFromSuperview()
             }
             else {
-                println("FILE NOT AVAILABLE");
+                // println("FILE NOT AVAILABLE");
+                self.loadImageFromWeb(url!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
             }
-
-
         } else {
-            let urlRequest = NSURLRequest(URL: url!)
-            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                response, data, error in
-                if error != nil {
-                    
-                } else {
-                    let image = UIImage(data: data)
-                    cell.mImageView.image = image
-                    activityIndicator.stopAnimating()
-                    activityIndicator.removeFromSuperview()
-                    var cellImage = self.celldata[indexPath.row] as ObservationCell
-                    var fileName = String(cellImage.modifiedAt) + ".jpg"
-                    var tPath: String = cellImage.saveToDocumentDirectory(data, name: fileName)!
-                    if let tMedia = NNModel.doPullByUIDFromCoreData("Media", uid: cellImage.uid) as Media? {
-                        tMedia.setLocalThumbPath(tPath)
-                    }
-                    
-                }
-            })
+            self.loadImageFromWeb(url!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
         }
         
 
@@ -117,6 +98,32 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
+    }
+    
+    func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
+        let urlRequest = NSURLRequest(URL: url)
+        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+            response, data, error in
+            if error != nil {
+                
+            } else {
+                let image = UIImage(data: data)
+                cell.mImageView.image = image
+                activityIndicator.stopAnimating()
+                activityIndicator.removeFromSuperview()
+                var cellImage = self.celldata[index] as ObservationCell
+                self.saveImage(cellImage, data: data)
+            }
+        })
+        
+    }
+    
+    func saveImage(cellImage: ObservationCell, data: NSData) {
+        var fileName = String(cellImage.modifiedAt) + ".jpg"
+        var tPath: String = cellImage.saveToDocumentDirectory(data, name: fileName)!
+        if let tMedia = NNModel.doPullByUIDFromCoreData("Media", uid: cellImage.uid) as Media? {
+            tMedia.setLocalThumbPath(tPath)
+        }
     }
 }
 
@@ -183,19 +190,6 @@ class ObservationCell {
         return savedPath
         
     }
-    
-//    func getThumbPath(data: NSData, name: String) -> String? {
-//       
-//    }
-    
-//    var localThumbPath: String {
-//        get {
-//            return self.localThumbPath
-//        }
-//        set(lpath) {
-//            self.localThumbPath = lpath
-//        }
-//    }
 
 }
 

@@ -64,6 +64,8 @@ class HomeController : UIViewController, UICollectionViewDataSource,
             self.performSegueWithIdentifier("observationSeg", sender: self)
         case 1 :
             self.performSegueWithIdentifier("activitiesSeg", sender: self)
+        case 4 :
+            self.performSegueWithIdentifier("profileSeg", sender: self)
         default:
             return
         }
