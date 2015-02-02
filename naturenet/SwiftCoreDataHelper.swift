@@ -24,12 +24,36 @@ class SwiftCoreDataHelper {
         
     }
     
-    class func saveManagedObjectContext(managedObjectContext:NSManagedObjectContext) -> Bool {
+    class func getEntityByModelName(className:NSString, managedObjectContext:NSManagedObjectContext) -> AnyObject {
+        let fetchRequest:NSFetchRequest = NSFetchRequest()
+        let entetyDescription:NSEntityDescription = NSEntityDescription.entityForName(className, inManagedObjectContext: managedObjectContext)!
+        let entity = NSManagedObject(entity: entetyDescription, insertIntoManagedObjectContext: managedObjectContext)
+        return entity
+    }
+    
+    
+    class func saveManagedObjectContext (managedObjectContext:NSManagedObjectContext) -> Bool {
         if managedObjectContext.save(nil){
             return true
         }else{
             return false
         }
     }
+    
+    class func fetchEntities(className:NSString, withPredicate predicate:NSPredicate?, managedObjectContext:NSManagedObjectContext)->NSArray{
+        let fetchRequest:NSFetchRequest = NSFetchRequest()
+        let entetyDescription:NSEntityDescription = NSEntityDescription.entityForName(className, inManagedObjectContext: managedObjectContext)!
+        
+        fetchRequest.entity = entetyDescription
+        if predicate != nil {
+            fetchRequest.predicate = predicate!
+        }
+        
+        fetchRequest.returnsObjectsAsFaults = false
+        let items:NSArray = managedObjectContext.executeFetchRequest(fetchRequest, error: nil)!
+        
+        return items
+    }
+    
 
 }

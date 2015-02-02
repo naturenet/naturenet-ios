@@ -55,6 +55,36 @@ class Note: NNModel {
         return self
     }
     
+    // give a new note update local
+    func updateNote(mNote: NSDictionary) {
+        self.setValue(mNote["modified_at"] as Int, forKey: "modified_at")
+        self.setValue(mNote["content"] as String, forKey: "content")
+        var contextID = mNote["context"]!["id"] as Int
+        self.setValue(contextID, forKey: "contextID")
+        self.setValue(STATE.DOWNLOADED, forKey: "state")
+        var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
+        self.setValue(context, forKey: "context")
+    }
+    
+    // determine a note in local core data whether is up to date 
+    func isSyncedWithServer(serverNote: NSDictionary) -> Bool {
+        if self.modified_at == serverNote["modified_at"] as String {
+            return true
+        }
+        return false
+    }
+    
+    // give a new note save to Note data
+    class func saveNote(mNote: NSDictionary) -> Note {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as Note
+        note.parseNoteJSON(mNote as NSDictionary)
+        println("note with \(note.uid) is: { \(note.toString()) }")
+        SwiftCoreDataHelper.saveManagedObjectContext(context)
+        note.commit()
+        return note
+    }
+    
     // given JSON response of medias of a note, save medias into core data
     func setMedias(medias: NSArray) {
         for mediaDict in medias {

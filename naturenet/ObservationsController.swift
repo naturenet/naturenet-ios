@@ -25,21 +25,27 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
     }
     
     func loadData() {
-        var notes = NNModel.doPullAllByEntityFromCoreData(NSStringFromClass(Note))
-        for note in notes {
-            var mNote = note as Note
-            var medias = mNote.getMedias()
-            for media in medias {
-                var mMedia = media as Media
-                println("in obs: \(mMedia.toString())")
-                var obscell = ObservationCell(url: mMedia.getMediaURL(), id: mMedia.uid.integerValue,
-                    state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
-                if let tPath = mMedia.thumb_path {
-                    obscell.localThumbPath = tPath
+        if !Session.isSignedIn() {
+            return
+        }
+        if let account = Session.getAccount() {
+            var notes = account.getNotes()
+            for note in notes {
+                var mNote = note as Note
+                var medias = mNote.getMedias()
+                for media in medias {
+                    var mMedia = media as Media
+                    println("in obs: \(mMedia.toString())")
+                    var obscell = ObservationCell(url: mMedia.getMediaURL(), id: mMedia.uid.integerValue,
+                        state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
+                    if let tPath = mMedia.thumb_path {
+                        obscell.localThumbPath = tPath
+                    }
+                    celldata.append(obscell)
                 }
-                celldata.append(obscell)
             }
         }
+
         
     }
     
@@ -193,49 +199,4 @@ class ObservationCell {
 
 }
 
-class ObservationPhoto {
-    var thumbnail: UIImage?
-    var largeImage: UIImage?
-    var modifiedAt: Int
-    var state: Int
-    var imageURL: String
-    
-    init(imageURL: String, state: Int, modifiedAt: Int) {
-        self.imageURL = imageURL
-        self.modifiedAt = modifiedAt
-        self.state = state
-    }
-    
-    func getStatus() -> String {
-        var status: String = "ready to send"
-        if (self.state == NNModel.STATE.DOWNLOADED || self.state == NNModel.STATE.NEW) {
-            status = "ready to send"
-        }
-        
-        if (self.state == NNModel.STATE.SYNCED) {
-            status = "sent"
-        }
-        
-        return status
-    }
-}
-
-class NNNote {
-    var notes = NNModel.doPullAllByEntityFromCoreData(NSStringFromClass(Note))
-    
-    func convertNote() {
-        for note in notes {
-            var mNote = note as Note
-            var medias = mNote.getMedias()
-            for media in medias {
-                var mMedia = media as Media
-                
-            }
-        }
-    }
-    
-    func convertNote(completion: (results: [ObservationPhoto], error: NSError?) -> Void) {
-        
-    }
-}
 

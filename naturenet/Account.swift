@@ -16,15 +16,14 @@ class Account: NNModel {
     @NSManaged var name: String
     @NSManaged var password: String
     @NSManaged var username: String
-    let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+    let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
 
 
     // save a new account in coredata
     class func createInManagedObjectContext(username: String, password: String,
                 name: String, created_at: Int, modified_at: Int, uid: Int, email: String) -> Account {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let ent = NSEntityDescription.entityForName("Account", inManagedObjectContext: context)!
-        // let newAccount = Account(entity: ent, insertIntoManagedObjectContext: context)
+        let ent = NSEntityDescription.entityForName(NSStringFromClass(Account), inManagedObjectContext: context)!
         let newAccount =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Account
         newAccount.username = username
         newAccount.password = password
@@ -61,15 +60,14 @@ class Account: NNModel {
         self.setValue(pass, forKey: "password")
         self.setValue(email, forKey: "email")
         self.setValue(modified_at, forKey: "modified_at")
-        context.save(nil)
+        nsManagedContext.save(nil)
     }
     
     func getNotes() -> NSArray {
-        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let request = NSFetchRequest(entityName: NSStringFromClass(Note))
         request.returnsDistinctResults = false
         request.predicate = NSPredicate(format: "uid = \(uid)")
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        var results: NSArray = nsManagedContext.executeFetchRequest(request, error: nil)!
         return results
     }
     
@@ -77,7 +75,7 @@ class Account: NNModel {
     override func doUpdataState() {
         // println("after update, state is changed to: \(state)")
         self.setValue(state, forKey: "state")
-        context.save(nil)
+        nsManagedContext.save(nil)
     }
     
     // toString, debug use

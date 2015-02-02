@@ -24,7 +24,6 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="note" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="context" inverseEntity="Note" syncable="YES"/>
-        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="context" inverseEntity="Session" syncable="YES"/>
     </entity>
     <entity name="Feedback" syncable="YES">
         <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -70,7 +69,7 @@
         <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="site_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="account" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="session" inverseEntity="Account" syncable="YES"/>
-        <relationship name="context" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Context" inverseName="session" inverseEntity="Context" syncable="YES"/>
+        <relationship name="site" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="session" inverseEntity="Site" syncable="YES"/>
     </entity>
     <entity name="Site" representedClassName="Site" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -81,14 +80,15 @@
         <attribute name="site_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Session" inverseName="site" inverseEntity="Session" syncable="YES"/>
     </entity>
     <elements>
         <element name="Account" positionX="-153" positionY="-297" width="128" height="193"/>
-        <element name="Context" positionX="-378" positionY="-313" width="128" height="223"/>
+        <element name="Context" positionX="-378" positionY="-313" width="128" height="210"/>
         <element name="Feedback" positionX="-56" positionY="-19" width="128" height="193"/>
         <element name="Media" positionX="-65" positionY="209" width="128" height="178"/>
         <element name="Note" positionX="-360" positionY="-34" width="128" height="268"/>
         <element name="Session" positionX="196" positionY="-189" width="128" height="103"/>
-        <element name="Site" positionX="-351" positionY="-585" width="128" height="163"/>
+        <element name="Site" positionX="-351" positionY="-585" width="128" height="180"/>
     </elements>
 </model>

@@ -11,6 +11,8 @@ import CoreData
 
 class SignIn: UIViewController, APIControllerProtocol {
     var signInIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    var site: Site?
+    var account: Account?
 
     @IBOutlet weak var textFieldUname: UITextField!
     @IBOutlet weak var textFieldUpass: UITextField!
@@ -29,9 +31,7 @@ class SignIn: UIViewController, APIControllerProtocol {
         textFieldUname.resignFirstResponder()
         textFieldUpass.resignFirstResponder()
         parseService.delegate = self
-        let inputUser = textFieldUname.text
         createIndicator()
-        Account.doPullByNameFromServer(parseService, name: inputUser)
         Site.doPullByNameFromServer(parseService, name: "aces")
     }
     
@@ -88,8 +88,6 @@ class SignIn: UIViewController, APIControllerProtocol {
             return
         }
                 
-        var account: Account!
-        // var existingAccount = Account.doPullByNameFromCoreData(username)?
         var existingAccount = NNModel.doPullByNameFromCoreData(NSStringFromClass(Account), name: username) as Account?
         if existingAccount != nil {
             // println("input user existing in core date: \(existingAccount?.toString())")
@@ -100,7 +98,7 @@ class SignIn: UIViewController, APIControllerProtocol {
                 existingAccount!.doUpdateCoreData(pass, email: email, modified_at: modified_at)
                 existingAccount!.commit()
             }
-            account = existingAccount
+            self.account = existingAccount
         } else {
             // println("You don't have this user in core data: \(username)")
             let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
@@ -108,9 +106,10 @@ class SignIn: UIViewController, APIControllerProtocol {
             mAccount.parseUserJSON(data)
             mAccount.commit()
             SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
-            account = mAccount
+            self.account = mAccount
         }
-        account.pullnotes(parseService)
+        Session.signIn(self.account!, site: self.site!)
+        self.account!.pullnotes(parseService)
     }
     
     // parse site info and save
@@ -121,13 +120,17 @@ class SignIn: UIViewController, APIControllerProtocol {
         if exisitingSite != nil {
             // println("You have aces site in core data: "  + exisitingSite!.toString())
             // should check if modified date is changed here!! but no modified date returned from API
+            self.site = exisitingSite
         } else {
             let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
             var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as Site
             mSite.parseSiteJSON(data)
             mSite.commit()
             SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
+            self.site = mSite
         }
+        let inputUser = textFieldUname.text
+        Account.doPullByNameFromServer(parseService, name: inputUser)
     }
     
        
@@ -139,12 +142,25 @@ class SignIn: UIViewController, APIControllerProtocol {
         }
         
         for mNote in notes {
-            let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as Note
-            note.parseNoteJSON(mNote as NSDictionary)
-            println("note with \(note.uid) is: { \(note.toString()) }")
-            SwiftCoreDataHelper.saveManagedObjectContext(context)
-            note.commit()
+            var serverNote = mNote as NSDictionary
+            var localNote: Note?
+            let noteUID = serverNote["id"] as Int
+            let predicate = NSPredicate(format: "uid = \(noteUID)")
+            let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+            let items = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext)
+                            as [Note]
+            if (items.count > 0) {
+                localNote = items[0]
+            }
+            
+            if localNote != nil {
+                if !localNote!.isSyncedWithServer(serverNote) {
+                    localNote!.updateNote(serverNote)
+                }
+            } else {
+                // save mNote as a new note entry
+                Note.saveNote(mNote as NSDictionary)
+            }
         }
     }
 
