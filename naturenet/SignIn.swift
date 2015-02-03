@@ -88,7 +88,7 @@ class SignIn: UIViewController, APIControllerProtocol {
             return
         }
                 
-        var existingAccount = NNModel.doPullByNameFromCoreData(NSStringFromClass(Account), name: username) as Account?
+        var existingAccount = NNModel.doPullByNameFromCoreData(NSStringFromClass(Account), attr: "username", name: username) as Account?
         if existingAccount != nil {
             // println("input user existing in core date: \(existingAccount?.toString())")
             // println("You have this user in core data: \(inputUser)")
@@ -116,7 +116,7 @@ class SignIn: UIViewController, APIControllerProtocol {
     // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
         var sitename = data["name"] as String
-        var exisitingSite = NNModel.doPullByNameFromCoreData(NSStringFromClass(Site), name: "aces") as? Site
+        var exisitingSite = NNModel.doPullByNameFromCoreData(NSStringFromClass(Site), attr:"name", name: "aces") as? Site
         if exisitingSite != nil {
             // println("You have aces site in core data: "  + exisitingSite!.toString())
             // should check if modified date is changed here!! but no modified date returned from API
@@ -154,7 +154,7 @@ class SignIn: UIViewController, APIControllerProtocol {
             }
             
             if localNote != nil {
-                if !localNote!.isSyncedWithServer(serverNote) {
+                if localNote!.modified_at.integerValue != serverNote["modified_at"] as Int {
                     localNote!.updateNote(serverNote)
                 }
             } else {

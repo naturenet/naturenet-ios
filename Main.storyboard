@@ -168,15 +168,18 @@
                                 <state key="normal" title="Sign Out">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="signout:" destination="fxD-Gw-uUl" eventType="touchUpInside" id="frq-7j-JLo"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odp-XT-Iju">
-                                <rect key="frame" x="16" y="72" width="568" height="20.5"/>
+                                <rect key="frame" x="16" y="79" width="568" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Rdf-Ew-aeV">
-                                <rect key="frame" x="0.0" y="100" width="600" height="200"/>
+                                <rect key="frame" x="0.0" y="108" width="600" height="200"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="I9y-GK-zcn"/>
@@ -223,31 +226,20 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Rdf-Ew-aeV" firstAttribute="leading" secondItem="swL-9u-7hl" secondAttribute="leadingMargin" constant="-16" id="1ng-81-wIL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Odp-XT-Iju" secondAttribute="trailing" id="Bn3-eY-uYh"/>
                             <constraint firstAttribute="centerX" secondItem="Rdf-Ew-aeV" secondAttribute="centerX" id="RVO-2e-OjY"/>
-                            <constraint firstItem="Odp-XT-Iju" firstAttribute="top" secondItem="jZh-MG-HOe" secondAttribute="bottom" constant="8" id="V8P-cV-bTF"/>
+                            <constraint firstItem="Odp-XT-Iju" firstAttribute="top" secondItem="jZh-MG-HOe" secondAttribute="bottom" constant="15" id="V8P-cV-bTF"/>
                             <constraint firstItem="nDe-fc-VtS" firstAttribute="top" secondItem="JDN-jQ-wKv" secondAttribute="bottom" constant="179" id="WDz-hl-Mqk"/>
-                            <constraint firstItem="Rdf-Ew-aeV" firstAttribute="top" secondItem="jZh-MG-HOe" secondAttribute="bottom" id="Zfh-oL-038"/>
                             <constraint firstAttribute="width" secondItem="Rdf-Ew-aeV" secondAttribute="width" id="dgJ-BO-1os"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Rdf-Ew-aeV" secondAttribute="trailing" constant="-16" id="f1d-C5-AXJ"/>
                             <constraint firstAttribute="centerX" secondItem="JDN-jQ-wKv" secondAttribute="centerX" id="iqr-Bp-3ga"/>
-                            <constraint firstItem="Rdf-Ew-aeV" firstAttribute="top" secondItem="Odp-XT-Iju" secondAttribute="bottom" id="lvF-6d-Bfi"/>
                             <constraint firstItem="Rdf-Ew-aeV" firstAttribute="top" secondItem="Odp-XT-Iju" secondAttribute="bottom" constant="8" id="tWe-DC-Cnm"/>
                             <constraint firstItem="Odp-XT-Iju" firstAttribute="leading" secondItem="swL-9u-7hl" secondAttribute="leadingMargin" id="xPd-nS-q5R"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="1ng-81-wIL"/>
-                                <exclude reference="Zfh-oL-038"/>
-                                <exclude reference="f1d-C5-AXJ"/>
-                                <exclude reference="lvF-6d-Bfi"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="oMD-dl-I0y"/>
                     <connections>
                         <outlet property="profileTableView" destination="Rdf-Ew-aeV" id="PBF-AY-b15"/>
+                        <outlet property="signoutBtn" destination="JDN-jQ-wKv" id="N1h-f2-rsZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uh0-vI-OCy" userLabel="First Responder" sceneMemberID="firstResponder"/>

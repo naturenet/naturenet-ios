@@ -40,13 +40,13 @@ class NNModel: NSManagedObject {
     }
     
     // pull information from coredata
-    class func doPullByNameFromCoreData(entityname: String, name: String?) -> NNModel? {
+    class func doPullByNameFromCoreData(entityname: String, attr: String, name: String?) -> NNModel? {
         var model: NNModel?
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let request = NSFetchRequest(entityName: entityname)
         request.returnsDistinctResults = false
         if name != nil {
-            request.predicate = NSPredicate(format: "name = %@", name!)
+            request.predicate = NSPredicate(format: "\(attr) = %@", name!)
         }
         var results: NSArray = context.executeFetchRequest(request, error: nil)!
         if results.count > 0 {

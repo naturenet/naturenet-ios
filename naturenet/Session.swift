@@ -53,8 +53,10 @@ class Session: NSManagedObject {
         var sessionAccounts:[Session] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: managedContext) as [Session]
         if sessionAccounts.count > 0 {
             var session = sessionAccounts[0]
-            self.setValue(account, forKey: "account")
-            self.setValue(site, forKey: "context")
+            session.setValue(account, forKey: "account")
+            session.setValue(site, forKey: "site")
+            session.account_id = account.uid
+            session.site_id = site.uid
         } else {
             var session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as Session
             session.account = account
@@ -68,9 +70,14 @@ class Session: NSManagedObject {
     
     class func signOut() {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as Session
-        session.account_id = -1
-        session.site_id = -1
+        var sessionAccounts:[Session] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: managedContext) as [Session]
+        if sessionAccounts.count > 0 {
+            var session = sessionAccounts[0]
+            session.setValue(nil, forKey: "account")
+            session.setValue(nil, forKey: "site")
+            session.setValue(0, forKey: "account_id")
+            session.setValue(0, forKey: "site_id")
+        }
         SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
     }
     

@@ -11,6 +11,8 @@ import UIKit
 class ProfileController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var profileTableView: UITableView!
+    @IBOutlet weak var signoutBtn: UIButton!
+    
     var titles = ["Name", "Observations", "Design Ideas"]
     var details = [String]()
     
@@ -47,4 +49,7 @@ class ProfileController: UIViewController, UITableViewDelegate {
 //        tblTasks.reloadData()
     }
 
+    @IBAction func signout(sender: AnyObject) {
+        Session.signOut()
+    }
 }
