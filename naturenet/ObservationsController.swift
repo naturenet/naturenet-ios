@@ -35,7 +35,7 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
                 var medias = mNote.getMedias()
                 for media in medias {
                     var mMedia = media as Media
-                    println("in obs: \(mMedia.toString())")
+                    // println("in obs: \(mMedia.toString())")
                     var obscell = ObservationCell(url: mMedia.getMediaURL(), id: mMedia.uid.integerValue,
                         state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
                     if let tPath = mMedia.thumb_path {
@@ -82,7 +82,6 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
             self.loadImageFromWeb(url!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
         }
         
-
         return cell
     }
     
