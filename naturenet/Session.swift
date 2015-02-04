@@ -30,7 +30,7 @@ class Session: NSManagedObject {
         var isSigned: Bool = false;
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var results: NSArray = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: context)
-        println("session retrieved \(results)")
+        // println("session retrieved \(results)")
         if results.count > 0 {
             var session = results[0] as Session
             if session.account_id.integerValue > 0 {

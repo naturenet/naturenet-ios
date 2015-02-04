@@ -35,6 +35,10 @@ class Media: NNModel {
         return self.url
     }
     
+    func getNote() -> Note {
+        return self.note
+    }
+    
     func setLocalThumbPath(path: String) {
         let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         self.thumb_path = path

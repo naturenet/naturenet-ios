@@ -11,8 +11,9 @@ import UIKit
 class ObservationsController: UIViewController, UICollectionViewDataSource,
                     UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    @IBOutlet weak var observationCV: UICollectionView!
     var celldata = [ObservationCell]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -101,34 +102,20 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
         return 1
     }
     
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        
-//        let destinationVC = segue.destinationViewController as ObservationDetailController
-//        
-//    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "observationDetailSegue" {
+            let destinationVC = segue.destinationViewController as UINavigationController
+            let indexPath = self.observationCV.indexPathForCell(sender as HomeCell)
+            let selectedCell = celldata[indexPath!.row]
+            let detailVC = destinationVC.topViewController as ObservationDetailController
+            detailVC.receivedCellData = selectedCell
+        }
+
+    }
     
-    // implement UICollectionViewDelegate
-//    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//        switch indexPath.row {
-//        case 0 :
-//            self.performSegueWithIdentifier("observationDetailSeg", sender: self)
-//        default:
-//            return
-//        }
-//    }
-//    
-//    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//        let selectedCell = celldata[indexPath.row]
-//        let destinationVC = ObservationDetailController()
-//        destinationVC.receivedCellData = selectedCell
-//        destinationVC.performSegueWithIdentifier("observationDetailSegue", sender: self)
-//    }
-    
+    // IBAction for exit
     @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
-        println("cancel clicked")
         dismissViewControllerAnimated(true, completion: nil)
-        // self.navigationController?.popToRootViewControllerAnimated(true)
-        
     }
     
     @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {

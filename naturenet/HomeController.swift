@@ -85,5 +85,11 @@ class HomeController : UIViewController, UICollectionViewDataSource,
             return
         }
     }
+    
+    @IBAction func cancelToHomeViewController(segue:UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
+        // self.navigationController?.popToRootViewControllerAnimated(true)
+        
+    }
 
 }

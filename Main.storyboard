@@ -52,7 +52,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="wp2-Ol-N9G">
-                                                    <rect key="frame" x="11" y="139" width="128" height="20.5"/>
+                                                    <rect key="frame" x="11" y="139" width="128" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -124,7 +124,7 @@
                         <outlet property="signinBtn" destination="PJ9-fO-ba7" id="TkG-xK-k1Q"/>
                         <outlet property="welcomeLabel" destination="fyp-jb-iKo" id="J4J-sG-voQ"/>
                         <segue destination="VoY-hl-Epj" kind="show" identifier="observationSeg" id="PbE-tg-8FU"/>
-                        <segue destination="OQS-zf-c40" kind="show" identifier="activitiesSeg" id="cPW-ju-p46"/>
+                        <segue destination="NmB-xi-hHy" kind="presentation" identifier="activitiesSeg" id="cPW-ju-p46"/>
                         <segue destination="fxD-Gw-uUl" kind="show" identifier="profileSeg" id="cdg-fC-YxW"/>
                     </connections>
                 </viewController>
@@ -165,11 +165,18 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Activities" id="nMH-Nc-oRt"/>
+                    <navigationItem key="navigationItem" title="Activities" id="nMH-Nc-oRt">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="6Ov-tZ-yQh">
+                            <connections>
+                                <segue destination="tmu-xI-gc0" kind="unwind" unwindAction="cancelToHomeViewController:" id="9hA-O8-5sr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SMA-UW-0Wr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="tmu-xI-gc0" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1237" y="-152"/>
+            <point key="canvasLocation" x="2049" y="-152"/>
         </scene>
         <!--Profile-->
         <scene sceneID="cdj-Hi-XAE">
@@ -470,7 +477,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                         <connections>
                                             <outlet property="mImageView" destination="5rb-GU-7Yp" id="mHl-Vj-fSr"/>
                                             <outlet property="mLabel" destination="iY7-42-Vja" id="gTf-nm-fXM"/>
-                                            <segue destination="IvP-zw-vvz" kind="presentation" identifier="observationDetailSegue" id="Up5-UI-B9n"/>
+                                            <segue destination="ZPd-cN-Nid" kind="presentation" identifier="observationDetailSegue" id="vCu-kS-MiK"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -508,28 +515,15 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dKJ-Qh-2Sd"/>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="observationCV" destination="Osk-2U-4DF" id="U81-OL-zwd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UFS-jY-fex" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1221" y="-1630"/>
+            <point key="canvasLocation" x="1421" y="-1943"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="XgM-PB-AK4">
-            <objects>
-                <navigationController id="IvP-zw-vvz" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wfe-fC-zfz">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="G2L-CF-kVP" kind="relationship" relationship="rootViewController" id="doZ-i5-41Q"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="c2w-bZ-TWc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1904" y="-2622"/>
-        </scene>
-        <!--Add Observation-->
+        <!--Title-->
         <scene sceneID="eNB-Kf-sha">
             <objects>
                 <tableViewController id="G2L-CF-kVP" customClass="ObservationDetailController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
@@ -635,19 +629,17 @@ A longer version of this consent form is available [at the ACES front desk/from 
                             <outlet property="delegate" destination="G2L-CF-kVP" id="TUY-aQ-KV7"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Add Observation" id="OIM-bj-Fmm">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="WrY-7V-xGj">
-                            <connections>
-                                <segue destination="bj9-bo-Wou" kind="unwind" unwindAction="cancelToObservationsViewController:" id="DMa-oS-gHf"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="EMZ-UD-kJA"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Title" id="P1L-xS-dFZ"/>
+                    <connections>
+                        <outlet property="activitySelectionLabel" destination="wZA-hV-cBY" id="2ni-Og-tXv"/>
+                        <outlet property="descriptionView" destination="oG6-Am-hmS" id="DbP-ek-9Zg"/>
+                        <outlet property="locationSelectionLabel" destination="80m-dP-zFf" id="bYq-3o-cSE"/>
+                        <outlet property="noteImageView" destination="kbN-JG-P1u" id="ph3-aw-qZt"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cp6-kl-6MX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="bj9-bo-Wou" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2052" y="-1684"/>
+            <point key="canvasLocation" x="2510" y="-2943"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T2S-ie-QQz">
@@ -670,6 +662,196 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KIB-ae-1KJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-746" y="-271"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VPM-xr-aUY">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NmB-xi-hHy" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QPN-y3-ZMB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OQS-zf-c40" kind="relationship" relationship="rootViewController" id="7Yi-9c-Den"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fej-Pz-W1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1237" y="-152"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="w4K-R9-amY">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="acE-Vr-lZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="47z-w3-GiQ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mk7-uG-N0p">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="G2L-CF-kVP" kind="relationship" relationship="rootViewController" id="3YB-Li-i6d"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1816" y="-2943"/>
+        </scene>
+        <!--Observation-->
+        <scene sceneID="aod-fM-Pyn">
+            <objects>
+                <viewController id="iT3-ST-7Mc" customClass="ObservationDetailController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fI6-AN-qhm"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Aq-b7-aif"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lBC-mk-1PP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k7K-E5-D7X">
+                                <rect key="frame" x="0.0" y="69" width="600" height="257"/>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-Di-JE2">
+                                <rect key="frame" x="290" y="188" width="20" height="20"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="45" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="biu-MC-PED">
+                                <rect key="frame" x="0.0" y="327" width="600" height="253"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="editObsCell" textLabel="jxh-bP-f4a" detailTextLabel="5me-7e-p3p" style="IBUITableViewCellStyleValue1" id="TiF-6l-dqx" customClass="EditObsTableViewCell" customModule="naturenet" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TiF-6l-dqx" id="kOR-Gg-BMl">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jxh-bP-f4a">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5me-7e-p3p">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="editCellDetail" destination="5me-7e-p3p" id="6Ki-uR-cBT"/>
+                                            <outlet property="editCellTitle" destination="jxh-bP-f4a" id="HEd-l4-q9z"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="iT3-ST-7Mc" id="Jb9-Tv-v90"/>
+                                    <outlet property="delegate" destination="iT3-ST-7Mc" id="BBW-oz-uH3"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="biu-MC-PED" firstAttribute="top" secondItem="k7K-E5-D7X" secondAttribute="bottom" constant="1" id="0ls-AV-Ti0"/>
+                            <constraint firstAttribute="width" secondItem="k7K-E5-D7X" secondAttribute="width" id="3Bb-Yd-bAH"/>
+                            <constraint firstAttribute="centerX" secondItem="biu-MC-PED" secondAttribute="centerX" id="7x7-7B-hJB"/>
+                            <constraint firstItem="9H5-Di-JE2" firstAttribute="centerX" secondItem="k7K-E5-D7X" secondAttribute="centerX" id="Aof-hE-74Q"/>
+                            <constraint firstItem="0Aq-b7-aif" firstAttribute="top" secondItem="k7K-E5-D7X" secondAttribute="bottom" constant="274" id="H9n-4r-4wk"/>
+                            <constraint firstItem="0Aq-b7-aif" firstAttribute="top" secondItem="biu-MC-PED" secondAttribute="bottom" constant="20" id="Ix3-5G-BIa"/>
+                            <constraint firstAttribute="width" secondItem="biu-MC-PED" secondAttribute="width" id="Pae-2d-i55"/>
+                            <constraint firstItem="k7K-E5-D7X" firstAttribute="top" secondItem="fI6-AN-qhm" secondAttribute="bottom" constant="5" id="Yh5-dc-QyC"/>
+                            <constraint firstItem="k7K-E5-D7X" firstAttribute="top" secondItem="fI6-AN-qhm" secondAttribute="bottom" constant="5" id="aLC-tQ-gYc"/>
+                            <constraint firstAttribute="centerX" secondItem="k7K-E5-D7X" secondAttribute="centerX" id="ak5-QZ-RdD"/>
+                            <constraint firstAttribute="trailing" secondItem="k7K-E5-D7X" secondAttribute="trailing" id="ebN-ty-7nV"/>
+                            <constraint firstItem="9H5-Di-JE2" firstAttribute="centerY" secondItem="k7K-E5-D7X" secondAttribute="centerY" id="iLd-9d-Pc0"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="aLC-tQ-gYc"/>
+                                <exclude reference="ebN-ty-7nV"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" title="Observation" id="R3G-eh-Wun">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="tNG-fy-dch">
+                            <connections>
+                                <segue destination="NBQ-iu-W0H" kind="unwind" unwindAction="cancelToObservationsViewController:" id="frA-AD-HNL"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="WTd-D7-1qp"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="imageLoadingIndicator" destination="9H5-Di-JE2" id="g1S-3i-XQ0"/>
+                        <outlet property="noteImageView" destination="k7K-E5-D7X" id="Jaa-y3-c3H"/>
+                        <segue destination="XQG-p1-1s3" kind="show" identifier="editObsToDescription" id="HfF-D6-TYP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rGH-Jb-d02" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="NBQ-iu-W0H" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2884" y="-2046"/>
+        </scene>
+        <!--Description-->
+        <scene sceneID="NUy-L4-WP1">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bhf-dO-1ZR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="XQG-p1-1s3" customClass="NoteDescriptionViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hmD-1m-jny"/>
+                        <viewControllerLayoutGuide type="bottom" id="NOO-c9-LGT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LkA-CB-oD3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F1Q-Mw-jHP">
+                                <rect key="frame" x="0.0" y="64" width="600" height="506"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="F1Q-Mw-jHP" secondAttribute="trailing" id="35m-j5-rpP"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="F1Q-Mw-jHP" secondAttribute="bottom" constant="30" id="9gu-Bz-ecm"/>
+                            <constraint firstItem="F1Q-Mw-jHP" firstAttribute="leading" secondItem="LkA-CB-oD3" secondAttribute="leading" id="Et7-qL-aj3"/>
+                            <constraint firstItem="F1Q-Mw-jHP" firstAttribute="top" secondItem="hmD-1m-jny" secondAttribute="bottom" id="d0Z-tI-0mf"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Description" id="5hB-bd-tLW">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="3vq-3b-1Rx"/>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="noteDescriptionTextView" destination="F1Q-Mw-jHP" id="8NM-L4-gzo"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="3604" y="-2251"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qHl-t5-fUE">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZPd-cN-Nid" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="q9j-sh-pbi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="iT3-ST-7Mc" kind="relationship" relationship="rootViewController" id="0IH-Jc-6MI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MLR-Tc-BYk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2177" y="-2083"/>
         </scene>
     </scenes>
     <resources>

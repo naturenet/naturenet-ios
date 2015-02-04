@@ -116,7 +116,7 @@ class Note: NNModel {
     
     
     func toString() -> String {
-        return "noteid: \(uid) createdAt: \(created_at) latitude: \(latitude) logitutde: \(longitude) status: \(status)"
+        return "noteid: \(uid) createdAt: \(created_at) latitude: \(latitude) logitutde: \(longitude) status: \(status) content: \(content)"
     }
 
 }
