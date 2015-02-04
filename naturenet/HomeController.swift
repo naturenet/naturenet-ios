@@ -13,13 +13,28 @@ class HomeController : UIViewController, UICollectionViewDataSource,
                         UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
 
     @IBOutlet weak var homeCollectionView: UICollectionView!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var signinBtn: UIButton!
+    
     var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
     var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(animated: Bool) {
+        if Session.isSignedIn() {
+            signinBtn.hidden = true
+            var account = Session.getAccount()
+            welcomeLabel.text = "welcome, " + account!.username
+            welcomeLabel.hidden = false
+        } else {
+            signinBtn.hidden = false
+            welcomeLabel.hidden = true
+        }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -11,7 +11,6 @@
 		FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC012CC11A76AD9800D9CBF1 /* Context.swift */; };
 		FC1134961A642DD500D548E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134951A642DD500D548E8 /* AppDelegate.swift */; };
 		FC1134991A642DD500D548E8 /* naturenet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC1134971A642DD500D548E8 /* naturenet.xcdatamodeld */; };
-		FC11349B1A642DD500D548E8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC11349A1A642DD500D548E8 /* ViewController.swift */; };
 		FC1134A31A642DD600D548E8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC1134A11A642DD600D548E8 /* LaunchScreen.xib */; };
 		FC1134AF1A642DD600D548E8 /* naturenetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134AE1A642DD600D548E8 /* naturenetTests.swift */; };
 		FC1134B91A642FAE00D548E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC1134B81A642FAE00D548E8 /* Main.storyboard */; };
@@ -28,6 +27,7 @@
 		FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */; };
 		FC5BA3891A7859400069D59F /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3881A7859400069D59F /* Media.swift */; };
 		FC5BA38B1A78BACF0069D59F /* ObservationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */; };
+		FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */; };
 		FC8007A91A80336400510E30 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007A81A80336400510E30 /* ProfileController.swift */; };
 		FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */; };
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
@@ -51,7 +51,6 @@
 		FC1134941A642DD500D548E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC1134951A642DD500D548E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC1134981A642DD500D548E8 /* naturenet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = naturenet.xcdatamodel; sourceTree = "<group>"; };
-		FC11349A1A642DD500D548E8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FC1134A21A642DD600D548E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		FC1134A81A642DD600D548E8 /* naturenetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = naturenetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1134AD1A642DD600D548E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftCoreDataHelper.swift; sourceTree = "<group>"; };
 		FC5BA3881A7859400069D59F /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationsController.swift; sourceTree = "<group>"; };
+		FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationDetailController.swift; sourceTree = "<group>"; };
 		FC8007A81A80336400510E30 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -123,8 +123,8 @@
 				FC1134951A642DD500D548E8 /* AppDelegate.swift */,
 				FC1134BA1A642FDC00D548E8 /* Images.xcassets */,
 				FC1134B81A642FAE00D548E8 /* Main.storyboard */,
-				FC1134A11A642DD600D548E8 /* LaunchScreen.xib */,
 				FC1134971A642DD500D548E8 /* naturenet.xcdatamodeld */,
+				FC1134A11A642DD600D548E8 /* LaunchScreen.xib */,
 				FC1134931A642DD500D548E8 /* Supporting Files */,
 			);
 			path = naturenet;
@@ -160,11 +160,11 @@
 			children = (
 				FC1134BC1A64308C00D548E8 /* SignIn.swift */,
 				FC1134BE1A64309E00D548E8 /* HomeController.swift */,
-				FC11349A1A642DD500D548E8 /* ViewController.swift */,
 				FC1134CA1A64310100D548E8 /* HomeCell.swift */,
 				FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */,
 				FC8007A81A80336400510E30 /* ProfileController.swift */,
 				FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */,
+				FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -298,7 +298,6 @@
 				FCAE49B01A75E31E0011283A /* Session.swift in Sources */,
 				FC012CC01A769E3F00D9CBF1 /* Site.swift in Sources */,
 				FC8007A91A80336400510E30 /* ProfileController.swift in Sources */,
-				FC11349B1A642DD500D548E8 /* ViewController.swift in Sources */,
 				FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */,
 				FC1134C31A6430D900D548E8 /* NNModel.swift in Sources */,
 				FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */,
@@ -309,6 +308,7 @@
 				FC5BA38B1A78BACF0069D59F /* ObservationsController.swift in Sources */,
 				FC1134BD1A64308D00D548E8 /* SignIn.swift in Sources */,
 				FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */,
+				FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */,
 				FC5BA3841A77FE1D0069D59F /* Note.swift in Sources */,
 				FC1134BF1A64309E00D548E8 /* HomeController.swift in Sources */,
 				FC1134C71A6430EF00D548E8 /* API.swift in Sources */,

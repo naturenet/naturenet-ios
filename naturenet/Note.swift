@@ -67,6 +67,7 @@ class Note: NNModel {
     }
     
     // determine a note in local core data whether is up to date 
+    // @Deprecated
     func isSyncedWithServer(serverNote: NSDictionary) -> Bool {
         var severModified = serverNote["modified_at"] as String
         if self.modified_at == severModified {

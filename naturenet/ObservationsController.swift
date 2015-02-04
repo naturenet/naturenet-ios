@@ -33,6 +33,7 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
             for note in notes {
                 var mNote = note as Note
                 var medias = mNote.getMedias()
+                println("you have \(medias.count) medias")
                 for media in medias {
                     var mMedia = media as Media
                     // println("in obs: \(mMedia.toString())")
@@ -44,6 +45,7 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
                     celldata.append(obscell)
                 }
             }
+            celldata.sort({$0.modifiedAt > $1.modifiedAt})
         }
 
         
@@ -97,6 +99,40 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
+    }
+    
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        
+//        let destinationVC = segue.destinationViewController as ObservationDetailController
+//        
+//    }
+    
+    // implement UICollectionViewDelegate
+//    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+//        switch indexPath.row {
+//        case 0 :
+//            self.performSegueWithIdentifier("observationDetailSeg", sender: self)
+//        default:
+//            return
+//        }
+//    }
+//    
+//    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+//        let selectedCell = celldata[indexPath.row]
+//        let destinationVC = ObservationDetailController()
+//        destinationVC.receivedCellData = selectedCell
+//        destinationVC.performSegueWithIdentifier("observationDetailSegue", sender: self)
+//    }
+    
+    @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
+        println("cancel clicked")
+        dismissViewControllerAnimated(true, completion: nil)
+        // self.navigationController?.popToRootViewControllerAnimated(true)
+        
+    }
+    
+    @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
+        
     }
     
     func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {

@@ -51,5 +51,6 @@ class ProfileController: UIViewController, UITableViewDelegate {
 
     @IBAction func signout(sender: AnyObject) {
         Session.signOut()
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
 }
