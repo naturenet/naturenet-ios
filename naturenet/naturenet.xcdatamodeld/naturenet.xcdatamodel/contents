@@ -26,7 +26,7 @@
         <relationship name="note" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="context" inverseEntity="Note" syncable="YES"/>
         <relationship name="site" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="contexts" inverseEntity="Site" syncable="YES"/>
     </entity>
-    <entity name="Feedback" syncable="YES">
+    <entity name="Feedback" representedClassName="Feedback" syncable="YES">
         <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>

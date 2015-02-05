@@ -52,6 +52,8 @@ class Note: NNModel {
         
         var medias = mNote["medias"] as NSArray
         setMedias(medias)
+        var feedbacks = mNote["feedbacks"] as NSArray
+        setFeedbacks(feedbacks)
         return self
     }
     
@@ -94,9 +96,26 @@ class Note: NNModel {
             var media =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: context) as Media
             media.parseMediaJSON(mediaDict as NSDictionary)
             media.note = self
-            println("media with note \(media.note.uid) is: { \(media.toString()) }")
+//            println("media with note \(media.note.uid) is: { \(media.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
         }
+    }
+    
+    // given JSON response of medias of a note, save medias into core data
+    func setFeedbacks(feedbacks: NSArray) {
+        for feedbackDict in feedbacks {
+            let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var feedback =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: context) as Feedback
+            feedback.parseFeedbackJSON(feedbackDict as NSDictionary)
+            feedback.note = self
+            //        if feedbackJSON["parent_id"] as Int == 0 {
+            //            feedback.target_id = self.objectID
+            //        }
+            feedback.target_model = "Note"
+            println("feedback with note \(feedback.note.uid) is: { \(feedback.toString()) }")
+            SwiftCoreDataHelper.saveManagedObjectContext(context)
+        }
+
     }
     
     // given a note id, get medias from core data

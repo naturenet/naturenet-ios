@@ -76,6 +76,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         }
     }
     
+    // receive data from note description textview
     @IBAction func passedDescription(segue:UIStoryboardSegue) {
         let noteDescriptionVC = segue.sourceViewController as NoteDescriptionViewController
         if let desc = noteDescriptionVC.noteContent {
@@ -85,6 +86,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         self.detailTableView.reloadData()
     }
     
+    
+    // receive data from activity selection
     @IBAction func passedActivitySelection(segue:UIStoryboardSegue) {
         let noteActivitySelectionVC = segue.sourceViewController as NoteActivitySelectionViewController
         if let activityTitle = noteActivitySelectionVC.selectedActivityTitle {
@@ -94,7 +97,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         self.detailTableView.reloadData()
     }
     
+    // load data for this view
     func loadData() {
+        // load landmarks and activities (type: Context)
         if let site: Site = Session.getSite() {
             let siteContexts = site.getContexts()
             for sContext in siteContexts {
@@ -108,22 +113,17 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
             }
         }
         
+        // load note informaiton, e.g. description/media image
         var mediaUID = receivedCellData!.uid as Int
         self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
         self.note = noteMedia?.getNote()
         details[0] = note!.content
         var noteActivity = note!.context
         details[1] = noteActivity.title
-
         loadFullImage(noteMedia!.url)
         // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
-    }
-    
-    func setUI() {
-        if let desc = self.note?.content {
-//            descriptionView.text = desc
-        }
-    
+        
+        
     }
     
     func loadFullImage(url: String) {
