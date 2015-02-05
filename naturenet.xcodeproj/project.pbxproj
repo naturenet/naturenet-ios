@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FC012CC01A769E3F00D9CBF1 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC012CBF1A769E3F00D9CBF1 /* Site.swift */; };
 		FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC012CC11A76AD9800D9CBF1 /* Context.swift */; };
+		FC031E581A833E71007F67D7 /* NoteLocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */; };
 		FC1134961A642DD500D548E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134951A642DD500D548E8 /* AppDelegate.swift */; };
 		FC1134991A642DD500D548E8 /* naturenet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC1134971A642DD500D548E8 /* naturenet.xcdatamodeld */; };
 		FC1134A31A642DD600D548E8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC1134A11A642DD600D548E8 /* LaunchScreen.xib */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		FC012CBF1A769E3F00D9CBF1 /* Site.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		FC012CC11A76AD9800D9CBF1 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
+		FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteLocationTableViewController.swift; sourceTree = "<group>"; };
 		FC1134901A642DD500D548E8 /* naturenet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = naturenet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1134941A642DD500D548E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC1134951A642DD500D548E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */,
 				FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */,
 				FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */,
+				FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				FC1134C71A6430EF00D548E8 /* API.swift in Sources */,
 				FC5BA3891A7859400069D59F /* Media.swift in Sources */,
 				FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */,
+				FC031E581A833E71007F67D7 /* NoteLocationTableViewController.swift in Sources */,
 				FC1134C81A6430EF00D548E8 /* APIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

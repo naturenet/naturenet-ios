@@ -20,7 +20,8 @@ class Note: NNModel {
     @NSManaged var account_id: NSNumber
     @NSManaged var content: String
     @NSManaged var context: Context
-    
+    @NSManaged var account: Account
+
     // parse a note JSON
     func parseNoteJSON(mNote: NSDictionary) -> Note {
         self.uid = mNote["id"] as Int
@@ -46,7 +47,10 @@ class Note: NNModel {
         self.context_id = contextID
         var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
         self.context = context
-        self.account_id = mNote["account"]!["id"] as Int
+        var accountID = mNote["account"]!["id"] as Int
+        self.account_id = accountID
+        var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account
+        self.account = account
         self.status = mNote["status"] as String
         self.state = STATE.DOWNLOADED
         
@@ -128,12 +132,17 @@ class Note: NNModel {
         return results
     }
     
-    // update media with a local path
-    func updateMedia(path: String) {
-        
+    // given a note id, get feedbacks from core data
+    func getFeedbacks() -> NSArray {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let request = NSFetchRequest(entityName: NSStringFromClass(Feedback))
+        request.returnsDistinctResults = false
+        request.predicate = NSPredicate(format: "note = %@", self.objectID)
+        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        return results
     }
     
-    
+    // toString testing purpose
     func toString() -> String {
         return "noteid: \(uid) createdAt: \(created_at) latitude: \(latitude) logitutde: \(longitude) status: \(status) content: \(content)"
     }

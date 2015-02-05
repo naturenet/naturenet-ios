@@ -18,6 +18,7 @@ class Feedback: NNModel {
     @NSManaged var target_id: NSNumber
     @NSManaged var target_model: String
     @NSManaged var note: Note
+    @NSManaged var account: Account
     
     func parseFeedbackJSON(feedback: NSDictionary) {
         self.uid = feedback["id"] as Int
@@ -25,8 +26,14 @@ class Feedback: NNModel {
         self.kind = feedback["kind"] as String
         self.modified_at = feedback["modified_at"] as Int
         self.created_at = feedback["created_at"] as Int
+        var accountID = feedback["account"]!["id"] as Int
+        self.account_id = accountID
+        var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account
+        self.account = account
         self.state = STATE.DOWNLOADED
     }
+    
+    
 
     func toString() -> String {
         return "note feedback id: \(uid) content: \(content) note_id: \(note.uid)"

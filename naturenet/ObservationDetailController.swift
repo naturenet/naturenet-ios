@@ -14,6 +14,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var noteImageView: UIImageView!
     @IBOutlet weak var imageLoadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var detailTableView: UITableView!
+    
     // data
     var receivedCellData: ObservationCell?
     var noteMedia: Media?
@@ -60,6 +61,11 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
             destinationVC.activities = self.activities
             destinationVC.selectedActivityTitle = details[1]
         }
+        if segue.identifier == "selectObsLocationSeg" {
+            let destinationVC = segue.destinationViewController as NoteLocationTableViewController
+            destinationVC.landmarks = self.landmarks
+            destinationVC.selectedLocation = details[2]
+        }
 
     }
 
@@ -97,9 +103,41 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         self.detailTableView.reloadData()
     }
     
+    // receive data from activity selection
+    @IBAction func passedLocationSelection(segue:UIStoryboardSegue) {
+        let noteLocationSelectionVC = segue.sourceViewController as NoteLocationTableViewController
+        if let locationTitle = noteLocationSelectionVC.selectedLocation {
+            details[2] = locationTitle
+        }
+        self.navigationController?.popViewControllerAnimated(true)
+        self.detailTableView.reloadData()
+    }
+    
     // load data for this view
     func loadData() {
         // load landmarks and activities (type: Context)
+        loadContexts()
+        
+        // load note informaiton, e.g. description/media image
+        var mediaUID = receivedCellData!.uid as Int
+        self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
+        self.note = noteMedia?.getNote()
+        details[0] = note!.content
+        var noteActivity = note!.context
+        details[1] = noteActivity.title
+        loadFullImage(noteMedia!.url)
+        // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
+        
+        // load note location info
+        var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
+        details[2] = landmarkTitle
+    }
+    
+    //----------------------------------------------------------------------------------------------
+    // some utility functions
+    
+    // initialize self.activities and self.landmarks
+    func loadContexts() {
         if let site: Site = Session.getSite() {
             let siteContexts = site.getContexts()
             for sContext in siteContexts {
@@ -112,20 +150,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
                 }
             }
         }
-        
-        // load note informaiton, e.g. description/media image
-        var mediaUID = receivedCellData!.uid as Int
-        self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
-        self.note = noteMedia?.getNote()
-        details[0] = note!.content
-        var noteActivity = note!.context
-        details[1] = noteActivity.title
-        loadFullImage(noteMedia!.url)
-        // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
-        
-        
     }
     
+    // load image into imageview
     func loadFullImage(url: String) {
         var nsurl: NSURL = NSURL(string: url)!
         let urlRequest = NSURLRequest(URL: nsurl)
@@ -140,8 +167,24 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
                 self.imageLoadingIndicator.removeFromSuperview()
             }
         })
-        
     }
-
+    
+    // get landmark locaiton titles
+    func getLandmarkTitle(note: Note, contexts: [Context]) -> String? {
+        var feedbacks = note.getFeedbacks()
+        var title: String?
+        for feedback in feedbacks {
+            // ?? not sure this is the right way to get landmark feedback
+            if feedback.kind == "Landmark" {
+                var landmarkFeedback = feedback as Feedback
+                for context in contexts {
+                    if feedback.content == context.name {
+                        title = context.title
+                    }
+                }
+            }
+        }
+        return title
+    }
 
 }
