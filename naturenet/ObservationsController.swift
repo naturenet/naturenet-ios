@@ -49,7 +49,6 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
             celldata.sort({$0.modifiedAt > $1.modifiedAt})
         }
 
-        
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

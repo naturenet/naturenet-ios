@@ -8,13 +8,17 @@
 
 import UIKit
 
-class NoteDescriptionViewController: UIViewController {
+class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var noteDescriptionTextView: UITextView!
+    @IBOutlet weak var barItemDone: UIBarButtonItem!
+ 
+    var noteContent: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+//        UIBarButtonItem.appearance().setTitleTextAttributes({NSForegroundColorAttributeName: UIColor.blueColor()}, forState: .Disabled)
+        noteDescriptionTextView.text = noteContent
+        noteDescriptionTextView.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,15 +26,15 @@ class NoteDescriptionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
+    func textViewDidChange(textView: UITextView!) { //Handle the text changes here
+        
+    }
+    
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "passedDescription" {
+            noteContent = noteDescriptionTextView.text
+        }
     }
-    */
-
 }

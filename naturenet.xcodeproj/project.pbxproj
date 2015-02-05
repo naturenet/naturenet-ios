@@ -32,6 +32,7 @@
 		FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */; };
 		FC8007A91A80336400510E30 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007A81A80336400510E30 /* ProfileController.swift */; };
 		FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */; };
+		FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */; };
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
 		FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D801A6F7BC30096D594 /* APIAdapter.swift */; };
 /* End PBXBuildFile section */
@@ -76,6 +77,7 @@
 		FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDescriptionViewController.swift; sourceTree = "<group>"; };
 		FC8007A81A80336400510E30 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteActivitySelectionViewController.swift; sourceTree = "<group>"; };
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		FCE67D801A6F7BC30096D594 /* APIAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,15 +164,14 @@
 		FC1134CC1A64314300D548E8 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FCA005431A82888C0066686D /* cells */,
 				FC1134BC1A64308C00D548E8 /* SignIn.swift */,
 				FC1134BE1A64309E00D548E8 /* HomeController.swift */,
-				FC1134CA1A64310100D548E8 /* HomeCell.swift */,
 				FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */,
 				FC8007A81A80336400510E30 /* ProfileController.swift */,
-				FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */,
 				FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */,
-				FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */,
 				FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */,
+				FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -198,6 +199,16 @@
 				FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */,
 			);
 			name = Helper;
+			sourceTree = "<group>";
+		};
+		FCA005431A82888C0066686D /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				FC1134CA1A64310100D548E8 /* HomeCell.swift */,
+				FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */,
+				FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */,
+			);
+			name = cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,6 +318,7 @@
 				FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */,
 				FC1134C31A6430D900D548E8 /* NNModel.swift in Sources */,
 				FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */,
+				FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */,
 				FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */,
 				FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */,
 				FC1134991A642DD500D548E8 /* naturenet.xcdatamodeld in Sources */,

@@ -92,5 +92,15 @@ class Session: NSManagedObject {
         return account
     }
     
+    class func getSite() -> Site? {
+        var site: Site?
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var sessions:[Session] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: managedContext) as [Session]
+        if sessions.count > 0 {
+            var session = sessions[0]
+            site = session.site
+        }
+        return site
+    }
   
 }

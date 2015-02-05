@@ -15,7 +15,7 @@ class Site: NNModel {
     @NSManaged var image_url: String
     @NSManaged var name: String
     @NSManaged var kind: String
-    @NSManaged var contexts: NSArray
+    @NSManaged var contexts: NSMutableArray
     
     // pull info from remote server
     class func doPullByNameFromServer(parseService: APIService, name: String) {
@@ -68,16 +68,20 @@ class Site: NNModel {
             mContext.site_uid = self.uid
             SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
             mContext.commit()
+            self.contexts.addObject(mContext)
             println("A new context:{ " + mContext.toString() + " } saved!")
         }
     }
     
     // get contexts
     func getContexts() -> NSArray {
-        if self.contexts.count > 0 {
+        if (contexts.count > 0) {
             return self.contexts
         } else {
-            return NNModel.doPullAllByEntityFromCoreData(NSStringFromClass(Context))
+            let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var predicate = NSPredicate(format: "site_uid = \(self.uid)")
+            var sitecontexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext)
+            return sitecontexts
         }
     }
     

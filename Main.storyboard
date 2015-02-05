@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ9-fO-ba7">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ9-fO-ba7">
                                 <rect key="frame" x="240" y="556" width="120" height="34"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -363,7 +363,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0E5-Vo-U6x">
                                 <rect key="frame" x="0.0" y="5" width="600" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">You are invited to participate in NatureNet, a research project being conducted by the researchers listed on the bottom of the page in consultation with Jim Kravitz, Director of Naturalist Programs at ACES. In order for us to collect and study the way people are 
+                                <string key="text">You are invited to participate in NatureNet, a research project being conducted by the researchers listed on the bottom of the page in consultation with Jim Kravitz, Director of Naturalist Programs at ACES. In order for us to collect and study the way people are 
 using technology like NatureNet, we must have your consent. In simplest terms, we hope you will use a mobile device, multi-touch display, and website to:
 1) Take pictures and make observations about the natural world
 2) Share those observations with other visitors
@@ -372,7 +372,7 @@ using technology like NatureNet, we must have your consent. In simplest terms, w
 The researchers and other visitors will be able to look at your contributions and comments 
 via the tabletop or website, and we may ask you if you are willing to answer a few questions 
 (either on paper, by phone, or face to face) about your whole experience. You may stop participating at any time.
-A longer version of this consent form is available [at the ACES front desk/from Prof Yeh/Maher/Preece] or [nature-net.org], or you can indicate your understanding and willingness to participate in our study by checking off the boxes on the next screen.</mutableString>
+A longer version of this consent form is available [at the ACES front desk/from Prof Yeh/Maher/Preece] or [nature-net.org], or you can indicate your understanding and willingness to participate in our study by checking off the boxes on the next screen.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -439,6 +439,12 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                             <rect key="frame" x="0.0" y="0.0" width="155" height="169"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5rb-GU-7Yp">
+                                                    <rect key="frame" x="8" y="8" width="139" height="139"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="5rb-GU-7Yp" secondAttribute="height" multiplier="1:1" id="AKd-vH-WfN"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.59999999999999964" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="iY7-42-Vja">
                                                     <rect key="frame" x="8" y="127" width="139" height="21"/>
                                                     <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
@@ -446,12 +452,6 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                                     <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5rb-GU-7Yp">
-                                                    <rect key="frame" x="8" y="8" width="139" height="139"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="5rb-GU-7Yp" secondAttribute="height" multiplier="1:1" id="AKd-vH-WfN"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -684,7 +684,6 @@ A longer version of this consent form is available [at the ACES front desk/from 
         <!--Navigation Controller-->
         <scene sceneID="w4K-R9-amY">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="acE-Vr-lZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="47z-w3-GiQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mk7-uG-N0p">
@@ -696,6 +695,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <segue destination="G2L-CF-kVP" kind="relationship" relationship="rootViewController" id="3YB-Li-i6d"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="acE-Vr-lZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1816" y="-2943"/>
         </scene>
@@ -711,14 +711,14 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k7K-E5-D7X">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k7K-E5-D7X">
                                 <rect key="frame" x="0.0" y="69" width="600" height="257"/>
                             </imageView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-Di-JE2">
                                 <rect key="frame" x="290" y="188" width="20" height="20"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="45" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="biu-MC-PED">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="45" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="biu-MC-PED">
                                 <rect key="frame" x="0.0" y="327" width="600" height="253"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
@@ -785,34 +785,39 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="WTd-D7-1qp"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="detailTableView" destination="biu-MC-PED" id="WUF-Jx-82h"/>
                         <outlet property="imageLoadingIndicator" destination="9H5-Di-JE2" id="g1S-3i-XQ0"/>
                         <outlet property="noteImageView" destination="k7K-E5-D7X" id="Jaa-y3-c3H"/>
                         <segue destination="XQG-p1-1s3" kind="show" identifier="editObsToDescription" id="HfF-D6-TYP"/>
+                        <segue destination="c0p-Yw-gqU" kind="show" identifier="selectObsActivitySeg" id="CCv-3e-bOx"/>
+                        <segue destination="Du1-xF-wV7" kind="show" identifier="selectObsLocationSeg" id="IfU-mH-o7f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGH-Jb-d02" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="NBQ-iu-W0H" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2884" y="-2046"/>
+            <point key="canvasLocation" x="2987" y="-2052"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bhf-dO-1ZR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="XQG-p1-1s3" customClass="NoteDescriptionViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hmD-1m-jny"/>
                         <viewControllerLayoutGuide type="bottom" id="NOO-c9-LGT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LkA-CB-oD3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F1Q-Mw-jHP">
-                                <rect key="frame" x="0.0" y="64" width="600" height="506"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F1Q-Mw-jHP">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="506"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="XQG-p1-1s3" id="D6J-CT-hqM"/>
+                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -823,17 +828,136 @@ A longer version of this consent form is available [at the ACES front desk/from 
                             <constraint firstItem="F1Q-Mw-jHP" firstAttribute="top" secondItem="hmD-1m-jny" secondAttribute="bottom" id="d0Z-tI-0mf"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Description" id="5hB-bd-tLW">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="3vq-3b-1Rx"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="3vq-3b-1Rx">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <segue destination="wmH-vx-Ojb" kind="unwind" identifier="passedDescription" unwindAction="passedDescription:" id="JEb-bT-p4I"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="noteDescriptionTextView" destination="F1Q-Mw-jHP" id="8NM-L4-gzo"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bhf-dO-1ZR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="wmH-vx-Ojb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3604" y="-2251"/>
+            <point key="canvasLocation" x="3727" y="-2639"/>
+        </scene>
+        <!--Activity-->
+        <scene sceneID="Ozr-jZ-JFj">
+            <objects>
+                <viewController id="c0p-Yw-gqU" customClass="NoteActivitySelectionViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X8T-iq-9vQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="X9v-0y-0QC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i3J-xx-fFC">
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-uJ-50B">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activitySelectionCell" textLabel="Usd-ZV-BCq" style="IBUITableViewCellStyleDefault" id="oWQ-gN-t4z">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oWQ-gN-t4z" id="SgK-4E-QhD">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Usd-ZV-BCq">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="4I7-LF-w1e" kind="unwind" identifier="passedActivitySelection" unwindAction="passedActivitySelection:" id="ncQ-1V-Pil"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="c0p-Yw-gqU" id="RNy-Kh-OV8"/>
+                                    <outlet property="delegate" destination="c0p-Yw-gqU" id="QQo-tQ-wyQ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ByW-uJ-50B" secondAttribute="trailing" id="EjS-al-J87"/>
+                            <constraint firstItem="ByW-uJ-50B" firstAttribute="bottom" secondItem="X9v-0y-0QC" secondAttribute="top" id="e6n-WB-99Q"/>
+                            <constraint firstItem="ByW-uJ-50B" firstAttribute="top" secondItem="i3J-xx-fFC" secondAttribute="top" id="pAs-zC-X8G"/>
+                            <constraint firstItem="ByW-uJ-50B" firstAttribute="leading" secondItem="i3J-xx-fFC" secondAttribute="leading" id="vbo-5y-h7f"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Activity" id="zfD-ga-FY2"/>
+                    <connections>
+                        <outlet property="activitySelectionTableView" destination="ByW-uJ-50B" id="bwE-su-pgV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Joq-Hp-CoY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="4I7-LF-w1e" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3727" y="-1978"/>
+        </scene>
+        <!--Location-->
+        <scene sceneID="mdZ-l8-4Fz">
+            <objects>
+                <viewController id="Du1-xF-wV7" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mB3-7T-VWJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="cJL-uJ-Lbb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5IJ-Ry-YWY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="7pv-C0-SSh">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="UgX-iD-Owq">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </tableView>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="DKN-Ii-6ZI" style="IBUITableViewCellStyleDefault" id="ypP-nd-YZj">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ypP-nd-YZj" id="dVU-VP-fdb">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DKN-Ii-6ZI">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7pv-C0-SSh" firstAttribute="bottom" secondItem="cJL-uJ-Lbb" secondAttribute="top" id="d53-cG-s2M"/>
+                            <constraint firstItem="7pv-C0-SSh" firstAttribute="top" secondItem="5IJ-Ry-YWY" secondAttribute="top" id="h7z-Ca-zje"/>
+                            <constraint firstItem="7pv-C0-SSh" firstAttribute="leading" secondItem="5IJ-Ry-YWY" secondAttribute="leading" id="jZr-4t-4ol"/>
+                            <constraint firstAttribute="trailing" secondItem="7pv-C0-SSh" secondAttribute="trailing" id="zGG-Qq-4wP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Location" id="IJ7-1i-DJ1"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Qz-xB-nYz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3727" y="-1309"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qHl-t5-fUE">
