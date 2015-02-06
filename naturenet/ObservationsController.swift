@@ -8,10 +8,11 @@
 
 import UIKit
 
-class ObservationsController: UIViewController, UICollectionViewDataSource,
-                    UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ObservationsController: UIViewController, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate  {
     
     @IBOutlet weak var observationCV: UICollectionView!
+    @IBOutlet weak var cameraBtn: UIBarButtonItem!
+    
     var celldata = [ObservationCell]()
 
     override func viewDidLoad() {
@@ -24,33 +25,7 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func loadData() {
-        if !Session.isSignedIn() {
-            return
-        }
-        if let account = Session.getAccount() {
-            var notes = account.getNotes()
-            for note in notes {
-                var mNote = note as Note
-                var medias = mNote.getMedias()
-                println("you have \(medias.count) medias")
-                for media in medias {
-                    var mMedia = media as Media
-                    // println("in obs: \(mMedia.toString())")
-                    var obscell = ObservationCell(url: mMedia.getMediaURL(), id: mMedia.uid.integerValue,
-                        state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
-                    if let tPath = mMedia.thumb_path {
-                        obscell.localThumbPath = tPath
-                    }
-                    celldata.append(obscell)
-                }
-            }
-            celldata.sort({$0.modifiedAt > $1.modifiedAt})
-        }
 
-    }
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.celldata.count
     }
@@ -112,6 +87,11 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
 
     }
     
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        println("Image selected")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // IBAction for exit
     @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
         dismissViewControllerAnimated(true, completion: nil)
@@ -121,6 +101,110 @@ class ObservationsController: UIViewController, UICollectionViewDataSource,
         
     }
     
+    var picker:UIImagePickerController?=UIImagePickerController()
+    var popover:UIPopoverController?=nil
+    @IBAction func pickImage(sender: AnyObject) {
+        var image = UIImagePickerController()
+        image.delegate = self
+        image.sourceType = UIImagePickerControllerSourceType.Camera
+//        image.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+        image.allowsEditing = false
+        self.presentViewController(image, animated: true, completion: nil)
+        
+//        var alert:UIAlertController=UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+//        
+//        var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default)
+//            {
+//                UIAlertAction in
+//                self.openCamera()
+//                
+//        }
+//        var gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default)
+//            {
+//                UIAlertAction in
+//                self.openGallary()
+//        }
+//        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
+//            {
+//                UIAlertAction in
+//                
+//        }
+//        // Add the actions
+//        alert.addAction(cameraAction)
+//        alert.addAction(gallaryAction)
+//        alert.addAction(cancelAction)
+//        // Present the actionsheet
+//        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+//        {
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
+//        else
+//        {
+//            popover=UIPopoverController(contentViewController: alert)
+//            popover!.presentPopoverFromRect(cameraBtn.vie, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+//        }
+        
+    }
+    
+//    func openCamera()
+//    {
+//        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
+//        {
+//            picker!.sourceType = UIImagePickerControllerSourceType.Camera
+//            self.presentViewController(picker!, animated: true, completion: nil)
+//        }
+//        else
+//        {
+//            openGallary()
+//        }
+//    }
+//    func openGallary()
+//    {
+//        picker!.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+//        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+//        {
+//            self .presentViewController(picker!, animated: true, completion: nil)
+//        }
+//        else
+//        {
+//            popover=UIPopoverController(contentViewController: picker!)
+//            popover!.presentPopoverFromRect(cameraBtn.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+//        }
+//        
+//    }
+//    func imagePickerControllerDidCancel(picker: UIImagePickerController!)
+//    {
+//        println("picker cancel.")
+//    }
+    // load data for this collectionview
+    func loadData() {
+        if !Session.isSignedIn() {
+            return
+        }
+        if let account = Session.getAccount() {
+            var notes = account.getNotes()
+            for note in notes {
+                var mNote = note as Note
+                var medias = mNote.getMedias()
+                println("you have \(medias.count) medias")
+                for media in medias {
+                    var mMedia = media as Media
+                    // println("in obs: \(mMedia.toString())")
+                    var obscell = ObservationCell(url: mMedia.getMediaURL(), id: mMedia.uid.integerValue,
+                        state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
+                    if let tPath = mMedia.thumb_path {
+                        obscell.localThumbPath = tPath
+                    }
+                    celldata.append(obscell)
+                }
+            }
+            celldata.sort({$0.modifiedAt > $1.modifiedAt})
+        }
+        
+    }
+    
+    //----------------------------------------------------------------------------------------------
+    // some utility functions
     func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
         let urlRequest = NSURLRequest(URL: url)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {

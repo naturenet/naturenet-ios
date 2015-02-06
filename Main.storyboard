@@ -412,7 +412,11 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                 </constraints>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="eIr-H5-eOv"/>
-                                    <barButtonItem systemItem="camera" id="dLT-iw-1CE"/>
+                                    <barButtonItem systemItem="camera" id="dLT-iw-1CE">
+                                        <connections>
+                                            <action selector="pickImage:" destination="VoY-hl-Epj" id="T7u-wc-YNc"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="LNg-YH-vPW"/>
                                 </items>
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -516,6 +520,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="cameraBtn" destination="dLT-iw-1CE" id="K9z-es-mu7"/>
                         <outlet property="observationCV" destination="Osk-2U-4DF" id="U81-OL-zwd"/>
                     </connections>
                 </viewController>
@@ -714,8 +719,8 @@ A longer version of this consent form is available [at the ACES front desk/from 
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k7K-E5-D7X">
                                 <rect key="frame" x="0.0" y="69" width="600" height="257"/>
                             </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-Di-JE2">
-                                <rect key="frame" x="290" y="188" width="20" height="20"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-Di-JE2">
+                                <rect key="frame" x="281" y="179" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="45" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="biu-MC-PED">
@@ -782,7 +787,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                 <segue destination="NBQ-iu-W0H" kind="unwind" unwindAction="cancelToObservationsViewController:" id="frA-AD-HNL"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="WTd-D7-1qp"/>
+                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="WTd-D7-1qp"/>
                     </navigationItem>
                     <connections>
                         <outlet property="detailTableView" destination="biu-MC-PED" id="WUF-Jx-82h"/>
