@@ -14,6 +14,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
     
     var celldata = [ObservationCell]()
+    var cameraImage: UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,18 +42,16 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         cell.addSubview(activityIndicator)
         activityIndicator.frame = cell.bounds
         activityIndicator.startAnimating()
-        println("haha, I am here againn \(indexPath.row)th")
+        // println("haha, I am here again \(indexPath.row)th")
         if let lPath = cellImage.localThumbPath {
             // println("image local path is :  \(lPath)")
             let fileManager = NSFileManager.defaultManager()
             if fileManager.fileExistsAtPath(lPath) {
-                // println("FILE AVAILABLE");
                 cell.mImageView.image = UIImage(named: lPath)
                 activityIndicator.stopAnimating()
                 activityIndicator.removeFromSuperview()
             }
             else {
-                // println("FILE NOT AVAILABLE");
                 self.loadImageFromWeb(url!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
             }
         } else {
@@ -63,12 +62,12 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     }
     
     // programmatically set the cell's size
+    // be carefull here
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
             let screenSize: CGRect = UIScreen.mainScreen().bounds
             let screenWidth = screenSize.width;
             let screenHeight = screenSize.height;
-            
             return CGSize(width: screenWidth/2-5, height: screenWidth/2-5)
     }
     
@@ -79,20 +78,19 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "observationDetailSegue" {
             let destinationVC = segue.destinationViewController as UINavigationController
-            let indexPath = self.observationCV.indexPathForCell(sender as HomeCell)
-            let selectedCell = celldata[indexPath!.row]
             let detailVC = destinationVC.topViewController as ObservationDetailController
-            detailVC.receivedCellData = selectedCell
-        }
 
+            if self.cameraImage != nil {
+                detailVC.imageFromCamera = self.cameraImage!
+            } else {
+                let indexPath = self.observationCV.indexPathForCell(sender as HomeCell)
+                let selectedCell = celldata[indexPath!.row]
+                detailVC.mediaIdFromObservations = selectedCell.uid
+            }
+        }
     }
     
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        println("Image selected")
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    // IBAction for exit
+    // IBAction for exit in observation detail page
     @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -101,81 +99,74 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         
     }
     
-    var picker:UIImagePickerController?=UIImagePickerController()
-    var popover:UIPopoverController?=nil
     @IBAction func pickImage(sender: AnyObject) {
-        var image = UIImagePickerController()
-        image.delegate = self
-        image.sourceType = UIImagePickerControllerSourceType.Camera
-//        image.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
-        image.allowsEditing = false
-        self.presentViewController(image, animated: true, completion: nil)
+        var picker:UIImagePickerController = UIImagePickerController()
+        var popover:UIPopoverController?
+
+        var alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-//        var alert:UIAlertController=UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-//        
-//        var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default)
-//            {
-//                UIAlertAction in
-//                self.openCamera()
-//                
-//        }
-//        var gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default)
-//            {
-//                UIAlertAction in
-//                self.openGallary()
-//        }
-//        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
-//            {
-//                UIAlertAction in
-//                
-//        }
-//        // Add the actions
-//        alert.addAction(cameraAction)
-//        alert.addAction(gallaryAction)
-//        alert.addAction(cancelAction)
-//        // Present the actionsheet
-//        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
-//        {
-//            self.presentViewController(alert, animated: true, completion: nil)
-//        }
-//        else
-//        {
-//            popover=UIPopoverController(contentViewController: alert)
-//            popover!.presentPopoverFromRect(cameraBtn.vie, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
-//        }
+        var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            self.openCamera(picker)
+        }
         
+        var gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            self.openGallary(picker)
+        }
+        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            UIAlertAction in
+            self.imagePickerControllerDidCancel(picker)
+        }
+        
+        // Add the actions
+        alert.addAction(cameraAction)
+        alert.addAction(gallaryAction)
+        alert.addAction(cancelAction)
+        // Present the actionsheet
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else {
+            popover = UIPopoverController(contentViewController: alert)
+            // popover!.presentPopoverFromRect(cameraBtn.vie, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        }
     }
     
-//    func openCamera()
-//    {
-//        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
-//        {
-//            picker!.sourceType = UIImagePickerControllerSourceType.Camera
-//            self.presentViewController(picker!, animated: true, completion: nil)
-//        }
-//        else
-//        {
-//            openGallary()
-//        }
-//    }
-//    func openGallary()
-//    {
-//        picker!.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-//        if UIDevice.currentDevice().userInterfaceIdiom == .Phone
-//        {
-//            self .presentViewController(picker!, animated: true, completion: nil)
-//        }
-//        else
-//        {
-//            popover=UIPopoverController(contentViewController: picker!)
-//            popover!.presentPopoverFromRect(cameraBtn.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
-//        }
-//        
-//    }
-//    func imagePickerControllerDidCancel(picker: UIImagePickerController!)
-//    {
-//        println("picker cancel.")
-//    }
+    func openCamera(picker: UIImagePickerController!) {
+        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+            picker.sourceType = UIImagePickerControllerSourceType.Camera
+            self.presentViewController(picker, animated: true, completion: nil)
+        } else {
+            openGallary(picker)
+        }
+    }
+
+    func openGallary(picker: UIImagePickerController!) {
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(picker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        println("picker cancel.")
+    }
+    
+    // after picking or taking a photo didFinishPickingMediaWithInfo
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.performSegueWithIdentifier("observationDetailSegue", sender: self)
+//        var obscell = ObservationCell(url: nil, id: 0, state: NNModel.STATE.NEW, modifiedAt: 0)
+//        celldata.append(obscell)
+    }
+    
+    // implement later if it is needed
+    func getLocaitonFromPhoto(info: [NSObject : AnyObject]) {
+
+    }
+    
     // load data for this collectionview
     func loadData() {
         if !Session.isSignedIn() {
@@ -186,7 +177,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
             for note in notes {
                 var mNote = note as Note
                 var medias = mNote.getMedias()
-                println("you have \(medias.count) medias")
+                // println("you have \(medias.count) medias")
                 for media in medias {
                     var mMedia = media as Media
                     // println("in obs: \(mMedia.toString())")

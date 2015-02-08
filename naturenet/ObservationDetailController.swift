@@ -15,8 +15,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var imageLoadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var detailTableView: UITableView!
     
-    // data
-    var receivedCellData: ObservationCell?
+    // data passed from previous page
+    var mediaIdFromObservations: Int?
+    var imageFromCamera: UIImage?
     var noteMedia: Media?
     var note: Note?
     var activities = [Context]()
@@ -119,18 +120,21 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         loadContexts()
         
         // load note informaiton, e.g. description/media image
-        var mediaUID = receivedCellData!.uid as Int
-        self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
-        self.note = noteMedia?.getNote()
-        details[0] = note!.content
-        var noteActivity = note!.context
-        details[1] = noteActivity.title
-        loadFullImage(noteMedia!.url)
-        // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
-        
-        // load note location info
-        var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
-        details[2] = landmarkTitle
+        if let mediaUID = self.mediaIdFromObservations {
+            self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
+            self.note = noteMedia?.getNote()
+            details[0] = note!.content
+            var noteActivity = note!.context
+            details[1] = noteActivity.title
+            loadFullImage(noteMedia!.url)
+            // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
+            // load note location info
+            var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
+            details[2] = landmarkTitle
+        } else if self.imageFromCamera != nil {
+            self.noteImageView.image = self.imageFromCamera!
+        }
+
     }
     
     //----------------------------------------------------------------------------------------------
