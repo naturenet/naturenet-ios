@@ -25,14 +25,13 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
     
     // tableview data
     var titles = ["Description", "Activity", "Location"]
-    var details = ["Description", "Free Observation", "Other"]
+    var details = ["", "Free Observation", "Other"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         loadData()
         self.detailTableView.reloadData()
-        imageLoadingIndicator.startAnimating()
     }
 
     override func didReceiveMemoryWarning() {
@@ -114,6 +113,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         self.detailTableView.reloadData()
     }
     
+    
+    
     // load data for this view
     func loadData() {
         // load landmarks and activities (type: Context)
@@ -126,6 +127,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
             details[0] = note!.content
             var noteActivity = note!.context
             details[1] = noteActivity.title
+            imageLoadingIndicator.startAnimating()
             loadFullImage(noteMedia!.url)
             // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
             // load note location info
@@ -133,6 +135,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
             details[2] = landmarkTitle
         } else if self.imageFromCamera != nil {
             self.noteImageView.image = self.imageFromCamera!
+            imageLoadingIndicator.stopAnimating()
+            imageLoadingIndicator.removeFromSuperview()
         }
 
     }

@@ -426,7 +426,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                     </mask>
                                 </variation>
                             </toolbar>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Osk-2U-4DF">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Osk-2U-4DF">
                                 <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="ZjZ-3V-sXv">
@@ -481,7 +481,6 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                         <connections>
                                             <outlet property="mImageView" destination="5rb-GU-7Yp" id="mHl-Vj-fSr"/>
                                             <outlet property="mLabel" destination="iY7-42-Vja" id="gTf-nm-fXM"/>
-                                            <segue destination="ZPd-cN-Nid" kind="presentation" identifier="observationDetailSegue" id="vCu-kS-MiK"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -522,6 +521,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     <connections>
                         <outlet property="cameraBtn" destination="dLT-iw-1CE" id="K9z-es-mu7"/>
                         <outlet property="observationCV" destination="Osk-2U-4DF" id="U81-OL-zwd"/>
+                        <segue destination="ZPd-cN-Nid" kind="presentation" identifier="observationDetailSegue" id="9fM-BX-mmO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UFS-jY-fex" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -75,6 +75,10 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         return 1
     }
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("observationDetailSegue", sender: indexPath)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "observationDetailSegue" {
             let destinationVC = segue.destinationViewController as UINavigationController
@@ -83,8 +87,9 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
             if self.cameraImage != nil {
                 detailVC.imageFromCamera = self.cameraImage!
             } else {
-                let indexPath = self.observationCV.indexPathForCell(sender as HomeCell)
-                let selectedCell = celldata[indexPath!.row]
+                // let indexPath = self.observationCV.indexPathForCell(sender as HomeCell)
+                var indexPath = sender as NSIndexPath
+                let selectedCell = celldata[indexPath.row]
                 detailVC.mediaIdFromObservations = selectedCell.uid
             }
         }
@@ -101,6 +106,8 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     
     @IBAction func pickImage(sender: AnyObject) {
         var picker:UIImagePickerController = UIImagePickerController()
+        // remember to assign delegate to self
+        picker.delegate = self
         var popover:UIPopoverController?
 
         var alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
@@ -158,6 +165,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("observationDetailSegue", sender: self)
+        
 //        var obscell = ObservationCell(url: nil, id: 0, state: NNModel.STATE.NEW, modifiedAt: 0)
 //        celldata.append(obscell)
     }
