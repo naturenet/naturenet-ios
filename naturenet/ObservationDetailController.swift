@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ObservationDetailController: UIViewController, UITableViewDelegate {
+class ObservationDetailController: UIViewController, UITableViewDelegate, CLLocationManagerDelegate {
 
     // UI Outlets
     @IBOutlet weak var noteImageView: UIImageView!
     @IBOutlet weak var imageLoadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var detailTableView: UITableView!
+    
+    let locationManager = CLLocationManager()
     
     // data passed from previous page
     var mediaIdFromObservations: Int?
@@ -22,6 +25,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
     var note: Note?
     var activities = [Context]()
     var landmarks = [Context]()
+    var userLat: CLLocationDegrees?
+    var userLon: CLLocationDegrees?
+    
     
     // tableview data
     var titles = ["Description", "Activity", "Location"]
@@ -32,6 +38,10 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         // Do any additional setup after loading the view.
         loadData()
         self.detailTableView.reloadData()
+        // only request location on new observation
+        if imageFromCamera != nil {
+            initLocationManager()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -113,7 +123,46 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
         self.detailTableView.reloadData()
     }
     
+    //----------------------------------------------------------------------------------------------
+    // initialize locationManager
+    func initLocationManager() {
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.startUpdatingLocation()
+    }
     
+    // implement location didUpdataLocation
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        println("location is  \(locations)")
+        var userLocaiton: CLLocation = locations[0] as CLLocation
+        self.userLat = userLocaiton.coordinate.latitude
+        self.userLon = userLocaiton.coordinate.longitude
+        self.locationManager.stopUpdatingLocation()
+    }
+    
+    // implement location didFailWithError
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        println(error)
+    }
+    
+    //----------------------------------------------------------------------------------------------
+    // save note
+    func saveNote() {
+        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
+        if imageFromCamera != nil {
+            
+        }
+    }
+    
+    // update note 
+    func updateNote() {
+        self.note?.content = details[1]
+    }
+    
+    //----------------------------------------------------------------------------------------------
+    // some utility functions
     
     // load data for this view
     func loadData() {
@@ -138,11 +187,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate {
             imageLoadingIndicator.stopAnimating()
             imageLoadingIndicator.removeFromSuperview()
         }
-
+        
     }
-    
-    //----------------------------------------------------------------------------------------------
-    // some utility functions
     
     // initialize self.activities and self.landmarks
     func loadContexts() {

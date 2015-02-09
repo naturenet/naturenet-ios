@@ -536,54 +536,16 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading" id="kbN-JG-P1u">
-                            <rect key="frame" x="0.0" y="64" width="600" height="197"/>
+                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="kbN-JG-P1u">
+                            <rect key="frame" x="0.0" y="64" width="600" height="321"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <view key="tableFooterView" contentMode="scaleToFill" id="P7e-ZQ-aBE">
                             <rect key="frame" x="0.0" y="505.5" width="600" height="61"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSL-p3-QJ0">
-                                    <rect key="frame" x="50" y="15" width="48" height="30"/>
-                                    <state key="normal" title="Cancel">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ntN-FW-nF6">
-                                    <rect key="frame" x="501" y="15" width="49" height="30"/>
-                                    <state key="normal" title="Submit">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                            </subviews>
                             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                            <constraints>
-                                <constraint firstItem="ntN-FW-nF6" firstAttribute="baseline" secondItem="qSL-p3-QJ0" secondAttribute="baseline" id="Wda-My-zHx"/>
-                                <constraint firstAttribute="trailing" secondItem="ntN-FW-nF6" secondAttribute="trailing" constant="50" id="b3c-YE-aeD"/>
-                                <constraint firstAttribute="centerY" secondItem="qSL-p3-QJ0" secondAttribute="centerY" id="cWC-cK-YPM"/>
-                                <constraint firstItem="qSL-p3-QJ0" firstAttribute="leading" secondItem="P7e-ZQ-aBE" secondAttribute="leading" constant="50" id="pjA-yo-NkR"/>
-                            </constraints>
                         </view>
                         <sections>
-                            <tableViewSection headerTitle="Description" id="uAL-1b-nNp">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="80" id="viC-pQ-d6h">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="viC-pQ-d6h" id="xfM-qT-YeO">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oG6-Am-hmS">
-                                                    <rect key="frame" x="0.0" y="5" width="600" height="75"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection id="Iah-wC-wvZ">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="7U8-vc-El2" detailTextLabel="wZA-hV-cBY" style="IBUITableViewCellStyleValue1" id="kvc-CR-juq">
@@ -591,7 +553,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kvc-CR-juq" id="lhk-mS-rrn">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Activity" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7U8-vc-El2">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7U8-vc-El2">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -611,7 +573,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mg4-uv-Okq" id="4BB-P0-bit">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PaI-Fo-sAG">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Activity" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PaI-Fo-sAG">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -621,6 +583,26 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="eDm-qD-YLr" detailTextLabel="6cu-sH-BPP" style="IBUITableViewCellStyleValue1" id="SWE-TB-lhc">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SWE-TB-lhc" id="IGU-8z-Izp">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eDm-qD-YLr">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6cu-sH-BPP">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -637,7 +619,6 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     <navigationItem key="navigationItem" title="Title" id="P1L-xS-dFZ"/>
                     <connections>
                         <outlet property="activitySelectionLabel" destination="wZA-hV-cBY" id="2ni-Og-tXv"/>
-                        <outlet property="descriptionView" destination="oG6-Am-hmS" id="DbP-ek-9Zg"/>
                         <outlet property="locationSelectionLabel" destination="80m-dP-zFf" id="bYq-3o-cSE"/>
                         <outlet property="noteImageView" destination="kbN-JG-P1u" id="ph3-aw-qZt"/>
                     </connections>
@@ -972,7 +953,4 @@ A longer version of this consent form is available [at the ACES front desk/from 
             <point key="canvasLocation" x="2177" y="-2083"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="loading" width="128" height="128"/>
-    </resources>
 </document>

@@ -36,5 +36,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>User your location to determine POI</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Use your location to determine POI</string>
 </dict>
 </plist>
