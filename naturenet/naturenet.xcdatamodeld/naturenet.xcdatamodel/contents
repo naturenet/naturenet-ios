@@ -42,6 +42,7 @@
     </entity>
     <entity name="Media" representedClassName="Media" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="full_path" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="note_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -90,7 +91,7 @@
         <element name="Account" positionX="-153" positionY="-297" width="128" height="210"/>
         <element name="Context" positionX="-378" positionY="-313" width="128" height="223"/>
         <element name="Feedback" positionX="-56" positionY="-19" width="128" height="208"/>
-        <element name="Media" positionX="-65" positionY="209" width="128" height="178"/>
+        <element name="Media" positionX="-65" positionY="209" width="128" height="193"/>
         <element name="Note" positionX="-360" positionY="-34" width="128" height="268"/>
         <element name="Session" positionX="196" positionY="-189" width="128" height="103"/>
         <element name="Site" positionX="-351" positionY="-585" width="128" height="193"/>

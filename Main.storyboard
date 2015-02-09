@@ -521,14 +521,14 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     <connections>
                         <outlet property="cameraBtn" destination="dLT-iw-1CE" id="K9z-es-mu7"/>
                         <outlet property="observationCV" destination="Osk-2U-4DF" id="U81-OL-zwd"/>
-                        <segue destination="ZPd-cN-Nid" kind="presentation" identifier="observationDetailSegue" id="9fM-BX-mmO"/>
+                        <segue destination="ZPd-cN-Nid" kind="presentation" identifier="observationDetailSegue" id="xrk-nU-TrO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UFS-jY-fex" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1421" y="-1943"/>
+            <point key="canvasLocation" x="1366" y="-2200"/>
         </scene>
-        <!--Title-->
+        <!--Observation-->
         <scene sceneID="eNB-Kf-sha">
             <objects>
                 <tableViewController id="G2L-CF-kVP" customClass="ObservationDetailController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
@@ -536,16 +536,22 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="kbN-JG-P1u">
-                            <rect key="frame" x="0.0" y="64" width="600" height="321"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="P7e-ZQ-aBE">
-                            <rect key="frame" x="0.0" y="505.5" width="600" height="61"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        </view>
                         <sections>
+                            <tableViewSection id="K0M-AT-Hk1">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="145" id="LyZ-HL-DYd">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LyZ-HL-DYd" id="5sH-iR-KKo">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kbN-JG-P1u">
+                                                    <rect key="frame" x="0.0" y="-138" width="600" height="321"/>
+                                                </imageView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="Iah-wC-wvZ">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="7U8-vc-El2" detailTextLabel="wZA-hV-cBY" style="IBUITableViewCellStyleValue1" id="kvc-CR-juq">
@@ -616,11 +622,19 @@ A longer version of this consent form is available [at the ACES front desk/from 
                             <outlet property="delegate" destination="G2L-CF-kVP" id="TUY-aQ-KV7"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Title" id="P1L-xS-dFZ"/>
+                    <navigationItem key="navigationItem" title="Observation" id="P1L-xS-dFZ">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="PAr-vh-8qy"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="k4p-Jb-YWX"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="DescriptionLabel" destination="wZA-hV-cBY" id="4fN-d5-3U5"/>
+                        <outlet property="activityLabel" destination="6cu-sH-BPP" id="Vjk-lT-9Ty"/>
                         <outlet property="activitySelectionLabel" destination="wZA-hV-cBY" id="2ni-Og-tXv"/>
+                        <outlet property="descriptionLabel" destination="wZA-hV-cBY" id="b9i-EB-dcV"/>
+                        <outlet property="locationLabel" destination="6cu-sH-BPP" id="Sg4-z0-Yej"/>
                         <outlet property="locationSelectionLabel" destination="80m-dP-zFf" id="bYq-3o-cSE"/>
-                        <outlet property="noteImageView" destination="kbN-JG-P1u" id="ph3-aw-qZt"/>
+                        <outlet property="noteImageView" destination="kbN-JG-P1u" id="ajs-hj-1MK"/>
+                        <outlet property="obsDescription" destination="wZA-hV-cBY" id="SCk-iR-VW5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cp6-kl-6MX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -704,7 +718,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                 <rect key="frame" x="281" y="179" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="45" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="biu-MC-PED">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="45" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="biu-MC-PED">
                                 <rect key="frame" x="0.0" y="327" width="600" height="253"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>

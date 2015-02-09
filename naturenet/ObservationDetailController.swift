@@ -152,8 +152,18 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
         var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
         if imageFromCamera != nil {
-            
+            mNote.longitude = self.userLon!
+            mNote.latitude = self.userLat!
         }
+        var account = Session.getAccount()
+        mNote.account = account!
+        mNote.kind = "FieldNote"
+        mNote.content = details[0]
+        
+       
+        UIImageWriteToSavedPhotosAlbum(self.imageFromCamera!, nil, nil, nil)
+        var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as Media
+        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
     }
     
     // update note 

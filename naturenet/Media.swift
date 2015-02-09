@@ -13,6 +13,7 @@ import CoreData
 class Media: NNModel {
     
     @NSManaged var thumb_path: String?
+    @NSManaged var full_path: String?
     @NSManaged var note_id: NSNumber
     @NSManaged var title: String
     @NSManaged var url: String
@@ -43,6 +44,13 @@ class Media: NNModel {
         let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         self.thumb_path = path
         self.setValue(path, forKey: "thumb_path")
+        SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+    }
+    
+    func setLocalFullPath(path: String) {
+        let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        self.full_path = path
+        self.setValue(path, forKey: "full_path")
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
     }
 }

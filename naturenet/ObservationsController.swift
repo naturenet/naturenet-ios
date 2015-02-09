@@ -224,7 +224,8 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     
     func saveImage(cellImage: ObservationCell, data: NSData) {
         var fileName = String(cellImage.modifiedAt) + ".jpg"
-        var tPath: String = cellImage.saveToDocumentDirectory(data, name: fileName)!
+        var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
+        cellImage.localThumbPath = tPath
         if let tMedia = NNModel.doPullByUIDFromCoreData("Media", uid: cellImage.uid) as Media? {
             tMedia.setLocalThumbPath(tPath)
         }
@@ -277,7 +278,7 @@ class ObservationCell {
     }
     
     // save to local document directory
-    func saveToDocumentDirectory(data: NSData, name: String) -> String?  {
+    class func saveToDocumentDirectory(data: NSData, name: String) -> String?  {
         var documentDirectory: String?
         var savedPath: String?
         
@@ -287,12 +288,10 @@ class ObservationCell {
         if paths.count > 0 {
             documentDirectory = paths[0] as? String
             savedPath = documentDirectory! + "/\(name)"
-            // println("saved path is \(savedPath)")
             NSFileManager.defaultManager().createFileAtPath(savedPath!, contents: data, attributes: nil)
         }
-        localThumbPath = savedPath
+//        localThumbPath = savedPath
         return savedPath
-        
     }
 
 }

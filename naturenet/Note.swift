@@ -61,6 +61,11 @@ class Note: NNModel {
         return self
     }
     
+    // doCommitChildren
+    override func doCommitChildren() {
+        
+    }
+    
     // give a new note update local
     func updateNote(mNote: NSDictionary) {
         self.setValue(mNote["modified_at"] as Int, forKey: "modified_at")
@@ -87,7 +92,7 @@ class Note: NNModel {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as Note
         note.parseNoteJSON(mNote as NSDictionary)
-        println("note with \(note.uid) is: { \(note.toString()) }")
+        println("note with \(note.uid) is: { \(note.toString()) } is saved")
         SwiftCoreDataHelper.saveManagedObjectContext(context)
         note.commit()
         return note
