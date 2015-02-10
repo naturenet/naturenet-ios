@@ -8,14 +8,23 @@
 
 import UIKit
 
-class ObservationsController: UIViewController, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate  {
-    
+class ObservationsController: UIViewController, UICollectionViewDelegate, UINavigationControllerDelegate,
+                                UIImagePickerControllerDelegate, APIControllerProtocol  {
+    // UI Outlets
     @IBOutlet weak var observationCV: UICollectionView!
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
     
+    // data
+    var apiService = APIService()
     var celldata = [ObservationCell]()
     var cameraImage: UIImage?
-
+    
+    // data received after clicking "send" from ObservationDetailController 
+    // values set in saveObservationDetail()
+    var receivedNoteFromObservation: Note?
+    var receivedMediaFromObservation: Media?
+    var receivedFeedbackFromObservation: Feedback?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -25,6 +34,34 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // after post
+    func didReceiveResults(from: String, response: NSDictionary) -> Void {
+//        println("from: \(from) response: \(response)")
+        var uid = response["data"]!["id"] as Int
+        if from == "POST_" + NSStringFromClass(Note) {
+            self.receivedNoteFromObservation?.updateAfterPost(uid)
+            self.receivedNoteFromObservation?.doPushMedias(apiService)
+//            receivedNoteFromObservation?.doPushChilren(apiService)
+            println("now after post_note")
+        }
+        if from == "POST_" + NSStringFromClass(Media) {
+            if self.receivedMediaFromObservation != nil {
+            self.receivedMediaFromObservation!.updateAfterPost(uid)
+            self.receivedNoteFromObservation?.doPushFeedbacks(apiService)
+            println("now after post_media")
+
+            }
+        }
+        if from == "POST_" + NSStringFromClass(Feedback) {
+            if self.receivedFeedbackFromObservation != nil {
+                self.receivedFeedbackFromObservation!.updateAfterPost(uid)
+                // receivedNoteFromObservation?.doPushFeedbacks(apiService)
+                println("now after post_feedback")
+
+            }
+        }
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -103,11 +140,11 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
         let originVC = segue.sourceViewController as ObservationDetailController
         if originVC.imageFromCamera != nil {
-            var mNote = originVC.saveNote()
-            var apiService = APIService()
-            var url = APIAdapter.api.getCreateNoteLink(Session.getAccount()!.username)
-            var params = ["kind": mNote.kind, "content": mNote.content, "context": mNote.context.name] as Dictionary<String, Any>
-            apiService.post(params, url: url)
+            apiService.delegate = self
+            self.receivedNoteFromObservation = originVC.saveNote()
+            self.receivedNoteFromObservation!.doPushNew(apiService)
+            self.receivedMediaFromObservation = originVC.noteMedia
+            self.receivedFeedbackFromObservation = originVC.feedback
         }
         dismissViewControllerAnimated(true, completion: nil)
     }

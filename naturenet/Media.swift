@@ -8,9 +8,10 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(Media)
-class Media: NNModel {
+class Media: NNModel, CLUploaderDelegate {
     
     @NSManaged var thumb_path: String?
     @NSManaged var full_path: String?
@@ -19,7 +20,9 @@ class Media: NNModel {
     @NSManaged var url: String
     @NSManaged var note: Note
     
-
+    var cloudinary:CLCloudinary = CLCloudinary()
+    var apiService: APIService?
+    
     func parseMediaJSON(media: NSDictionary) {
         self.uid = media["id"] as Int
         self.url = media["link"] as String
@@ -52,5 +55,37 @@ class Media: NNModel {
         self.full_path = path
         self.setValue(path, forKey: "full_path")
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+    }
+    
+    override func doPushNew(apiService: APIService) {
+        self.apiService = apiService
+        self.uploadToCloudinary()
+    }
+    
+    //----------------------------------------------------------------------------------------------
+    // cloudinary
+    func uploadToCloudinary(){
+        var image = UIImage(named: self.full_path!)
+        let forUpload = UIImagePNGRepresentation(image) as NSData
+        cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
+        cloudinary.config().setValue("893246586645466", forKey: "api_key")
+        cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
+        let uploader = Wrappy.create(cloudinary, delegate: self)
+        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+    }
+    
+    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        let publicId = successResult["public_id"] as String
+        self.url = successResult["url"] as String
+        println("cloudinary id is: \(publicId)")
+        // push media after cloudinary is finished
+        var posturl = APIAdapter.api.getCreateMediaLink(self.note.uid.integerValue)
+//        var urlArr = split(self.url) {$0 == "/"}
+        var params = ["link": publicId] as Dictionary<String, Any>
+        self.apiService!.post(NSStringFromClass(Media), params: params, url: posturl)
+    }
+    
+    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
+        //do any progress update you may need
     }
 }

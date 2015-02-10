@@ -70,11 +70,12 @@ class Note: NNModel {
     func updateNote(mNote: NSDictionary) {
         self.setValue(mNote["modified_at"] as Int, forKey: "modified_at")
         self.setValue(mNote["content"] as String, forKey: "content")
-        var contextID = mNote["context"]!["id"] as Int
-        self.setValue(contextID, forKey: "contextID")
+        if let contextID = mNote["context"]!["id"] as? Int {
+            self.setValue(contextID, forKey: "context_id")
+            var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
+            self.setValue(context, forKey: "context")
+        }
         self.setValue(STATE.DOWNLOADED, forKey: "state")
-        var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
-        self.setValue(context, forKey: "context")
     }
     
     // determine a note in local core data whether is up to date 
@@ -105,7 +106,6 @@ class Note: NNModel {
             var media =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: context) as Media
             media.parseMediaJSON(mediaDict as NSDictionary)
             media.note = self
-//            println("media with note \(media.note.uid) is: { \(media.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
         }
     }
@@ -137,6 +137,16 @@ class Note: NNModel {
         return results
     }
     
+    // get a single media from this note
+    func getSingleMedia() -> Media? {
+        var media: Media?
+        var medias = getMedias() as [Media]
+        if medias.count > 0 {
+            media = medias[0]
+        }
+        return media
+    }
+    
     // given a note id, get feedbacks from core data
     func getFeedbacks() -> NSArray {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
@@ -145,6 +155,43 @@ class Note: NNModel {
         request.predicate = NSPredicate(format: "note = %@", self.objectID)
         var results: NSArray = context.executeFetchRequest(request, error: nil)!
         return results
+    }
+    
+    // push a new note to remote server as HTTP post
+    // returned JSON will be sent to apiService's delegate: ObservationsController
+    override func doPushNew(apiService: APIService) -> Void {
+        var url = APIAdapter.api.getCreateNoteLink(Session.getAccount()!.username)
+        var params = ["kind": self.kind, "content": self.content, "context": self.context.name,
+                        "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
+        apiService.post(NSStringFromClass(Note), params: params, url: url)
+//        doPushChilren(apiService)
+        doPushMedias(apiService)
+    }
+    
+    func doPushMedias(apiService: APIService) {
+        for media in getMedias() {
+            let noteMedia = media as Media
+            noteMedia.doPushNew(apiService)
+        }
+    }
+    
+    func doPushFeedbacks(apiService: APIService) {
+        for feedback in getFeedbacks() {
+            let noteFeedback = feedback as Feedback
+            noteFeedback.doPushNew(apiService)
+        }
+    }
+    
+    
+    override func doPushChilren(apiService: APIService) {
+        for media in getMedias() {
+            let noteMedia = media as Media
+            noteMedia.doPushNew(apiService)
+        }
+        for feedback in getFeedbacks() {
+            let noteFeedback = feedback as Feedback
+            noteFeedback.doPushNew(apiService)
+        }
     }
     
     // toString testing purpose

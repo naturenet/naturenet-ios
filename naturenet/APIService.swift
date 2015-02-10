@@ -39,22 +39,23 @@ class APIService {
         task.resume()
     }
 
-    func post(params : Dictionary<String, Any>, url: String) {
+    // send a http post request
+    func post(from: String, params : Dictionary<String, Any>, url: String) {
+        var source: String = "POST_" + from
         var request = NSMutableURLRequest(URL: NSURL(string: url)!)
         var session = NSURLSession.sharedSession()
         request.HTTPMethod = "POST"
-        println("params is \(params)")
         var httpBody = paramsToHttpBody(params)
-        println("httpbody is \(httpBody)")
+//        println("httpbody is \(httpBody)")
         request.HTTPBody = httpBody.dataUsingEncoding(NSUTF8StringEncoding)
         var err: NSError?
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            println("Response: \(response)")
+            // println("Response: \(response)")
             var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
-            println("Body: \(strData)")
+            // println("Body: \(strData)")
             var err: NSError?
             var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
             
@@ -70,7 +71,8 @@ class APIService {
                 if let parseJSON = json {
                     // Okay, the parsedJSON is here, let's get the value for 'success' out of it
                     var success = parseJSON["status_code"] as? Int
-                    println("Succes: \(success)")
+                    // println("Succes: \(success)")
+                    self.delegate?.didReceiveResults(source, response: parseJSON)
                 }
                 else {
                     // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
@@ -83,6 +85,7 @@ class APIService {
         task.resume()
     }
    
+    // a general function to parse passed parameters to a HTTPPostBoby String
     func paramsToHttpBody(params: Dictionary<String, Any>) -> String {
         var paramBody: String = String()
         for (key, value) in params {

@@ -24,6 +24,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     var imageFromCamera: UIImage?
     var noteMedia: Media?
     var note: Note?
+    var feedback: Feedback?
     var activities = [Context]()
     var landmarks = [Context]()
     var userLat: CLLocationDegrees?
@@ -176,6 +177,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         media.full_path = fullPath
         media.created_at = createdAt
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+        self.noteMedia = media
     
         // save to Feedback
         var selectedLandmark = getLandmarkByName(details[2])!
@@ -186,6 +188,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         feedback.target_model = "Note"
         feedback.content = selectedLandmark.name
         feedback.created_at = createdAt
+        self.feedback = feedback
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
         
         return mNote
@@ -199,29 +202,20 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     
     //----------------------------------------------------------------------------------------------
     // cloudinary
-    func uploadToCloudinary() {
-        let fileId = "jxia/image/upload/test.jpg"
-        uploadToCloudinary(fileId)
-    }
-    
-    
-    func uploadToCloudinary(fileId:String){
+    func uploadToCloudinary(){
         let forUpload = UIImagePNGRepresentation(noteImageView.image) as NSData
         cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
         cloudinary.config().setValue("893246586645466", forKey: "api_key")
         cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
         let uploader = Wrappy.create(cloudinary, delegate: self)
-
-        
-        uploader.upload(forUpload, options: nil,
-            withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
         
     }
-    
+
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
-        let fileId = successResult["public_id"] as String
+        let publicId = successResult["public_id"] as String
         var url = successResult["url"] as String
-        println("cloudinary id is: \(fileId)")
+        println("cloudinary id is: \(publicId)")
     }
     
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
@@ -297,14 +291,13 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         var title: String?
         for feedback in feedbacks {
             // ?? not sure this is the right way to get landmark feedback
-            if feedback.kind == "Landmark" {
-                var landmarkFeedback = feedback as Feedback
-                for context in contexts {
-                    if feedback.content == context.name {
-                        title = context.title
-                    }
+            var landmarkFeedback = feedback as Feedback
+            for context in contexts {
+                if landmarkFeedback.content == context.name {
+                    title = context.title
                 }
             }
+            
         }
         return title
     }

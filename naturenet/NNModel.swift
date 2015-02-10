@@ -44,7 +44,6 @@ class NNModel: NSManagedObject {
 //        self.state = STATE.NEW
 //    }
     
-    
     // pull information from coredata
     class func doPullByNameFromCoreData(entityname: String, attr: String, name: String?) -> NNModel? {
         var model: NNModel?
@@ -82,21 +81,24 @@ class NNModel: NSManagedObject {
                 }
             }
         } else {
-            println("no site matched in doPullByNameFromCoreData")
+            println("no matched in doPullByUIDFromCoreData")
         }
         return model
     }
 
     
-    // pull information from coredata
-    class func doPullAllByEntityFromCoreData(entityname: String) -> NSArray {
+    func updateAfterPost(idFromServer: Int) {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let request = NSFetchRequest(entityName: entityname)
-        request.returnsDistinctResults = false
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
-        return results
+        state = STATE.SYNCED
+        uid = idFromServer
+        SwiftCoreDataHelper.saveManagedObjectContext(context)
+//         doPushChilren()
     }
+
+    func doPushNew(apiService: APIService) -> Void {}
     
+    func doPushChilren(apiService: APIService) {}
+
     func doUpdataState() {}
     
     func doCommitChildren() {}
