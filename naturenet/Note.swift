@@ -121,7 +121,7 @@ class Note: NNModel {
             //            feedback.target_id = self.objectID
             //        }
             feedback.target_model = "Note"
-            println("feedback with note \(feedback.note.uid) is: { \(feedback.toString()) }")
+            // println("feedback with note \(feedback.note.uid) is: { \(feedback.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
         }
 

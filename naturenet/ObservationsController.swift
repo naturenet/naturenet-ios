@@ -101,7 +101,15 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     }
     
     @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
-        
+        let originVC = segue.sourceViewController as ObservationDetailController
+        if originVC.imageFromCamera != nil {
+            var mNote = originVC.saveNote()
+            var apiService = APIService()
+            var url = APIAdapter.api.getCreateNoteLink(Session.getAccount()!.username)
+            var params = ["kind": mNote.kind, "content": mNote.content, "context": mNote.context.name] as Dictionary<String, Any>
+            apiService.post(params, url: url)
+        }
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func pickImage(sender: AnyObject) {

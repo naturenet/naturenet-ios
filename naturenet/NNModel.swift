@@ -39,6 +39,12 @@ class NNModel: NSManagedObject {
     
     }
     
+//    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+//        super.init(entity: entity, insertIntoManagedObjectContext: context?)
+//        self.state = STATE.NEW
+//    }
+    
+    
     // pull information from coredata
     class func doPullByNameFromCoreData(entityname: String, attr: String, name: String?) -> NNModel? {
         var model: NNModel?

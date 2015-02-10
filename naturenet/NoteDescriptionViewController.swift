@@ -27,7 +27,7 @@ class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidChange(textView: UITextView!) { //Handle the text changes here
-        
+        noteContent = noteDescriptionTextView.text
     }
     
     // MARK: - Navigation

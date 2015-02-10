@@ -29,4 +29,29 @@ class API {
     func getSiteLink(siteName: String) -> String {
         return root + "site/" + siteName + "/long"
     }
+    
+    // get createAccount api link
+    func getCreateAccountLink() -> String {
+        return root + "account/new/" 
+    }
+    
+    // get createNote api link
+    func getCreateNoteLink(username: String) -> String {
+        return root + "note/new/" + username
+    }
+    
+    // get updateNote api link
+    func getUpdateNoteLink(uid: Int) -> String {
+        return root + "note/\(uid)/update"
+    }
+    
+    // get create media api link
+    func getCreateMediaLink(uid: Int) -> String {
+        return root + "note/\(uid)/new/photo"
+    }
+    
+    // get create feedback api link
+    func getCreateFeedbackLink(kind: String, model: String, uid: Int, userName: String) -> String {
+        return root + "feedback/new/\(kind)/for/\(model)/\(uid)/by/\(userName)"
+    }
 }

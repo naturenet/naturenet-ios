@@ -782,7 +782,11 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                 <segue destination="NBQ-iu-W0H" kind="unwind" unwindAction="cancelToObservationsViewController:" id="frA-AD-HNL"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="WTd-D7-1qp"/>
+                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="WTd-D7-1qp">
+                            <connections>
+                                <segue destination="NBQ-iu-W0H" kind="unwind" unwindAction="saveObservationDetail:" id="K2J-Fy-6jV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="detailTableView" destination="biu-MC-PED" id="WUF-Jx-82h"/>

@@ -32,13 +32,13 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     
     // tableview data
     var titles = ["Description", "Activity", "Location"]
-    var details = ["", "Free Observation", "Other"]
+    var details = [" ", "Free Observation", "Other"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loadData()
         self.detailTableView.reloadData()
+        loadData()
         // only request location on new observation
         if imageFromCamera != nil {
             initLocationManager()
@@ -98,9 +98,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         let noteDescriptionVC = segue.sourceViewController as NoteDescriptionViewController
         if let desc = noteDescriptionVC.noteContent {
             details[0] = desc
+            self.detailTableView.reloadData()
         }
         self.navigationController?.popViewControllerAnimated(true)
-        self.detailTableView.reloadData()
     }
     
     
@@ -110,8 +110,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         if let activityTitle = noteActivitySelectionVC.selectedActivityTitle {
             details[1] = activityTitle
         }
-        self.navigationController?.popViewControllerAnimated(true)
         self.detailTableView.reloadData()
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     // receive data from activity selection
@@ -120,8 +120,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         if let locationTitle = noteLocationSelectionVC.selectedLocation {
             details[2] = locationTitle
         }
-        self.navigationController?.popViewControllerAnimated(true)
         self.detailTableView.reloadData()
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     //----------------------------------------------------------------------------------------------
@@ -149,7 +149,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     
     //----------------------------------------------------------------------------------------------
     // save note
-    func saveNote() {
+    func saveNote() -> Note {
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
         var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
         if imageFromCamera != nil {
@@ -164,28 +164,31 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         mNote.context = selectedActivity
         
         var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
-        mNote.created_at = NSNumber(unsignedLongLong: timestamp)
+        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        mNote.created_at = createdAt
         
         // save to Media
         var fileName = String(timestamp) + ".jpg"
-        UIImageWriteToSavedPhotosAlbum(self.imageFromCamera!, nil, nil, nil)
-        var fullPath = ObservationCell.saveToDocumentDirectory(UIImagePNGRepresentation(imageFromCamera), name: fileName)
+        UIImageWriteToSavedPhotosAlbum(self.noteImageView.image!, nil, nil, nil)
+        var fullPath = ObservationCell.saveToDocumentDirectory(UIImagePNGRepresentation(self.noteImageView.image), name: fileName)
         var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as Media
         media.note = mNote
         media.full_path = fullPath
+        media.created_at = createdAt
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
     
         // save to Feedback
-        var selectedLandmark = getLandmarkByName(details[2])
+        var selectedLandmark = getLandmarkByName(details[2])!
         var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as Feedback
         feedback.account = account!
         feedback.kind = "landmark"
         feedback.note = mNote
         feedback.target_model = "Note"
-        feedback.content = selectedActivity.name
+        feedback.content = selectedLandmark.name
+        feedback.created_at = createdAt
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
         
-        
+        return mNote
     }
     
     // update note 
