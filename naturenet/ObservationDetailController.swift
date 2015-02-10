@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ObservationDetailController: UIViewController, UITableViewDelegate, CLLocationManagerDelegate {
+class ObservationDetailController: UIViewController, UITableViewDelegate, CLLocationManagerDelegate, CLUploaderDelegate {
 
     // UI Outlets
     @IBOutlet weak var noteImageView: UIImageView!
@@ -17,6 +17,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     @IBOutlet weak var detailTableView: UITableView!
     
     let locationManager = CLLocationManager()
+    var cloudinary:CLCloudinary = CLCloudinary()
     
     // data passed from previous page
     var mediaIdFromObservations: Int?
@@ -159,17 +160,71 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         mNote.account = account!
         mNote.kind = "FieldNote"
         mNote.content = details[0]
+        var selectedActivity = getActivityByName(details[1])!
+        mNote.context = selectedActivity
         
-       
+        var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
+        mNote.created_at = NSNumber(unsignedLongLong: timestamp)
+        
+        // save to Media
+        var fileName = String(timestamp) + ".jpg"
         UIImageWriteToSavedPhotosAlbum(self.imageFromCamera!, nil, nil, nil)
+        var fullPath = ObservationCell.saveToDocumentDirectory(UIImagePNGRepresentation(imageFromCamera), name: fileName)
         var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as Media
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        media.note = mNote
+        media.full_path = fullPath
+        SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+    
+        // save to Feedback
+        var selectedLandmark = getLandmarkByName(details[2])
+        var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as Feedback
+        feedback.account = account!
+        feedback.kind = "landmark"
+        feedback.note = mNote
+        feedback.target_model = "Note"
+        feedback.content = selectedActivity.name
+        SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+        
+        
     }
     
     // update note 
     func updateNote() {
         self.note?.content = details[1]
     }
+    
+    
+    //----------------------------------------------------------------------------------------------
+    // cloudinary
+    func uploadToCloudinary() {
+        let fileId = "jxia/image/upload/test.jpg"
+        uploadToCloudinary(fileId)
+    }
+    
+    
+    func uploadToCloudinary(fileId:String){
+        let forUpload = UIImagePNGRepresentation(noteImageView.image) as NSData
+        cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
+        cloudinary.config().setValue("893246586645466", forKey: "api_key")
+        cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
+        let uploader = Wrappy.create(cloudinary, delegate: self)
+
+        
+        uploader.upload(forUpload, options: nil,
+            withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+        
+    }
+    
+    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        let fileId = successResult["public_id"] as String
+        var url = successResult["url"] as String
+        println("cloudinary id is: \(fileId)")
+    }
+    
+    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
+        //do any progress update you may need
+    }
+    
     
     //----------------------------------------------------------------------------------------------
     // some utility functions
@@ -249,6 +304,28 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             }
         }
         return title
+    }
+    
+    func getActivityByName(name: String) -> Context? {
+        var rActivity: Context?
+        for activity in activities {
+            if activity.title == name {
+                rActivity = activity
+                break
+            }
+        }
+        return rActivity
+    }
+    
+    func getLandmarkByName(name: String) -> Context? {
+        var rLandmark: Context?
+        for landmark in landmarks {
+            if landmark.title == name {
+                rLandmark = landmark
+                break
+            }
+        }
+        return rLandmark
     }
 
 }

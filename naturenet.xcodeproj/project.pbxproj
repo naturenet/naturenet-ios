@@ -22,7 +22,7 @@
 		FC1134C71A6430EF00D548E8 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134C41A6430EF00D548E8 /* API.swift */; };
 		FC1134C81A6430EF00D548E8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134C51A6430EF00D548E8 /* APIService.swift */; };
 		FC1134CB1A64310100D548E8 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134CA1A64310100D548E8 /* HomeCell.swift */; };
-		FC1134CE1A64317F00D548E8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC1134CD1A64317F00D548E8 /* CoreData.framework */; };
+		FC1134CE1A64317F00D548E8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC1134CD1A64317F00D548E8 /* CoreData.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		FC3EDBE81A678840008C0293 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3EDBE71A678840008C0293 /* Account.swift */; };
 		FC5BA3841A77FE1D0069D59F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3831A77FE1D0069D59F /* Note.swift */; };
 		FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */; };
@@ -37,6 +37,8 @@
 		FCA005491A832B010066686D /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005481A832B010066686D /* Feedback.swift */; };
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
 		FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317D91A887473003FC954 /* CoreLocation.framework */; };
+		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
+		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
 		FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D801A6F7BC30096D594 /* APIAdapter.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +87,15 @@
 		FCA005481A832B010066686D /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		FCD317D91A887473003FC954 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		FCD317EE1A892476003FC954 /* libCloudinary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCloudinary.a; path = ../../../../Downloads/cloudinary_ios_v1.0.12/libCloudinary.a; sourceTree = "<group>"; };
+		FCD317F11A8924E6003FC954 /* CLCloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCloudinary.h; sourceTree = "<group>"; };
+		FCD317F21A8924E6003FC954 /* CLEagerTransformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLEagerTransformation.h; sourceTree = "<group>"; };
+		FCD317F31A8924E6003FC954 /* Cloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cloudinary.h; sourceTree = "<group>"; };
+		FCD317F41A8924E6003FC954 /* CLTransformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLTransformation.h; sourceTree = "<group>"; };
+		FCD317F51A8924E6003FC954 /* CLUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLUploader.h; sourceTree = "<group>"; };
+		FCD318011A892E82003FC954 /* Wrappy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wrappy.h; sourceTree = "<group>"; };
+		FCD318021A892E98003FC954 /* Wrappy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wrappy.m; sourceTree = "<group>"; };
+		FCD318041A892F13003FC954 /* naturenet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "naturenet-Bridging-Header.h"; sourceTree = "<group>"; };
 		FCE67D801A6F7BC30096D594 /* APIAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +106,7 @@
 			files = (
 				FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */,
 				FC1134CE1A64317F00D548E8 /* CoreData.framework in Frameworks */,
+				FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +123,7 @@
 		FC1134871A642DD500D548E8 = {
 			isa = PBXGroup;
 			children = (
+				FCD317EE1A892476003FC954 /* libCloudinary.a */,
 				FCD317D91A887473003FC954 /* CoreLocation.framework */,
 				FC1134CD1A64317F00D548E8 /* CoreData.framework */,
 				FC1134921A642DD500D548E8 /* naturenet */,
@@ -131,6 +144,7 @@
 		FC1134921A642DD500D548E8 /* naturenet */ = {
 			isa = PBXGroup;
 			children = (
+				FCD317F01A8924E6003FC954 /* Cloudinary */,
 				FC5BA3851A7811200069D59F /* Helper */,
 				FC1134D31A643CCC00D548E8 /* dataModel */,
 				FC1134CC1A64314300D548E8 /* controllers */,
@@ -219,6 +233,21 @@
 				FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */,
 			);
 			name = cells;
+			sourceTree = "<group>";
+		};
+		FCD317F01A8924E6003FC954 /* Cloudinary */ = {
+			isa = PBXGroup;
+			children = (
+				FCD317F11A8924E6003FC954 /* CLCloudinary.h */,
+				FCD317F21A8924E6003FC954 /* CLEagerTransformation.h */,
+				FCD317F31A8924E6003FC954 /* Cloudinary.h */,
+				FCD317F41A8924E6003FC954 /* CLTransformation.h */,
+				FCD317F51A8924E6003FC954 /* CLUploader.h */,
+				FCD318011A892E82003FC954 /* Wrappy.h */,
+				FCD318021A892E98003FC954 /* Wrappy.m */,
+				FCD318041A892F13003FC954 /* naturenet-Bridging-Header.h */,
+			);
+			path = Cloudinary;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -346,6 +375,7 @@
 				FC5BA3891A7859400069D59F /* Media.swift in Sources */,
 				FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */,
 				FC031E581A833E71007F67D7 /* NoteLocationTableViewController.swift in Sources */,
+				FCD318031A892E98003FC954 /* Wrappy.m in Sources */,
 				FC1134C81A6430EF00D548E8 /* APIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +447,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -452,6 +483,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -461,12 +493,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = naturenet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jinyuexia/Downloads/cloudinary_ios_v1.0.12,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "naturenet/Cloudinary/naturenet-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -474,12 +513,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = naturenet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/jinyuexia/Downloads/cloudinary_ios_v1.0.12,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "naturenet/Cloudinary/naturenet-Bridging-Header.h";
 			};
 			name = Release;
 		};
