@@ -55,5 +55,15 @@ class SwiftCoreDataHelper {
         return items
     }
     
+    class func fetchEntitySingle(className:NSString, withPredicate predicate: NSPredicate?, managedObjectContext:NSManagedObjectContext) -> AnyObject? {
+        var entity: AnyObject?
+        var entities = fetchEntities(className, withPredicate: predicate, managedObjectContext:managedObjectContext)
+        if entities.count > 0 {
+            entity = entities[0] as AnyObject
+        }
+        
+        return entity
+    }
+    
 
 }

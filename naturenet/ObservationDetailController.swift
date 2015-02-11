@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 
 class ObservationDetailController: UIViewController, UITableViewDelegate, CLLocationManagerDelegate, CLUploaderDelegate {
 
@@ -20,7 +21,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     var cloudinary:CLCloudinary = CLCloudinary()
     
     // data passed from previous page
-    var mediaIdFromObservations: Int?
+    var mediaIdFromObservations: NSManagedObjectID?
     var imageFromCamera: UIImage?
     var noteMedia: Media?
     var note: Note?
@@ -234,8 +235,14 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         loadContexts()
         
         // load note informaiton, e.g. description/media image
-        if let mediaUID = self.mediaIdFromObservations {
-            self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
+        if let mediaObjectID = self.mediaIdFromObservations {
+//            self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
+            var predicate = NSPredicate(format: "SELF = %@", mediaObjectID)
+            if let nMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate,
+                managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as Media? {
+                   self.noteMedia = nMedia
+            }
+
             self.note = noteMedia?.getNote()
             details[0] = note!.content
             var noteActivity = note!.context

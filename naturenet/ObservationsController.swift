@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class ObservationsController: UIViewController, UICollectionViewDelegate, UINavigationControllerDelegate,
+class ObservationsController: UIViewController, UINavigationControllerDelegate,
                                 UIImagePickerControllerDelegate, APIControllerProtocol  {
     // UI Outlets
     @IBOutlet weak var observationCV: UICollectionView!
@@ -28,6 +29,10 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+//        observationCV.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -106,7 +111,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
                 // let indexPath = self.observationCV.indexPathForCell(sender as HomeCell)
                 var indexPath = sender as NSIndexPath
                 let selectedCell = celldata[indexPath.row]
-                detailVC.mediaIdFromObservations = selectedCell.uid
+                detailVC.mediaIdFromObservations = selectedCell.objectID
             }
         }
     }
@@ -121,11 +126,20 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         let originVC = segue.sourceViewController as ObservationDetailController
         if originVC.imageFromCamera != nil {
             apiService.delegate = self
+            
             self.receivedNoteFromObservation = originVC.saveNote()
-            self.receivedNoteFromObservation!.doPushNew(apiService)
             self.receivedMediaFromObservation = originVC.noteMedia
             self.receivedFeedbackFromObservation = originVC.feedback
-//            var newCell = ObservationCell(id: <#Int#>, state: <#Int#>, modifiedAt: <#Int#>)
+            var media = originVC.noteMedia
+            var newCell = ObservationCell(objectID: media!.objectID, state: media!.state.integerValue,
+                modifiedAt: media!.modified_at.integerValue)
+            newCell.localFullPath = media!.full_path
+            celldata.insert(newCell, atIndex: 0)
+            self.observationCV.reloadData()
+//            let indexPath = NSIndexPath(forRow: celldata.count-1, inSection: 0)
+//            observationCV.insertItemsAtIndexPaths([indexPath])
+            
+            self.receivedNoteFromObservation!.doPushNew(apiService)
         }
     }
     
@@ -182,6 +196,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
         println("picker cancel.")
     }
     
@@ -196,6 +211,11 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     func getLocaitonFromPhoto(info: [NSObject : AnyObject]) {
 
     }
+
+    
+    //----------------------------------------------------------------------------------------------
+    // some utility functions
+    //----------------------------------------------------------------------------------------------
     
     // load data for this collectionview
     func loadData() {
@@ -211,7 +231,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
                 for media in medias {
                     var mMedia = media as Media
                     // println("in obs: \(mMedia.toString())")
-                    var obscell = ObservationCell(id: mMedia.uid.integerValue,
+                    var obscell = ObservationCell(objectID: mMedia.objectID,
                         state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
                     if let tPath = mMedia.thumb_path {
                         obscell.localThumbPath = tPath
@@ -222,32 +242,30 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
                     if let mediaURL = mMedia.url {
                         obscell.imageURL = mediaURL
                     }
-                    celldata.append(obscell)
+                    // only the media has url && full_path && thumb_path can be
+                    if mMedia.url != nil {
+                        celldata.append(obscell)
+                    }
                 }
             }
             celldata.sort({$0.modifiedAt > $1.modifiedAt})
-            println("total notes: \(notes.count) total celldata: \(celldata.count)")
-
+//            println("total notes: \(notes.count) total celldata: \(celldata.count)")
         }
     }
     
-    //----------------------------------------------------------------------------------------------
-    // some utility functions
-    //----------------------------------------------------------------------------------------------
-    
     // if local thumbnail exists, show local thumbnail to each cell
     // else if local full path exists, show local full to each cell
-    // else if web nail exists, show web nail to each cell
+    // if both of them failed, try web nail and show web nail to each cell
     func showImageIntoCell(cellImage: ObservationCell, cell: HomeCell, indexPath: NSIndexPath) {
         cell.mLabel.text = cellImage.getStatus()
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         cell.addSubview(activityIndicator)
         activityIndicator.frame = cell.bounds
         activityIndicator.startAnimating()
+        let fileManager = NSFileManager.defaultManager()
         // println("haha, I am here again \(indexPath.row)th")
         if let lPath = cellImage.localThumbPath {
             // println("image local path is :  \(lPath)")
-            let fileManager = NSFileManager.defaultManager()
             if fileManager.fileExistsAtPath(lPath) {
                 cell.mImageView.image = UIImage(named: lPath)
                 activityIndicator.stopAnimating()
@@ -255,21 +273,25 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
                 return
             }
         } else if let fPath = cellImage.localFullPath {
-            // println("image local full path is :  \(fPath)")
-            let fileManager = NSFileManager.defaultManager()
+            println("image local full path is :  \(fPath)")
             if fileManager.fileExistsAtPath(fPath) {
+                // println("local full path exists")
                 cell.mImageView.image = UIImage(named: fPath)
                 activityIndicator.stopAnimating()
                 activityIndicator.removeFromSuperview()
                 return
             }
-        } else if let imageurl = cellImage.imageURL {
+        }
+        
+        if let imageurl = cellImage.imageURL {
+            // println("no local path exists")
             var url = cellImage.getThumbnailURL()
             let nsurl = NSURL(string: url)
             self.loadImageFromWeb(nsurl!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
         }
     }
     
+    // load iamge to cell and save the thumbnail file path
     func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
         let urlRequest = NSURLRequest(URL: url)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
@@ -292,12 +314,18 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         var fileName = String(cellImage.modifiedAt) + ".jpg"
         var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         cellImage.localThumbPath = tPath
-        if let tMedia = NNModel.doPullByUIDFromCoreData("Media", uid: cellImage.uid) as Media? {
-            tMedia.setLocalThumbPath(tPath)
+        var predicate = NSPredicate(format: "SELF = %@", cellImage.objectID)
+        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        if let nMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate, managedObjectContext: nsManagedContext) as Media? {
+            nMedia.setLocalThumbPath(tPath)
         }
+        
+//        if let tMedia = NNModel.doPullByObjcIDFromCoreData("Media", objectID: cellImage.uid) as Media? {
+//            tMedia.setLocalThumbPath(tPath)
+//        }
+        
     }
 }
-
 
 //----------------------------------------------------------------------------------------------
 // ObservationCell class
@@ -305,13 +333,13 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
 class ObservationCell {
     var modifiedAt: Int
     var state: Int
-    var uid: Int
+    var objectID: NSManagedObjectID
     var imageURL: String?
     var localThumbPath: String?
     var localFullPath: String?
     
-    init(id: Int, state: Int, modifiedAt: Int) {
-        self.uid = id
+    init(objectID: NSManagedObjectID, state: Int, modifiedAt: Int) {
+        self.objectID = objectID
         self.state = state
         self.modifiedAt = modifiedAt
     }
@@ -359,7 +387,7 @@ class ObservationCell {
             savedPath = documentDirectory! + "/\(name)"
             NSFileManager.defaultManager().createFileAtPath(savedPath!, contents: data, attributes: nil)
         }
-//        localThumbPath = savedPath
+//      localThumbPath = savedPath
         return savedPath
     }
 

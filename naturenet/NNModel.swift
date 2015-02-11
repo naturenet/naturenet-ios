@@ -82,6 +82,26 @@ class NNModel: NSManagedObject {
         }
         return model
     }
+    
+    // pull information from coredata
+    class func doPullByObjcIDFromCoreData(entityname: String, objectID: NSManagedObjectID) -> NNModel? {
+        var model: NNModel?
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let request = NSFetchRequest(entityName: entityname)
+        request.returnsDistinctResults = false
+        request.predicate = NSPredicate(format: "SELF = %@", objectID)
+        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        if results.count > 0 {
+            for res in results {
+                if let tModel = res as? NNModel {
+                    model = tModel
+                }
+            }
+        } else {
+            println("no matched in doPullByUIDFromCoreData")
+        }
+        return model
+    }
 
     // update remote uid and state
     func updateAfterPost(idFromServer: Int, modifiedAtFromServer: Int?) {
