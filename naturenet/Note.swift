@@ -63,7 +63,14 @@ class Note: NNModel {
     
     // doCommitChildren
     override func doCommitChildren() {
-        
+        for media in getMedias() {
+            let noteMedia = media as Media
+            noteMedia.commit()
+        }
+        for feedback in getFeedbacks() {
+            let noteFeedback = feedback as Feedback
+            noteFeedback.commit()
+        }
     }
     
     // give a new note update local
@@ -76,6 +83,8 @@ class Note: NNModel {
             self.setValue(context, forKey: "context")
         }
         self.setValue(STATE.DOWNLOADED, forKey: "state")
+        SwiftCoreDataHelper.saveManagedObjectContext(SwiftCoreDataHelper.nsManagedObjectContext)
+
     }
     
     // determine a note in local core data whether is up to date 
@@ -94,8 +103,8 @@ class Note: NNModel {
         var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as Note
         note.parseNoteJSON(mNote as NSDictionary)
         println("note with \(note.uid) is: { \(note.toString()) } is saved")
-        SwiftCoreDataHelper.saveManagedObjectContext(context)
         note.commit()
+        SwiftCoreDataHelper.saveManagedObjectContext(context)
         return note
     }
     
@@ -117,9 +126,9 @@ class Note: NNModel {
             var feedback =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: context) as Feedback
             feedback.parseFeedbackJSON(feedbackDict as NSDictionary)
             feedback.note = self
-            //        if feedbackJSON["parent_id"] as Int == 0 {
-            //            feedback.target_id = self.objectID
-            //        }
+//                    if feedbackJSON["parent_id"] as Int == 0 {
+//                        feedback.target_id = self.objectID
+//                    }
             feedback.target_model = "Note"
             // println("feedback with note \(feedback.note.uid) is: { \(feedback.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
@@ -182,7 +191,7 @@ class Note: NNModel {
         }
     }
     
-    
+    // pushing media and feedback not working well together
     override func doPushChilren(apiService: APIService) {
         for media in getMedias() {
             let noteMedia = media as Media

@@ -24,19 +24,16 @@ class NNModel: NSManagedObject {
     }
     
     func commit() -> Void {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         if (state == STATE.NEW || state == STATE.SAVED){
             state = STATE.SAVED
-            doUpdataState()
         } else if (state == STATE.SYNCED || state == STATE.MODIFIED){
             state = STATE.MODIFIED
-            doUpdataState()
         } else if (state == STATE.DOWNLOADED) {
-            resolveDependencies()
             state = STATE.SYNCED
-            doUpdataState()
         }
         doCommitChildren();
-    
+        SwiftCoreDataHelper.saveManagedObjectContext(context)
     }
     
 //    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
@@ -86,13 +83,15 @@ class NNModel: NSManagedObject {
         return model
     }
 
-    
-    func updateAfterPost(idFromServer: Int) {
+    // update remote uid and state
+    func updateAfterPost(idFromServer: Int, modifiedAtFromServer: Int?) {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         state = STATE.SYNCED
         uid = idFromServer
+        if modifiedAtFromServer != nil {
+            modified_at = modifiedAtFromServer!
+        }
         SwiftCoreDataHelper.saveManagedObjectContext(context)
-//         doPushChilren()
     }
 
     func doPushNew(apiService: APIService) -> Void {}

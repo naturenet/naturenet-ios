@@ -23,23 +23,6 @@ class Site: NNModel {
         parseService.getResponse(NSStringFromClass(Site), url: siteUrl)
     }
     
-    // save a new site in coredata
-    // @Deprecated
-    class func createInManagedObjectContext(name: String, uid: Int, description: String, imageURL: String) -> Site {
-        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let ent = NSEntityDescription.entityForName("Site", inManagedObjectContext: context)!
-        let newSite = Site(entity: ent, insertIntoManagedObjectContext: context)
-        newSite.created_at = NSDate().timeIntervalSince1970
-        newSite.name = name
-        newSite.uid = uid
-        newSite.site_description = description
-        newSite.image_url = imageURL
-        newSite.state = STATE.DOWNLOADED
-        context.save(nil)
-        println("newSite is : \(newSite)" + "Site entity is: \(newSite.toString())")
-        return newSite
-    }
-    
     // parse site JSON data
     func parseSiteJSON(data: NSDictionary) -> Site {
         self.created_at = NSDate().timeIntervalSince1970
@@ -66,9 +49,9 @@ class Site: NNModel {
             var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as Context
             mContext.parseContextJSON(tContext as NSDictionary)
             mContext.site_uid = self.uid
-            SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
             mContext.commit()
             self.contexts.addObject(mContext)
+            SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
             println("A new context:{ " + mContext.toString() + " } saved!")
         }
     }

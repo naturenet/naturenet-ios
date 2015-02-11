@@ -18,26 +18,6 @@ class Account: NNModel {
     @NSManaged var username: String
     let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
 
-
-    // save a new account in coredata
-    class func createInManagedObjectContext(username: String, password: String,
-                name: String, created_at: Int, modified_at: Int, uid: Int, email: String) -> Account {
-        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let ent = NSEntityDescription.entityForName(NSStringFromClass(Account), inManagedObjectContext: context)!
-        let newAccount =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Account
-        newAccount.username = username
-        newAccount.password = password
-        newAccount.name = name
-        newAccount.created_at = created_at
-        newAccount.modified_at = modified_at
-        newAccount.uid = uid
-        newAccount.email = email
-        newAccount.state = STATE.DOWNLOADED
-        context.save(nil)
-        println("newAccount is : \(newAccount)" + "Account entity is: " + newAccount.toString())
-        return newAccount
-    }
-
     // pull info from remote server
     class func doPullByNameFromServer(parseService: APIService, name: String) {
         var accountUrl = APIAdapter.api.getAccountLink(name)
@@ -63,9 +43,10 @@ class Account: NNModel {
         nsManagedContext.save(nil)
     }
     
-    func getNotes() -> NSArray {
-        var predicate = NSPredicate(format: "account_id = \(uid)")
-        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as [Note]
+    func getNotes() -> [Note] {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var predicate = NSPredicate(format: "account = %@", self.objectID)
+        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: context) as [Note]
         return results
     }
     

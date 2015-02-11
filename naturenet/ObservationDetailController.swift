@@ -30,7 +30,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     var userLat: CLLocationDegrees?
     var userLon: CLLocationDegrees?
     
-    
     // tableview data
     var titles = ["Description", "Activity", "Location"]
     var details = [" ", "Free Observation", "Other"]
@@ -160,6 +159,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         var account = Session.getAccount()
         mNote.account = account!
         mNote.kind = "FieldNote"
+        mNote.state = NNModel.STATE.NEW
         mNote.content = details[0]
         var selectedActivity = getActivityByName(details[1])!
         mNote.context = selectedActivity
@@ -174,6 +174,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         var fullPath = ObservationCell.saveToDocumentDirectory(UIImagePNGRepresentation(self.noteImageView.image), name: fileName)
         var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as Media
         media.note = mNote
+        media.state = NNModel.STATE.NEW
         media.full_path = fullPath
         media.created_at = createdAt
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
@@ -183,6 +184,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         var selectedLandmark = getLandmarkByName(details[2])!
         var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as Feedback
         feedback.account = account!
+        feedback.state = NNModel.STATE.NEW
         feedback.kind = "landmark"
         feedback.note = mNote
         feedback.target_model = "Note"
@@ -239,7 +241,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             var noteActivity = note!.context
             details[1] = noteActivity.title
             imageLoadingIndicator.startAnimating()
-            loadFullImage(noteMedia!.url)
+            loadFullImage(noteMedia!.url!)
             // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
             // load note location info
             var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
@@ -270,6 +272,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     
     // load image into imageview
     func loadFullImage(url: String) {
+        println("passed image url is: \(url)")
         var nsurl: NSURL = NSURL(string: url)!
         let urlRequest = NSURLRequest(URL: nsurl)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {

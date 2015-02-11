@@ -27,7 +27,6 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         loadData()
     }
     
@@ -36,32 +35,34 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         // Dispose of any resources that can be recreated.
     }
     
-    // after post
+    // after post, when note uid is ready, doPushNew for media, then for feedback
+    // do it in the background thread
     func didReceiveResults(from: String, response: NSDictionary) -> Void {
-//        println("from: \(from) response: \(response)")
-        var uid = response["data"]!["id"] as Int
-        if from == "POST_" + NSStringFromClass(Note) {
-            self.receivedNoteFromObservation?.updateAfterPost(uid)
-            self.receivedNoteFromObservation?.doPushMedias(apiService)
-//            receivedNoteFromObservation?.doPushChilren(apiService)
-            println("now after post_note")
-        }
-        if from == "POST_" + NSStringFromClass(Media) {
-            if self.receivedMediaFromObservation != nil {
-            self.receivedMediaFromObservation!.updateAfterPost(uid)
-            self.receivedNoteFromObservation?.doPushFeedbacks(apiService)
-            println("now after post_media")
-
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            // println("from: \(from) response: \(response)")
+            var uid = response["data"]!["id"] as Int
+            if from == "POST_" + NSStringFromClass(Note) {
+                var modifiedAt = response["data"]!["modified_at"] as Int
+                self.receivedNoteFromObservation?.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                self.receivedNoteFromObservation?.doPushMedias(self.apiService)
+                println("now after post_note")
             }
-        }
-        if from == "POST_" + NSStringFromClass(Feedback) {
-            if self.receivedFeedbackFromObservation != nil {
-                self.receivedFeedbackFromObservation!.updateAfterPost(uid)
-                // receivedNoteFromObservation?.doPushFeedbacks(apiService)
-                println("now after post_feedback")
-
+            if from == "POST_" + NSStringFromClass(Media) {
+                if self.receivedMediaFromObservation != nil {
+                    self.receivedMediaFromObservation!.updateAfterPost(uid, modifiedAtFromServer: nil)
+                    self.receivedNoteFromObservation?.doPushFeedbacks(self.apiService)
+                    println("now after post_media")
+                }
             }
-        }
+            if from == "POST_" + NSStringFromClass(Feedback) {
+                var modifiedAt = response["data"]!["modified_at"] as Int
+                if self.receivedFeedbackFromObservation != nil {
+                    self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    // receivedNoteFromObservation?.doPushFeedbacks(self.apiService)
+                    println("now after post_feedback")
+                }
+            }
+        })
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -72,29 +73,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("obscell", forIndexPath: indexPath) as HomeCell
         var cellImage = self.celldata[indexPath.row] as ObservationCell
-        var newurl = cellImage.getThumbnailURL()
-        let url = NSURL(string: newurl)
-        cell.mLabel.text = cellImage.getStatus()
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        cell.addSubview(activityIndicator)
-        activityIndicator.frame = cell.bounds
-        activityIndicator.startAnimating()
-        // println("haha, I am here again \(indexPath.row)th")
-        if let lPath = cellImage.localThumbPath {
-            // println("image local path is :  \(lPath)")
-            let fileManager = NSFileManager.defaultManager()
-            if fileManager.fileExistsAtPath(lPath) {
-                cell.mImageView.image = UIImage(named: lPath)
-                activityIndicator.stopAnimating()
-                activityIndicator.removeFromSuperview()
-            }
-            else {
-                self.loadImageFromWeb(url!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
-            }
-        } else {
-            self.loadImageFromWeb(url!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
-        }
-        
+        self.showImageIntoCell(cellImage, cell: cell, indexPath: indexPath)
         return cell
     }
     
@@ -138,6 +117,7 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     }
     
     @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
         let originVC = segue.sourceViewController as ObservationDetailController
         if originVC.imageFromCamera != nil {
             apiService.delegate = self
@@ -145,8 +125,8 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
             self.receivedNoteFromObservation!.doPushNew(apiService)
             self.receivedMediaFromObservation = originVC.noteMedia
             self.receivedFeedbackFromObservation = originVC.feedback
+//            var newCell = ObservationCell(id: <#Int#>, state: <#Int#>, modifiedAt: <#Int#>)
         }
-        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func pickImage(sender: AnyObject) {
@@ -210,9 +190,6 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("observationDetailSegue", sender: self)
-        
-//        var obscell = ObservationCell(url: nil, id: 0, state: NNModel.STATE.NEW, modifiedAt: 0)
-//        celldata.append(obscell)
     }
     
     // implement later if it is needed
@@ -234,21 +211,65 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
                 for media in medias {
                     var mMedia = media as Media
                     // println("in obs: \(mMedia.toString())")
-                    var obscell = ObservationCell(url: mMedia.getMediaURL(), id: mMedia.uid.integerValue,
+                    var obscell = ObservationCell(id: mMedia.uid.integerValue,
                         state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
                     if let tPath = mMedia.thumb_path {
                         obscell.localThumbPath = tPath
+                    }
+                    if let fPath = mMedia.full_path {
+                        obscell.localFullPath = fPath
+                    }
+                    if let mediaURL = mMedia.url {
+                        obscell.imageURL = mediaURL
                     }
                     celldata.append(obscell)
                 }
             }
             celldata.sort({$0.modifiedAt > $1.modifiedAt})
+            println("total notes: \(notes.count) total celldata: \(celldata.count)")
+
         }
-        
     }
     
     //----------------------------------------------------------------------------------------------
     // some utility functions
+    //----------------------------------------------------------------------------------------------
+    
+    // if local thumbnail exists, show local thumbnail to each cell
+    // else if local full path exists, show local full to each cell
+    // else if web nail exists, show web nail to each cell
+    func showImageIntoCell(cellImage: ObservationCell, cell: HomeCell, indexPath: NSIndexPath) {
+        cell.mLabel.text = cellImage.getStatus()
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        cell.addSubview(activityIndicator)
+        activityIndicator.frame = cell.bounds
+        activityIndicator.startAnimating()
+        // println("haha, I am here again \(indexPath.row)th")
+        if let lPath = cellImage.localThumbPath {
+            // println("image local path is :  \(lPath)")
+            let fileManager = NSFileManager.defaultManager()
+            if fileManager.fileExistsAtPath(lPath) {
+                cell.mImageView.image = UIImage(named: lPath)
+                activityIndicator.stopAnimating()
+                activityIndicator.removeFromSuperview()
+                return
+            }
+        } else if let fPath = cellImage.localFullPath {
+            // println("image local full path is :  \(fPath)")
+            let fileManager = NSFileManager.defaultManager()
+            if fileManager.fileExistsAtPath(fPath) {
+                cell.mImageView.image = UIImage(named: fPath)
+                activityIndicator.stopAnimating()
+                activityIndicator.removeFromSuperview()
+                return
+            }
+        } else if let imageurl = cellImage.imageURL {
+            var url = cellImage.getThumbnailURL()
+            let nsurl = NSURL(string: url)
+            self.loadImageFromWeb(nsurl!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
+        }
+    }
+    
     func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
         let urlRequest = NSURLRequest(URL: url)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
@@ -277,16 +298,19 @@ class ObservationsController: UIViewController, UICollectionViewDelegate, UINavi
     }
 }
 
+
+//----------------------------------------------------------------------------------------------
+// ObservationCell class
+//----------------------------------------------------------------------------------------------
 class ObservationCell {
-    var imageURL: String
-    // var status: String
     var modifiedAt: Int
     var state: Int
     var uid: Int
+    var imageURL: String?
     var localThumbPath: String?
+    var localFullPath: String?
     
-    init(url: String, id: Int, state: Int, modifiedAt: Int) {
-        self.imageURL = url
+    init(id: Int, state: Int, modifiedAt: Int) {
         self.uid = id
         self.state = state
         self.modifiedAt = modifiedAt
@@ -306,7 +330,7 @@ class ObservationCell {
     }
     
     func getThumbnailURL() -> String {
-        var urlArr = split(imageURL) {$0 == "/"}
+        var urlArr = split(imageURL!) {$0 == "/"}
         var newURL = "http:"
         for str in urlArr {
             if str == "http:" {

@@ -17,7 +17,7 @@ class Media: NNModel, CLUploaderDelegate {
     @NSManaged var full_path: String?
     @NSManaged var note_id: NSNumber
     @NSManaged var title: String
-    @NSManaged var url: String
+    @NSManaged var url: String?
     @NSManaged var note: Note
     
     var cloudinary:CLCloudinary = CLCloudinary()
@@ -25,7 +25,7 @@ class Media: NNModel, CLUploaderDelegate {
     
     func parseMediaJSON(media: NSDictionary) {
         self.uid = media["id"] as Int
-        self.url = media["link"] as String
+        self.url = media["link"] as? String
         self.title = media["title"] as String
         self.created_at = media["created_at"] as Int
         self.state = STATE.DOWNLOADED
@@ -35,7 +35,7 @@ class Media: NNModel, CLUploaderDelegate {
         return "media id: \(uid) url: \(url) note_id: \(note.uid)"
     }
     
-    func getMediaURL() -> String {
+    func getMediaURL() -> String? {
         return self.url
     }
     
@@ -66,7 +66,7 @@ class Media: NNModel, CLUploaderDelegate {
     // cloudinary
     func uploadToCloudinary(){
         var image = UIImage(named: self.full_path!)
-        let forUpload = UIImagePNGRepresentation(image) as NSData
+        let forUpload = UIImageJPEGRepresentation(image, 0.8) as NSData
         cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
         cloudinary.config().setValue("893246586645466", forKey: "api_key")
         cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
@@ -76,7 +76,7 @@ class Media: NNModel, CLUploaderDelegate {
     
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
         let publicId = successResult["public_id"] as String
-        self.url = successResult["url"] as String
+        self.url = successResult["url"] as? String
         println("cloudinary id is: \(publicId)")
         // push media after cloudinary is finished
         var posturl = APIAdapter.api.getCreateMediaLink(self.note.uid.integerValue)
