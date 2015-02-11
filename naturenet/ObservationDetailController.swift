@@ -28,6 +28,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     var feedback: Feedback?
     var activities = [Context]()
     var landmarks = [Context]()
+    
+    // data for this page
     var userLat: CLLocationDegrees?
     var userLon: CLLocationDegrees?
     

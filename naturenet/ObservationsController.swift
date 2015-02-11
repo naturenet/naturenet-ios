@@ -65,6 +65,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     // receivedNoteFromObservation?.doPushFeedbacks(self.apiService)
                     println("now after post_feedback")
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.celldata[0].state = NNModel.STATE.SYNCED
+                        self.observationCV.reloadData()
+                    })
                 }
             }
         })
@@ -97,6 +101,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        println("you clicked \(indexPath.row)  row ")
         self.performSegueWithIdentifier("observationDetailSegue", sender: indexPath)
     }
     
@@ -104,15 +109,14 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         if segue.identifier == "observationDetailSegue" {
             let destinationVC = segue.destinationViewController as UINavigationController
             let detailVC = destinationVC.topViewController as ObservationDetailController
-
-            if self.cameraImage != nil {
-                detailVC.imageFromCamera = self.cameraImage!
-            } else {
-                // let indexPath = self.observationCV.indexPathForCell(sender as HomeCell)
-                var indexPath = sender as NSIndexPath
+            // if passed from a cell
+            if let indexPath = sender as? NSIndexPath {
                 let selectedCell = celldata[indexPath.row]
                 detailVC.mediaIdFromObservations = selectedCell.objectID
+            } else if self.cameraImage != nil { // else from a camera
+                detailVC.imageFromCamera = self.cameraImage!
             }
+
         }
     }
     
@@ -126,7 +130,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         let originVC = segue.sourceViewController as ObservationDetailController
         if originVC.imageFromCamera != nil {
             apiService.delegate = self
-            
             self.receivedNoteFromObservation = originVC.saveNote()
             self.receivedMediaFromObservation = originVC.noteMedia
             self.receivedFeedbackFromObservation = originVC.feedback
@@ -138,7 +141,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             self.observationCV.reloadData()
 //            let indexPath = NSIndexPath(forRow: celldata.count-1, inSection: 0)
 //            observationCV.insertItemsAtIndexPaths([indexPath])
-            
             self.receivedNoteFromObservation!.doPushNew(apiService)
         }
     }
@@ -148,7 +150,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         // remember to assign delegate to self
         picker.delegate = self
         var popover:UIPopoverController?
-
         var alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
