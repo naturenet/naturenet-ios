@@ -54,4 +54,10 @@ class API {
     func getCreateFeedbackLink(kind: String, model: String, uid: Int, userName: String) -> String {
         return root + "feedback/new/\(kind)/for/\(model)/\(uid)/by/\(userName)"
     }
+    
+    // get update feedback api link
+    func getUpdateFeedbackLink(uid: Int) -> String {
+        return root + "feedback/\(uid)/update"
+    }
+    
 }

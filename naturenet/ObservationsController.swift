@@ -28,6 +28,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        apiService.delegate = self
         loadData()
     }
     
@@ -49,7 +50,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             if from == "POST_" + NSStringFromClass(Note) {
                 var modifiedAt = response["data"]!["modified_at"] as Int
                 self.receivedNoteFromObservation?.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                self.receivedNoteFromObservation?.doPushMedias(self.apiService)
+//                self.receivedNoteFromObservation?.doPushMedias(self.apiService)
                 println("now after post_note")
             }
             if from == "POST_" + NSStringFromClass(Media) {
@@ -63,7 +64,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                 var modifiedAt = response["data"]!["modified_at"] as Int
                 if self.receivedFeedbackFromObservation != nil {
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                    // receivedNoteFromObservation?.doPushFeedbacks(self.apiService)
                     println("now after post_feedback")
                     dispatch_async(dispatch_get_main_queue(), {
                         self.celldata[0].state = NNModel.STATE.SYNCED
@@ -73,7 +73,12 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             }
         })
     }
-
+    
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // collectionview setup
+    //----------------------------------------------------------------------------------------------------------------------
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.celldata.count
     }
@@ -101,9 +106,12 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        println("you clicked \(indexPath.row)  row ")
         self.performSegueWithIdentifier("observationDetailSegue", sender: indexPath)
     }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // segues setup
+    //----------------------------------------------------------------------------------------------------------------------
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "observationDetailSegue" {
@@ -113,12 +121,17 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             if let indexPath = sender as? NSIndexPath {
                 let selectedCell = celldata[indexPath.row]
                 detailVC.mediaIdFromObservations = selectedCell.objectID
+                self.cameraImage = nil
             } else if self.cameraImage != nil { // else from a camera
                 detailVC.imageFromCamera = self.cameraImage!
             }
 
         }
     }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // IBActions for receiced data passed back
+    //----------------------------------------------------------------------------------------------------------------------
     
     // IBAction for exit in observation detail page
     @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
@@ -128,8 +141,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
         dismissViewControllerAnimated(true, completion: nil)
         let originVC = segue.sourceViewController as ObservationDetailController
-        if originVC.imageFromCamera != nil {
-            apiService.delegate = self
+        if self.cameraImage != nil {
             self.receivedNoteFromObservation = originVC.saveNote()
             self.receivedMediaFromObservation = originVC.noteMedia
             self.receivedFeedbackFromObservation = originVC.feedback
@@ -141,10 +153,17 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             self.observationCV.reloadData()
 //            let indexPath = NSIndexPath(forRow: celldata.count-1, inSection: 0)
 //            observationCV.insertItemsAtIndexPaths([indexPath])
-            self.receivedNoteFromObservation!.doPushNew(apiService)
+            self.receivedNoteFromObservation!.push(apiService)
+        } else {
+            self.receivedNoteFromObservation = originVC.updateNote()
+            self.receivedNoteFromObservation?.push(apiService)
         }
     }
     
+    //----------------------------------------------------------------------------------------------------------------------
+    // pick from camera or gallary
+    //----------------------------------------------------------------------------------------------------------------------
+
     @IBAction func pickImage(sender: AnyObject) {
         var picker:UIImagePickerController = UIImagePickerController()
         // remember to assign delegate to self

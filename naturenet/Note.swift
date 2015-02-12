@@ -175,19 +175,30 @@ class Note: NNModel {
         apiService.post(NSStringFromClass(Note), params: params, url: url)
 //        doPushChilren(apiService)
         doPushMedias(apiService)
+//        doPushFeedbacks(apiService)
     }
     
+    // update an existing note to remote server as HTTP post
+    // returned JSON will be sent to apiService's delegate: ObservationsController
+    override func doPushUpdate(apiService: APIService) {
+        var url = APIAdapter.api.getUpdateNoteLink(self.uid.integerValue)
+        var params = ["kind": self.kind, "username": self.account.username, "content": self.content, "context": self.context.name,
+            "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
+        apiService.post(NSStringFromClass(Note), params: params, url: url)
+        doPushFeedbacks(apiService)
+    }
+ 
     func doPushMedias(apiService: APIService) {
         for media in getMedias() {
             let noteMedia = media as Media
-            noteMedia.doPushNew(apiService)
+            noteMedia.push(apiService)
         }
     }
     
     func doPushFeedbacks(apiService: APIService) {
         for feedback in getFeedbacks() {
             let noteFeedback = feedback as Feedback
-            noteFeedback.doPushNew(apiService)
+            noteFeedback.push(apiService)
         }
     }
     
@@ -195,11 +206,11 @@ class Note: NNModel {
     override func doPushChilren(apiService: APIService) {
         for media in getMedias() {
             let noteMedia = media as Media
-            noteMedia.doPushNew(apiService)
+            noteMedia.push(apiService)
         }
         for feedback in getFeedbacks() {
             let noteFeedback = feedback as Feedback
-            noteFeedback.doPushNew(apiService)
+            noteFeedback.push(apiService)
         }
     }
     

@@ -196,7 +196,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         media.created_at = createdAt
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
         self.noteMedia = media
-    
+        media.commit()
+        
         // save to Feedback
         var selectedLandmark = getLandmarkByName(details[2])!
         var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as Feedback
@@ -209,13 +210,30 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         feedback.created_at = createdAt
         self.feedback = feedback
         SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+        feedback.commit()
+        
+        mNote.commit()
         
         return mNote
     }
     
     // update note 
-    func updateNote() {
-        self.note?.content = details[1]
+    func updateNote() -> Note {
+        note!.content = details[0]
+        var selectedActivity = getActivityByName(details[1])!
+        note!.context = selectedActivity
+        var selectedLandmark = getLandmarkByName(details[2])!
+        var predicate = NSPredicate(format: "note = %@", note!.objectID)
+        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var fetchedFeedback = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Feedback), withPredicate: predicate,
+                                managedObjectContext: nsManagedContext) as Feedback?
+        if fetchedFeedback != nil {
+            fetchedFeedback!.content = selectedLandmark.name
+            fetchedFeedback!.commit()
+        }
+        
+        note!.commit()
+        return self.note!
     }
     
     //----------------------------------------------------------------------------------------------------------------------

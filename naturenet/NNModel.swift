@@ -113,11 +113,22 @@ class NNModel: NSManagedObject {
         }
         SwiftCoreDataHelper.saveManagedObjectContext(context)
     }
+    
+    func push(apiService: APIService) {
+        if state == STATE.SAVED {
+            doPushNew(apiService)
+        } else if state == STATE.MODIFIED {
+            doPushUpdate(apiService)
+        }
+        
+    }
 
-    func doPushNew(apiService: APIService) -> Void {}
+    func doPushNew(apiService: APIService) {}
     
     func doPushChilren(apiService: APIService) {}
-
+    
+    func doPushUpdate(apiService: APIService) {}
+    
     func doUpdataState() {}
     
     func doCommitChildren() {}

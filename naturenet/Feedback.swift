@@ -39,6 +39,13 @@ class Feedback: NNModel {
         var params = ["content": self.content] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Feedback), params: params, url: posturl)
     }
+    
+    override func doPushUpdate(apiService: APIService) {
+        var posturl = APIAdapter.api.getUpdateFeedbackLink(self.uid.integerValue)
+        //        println{"request feedback link is: \(posturl)"}
+        var params = ["content": self.content, "username": self.account.username] as Dictionary<String, Any>
+        apiService.post(NSStringFromClass(Feedback), params: params, url: posturl)
+    }
 
     func toString() -> String {
         return "note feedback id: \(uid) note_id: \(note.uid)"
