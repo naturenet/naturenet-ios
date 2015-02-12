@@ -114,6 +114,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             details[0] = desc
             self.detailTableView.reloadData()
         }
+        self.navigationItem.rightBarButtonItem?.style = .Done
         self.navigationController?.popViewControllerAnimated(true)
     }
     

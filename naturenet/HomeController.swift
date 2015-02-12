@@ -52,7 +52,6 @@ class HomeController : UIViewController, UICollectionViewDataSource,
         cell.mLabel.text = self.items[indexPath.row]
         // cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.whiteColor() : UIColor.lightGrayColor()
         cell.mImageView.image = UIImage(named: self.images[indexPath.row])
-        
         return cell
     }
     

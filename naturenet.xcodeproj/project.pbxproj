@@ -28,6 +28,7 @@
 		FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */; };
 		FC5BA3891A7859400069D59F /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3881A7859400069D59F /* Media.swift */; };
 		FC5BA38B1A78BACF0069D59F /* ObservationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */; };
+		FC5C318C1A8CFFA400A59B89 /* ActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */; };
 		FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */; };
 		FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */; };
 		FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */; };
@@ -78,6 +79,7 @@
 		FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftCoreDataHelper.swift; sourceTree = "<group>"; };
 		FC5BA3881A7859400069D59F /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationsController.swift; sourceTree = "<group>"; };
+		FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitiesTableViewController.swift; sourceTree = "<group>"; };
 		FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationDetailController.swift; sourceTree = "<group>"; };
 		FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditObsTableViewCell.swift; sourceTree = "<group>"; };
 		FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDescriptionViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */,
 				FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */,
 				FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */,
+				FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */,
 				FC1134C31A6430D900D548E8 /* NNModel.swift in Sources */,
 				FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */,
+				FC5C318C1A8CFFA400A59B89 /* ActivitiesTableViewController.swift in Sources */,
 				FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */,
 				FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */,
 				FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */,
