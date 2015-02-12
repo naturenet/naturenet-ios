@@ -53,6 +53,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         // Dispose of any resources that can be recreated.
     }
     
+    //----------------------------------------------------------------------------------------------------------------------
+    // tableView setup
+    //----------------------------------------------------------------------------------------------------------------------
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titles.count
     }
@@ -65,6 +68,23 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         return cell
     }
 
+    // didSelectRowAtIndexPath
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.row {
+        case 0 :
+            self.performSegueWithIdentifier("editObsToDescription", sender: self)
+        case 1 :
+            self.performSegueWithIdentifier("selectObsActivitySeg", sender: self)
+        case 2 :
+            self.performSegueWithIdentifier("selectObsLocationSeg", sender: self)
+        default:
+            return
+        }
+    }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // segues setup
+    //----------------------------------------------------------------------------------------------------------------------
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "editObsToDescription" {
             let destinationVC = segue.destinationViewController as NoteDescriptionViewController
@@ -80,21 +100,12 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             destinationVC.landmarks = self.landmarks
             destinationVC.selectedLocation = details[2]
         }
-
+        
     }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        switch indexPath.row {
-        case 0 :
-            self.performSegueWithIdentifier("editObsToDescription", sender: self)
-        case 1 :
-            self.performSegueWithIdentifier("selectObsActivitySeg", sender: self)
-        case 2 :
-            self.performSegueWithIdentifier("selectObsLocationSeg", sender: self)
-        default:
-            return
-        }
-    }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // IBActions for receiced data passed back
+    //----------------------------------------------------------------------------------------------------------------------
     
     // receive data from note description textview
     @IBAction func passedDescription(segue:UIStoryboardSegue) {
@@ -127,8 +138,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    //----------------------------------------------------------------------------------------------
-    // initialize locationManager
+    //----------------------------------------------------------------------------------------------------------------------
+    // LocationManager
+    //----------------------------------------------------------------------------------------------------------------------
     func initLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -150,8 +162,10 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         println(error)
     }
     
-    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
     // save note
+    //----------------------------------------------------------------------------------------------------------------------
+
     func saveNote() -> Note {
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
         var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
@@ -204,9 +218,10 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         self.note?.content = details[1]
     }
     
-    
-    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
     // cloudinary
+    //----------------------------------------------------------------------------------------------------------------------
+
     func uploadToCloudinary(){
         let forUpload = UIImagePNGRepresentation(noteImageView.image) as NSData
         cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
@@ -228,31 +243,44 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     }
     
     
-    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
     // some utility functions
-    
+    //----------------------------------------------------------------------------------------------------------------------
+
     // load data for this view
     func loadData() {
         // load landmarks and activities (type: Context)
         loadContexts()
-        
         // load note informaiton, e.g. description/media image
         if let mediaObjectID = self.mediaIdFromObservations {
-//            self.noteMedia = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Media), uid: mediaUID) as Media?
             var predicate = NSPredicate(format: "SELF = %@", mediaObjectID)
             if let nMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate,
                 managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as Media? {
                    self.noteMedia = nMedia
             }
-
             self.note = noteMedia?.getNote()
             details[0] = note!.content
+            
             var noteActivity = note!.context
             details[1] = noteActivity.title
             imageLoadingIndicator.startAnimating()
-            loadFullImage(noteMedia!.url!)
-            // println(" note info is: \(self.noteMedia!.getNote().toString()) media info: \(noteMedia!.toString()) ")
-            // load note location info
+            if let fullPath = noteMedia?.full_path {
+                let fileManager = NSFileManager.defaultManager()
+                if fileManager.fileExistsAtPath(fullPath) {
+                    println("you clicked an image with full path in ObservationDetailController: \(fullPath)")
+                    let image = UIImage(named: fullPath)
+                    self.noteImageView.image = image
+                    self.imageLoadingIndicator.stopAnimating()
+                    self.imageLoadingIndicator.removeFromSuperview()
+                } else {
+                    println("full path doesn't exist")
+                }
+            }
+            
+            if self.noteImageView.image == nil {
+                loadFullImage(noteMedia!)
+            }
+            
             var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
             details[2] = landmarkTitle
         } else if self.imageFromCamera != nil {
@@ -280,7 +308,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     }
     
     // load image into imageview
-    func loadFullImage(url: String) {
+    func loadFullImage(media: Media) {
+        var url = media.url!
         println("passed image url is: \(url)")
         var nsurl: NSURL = NSURL(string: url)!
         let urlRequest = NSURLRequest(URL: nsurl)
@@ -293,8 +322,18 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
                 self.noteImageView.image = image
                 self.imageLoadingIndicator.stopAnimating()
                 self.imageLoadingIndicator.removeFromSuperview()
+                self.saveFullImage(data, media: media)
             }
         })
+    }
+    
+    // func 
+    func saveFullImage(data: NSData, media: Media) {
+        var fileName = String(media.created_at.integerValue) + ".jpg"
+        var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
+        media.full_path = tPath
+        media.setLocalFullPath(tPath)
+
     }
     
     // get landmark locaiton titles

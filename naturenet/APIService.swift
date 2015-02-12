@@ -46,7 +46,6 @@ class APIService {
         var session = NSURLSession.sharedSession()
         request.HTTPMethod = "POST"
         var httpBody = paramsToHttpBody(params)
-//        println("httpbody is \(httpBody)")
         request.HTTPBody = httpBody.dataUsingEncoding(NSUTF8StringEncoding)
         var err: NSError?
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
