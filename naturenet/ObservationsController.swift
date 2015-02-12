@@ -156,6 +156,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             self.receivedNoteFromObservation!.push(apiService)
         } else {
             self.receivedNoteFromObservation = originVC.updateNote()
+            self.receivedFeedbackFromObservation = originVC.feedback
             self.receivedNoteFromObservation?.push(apiService)
         }
     }

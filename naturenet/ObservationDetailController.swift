@@ -232,6 +232,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             fetchedFeedback!.content = selectedLandmark.name
             fetchedFeedback!.commit()
         }
+        self.feedback = fetchedFeedback
         
         note!.commit()
         return self.note!
