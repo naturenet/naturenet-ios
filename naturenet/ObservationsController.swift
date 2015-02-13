@@ -43,6 +43,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     
     // after post, when note uid is ready, doPushNew for media, then for feedback
     // do it in the background thread
+    // change here
     func didReceiveResults(from: String, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             // println("from: \(from) response: \(response)")
