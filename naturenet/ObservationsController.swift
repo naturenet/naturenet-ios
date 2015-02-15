@@ -19,7 +19,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     var apiService = APIService()
     var celldata = [ObservationCell]()
     var cameraImage: UIImage?
-    
+    let uploadProgressView: UIProgressView = UIProgressView(progressViewStyle: .Default)
     var cloudinary:CLCloudinary = CLCloudinary()
     
     // data received after clicking "send" from ObservationDetailController 
@@ -62,6 +62,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                 var modifiedAt = response["data"]!["modified_at"] as Int
                 if self.receivedFeedbackFromObservation != nil {
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    // if there is no media passed back, the note only needs to update instead of uploading
                     if self.receivedMediaFromObservation != nil {
                         self.uploadToCloudinary()
                     } else {
@@ -73,6 +74,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                 println("now after post_media")
                 self.receivedMediaFromObservation!.updateAfterPost(uid, modifiedAtFromServer: nil)
                 self.updateReceivedNoteStatus()
+                // it's time to remove progressview
+                self.uploadProgressView.removeFromSuperview()
             }
         })
     }
@@ -155,6 +158,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             celldata.insert(newCell, atIndex: 0)
             self.observationCV.reloadData()
             self.receivedNoteFromObservation!.push(apiService)
+            // add progressview, update progress in onCloudinaryProgress
+            observationCV.addSubview(uploadProgressView)
+            uploadProgressView.frame = observationCV.bounds
         } else {
             self.receivedNoteFromObservation = originVC.updateNote()
             self.receivedFeedbackFromObservation = originVC.feedback
@@ -163,6 +169,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         }
     }
     
+    // update status in the new created cell
     func updateReceivedNoteStatus() {
         for obs in self.celldata {
             if obs.objectID == self.receivedNoteFromObservation!.objectID {
@@ -267,8 +274,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
         //do any progress update you may need
-        var process = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite) * 100
-        println("uploading to cloudinary... wait! \(process)%")
+        var progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
+        uploadProgressView.setProgress(progress, animated: true)
+        println("uploading to cloudinary... wait! \(progress * 100)%")
         // println("bytesWritten: \(bytesWritten) totalBytesWritten: \(totalBytesWritten) totalBytesExptectedToWrite \(totalBytesExpectedToWrite)")
     }
 
@@ -322,10 +330,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         cell.addSubview(activityIndicator)
         activityIndicator.frame = cell.bounds
         activityIndicator.startAnimating()
+        
         let fileManager = NSFileManager.defaultManager()
         // println("haha, I am here again \(indexPath.row)th")
         if let lPath = cellImage.localThumbPath {
-            // println("image local path is :  \(lPath)")
             if fileManager.fileExistsAtPath(lPath) {
                 cell.mImageView.image = UIImage(named: lPath)
                 activityIndicator.stopAnimating()
@@ -335,7 +343,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         } else if let fPath = cellImage.localFullPath {
             println("image local full path is :  \(fPath)")
             if fileManager.fileExistsAtPath(fPath) {
-                // println("local full path exists")
                 cell.mImageView.image = UIImage(named: fPath)
                 activityIndicator.stopAnimating()
                 activityIndicator.removeFromSuperview()
@@ -344,7 +351,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         }
         
         if let imageurl = cellImage.imageURL {
-            // println("no local path exists")
             var url = cellImage.getThumbnailURL()
             let nsurl = NSURL(string: url)
             self.loadImageFromWeb(nsurl!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
@@ -364,13 +370,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                 activityIndicator.stopAnimating()
                 activityIndicator.removeFromSuperview()
                 var cellImage = self.celldata[index] as ObservationCell
-                self.saveImage(cellImage, data: data)
+                self.saveImageThumb(cellImage, data: data)
             }
         })
         
     }
     
-    func saveImage(cellImage: ObservationCell, data: NSData) {
+    func saveImageThumb(cellImage: ObservationCell, data: NSData) {
         var fileName = String(cellImage.modifiedAt) + ".jpg"
         var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         cellImage.localThumbPath = tPath
@@ -379,11 +385,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         if let nMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate, managedObjectContext: nsManagedContext) as Media? {
             nMedia.setLocalThumbPath(tPath)
         }
-        
-//        if let tMedia = NNModel.doPullByObjcIDFromCoreData("Media", objectID: cellImage.uid) as Media? {
-//            tMedia.setLocalThumbPath(tPath)
-//        }
-        
     }
 }
 
@@ -447,7 +448,6 @@ class ObservationCell {
             savedPath = documentDirectory! + "/\(name)"
             NSFileManager.defaultManager().createFileAtPath(savedPath!, contents: data, attributes: nil)
         }
-//      localThumbPath = savedPath
         return savedPath
     }
 
