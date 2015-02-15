@@ -234,7 +234,14 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         }
         self.feedback = fetchedFeedback
         
+//        var fetchedMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate,
+//            managedObjectContext: nsManagedContext) as Media?
+//        if fetchedMedia != nil {
+//            fetchedMedia!.commit()
+//        }
+//        self.noteMedia = fetchedMedia
         note!.commit()
+        
         return self.note!
     }
     

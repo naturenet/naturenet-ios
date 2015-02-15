@@ -129,7 +129,7 @@ class Note: NNModel {
 //                    if feedbackJSON["parent_id"] as Int == 0 {
 //                        feedback.target_id = self.objectID
 //                    }
-            feedback.target_model = "Note"
+            feedback.target_model = NSStringFromClass(Note)
             // println("feedback with note \(feedback.note.uid) is: { \(feedback.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
         }
@@ -174,7 +174,7 @@ class Note: NNModel {
                         "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Note), params: params, url: url)
 //        doPushChilren(apiService)
-        doPushMedias(apiService)
+        //doPushMedias(apiService)
 //        doPushFeedbacks(apiService)
     }
     
@@ -185,7 +185,7 @@ class Note: NNModel {
         var params = ["kind": self.kind, "username": self.account.username, "content": self.content, "context": self.context.name,
             "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Note), params: params, url: url)
-        doPushFeedbacks(apiService)
+//        doPushFeedbacks(apiService)
     }
  
     func doPushMedias(apiService: APIService) {
@@ -204,13 +204,13 @@ class Note: NNModel {
     
     // pushing media and feedback not working well together
     override func doPushChilren(apiService: APIService) {
-        for media in getMedias() {
-            let noteMedia = media as Media
-            noteMedia.push(apiService)
-        }
         for feedback in getFeedbacks() {
             let noteFeedback = feedback as Feedback
             noteFeedback.push(apiService)
+        }
+        for media in getMedias() {
+            let noteMedia = media as Media
+            noteMedia.push(apiService)
         }
     }
     

@@ -42,36 +42,49 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     }
     
     // after post, when note uid is ready, doPushNew for media, then for feedback
-    // do it in the background thread
-    // change here
+    // start the tasks from main thread(cloudinary requires main thread!!),
+    // the async tasks in the push methods will do the task(e.g. handling request, image uploading)
+    // in the background thread.
     func didReceiveResults(from: String, response: NSDictionary) -> Void {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            // println("from: \(from) response: \(response)")
+        dispatch_async(dispatch_get_main_queue(), {
             var uid = response["data"]!["id"] as Int
             if from == "POST_" + NSStringFromClass(Note) {
-                var modifiedAt = response["data"]!["modified_at"] as Int
-                self.receivedNoteFromObservation?.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-//                self.receivedNoteFromObservation?.doPushMedias(self.apiService)
                 println("now after post_note")
-            }
-            if from == "POST_" + NSStringFromClass(Media) {
-                if self.receivedMediaFromObservation != nil {
-                    self.receivedMediaFromObservation!.updateAfterPost(uid, modifiedAtFromServer: nil)
-                    self.receivedNoteFromObservation?.doPushFeedbacks(self.apiService)
-                    println("now after post_media")
-                }
+                var modifiedAt = response["data"]!["modified_at"] as Int
+                self.receivedNoteFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                self.receivedNoteFromObservation!.doPushFeedbacks(self.apiService)
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
+                println("now after post_feedback")
                 var modifiedAt = response["data"]!["modified_at"] as Int
                 if self.receivedFeedbackFromObservation != nil {
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                    println("now after post_feedback")
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.celldata[0].state = NNModel.STATE.SYNCED
-                        self.observationCV.reloadData()
-                    })
+                    if self.receivedMediaFromObservation != nil {
+                        self.receivedNoteFromObservation!.doPushMedias(self.apiService)
+                    }
+                    for obs in self.celldata {
+                        var media = self.receivedNoteFromObservation?.getSingleMedia()?
+                        if obs.objectID == media?.objectID {
+                            obs.state = NNModel.STATE.SYNCED
+                            if media?.state != NNModel.STATE.SYNCED {
+                                media?.commit()
+                            }
+                        }
+                    }
+                    self.observationCV.reloadData()
                 }
+                
             }
+            if from == "POST_" + NSStringFromClass(Media) {
+                println("now after post_media")
+                self.receivedMediaFromObservation!.updateAfterPost(uid, modifiedAtFromServer: nil)
+
+            }
+        })
+        
+        //
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            // println("from: \(from) response: \(response)")
         })
     }
     
@@ -234,6 +247,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
 
     }
 
+    
     
     //----------------------------------------------------------------------------------------------
     // some utility functions

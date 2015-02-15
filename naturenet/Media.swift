@@ -65,6 +65,7 @@ class Media: NNModel, CLUploaderDelegate {
     //----------------------------------------------------------------------------------------------
     // cloudinary
     func uploadToCloudinary(){
+        // println("uploading image path is: \(self.full_path)")
         var image = UIImage(named: self.full_path!)
         let forUpload = UIImageJPEGRepresentation(image, 0.6) as NSData
         cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
@@ -87,5 +88,8 @@ class Media: NNModel, CLUploaderDelegate {
     
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
         //do any progress update you may need
+        var process = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite) * 100
+        println("uploading to cloudinary... wait! \(process)%")
+        println("bytesWritten: \(bytesWritten) totalBytesWritten: \(totalBytesWritten) totalBytesExptectedToWrite \(totalBytesExpectedToWrite)")
     }
 }
