@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class ObservationsController: UIViewController, UINavigationControllerDelegate,
-                                UIImagePickerControllerDelegate, APIControllerProtocol  {
+                                UIImagePickerControllerDelegate, APIControllerProtocol, CLUploaderDelegate {
     // UI Outlets
     @IBOutlet weak var observationCV: UICollectionView!
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
@@ -19,6 +19,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     var apiService = APIService()
     var celldata = [ObservationCell]()
     var cameraImage: UIImage?
+    
+    var cloudinary:CLCloudinary = CLCloudinary()
     
     // data received after clicking "send" from ObservationDetailController 
     // values set in saveObservationDetail()
@@ -41,7 +43,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         // Dispose of any resources that can be recreated.
     }
     
-    // after post, when note uid is ready, doPushNew for media, then for feedback
+    // after post, when note uid is ready, order must follow this
+    // upload feedback -> upload to cloudinary -> upload media
     // start the tasks from main thread(cloudinary requires main thread!!),
     // the async tasks in the push methods will do the task(e.g. handling request, image uploading)
     // in the background thread.
@@ -49,45 +52,30 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         dispatch_async(dispatch_get_main_queue(), {
             var uid = response["data"]!["id"] as Int
             if from == "POST_" + NSStringFromClass(Note) {
-                println("now after post_note")
+                println("now after post_note, ready for uploading feedbacks")
                 var modifiedAt = response["data"]!["modified_at"] as Int
                 self.receivedNoteFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 self.receivedNoteFromObservation!.doPushFeedbacks(self.apiService)
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
-                println("now after post_feedback")
+                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, if this is not, do update")
                 var modifiedAt = response["data"]!["modified_at"] as Int
                 if self.receivedFeedbackFromObservation != nil {
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     if self.receivedMediaFromObservation != nil {
-                        self.receivedNoteFromObservation!.doPushMedias(self.apiService)
+                        self.uploadToCloudinary()
+                    } else {
+                        self.updateReceivedNoteStatus()
                     }
-                    for obs in self.celldata {
-                        var media = self.receivedNoteFromObservation?.getSingleMedia()?
-                        if obs.objectID == media?.objectID {
-                            obs.state = NNModel.STATE.SYNCED
-                            if media?.state != NNModel.STATE.SYNCED {
-                                media?.commit()
-                            }
-                        }
-                    }
-                    self.observationCV.reloadData()
                 }
-                
             }
             if from == "POST_" + NSStringFromClass(Media) {
                 println("now after post_media")
                 self.receivedMediaFromObservation!.updateAfterPost(uid, modifiedAtFromServer: nil)
-
+                self.updateReceivedNoteStatus()
             }
         })
-        
-        //
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            // println("from: \(from) response: \(response)")
-        })
     }
-    
     
     //----------------------------------------------------------------------------------------------------------------------
     // collectionview setup
@@ -134,7 +122,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             // if passed from a cell
             if let indexPath = sender as? NSIndexPath {
                 let selectedCell = celldata[indexPath.row]
-                detailVC.mediaIdFromObservations = selectedCell.objectID
+                detailVC.noteIdFromObservations = selectedCell.objectID
                 self.cameraImage = nil
             } else if self.cameraImage != nil { // else from a camera
                 detailVC.imageFromCamera = self.cameraImage!
@@ -159,22 +147,30 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             self.receivedNoteFromObservation = originVC.saveNote()
             self.receivedMediaFromObservation = originVC.noteMedia
             self.receivedFeedbackFromObservation = originVC.feedback
+            var note = self.receivedNoteFromObservation
             var media = originVC.noteMedia
-            var newCell = ObservationCell(objectID: media!.objectID, state: media!.state.integerValue,
-                modifiedAt: media!.modified_at.integerValue)
+            var newCell = ObservationCell(objectID: note!.objectID, state: note!.state.integerValue,
+                modifiedAt: note!.modified_at.integerValue)
             newCell.localFullPath = media!.full_path
             celldata.insert(newCell, atIndex: 0)
             self.observationCV.reloadData()
-//            let indexPath = NSIndexPath(forRow: celldata.count-1, inSection: 0)
-//            observationCV.insertItemsAtIndexPaths([indexPath])
             self.receivedNoteFromObservation!.push(apiService)
         } else {
             self.receivedNoteFromObservation = originVC.updateNote()
             self.receivedFeedbackFromObservation = originVC.feedback
+            self.updateReceivedNoteStatus()
             self.receivedNoteFromObservation?.push(apiService)
         }
     }
     
+    func updateReceivedNoteStatus() {
+        for obs in self.celldata {
+            if obs.objectID == self.receivedNoteFromObservation!.objectID {
+                obs.state = self.receivedNoteFromObservation!.state.integerValue
+            }
+        }
+        self.observationCV.reloadData()
+    }
     //----------------------------------------------------------------------------------------------------------------------
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
@@ -247,7 +243,35 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
 
     }
 
+    //----------------------------------------------------------------------------------------------
+    // cloudinary upload
+    func uploadToCloudinary() {
+        // println("uploading image path is: \(self.full_path)")
+        var image = UIImage(named: self.receivedMediaFromObservation!.full_path!)
+        let forUpload = UIImageJPEGRepresentation(image, 0.6) as NSData
+        cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
+        cloudinary.config().setValue("893246586645466", forKey: "api_key")
+        cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
+        let uploader = Wrappy.create(cloudinary, delegate: self)
+        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+    }
     
+    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        let publicId = successResult["public_id"] as String
+        self.receivedMediaFromObservation!.url = successResult["url"] as? String
+        println("now cloudinary uploaded, public id is: \(publicId), ready for uploading media")
+        // push media after cloudinary is finished
+        var params = ["link": publicId] as Dictionary<String, Any>
+        self.receivedMediaFromObservation!.doPushNew(self.apiService, params: params)
+    }
+    
+    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
+        //do any progress update you may need
+        var process = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite) * 100
+        println("uploading to cloudinary... wait! \(process)%")
+        // println("bytesWritten: \(bytesWritten) totalBytesWritten: \(totalBytesWritten) totalBytesExptectedToWrite \(totalBytesExpectedToWrite)")
+    }
+
     
     //----------------------------------------------------------------------------------------------
     // some utility functions
@@ -267,8 +291,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                 for media in medias {
                     var mMedia = media as Media
                     // println("in obs: \(mMedia.toString())")
-                    var obscell = ObservationCell(objectID: mMedia.objectID,
-                        state: mMedia.state.integerValue, modifiedAt: mMedia.created_at.integerValue)
+                    var obscell = ObservationCell(objectID: mNote.objectID,
+                        state: mNote.state.integerValue, modifiedAt: mNote.created_at.integerValue)
                     if let tPath = mMedia.thumb_path {
                         obscell.localThumbPath = tPath
                     }

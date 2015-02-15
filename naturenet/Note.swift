@@ -84,7 +84,6 @@ class Note: NNModel {
         }
         self.setValue(STATE.DOWNLOADED, forKey: "state")
         SwiftCoreDataHelper.saveManagedObjectContext(SwiftCoreDataHelper.nsManagedObjectContext)
-
     }
     
     // determine a note in local core data whether is up to date 
@@ -126,9 +125,6 @@ class Note: NNModel {
             var feedback =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: context) as Feedback
             feedback.parseFeedbackJSON(feedbackDict as NSDictionary)
             feedback.note = self
-//                    if feedbackJSON["parent_id"] as Int == 0 {
-//                        feedback.target_id = self.objectID
-//                    }
             feedback.target_model = NSStringFromClass(Note)
             // println("feedback with note \(feedback.note.uid) is: { \(feedback.toString()) }")
             SwiftCoreDataHelper.saveManagedObjectContext(context)
@@ -166,6 +162,22 @@ class Note: NNModel {
         return results
     }
     
+    // get the landmark(location) from feedback with kind of 'landmark'
+    // not straightforward, but this the way how data stored in the server
+    func getLandmark() -> String? {
+        var landmark: String?
+        var feedbacks = getFeedbacks() as [Feedback]
+        if feedbacks.count > 0 {
+            for feedback in feedbacks {
+                if feedback.kind == "landmark" {
+                    landmark = feedback.content
+                    break
+                }
+            }
+        }
+        return landmark
+    }
+    
     // push a new note to remote server as HTTP post
     // returned JSON will be sent to apiService's delegate: ObservationsController
     override func doPushNew(apiService: APIService) -> Void {
@@ -173,9 +185,6 @@ class Note: NNModel {
         var params = ["kind": self.kind, "content": self.content, "context": self.context.name,
                         "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Note), params: params, url: url)
-//        doPushChilren(apiService)
-        //doPushMedias(apiService)
-//        doPushFeedbacks(apiService)
     }
     
     // update an existing note to remote server as HTTP post
@@ -185,7 +194,6 @@ class Note: NNModel {
         var params = ["kind": self.kind, "username": self.account.username, "content": self.content, "context": self.context.name,
             "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Note), params: params, url: url)
-//        doPushFeedbacks(apiService)
     }
  
     func doPushMedias(apiService: APIService) {

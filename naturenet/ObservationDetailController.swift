@@ -21,7 +21,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     var cloudinary:CLCloudinary = CLCloudinary()
     
     // data passed from previous page
-    var mediaIdFromObservations: NSManagedObjectID?
+    var noteIdFromObservations: NSManagedObjectID?
     var imageFromCamera: UIImage?
     var noteMedia: Media?
     var note: Note?
@@ -195,7 +195,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         media.state = NNModel.STATE.NEW
         media.full_path = fullPath
         media.created_at = createdAt
-        SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
         self.noteMedia = media
         media.commit()
         
@@ -210,7 +209,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         feedback.content = selectedLandmark.name
         feedback.created_at = createdAt
         self.feedback = feedback
-        SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
         feedback.commit()
         
         mNote.commit()
@@ -246,31 +244,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     }
     
     //----------------------------------------------------------------------------------------------------------------------
-    // cloudinary
-    //----------------------------------------------------------------------------------------------------------------------
-
-    func uploadToCloudinary(){
-        let forUpload = UIImagePNGRepresentation(noteImageView.image) as NSData
-        cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
-        cloudinary.config().setValue("893246586645466", forKey: "api_key")
-        cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
-        let uploader = Wrappy.create(cloudinary, delegate: self)
-        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
-        
-    }
-
-    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
-        let publicId = successResult["public_id"] as String
-        var url = successResult["url"] as String
-        println("cloudinary id is: \(publicId)")
-    }
-    
-    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
-        //do any progress update you may need
-    }
-    
-    
-    //----------------------------------------------------------------------------------------------------------------------
     // some utility functions
     //----------------------------------------------------------------------------------------------------------------------
 
@@ -279,13 +252,15 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         // load landmarks and activities (type: Context)
         loadContexts()
         // load note informaiton, e.g. description/media image
-        if let mediaObjectID = self.mediaIdFromObservations {
-            var predicate = NSPredicate(format: "SELF = %@", mediaObjectID)
-            if let nMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate,
-                managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as Media? {
-                   self.noteMedia = nMedia
+        if let noteObjectID = self.noteIdFromObservations {
+            var predicate = NSPredicate(format: "SELF = %@", noteObjectID)
+            if let mNote = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Note), withPredicate: predicate,
+                managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as Note? {
+                   self.note = mNote
             }
-            self.note = noteMedia?.getNote()
+//            self.note = noteMedia?.getNote()
+            self.noteMedia = self.note?.getSingleMedia()
+            
             details[0] = note!.content
             
             var noteActivity = note!.context
@@ -337,7 +312,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     // load image into imageview
     func loadFullImage(media: Media) {
         var url = media.url!
-        println("passed image url is: \(url)")
+        // println("passed image url is: \(url)")
         var nsurl: NSURL = NSURL(string: url)!
         let urlRequest = NSURLRequest(URL: nsurl)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
