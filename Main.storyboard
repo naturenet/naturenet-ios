@@ -691,7 +691,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="hMG-K1-N3g" kind="show" id="Nfv-ei-fl4"/>
+                        <segue destination="hMG-K1-N3g" kind="show" identifier="activityDetail" id="Nfv-ei-fl4"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qp1-ge-Zhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -702,7 +702,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
         <!--Title-->
         <scene sceneID="oa5-Hq-k3v">
             <objects>
-                <viewController id="hMG-K1-N3g" sceneMemberID="viewController">
+                <viewController id="hMG-K1-N3g" customClass="ActivityDetailViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kmW-c5-yqd"/>
                         <viewControllerLayoutGuide type="bottom" id="j1U-AM-HpR"/>
@@ -719,28 +719,46 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="sQ4-FL-mzL"/>
                                 </items>
                             </toolbar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R3D-Gc-ANW">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R3D-Gc-ANW">
                                 <rect key="frame" x="0.0" y="64" width="600" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="VHl-DO-AZs"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLB-yK-kVA">
-                                <rect key="frame" x="279" y="232" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jJb-So-Cjl">
+                                <rect key="frame" x="0.0" y="232" width="600" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="wjh-yq-AVh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="leading" secondItem="prM-kJ-Vyi" secondAttribute="leading" id="A5Y-44-D8Q"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="top" secondItem="R3D-Gc-ANW" secondAttribute="bottom" constant="8" symbolic="YES" id="Et6-PD-GZg"/>
+                            <constraint firstItem="R3D-Gc-ANW" firstAttribute="leading" secondItem="jJb-So-Cjl" secondAttribute="leading" id="V8V-kB-zxV"/>
                             <constraint firstItem="prM-kJ-Vyi" firstAttribute="bottom" secondItem="j1U-AM-HpR" secondAttribute="top" id="alW-Rp-N4l"/>
                             <constraint firstItem="prM-kJ-Vyi" firstAttribute="leading" secondItem="SAj-U6-AyP" secondAttribute="leading" id="fg7-yo-cM6"/>
+                            <constraint firstItem="R3D-Gc-ANW" firstAttribute="top" secondItem="kmW-c5-yqd" secondAttribute="bottom" id="pOA-L0-yat"/>
+                            <constraint firstItem="R3D-Gc-ANW" firstAttribute="trailing" secondItem="jJb-So-Cjl" secondAttribute="trailing" id="vKq-6m-aKQ"/>
                             <constraint firstAttribute="trailing" secondItem="prM-kJ-Vyi" secondAttribute="trailing" id="wAe-gY-SMD"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="trailing" secondItem="prM-kJ-Vyi" secondAttribute="trailing" id="yly-BP-1wZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="Cfz-sc-ahz"/>
+                    <connections>
+                        <outlet property="activityDescriptionTextView" destination="jJb-So-Cjl" id="5Hf-l7-qSK"/>
+                        <outlet property="activityIconImageView" destination="R3D-Gc-ANW" id="81j-V2-6hU"/>
+                        <outlet property="activityNavItem" destination="Cfz-sc-ahz" id="AoK-2R-Wvm"/>
+                        <outlet property="navigationItem" destination="Cfz-sc-ahz" id="L8A-Gz-xEM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SG8-zI-uKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2866" y="-986"/>
+            <point key="canvasLocation" x="3014" y="-944"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="w4K-R9-amY">

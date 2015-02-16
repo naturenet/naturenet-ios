@@ -60,7 +60,24 @@ class ActivitiesTableViewController: UITableViewController {
         return cell
     }
     
-    func loadImageFromWeb(iconURL: String, cell: UITableViewCell, index: Int ) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("activityDetail", sender: indexPath)
+
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "activityDetail" {
+            let destinationVC = segue.destinationViewController as ActivityDetailViewController
+            // if passed from a cell
+            if let indexPath = sender as? NSIndexPath {
+                let selectedCell = activities[indexPath.row]
+                destinationVC.activity = selectedCell
+            }
+        }
+
+    }
+    
+    private func loadImageFromWeb(iconURL: String, cell: UITableViewCell, index: Int ) {
         var url = NSURL(string: iconURL)
         let urlRequest = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
@@ -71,7 +88,6 @@ class ActivitiesTableViewController: UITableViewController {
                 cell.imageView?.image = image
             }
         })
-        
     }
 
     /*

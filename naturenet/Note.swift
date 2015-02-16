@@ -84,6 +84,7 @@ class Note: NNModel {
         }
         self.setValue(STATE.DOWNLOADED, forKey: "state")
         SwiftCoreDataHelper.saveManagedObjectContext(SwiftCoreDataHelper.nsManagedObjectContext)
+        self.commit()
     }
     
     // determine a note in local core data whether is up to date 

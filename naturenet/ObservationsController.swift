@@ -323,7 +323,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     // if local thumbnail exists, show local thumbnail to each cell
     // else if local full path exists, show local full to each cell
     // if both of them failed, try web nail and show web nail to each cell
-    func showImageIntoCell(cellImage: ObservationCell, cell: HomeCell, indexPath: NSIndexPath) {
+    private func showImageIntoCell(cellImage: ObservationCell, cell: HomeCell, indexPath: NSIndexPath) {
         cell.mLabel.text = cellImage.getStatus()
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         cell.addSubview(activityIndicator)
@@ -340,7 +340,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                 return
             }
         } else if let fPath = cellImage.localFullPath {
-            println("image local full path is :  \(fPath)")
+            // println("image local full path is :  \(fPath)")
             if fileManager.fileExistsAtPath(fPath) {
                 cell.mImageView.image = UIImage(named: fPath)
                 activityIndicator.stopAnimating()
@@ -357,7 +357,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     }
     
     // load iamge to cell and save the thumbnail file path
-    func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
+    private func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
         let urlRequest = NSURLRequest(URL: url)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
             response, data, error in
@@ -375,7 +375,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         
     }
     
-    func saveImageThumb(cellImage: ObservationCell, data: NSData) {
+    private func saveImageThumb(cellImage: ObservationCell, data: NSData) {
         var fileName = String(cellImage.modifiedAt) + ".jpg"
         var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         cellImage.localThumbPath = tPath

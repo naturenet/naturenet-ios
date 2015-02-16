@@ -37,6 +37,7 @@
 		FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */; };
 		FCA005491A832B010066686D /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005481A832B010066686D /* Feedback.swift */; };
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
+		FCB9DD741A91763C00D1781D /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */; };
 		FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317D91A887473003FC954 /* CoreLocation.framework */; };
 		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
 		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
@@ -88,6 +89,7 @@
 		FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteActivitySelectionViewController.swift; sourceTree = "<group>"; };
 		FCA005481A832B010066686D /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
 		FCD317D91A887473003FC954 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FCD317EE1A892476003FC954 /* libCloudinary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCloudinary.a; path = ../../../../Downloads/cloudinary_ios_v1.0.12/libCloudinary.a; sourceTree = "<group>"; };
 		FCD317F11A8924E6003FC954 /* CLCloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCloudinary.h; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */,
 				FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */,
 				FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */,
+				FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				FC3EDBE81A678840008C0293 /* Account.swift in Sources */,
 				FC5BA38B1A78BACF0069D59F /* ObservationsController.swift in Sources */,
 				FCA005491A832B010066686D /* Feedback.swift in Sources */,
+				FCB9DD741A91763C00D1781D /* ActivityDetailViewController.swift in Sources */,
 				FC1134BD1A64308D00D548E8 /* SignIn.swift in Sources */,
 				FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */,
 				FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */,

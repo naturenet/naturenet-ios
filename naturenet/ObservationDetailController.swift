@@ -212,7 +212,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         feedback.commit()
         
         mNote.commit()
-        
         return mNote
     }
     
@@ -239,7 +238,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
 //        }
 //        self.noteMedia = fetchedMedia
         note!.commit()
-        
         return self.note!
     }
     
