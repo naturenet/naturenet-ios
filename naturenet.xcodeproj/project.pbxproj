@@ -38,6 +38,7 @@
 		FCA005491A832B010066686D /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005481A832B010066686D /* Feedback.swift */; };
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
 		FCB9DD741A91763C00D1781D /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */; };
+		FCB9DD761A91B39300D1781D /* NNModel in Resources */ = {isa = PBXBuildFile; fileRef = FCB9DD751A91B39300D1781D /* NNModel */; };
 		FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317D91A887473003FC954 /* CoreLocation.framework */; };
 		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
 		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
@@ -90,6 +91,7 @@
 		FCA005481A832B010066686D /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
+		FCB9DD751A91B39300D1781D /* NNModel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NNModel; sourceTree = "<group>"; };
 		FCD317D91A887473003FC954 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FCD317EE1A892476003FC954 /* libCloudinary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCloudinary.a; path = ../../../../Downloads/cloudinary_ios_v1.0.12/libCloudinary.a; sourceTree = "<group>"; };
 		FCD317F11A8924E6003FC954 /* CLCloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCloudinary.h; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				FC1134C21A6430D900D548E8 /* NNModel.swift */,
+				FCB9DD751A91B39300D1781D /* NNModel */,
 				FC3EDBE71A678840008C0293 /* Account.swift */,
 				FCAE49AF1A75E31E0011283A /* Session.swift */,
 				FC012CBF1A769E3F00D9CBF1 /* Site.swift */,
@@ -337,6 +340,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCB9DD761A91B39300D1781D /* NNModel in Resources */,
 				FC1134BB1A642FDC00D548E8 /* Images.xcassets in Resources */,
 				FC1134A31A642DD600D548E8 /* LaunchScreen.xib in Resources */,
 				FC1134B91A642FAE00D548E8 /* Main.storyboard in Resources */,

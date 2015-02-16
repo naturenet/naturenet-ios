@@ -32,6 +32,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         super.viewDidLoad()
         apiService.delegate = self
         loadData()
+        println("viewDidLoad")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -52,13 +53,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             var uid = response["data"]!["id"] as Int
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
-                var modifiedAt = response["data"]!["modified_at"] as Int
+                var modifiedAt = response["data"]!["modified_at"] as NSTimeInterval
                 self.receivedNoteFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 self.receivedNoteFromObservation!.doPushFeedbacks(self.apiService)
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
                 println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, if this is not, do update")
-                var modifiedAt = response["data"]!["modified_at"] as Int
+                var modifiedAt = response["data"]!["modified_at"] as NSTimeInterval
                 if self.receivedFeedbackFromObservation != nil {
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     // if there is no media passed back, the note only needs to update instead of uploading
@@ -152,7 +153,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             var note = self.receivedNoteFromObservation
             var media = originVC.noteMedia
             var newCell = ObservationCell(objectID: note!.objectID, state: note!.state.integerValue,
-                modifiedAt: note!.modified_at.integerValue)
+                modifiedAt: note!.modified_at)
             newCell.localFullPath = media!.full_path
             celldata.insert(newCell, atIndex: 0)
             self.observationCV.reloadData()
@@ -299,7 +300,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                     var mMedia = media as Media
                     // println("in obs: \(mMedia.toString())")
                     var obscell = ObservationCell(objectID: mNote.objectID,
-                        state: mNote.state.integerValue, modifiedAt: mNote.created_at.integerValue)
+                        state: mNote.state.integerValue, modifiedAt: mNote.modified_at)
                     if let tPath = mMedia.thumb_path {
                         obscell.localThumbPath = tPath
                     }
@@ -323,7 +324,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     // if local thumbnail exists, show local thumbnail to each cell
     // else if local full path exists, show local full to each cell
     // if both of them failed, try web nail and show web nail to each cell
-    private func showImageIntoCell(cellImage: ObservationCell, cell: HomeCell, indexPath: NSIndexPath) {
+    func showImageIntoCell(cellImage: ObservationCell, cell: HomeCell, indexPath: NSIndexPath) {
         cell.mLabel.text = cellImage.getStatus()
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         cell.addSubview(activityIndicator)
@@ -357,7 +358,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     }
     
     // load iamge to cell and save the thumbnail file path
-    private func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
+    func loadImageFromWeb(url: NSURL, cell: HomeCell, activityIndicator: UIActivityIndicatorView, index: Int ) {
         let urlRequest = NSURLRequest(URL: url)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
             response, data, error in
@@ -375,8 +376,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         
     }
     
-    private func saveImageThumb(cellImage: ObservationCell, data: NSData) {
-        var fileName = String(cellImage.modifiedAt) + ".jpg"
+    func saveImageThumb(cellImage: ObservationCell, data: NSData) {
+        var fileName = NSString(format: "%f", cellImage.modifiedAt) + ".jpg"
         var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         cellImage.localThumbPath = tPath
         var predicate = NSPredicate(format: "SELF = %@", cellImage.objectID)
@@ -391,14 +392,14 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
 // ObservationCell class
 //----------------------------------------------------------------------------------------------
 class ObservationCell {
-    var modifiedAt: Int
+    var modifiedAt: NSTimeInterval
     var state: Int
     var objectID: NSManagedObjectID
     var imageURL: String?
     var localThumbPath: String?
     var localFullPath: String?
     
-    init(objectID: NSManagedObjectID, state: Int, modifiedAt: Int) {
+    init(objectID: NSManagedObjectID, state: Int, modifiedAt: NSTimeInterval) {
         self.objectID = objectID
         self.state = state
         self.modifiedAt = modifiedAt

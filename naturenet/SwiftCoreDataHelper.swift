@@ -40,7 +40,7 @@ class SwiftCoreDataHelper {
         }
     }
     
-    class func fetchEntities(className:NSString, withPredicate predicate:NSPredicate?, managedObjectContext:NSManagedObjectContext)->NSArray{
+    class func fetchEntities(className:NSString, withPredicate predicate:NSPredicate?, managedObjectContext:NSManagedObjectContext) -> NSArray{
         let fetchRequest:NSFetchRequest = NSFetchRequest()
         let entetyDescription:NSEntityDescription = NSEntityDescription.entityForName(className, inManagedObjectContext: managedObjectContext)!
         

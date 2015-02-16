@@ -24,8 +24,8 @@ class Feedback: NNModel {
         self.uid = feedback["id"] as Int
         self.content = feedback["content"] as String
         self.kind = feedback["kind"] as String
-        self.modified_at = feedback["modified_at"] as Int
-        self.created_at = feedback["created_at"] as Int
+        self.modified_at = feedback["modified_at"] as NSTimeInterval
+        self.created_at = feedback["created_at"] as NSTimeInterval
         var accountID = feedback["account"]!["id"] as Int
         self.account_id = accountID
         var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account

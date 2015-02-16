@@ -25,9 +25,14 @@ class Note: NNModel {
     // parse a note JSON
     func parseNoteJSON(mNote: NSDictionary) -> Note {
         self.uid = mNote["id"] as Int
-        self.created_at = mNote["created_at"] as Int
+        self.created_at = mNote["created_at"] as NSTimeInterval
         self.kind = mNote["kind"] as String
-        self.modified_at = mNote["modified_at"] as Int
+//        var modifiedAt = UInt64(mNote["modified_at"] as Int)
+//        var modified_at = NSNumber(unsignedLongLong: modifiedAt)
+        var modifiedAt = mNote["modified_at"] as NSTimeInterval
+
+        self.modified_at = mNote["modified_at"] as NSTimeInterval
+
         if let lat = mNote["latitude"] as? Float {
             self.latitude = lat
         } else {
@@ -75,7 +80,7 @@ class Note: NNModel {
     
     // give a new note update local
     func updateNote(mNote: NSDictionary) {
-        self.setValue(mNote["modified_at"] as Int, forKey: "modified_at")
+        self.setValue(mNote["modified_at"] as NSTimeInterval, forKey: "modified_at")
         self.setValue(mNote["content"] as String, forKey: "content")
         if let contextID = mNote["context"]!["id"] as? Int {
             self.setValue(contextID, forKey: "context_id")
@@ -84,17 +89,9 @@ class Note: NNModel {
         }
         self.setValue(STATE.DOWNLOADED, forKey: "state")
         SwiftCoreDataHelper.saveManagedObjectContext(SwiftCoreDataHelper.nsManagedObjectContext)
+        println("note with \(self.uid) is: { \(self.toString()) } is updated")
+        
         self.commit()
-    }
-    
-    // determine a note in local core data whether is up to date 
-    // @Deprecated
-    func isSyncedWithServer(serverNote: NSDictionary) -> Bool {
-        var severModified = serverNote["modified_at"] as String
-        if self.modified_at == severModified {
-            return true
-        }
-        return false
     }
     
     // give a new note save to Note data
@@ -225,7 +222,7 @@ class Note: NNModel {
     
     // toString testing purpose
     func toString() -> String {
-        return "noteid: \(uid) createdAt: \(created_at) latitude: \(latitude) logitutde: \(longitude) status: \(status) content: \(content)"
+        return "noteid: \(uid) modified: \(modified_at) latitude: \(latitude) logitutde: \(longitude) status: \(status) content: \(content)"
     }
 
 }

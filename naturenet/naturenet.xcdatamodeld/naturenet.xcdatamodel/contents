@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Account" representedClassName="Account" syncable="YES">
-        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -15,10 +15,10 @@
     </entity>
     <entity name="Context" representedClassName="Context" syncable="YES">
         <attribute name="context_description" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="extras" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="site_uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -30,9 +30,9 @@
     <entity name="Feedback" representedClassName="Feedback" syncable="YES">
         <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="target_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="target_model" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,9 +41,9 @@
         <relationship name="note" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Note" inverseName="feedback" inverseEntity="Note" syncable="YES"/>
     </entity>
     <entity name="Media" representedClassName="Media" syncable="YES">
-        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="full_path" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="note_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="thumb_path" optional="YES" attributeType="String" syncable="YES"/>
@@ -56,11 +56,11 @@
         <attribute name="account_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="context_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -76,10 +76,10 @@
         <relationship name="site" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="session" inverseEntity="Site" syncable="YES"/>
     </entity>
     <entity name="Site" representedClassName="Site" syncable="YES">
-        <attribute name="created_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="image_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="modified_at" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_at" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="site_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -89,11 +89,11 @@
     </entity>
     <elements>
         <element name="Account" positionX="-153" positionY="-297" width="128" height="210"/>
-        <element name="Context" positionX="-378" positionY="-313" width="128" height="223"/>
-        <element name="Feedback" positionX="-56" positionY="-19" width="128" height="208"/>
-        <element name="Media" positionX="-65" positionY="209" width="128" height="193"/>
-        <element name="Note" positionX="-360" positionY="-34" width="128" height="268"/>
+        <element name="Context" positionX="-378" positionY="-313" width="128" height="225"/>
+        <element name="Feedback" positionX="-56" positionY="-19" width="128" height="210"/>
+        <element name="Media" positionX="-65" positionY="209" width="128" height="195"/>
+        <element name="Note" positionX="-360" positionY="-34" width="128" height="270"/>
         <element name="Session" positionX="196" positionY="-189" width="128" height="103"/>
-        <element name="Site" positionX="-351" positionY="-585" width="128" height="193"/>
+        <element name="Site" positionX="-351" positionY="-585" width="128" height="195"/>
     </elements>
 </model>

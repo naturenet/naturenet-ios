@@ -79,7 +79,7 @@ class SignIn: UIViewController, APIControllerProtocol {
         var username = data["username"] as String
         var pass = data["password"] as String
         var email = data["email"] as String
-        var modified_at = data["modified_at"] as Int
+        var modified_at = data["modified_at"] as NSTimeInterval
         
         if pass != self.textFieldUpass.text {
             var errorMessage = "Password is Wrong"
@@ -154,7 +154,7 @@ class SignIn: UIViewController, APIControllerProtocol {
             }
             
             if localNote != nil {
-                if localNote!.modified_at.integerValue != serverNote["modified_at"] as Int {
+                if localNote!.modified_at != serverNote["modified_at"] as NSTimeInterval {
                     localNote!.updateNote(serverNote)
                 }
             } else {
