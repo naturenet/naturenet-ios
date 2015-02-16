@@ -25,13 +25,13 @@ class Note: NNModel {
     // parse a note JSON
     func parseNoteJSON(mNote: NSDictionary) -> Note {
         self.uid = mNote["id"] as Int
-        self.created_at = mNote["created_at"] as NSTimeInterval
         self.kind = mNote["kind"] as String
-//        var modifiedAt = UInt64(mNote["modified_at"] as Int)
-//        var modified_at = NSNumber(unsignedLongLong: modifiedAt)
-        var modifiedAt = mNote["modified_at"] as NSTimeInterval
-
-        self.modified_at = mNote["modified_at"] as NSTimeInterval
+//        var createAt = UInt64(mNote["created_at"] as NSTimeInterval)
+//        self.created_at = NSNumber(unsignedLongLong: createAt)
+//        var modifiedAt = UInt64(mNote["modified_at"] as NSTimeInterval)
+//        self.modified_at = NSNumber(unsignedLongLong: modifiedAt)
+        self.created_at = mNote["created_at"] as NSNumber
+        self.modified_at = mNote["modified_at"] as NSNumber
 
         if let lat = mNote["latitude"] as? Float {
             self.latitude = lat
@@ -80,7 +80,7 @@ class Note: NNModel {
     
     // give a new note update local
     func updateNote(mNote: NSDictionary) {
-        self.setValue(mNote["modified_at"] as NSTimeInterval, forKey: "modified_at")
+        self.setValue(mNote["modified_at"] as NSNumber, forKey: "modified_at")
         self.setValue(mNote["content"] as String, forKey: "content")
         if let contextID = mNote["context"]!["id"] as? Int {
             self.setValue(contextID, forKey: "context_id")

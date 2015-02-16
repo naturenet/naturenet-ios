@@ -24,8 +24,12 @@ class Feedback: NNModel {
         self.uid = feedback["id"] as Int
         self.content = feedback["content"] as String
         self.kind = feedback["kind"] as String
-        self.modified_at = feedback["modified_at"] as NSTimeInterval
-        self.created_at = feedback["created_at"] as NSTimeInterval
+        self.modified_at = feedback["modified_at"] as NSNumber
+        self.created_at = feedback["created_at"] as NSNumber
+//        var createAt = UInt64(feedback["created_at"] as NSTimeInterval)
+//        self.created_at = NSNumber(unsignedLongLong: createAt)
+//        var modifiedAt = UInt64(feedback["modified_at"]as NSTimeInterval)
+//        self.modified_at = NSNumber(unsignedLongLong: modifiedAt)
         var accountID = feedback["account"]!["id"] as Int
         self.account_id = accountID
         var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account

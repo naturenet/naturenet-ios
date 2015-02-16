@@ -33,6 +33,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         apiService.delegate = self
         loadData()
         println("viewDidLoad")
+        for cell in celldata {
+            println("\(cell.toString())")
+
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -53,13 +57,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             var uid = response["data"]!["id"] as Int
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
-                var modifiedAt = response["data"]!["modified_at"] as NSTimeInterval
+                var modifiedAt = response["data"]!["modified_at"] as NSNumber
                 self.receivedNoteFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 self.receivedNoteFromObservation!.doPushFeedbacks(self.apiService)
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
                 println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, if this is not, do update")
-                var modifiedAt = response["data"]!["modified_at"] as NSTimeInterval
+                var modifiedAt = response["data"]!["modified_at"] as NSNumber
                 if self.receivedFeedbackFromObservation != nil {
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     // if there is no media passed back, the note only needs to update instead of uploading
@@ -316,7 +320,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                     }
                 }
             }
-            celldata.sort({$0.modifiedAt > $1.modifiedAt})
+            celldata.sort({$0.modifiedAt.longLongValue > $1.modifiedAt.longLongValue})
 //            println("total notes: \(notes.count) total celldata: \(celldata.count)")
         }
     }
@@ -373,17 +377,18 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
                 self.saveImageThumb(cellImage, data: data)
             }
         })
-        
     }
     
     func saveImageThumb(cellImage: ObservationCell, data: NSData) {
-        var fileName = NSString(format: "%f", cellImage.modifiedAt) + ".jpg"
+        var fileName = String(cellImage.modifiedAt.longLongValue) + ".jpg"
         var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         cellImage.localThumbPath = tPath
         var predicate = NSPredicate(format: "SELF = %@", cellImage.objectID)
+        
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        if let nMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate, managedObjectContext: nsManagedContext) as Media? {
-            nMedia.setLocalThumbPath(tPath)
+        if let mNote = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext) as Note? {
+            var media = mNote.getSingleMedia()
+            media!.setLocalThumbPath(tPath)
         }
     }
 }
@@ -392,14 +397,14 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
 // ObservationCell class
 //----------------------------------------------------------------------------------------------
 class ObservationCell {
-    var modifiedAt: NSTimeInterval
+    var modifiedAt: NSNumber
     var state: Int
     var objectID: NSManagedObjectID
     var imageURL: String?
     var localThumbPath: String?
     var localFullPath: String?
     
-    init(objectID: NSManagedObjectID, state: Int, modifiedAt: NSTimeInterval) {
+    init(objectID: NSManagedObjectID, state: Int, modifiedAt: NSNumber) {
         self.objectID = objectID
         self.state = state
         self.modifiedAt = modifiedAt
@@ -433,6 +438,10 @@ class ObservationCell {
         }
         // println("new url is " + newURL)
         return newURL
+    }
+    
+    func toString() -> String {
+        return "cell modified at \(self.modifiedAt.longLongValue) local thumpath is: \(self.localThumbPath?) local fullpath is: \(self.localFullPath?)"
     }
     
     // save to local document directory

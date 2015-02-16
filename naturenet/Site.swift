@@ -25,7 +25,7 @@ class Site: NNModel {
     
     // parse site JSON data
     func parseSiteJSON(data: NSDictionary) -> Site {
-        self.created_at = NSDate().timeIntervalSince1970
+        self.created_at = NSNumber(unsignedLongLong: UInt64(NSDate().timeIntervalSince1970 * 1000))
         self.name = data["name"] as String
         var contexts = data["contexts"] as NSArray
         self.site_description = data["description"] as String

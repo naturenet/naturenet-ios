@@ -30,13 +30,17 @@ class Account: NNModel {
         self.name = data["name"] as String
         self.password = data["password"] as String
         self.email = data["email"] as String
-        self.created_at = data["created_at"] as NSTimeInterval
-        self.modified_at = data["modified_at"] as NSTimeInterval
+//        var createAt = UInt64(data["created_at"] as NSTimeInterval)
+//        self.created_at = NSNumber(unsignedLongLong: createAt)
+//        var modifiedAt = UInt64(data["modified_at"] as NSTimeInterval)
+//        self.modified_at = NSNumber(unsignedLongLong: modifiedAt)
+        self.created_at = data["created_at"] as NSNumber
+        self.modified_at = data["modified_at"] as NSNumber
         return self
     }
     
     // update data in core data
-    func doUpdateCoreData(pass: String, email: String, modified_at: NSTimeInterval) {
+    func doUpdateCoreData(pass: String, email: String, modified_at: NSNumber) {
         self.setValue(pass, forKey: "password")
         self.setValue(email, forKey: "email")
         self.setValue(modified_at, forKey: "modified_at")

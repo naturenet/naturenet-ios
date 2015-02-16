@@ -11,8 +11,8 @@ import CoreData
 
 class NNModel: NSManagedObject {
     @NSManaged var uid: NSNumber
-    @NSManaged var created_at: Double
-    @NSManaged var modified_at: Double
+    @NSManaged var created_at: NSNumber
+    @NSManaged var modified_at: NSNumber
     @NSManaged var state: NSNumber
 
     struct STATE {
@@ -104,7 +104,7 @@ class NNModel: NSManagedObject {
     }
 
     // update remote uid and state
-    func updateAfterPost(idFromServer: Int, modifiedAtFromServer: NSTimeInterval?) {
+    func updateAfterPost(idFromServer: Int, modifiedAtFromServer: NSNumber?) {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         state = STATE.SYNCED
         uid = idFromServer

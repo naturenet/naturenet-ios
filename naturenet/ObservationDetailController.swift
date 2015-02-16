@@ -184,7 +184,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         
         var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
         var createdAt = NSNumber(unsignedLongLong: timestamp)
-        mNote.created_at = Double(createdAt)
+        mNote.created_at = createdAt
         
         // save to Media
         var fileName = String(timestamp) + ".jpg"
@@ -194,7 +194,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         media.note = mNote
         media.state = NNModel.STATE.NEW
         media.full_path = fullPath
-        media.created_at = Double(createdAt)
+        media.created_at = createdAt
         self.noteMedia = media
         media.commit()
         
@@ -329,9 +329,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     
     // func 
     func saveFullImage(data: NSData, media: Media) {
-//        var fileName = String(media.created_at.integerValue) + ".jpg"
-        var fileName = NSString(format: "%f", media.created_at) + ".jpg"
-
+        var fileName = String(media.created_at.longLongValue) + ".jpg"
         var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         media.full_path = tPath
         media.setLocalFullPath(tPath)
