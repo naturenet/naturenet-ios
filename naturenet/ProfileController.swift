@@ -8,23 +8,21 @@
 
 import UIKit
 
-class ProfileController: UIViewController, UITableViewDelegate {
+class ProfileController: UITableViewController, UITableViewDelegate {
     
-    @IBOutlet weak var profileTableView: UITableView!
-    @IBOutlet weak var signoutBtn: UIButton!
+    // UI Outlets
+    @IBOutlet var profileTableView: UITableView!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var numOfObsLabel: UILabel!
+    @IBOutlet weak var numOfDesignIdeasLabel: UILabel!
     
-    var titles = ["Name", "Observations", "Design Ideas"]
+    
     var details = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        if let account = Session.getAccount() {
-            details.append(account.username)
-            var notes = account.getNotes()
-            details.append(String(notes.count))
-            details.append(String(notes.count))
-        }
+        setupTableView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -32,25 +30,41 @@ class ProfileController: UIViewController, UITableViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return details.count
-    }
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "profilecell")
-        let cell = tableView.dequeueReusableCellWithIdentifier("profilecell", forIndexPath: indexPath) as ProfileTableViewCell
-        cell.titleLabel!.text = titles[indexPath.row]
-        cell.numberLabel!.text = String(details[indexPath.row])
-        return cell
-    }
-
     // returning to view
     override func viewWillAppear(animated: Bool) {
 //        tblTasks.reloadData()
     }
-
-    @IBAction func signout(sender: AnyObject) {
-        Session.signOut()
-        self.navigationController?.popToRootViewControllerAnimated(true)
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // sign out is in section 2
+        if indexPath.section == 2 {
+            Session.signOut()
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    }
+    
+    private func setupTableView() {
+        if let account = Session.getAccount() {
+            var notes = account.getNotes()
+            var numOfDesginIdeas = 0
+            var numOfObservations = 0
+            
+            for note in notes {
+                if note.kind == "FieldNote" {
+                    numOfObservations++
+                }
+                if note.kind == "DesignIdea" {
+                    numOfDesginIdeas++
+                }
+            }
+            
+            self.welcomeLabel.text = "Welcome, \(account.username)!"
+            self.numOfObsLabel.text = String(numOfObservations)
+            self.numOfDesignIdeasLabel.text = String(numOfDesginIdeas)
+        }
     }
 }

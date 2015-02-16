@@ -35,7 +35,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     }
     
     override func viewWillAppear(animated: Bool) {
-//        observationCV.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
