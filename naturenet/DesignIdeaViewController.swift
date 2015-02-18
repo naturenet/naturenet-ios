@@ -60,8 +60,12 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     }
     
     @IBAction func ideaSendPressed(sender: UIBarButtonItem) {
-        self.idea = saveIdea()
-        self.idea!.push(apiService)
+        if countElements(self.ideaTextView.text) == 0 {
+            self.createWarningAlert()
+        } else {
+            self.idea = saveIdea()
+            self.idea!.push(apiService)
+        }
     }
     
     func createAlert() {
@@ -72,6 +76,12 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
                 self.navigationController?.popViewControllerAnimated(true)
             }
         }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func createWarningAlert() {
+        var alert = UIAlertController(title: "Opps", message: "You did not input any idea!", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 

@@ -33,7 +33,7 @@
 		FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */; };
 		FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */; };
 		FC6F24D51A94571C00FEF9FE /* DesignIdeaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6F24D41A94571C00FEF9FE /* DesignIdeaViewController.swift */; };
-		FC8007A91A80336400510E30 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007A81A80336400510E30 /* ProfileController.swift */; };
+		FC8007A91A80336400510E30 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007A81A80336400510E30 /* ProfileViewController.swift */; };
 		FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */; };
 		FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */; };
 		FCA005491A832B010066686D /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005481A832B010066686D /* Feedback.swift */; };
@@ -86,7 +86,7 @@
 		FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditObsTableViewCell.swift; sourceTree = "<group>"; };
 		FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDescriptionViewController.swift; sourceTree = "<group>"; };
 		FC6F24D41A94571C00FEF9FE /* DesignIdeaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignIdeaViewController.swift; sourceTree = "<group>"; };
-		FC8007A81A80336400510E30 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		FC8007A81A80336400510E30 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteActivitySelectionViewController.swift; sourceTree = "<group>"; };
 		FCA005481A832B010066686D /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 				FC1134BC1A64308C00D548E8 /* SignInViewController.swift */,
 				FC1134BE1A64309E00D548E8 /* HomeViewController.swift */,
 				FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */,
-				FC8007A81A80336400510E30 /* ProfileController.swift */,
+				FC8007A81A80336400510E30 /* ProfileViewController.swift */,
 				FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */,
 				FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */,
 				FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */,
@@ -362,7 +362,7 @@
 			files = (
 				FCAE49B01A75E31E0011283A /* Session.swift in Sources */,
 				FC012CC01A769E3F00D9CBF1 /* Site.swift in Sources */,
-				FC8007A91A80336400510E30 /* ProfileController.swift in Sources */,
+				FC8007A91A80336400510E30 /* ProfileViewController.swift in Sources */,
 				FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */,
 				FC1134C31A6430D900D548E8 /* NNModel.swift in Sources */,
 				FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */,

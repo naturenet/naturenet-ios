@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileController: UITableViewController, UITableViewDelegate {
+class ProfileViewController: UITableViewController, UITableViewDelegate {
     
     // UI Outlets
     @IBOutlet var profileTableView: UITableView!
@@ -23,6 +23,9 @@ class ProfileController: UITableViewController, UITableViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         setupTableView()
+        
+        // Uncomment the following line to preserve selection between presentations
+        self.clearsSelectionOnViewWillAppear = true
     }
     
     override func didReceiveMemoryWarning() {

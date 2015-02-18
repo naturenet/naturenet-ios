@@ -87,6 +87,8 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
             self.performSegueWithIdentifier("designIdeaSeg", sender: self)
         case 4 :
             self.performSegueWithIdentifier("profileSeg", sender: self)
+        case 5 :
+            self.performSegueWithIdentifier("homeToAboutSeg", sender: self)
         default:
             return
         }
@@ -108,14 +110,6 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     // IBActions for receiced data passed back
     //----------------------------------------------------------------------------------------------------------------------
     
-    // IBAction for exit in observation detail page
-    
-//    @IBAction func observationDetailExitToHome(segue:UIStoryboardSegue) {
-//        dismissViewControllerAnimated(true, completion: nil)
-//        self.prevViewController = segue.sourceViewController as? ObservationDetailController
-//        self.performSegueWithIdentifier("observationSeg", sender: self)
-//    }
-//    
     @IBAction func cancelToHomeViewController(segue:UIStoryboardSegue) {
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
