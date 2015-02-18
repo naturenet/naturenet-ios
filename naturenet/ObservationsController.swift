@@ -31,14 +31,24 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     var sourceViewController: String?
     
+    override func viewWillAppear(animated: Bool) {
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         apiService.delegate = self
         println("sourceVC is \(sourceViewController)")
         loadData()
+        if sourceViewController == NSStringFromClass(ObservationDetailController) {
+            self.receivedNoteFromObservation!.push(apiService)
+            self.updateCollectionView(self.receivedNoteFromObservation!, media: self.receivedMediaFromObservation!)
+        }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -145,22 +155,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // delegate of observationDetailController, the delegate conforms SaveObservationProtocol
     //----------------------------------------------------------------------------------------------------------------------
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
-        if media != nil {
+        if self.cameraImage != nil {
             println("delegate received!")
             self.receivedNoteFromObservation = note
             self.receivedMediaFromObservation = media
             self.receivedFeedbackFromObservation = feedback
-//            var note = self.receivedNoteFromObservation
-//            var media = controller.noteMedia
-            var newCell = ObservationCell(objectID: note.objectID, state: note.state.integerValue,
-                modifiedAt: note.modified_at)
-            newCell.localFullPath = media!.full_path
-            celldata.insert(newCell, atIndex: 0)
-            self.observationCV.reloadData()
             self.receivedNoteFromObservation!.push(apiService)
-            // add progressview, update progress in onCloudinaryProgress
-            observationCV.addSubview(uploadProgressView)
-            uploadProgressView.frame = observationCV.bounds
+            updateCollectionView(note, media: media!)
         } else {
             self.receivedNoteFromObservation = note
             self.receivedFeedbackFromObservation = feedback
@@ -168,6 +169,27 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             self.receivedNoteFromObservation?.push(apiService)
         }
 
+    }
+    
+    func updateCollectionView(note: Note, media: Media) {
+        var newCell = ObservationCell(objectID: note.objectID, state: note.state.integerValue,
+            modifiedAt: note.modified_at)
+        newCell.localFullPath = media.full_path
+        celldata.insert(newCell, atIndex: 0)
+        self.observationCV.reloadData()
+        // add progressview, update progress in onCloudinaryProgress
+        observationCV.addSubview(uploadProgressView)
+        uploadProgressView.frame = observationCV.bounds
+    }
+    
+    // update status in the new created cell
+    func updateReceivedNoteStatus() {
+        for obs in self.celldata {
+            if obs.objectID == self.receivedNoteFromObservation!.objectID {
+                obs.state = self.receivedNoteFromObservation!.state.integerValue
+            }
+        }
+        self.observationCV.reloadData()
     }
     
     //----------------------------------------------------------------------------------------------------------------------
@@ -205,15 +227,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
     }
 
-    // update status in the new created cell
-    func updateReceivedNoteStatus() {
-        for obs in self.celldata {
-            if obs.objectID == self.receivedNoteFromObservation!.objectID {
-                obs.state = self.receivedNoteFromObservation!.state.integerValue
-            }
-        }
-        self.observationCV.reloadData()
-    }
+
     //----------------------------------------------------------------------------------------------------------------------
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------

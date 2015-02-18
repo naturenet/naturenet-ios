@@ -152,15 +152,18 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     }
     
     @IBAction func sendPressed(sender: UIBarButtonItem) {
-        println("send pressed")
         if sourceViewController == NSStringFromClass(ActivityDetailViewController) {
             let nextViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ObservationsViewController")
                                     as ObservationsController
-            nextViewController.sourceViewController = NSStringFromClass(ObservationDetailController)
             self.navigationController?.pushViewController(nextViewController, animated: true)
-            self.saveObservationDelegate = nextViewController
+            nextViewController.sourceViewController = NSStringFromClass(ObservationDetailController)
             self.saveNote()
-            self.saveObservationDelegate!.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
+            nextViewController.receivedNoteFromObservation = self.note
+            nextViewController.receivedMediaFromObservation = self.noteMedia
+            nextViewController.receivedFeedbackFromObservation = self.feedback
+
+//            self.saveObservationDelegate = nextViewController
+//            self.saveObservationDelegate!.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
         }
         
         if sourceViewController == NSStringFromClass(ObservationsController) {
