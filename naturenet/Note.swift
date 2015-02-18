@@ -222,7 +222,7 @@ class Note: NNModel {
     
     // toString testing purpose
     func toString() -> String {
-        return "noteid: \(uid) modified: \(modified_at) latitude: \(latitude) logitutde: \(longitude) status: \(status) content: \(content)"
+        return "noteid: \(uid) modified: \(modified_at) latitude: \(latitude) logitutde: \(longitude) content: \(content)"
     }
 
 }
