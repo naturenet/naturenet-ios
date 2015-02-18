@@ -449,13 +449,14 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Consent" id="1OY-uP-Cvv">
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="40I-7N-Qda">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="40I-7N-Qda">
                             <connections>
                                 <action selector="consentSendPressed:" destination="VxR-LH-H0V" id="IrG-Vf-WAu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="consentTableView" destination="sfW-Ng-yEA" id="YPe-CJ-W5k"/>
                         <segue destination="5hU-GR-cts" kind="show" identifier="consentToSignUp" id="B8Y-dD-MyR"/>
                     </connections>
                 </tableViewController>
@@ -463,7 +464,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
             </objects>
             <point key="canvasLocation" x="-333" y="1913"/>
         </scene>
-        <!--View Controller-->
+        <!--Enter Your Details-->
         <scene sceneID="P0P-3u-Mnl">
             <objects>
                 <viewController id="5hU-GR-cts" sceneMemberID="viewController">
@@ -474,8 +475,23 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     <view key="view" contentMode="scaleToFill" id="9fu-xR-cKK">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aQ5-I9-DX4">
+                                <rect key="frame" x="105" y="285" width="390" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aQ5-I9-DX4" firstAttribute="centerY" secondItem="9fu-xR-cKK" secondAttribute="centerY" id="534-mo-qI2"/>
+                            <constraint firstItem="aQ5-I9-DX4" firstAttribute="centerX" secondItem="9fu-xR-cKK" secondAttribute="centerX" id="e5W-9q-8Qc"/>
+                            <constraint firstItem="aQ5-I9-DX4" firstAttribute="leading" secondItem="9fu-xR-cKK" secondAttribute="leadingMargin" constant="89" id="hi3-Uo-enK"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Enter Your Details" id="50l-dH-urX">
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="TyH-Fa-Egx"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DaO-tX-eGI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

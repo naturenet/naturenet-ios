@@ -12,6 +12,8 @@ class ConsentTableViewController: UITableViewController {
     
     var selections:[Int] = [0, 0, 0, 0]
 
+    @IBOutlet var consentTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -54,8 +56,29 @@ class ConsentTableViewController: UITableViewController {
     }
 
     @IBAction func consentSendPressed(sender: UIBarButtonItem) {
+        var consents = [String]()
+        var selectedIndex = 0
+        if selections[0] == 0 || selections[1] == 0 {
+            createWarningAlert()
+            return
+        }
+        
+        for selection in selections {
+            if selection == 1 {
+                let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))!
+                consents.append(cell.textLabel!.text!)
+                println(consents)
+            }
+            selectedIndex++
+        }
     }
     
+    func createWarningAlert() {
+        var alert = UIAlertController(title: "Opps", message: "You must agree required ones!", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
     
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
