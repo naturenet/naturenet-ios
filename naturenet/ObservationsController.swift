@@ -9,8 +9,9 @@
 import UIKit
 import CoreData
 
-class ObservationsController: UIViewController, UINavigationControllerDelegate,
-                                UIImagePickerControllerDelegate, APIControllerProtocol, CLUploaderDelegate {
+
+class ObservationsController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate,
+                                APIControllerProtocol, CLUploaderDelegate, SaveObservationProtocol {
     // UI Outlets
     @IBOutlet weak var observationCV: UICollectionView!
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
@@ -28,15 +29,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     var receivedMediaFromObservation: Media?
     var receivedFeedbackFromObservation: Feedback?
     
+    var sourceViewController: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         apiService.delegate = self
+        println("sourceVC is \(sourceViewController)")
         loadData()
-        println("viewDidLoad")
-        for cell in celldata {
-            println("\(cell.toString())")
-
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -46,6 +45,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     // after post, when note uid is ready, order must follow this
     // upload feedback -> upload to cloudinary -> upload media
@@ -124,8 +124,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "observationDetailSegue" {
-            let destinationVC = segue.destinationViewController as UINavigationController
-            let detailVC = destinationVC.topViewController as ObservationDetailController
+//            let destinationVC = segue.destinationViewController as UINavigationController
+//            let detailVC = destinationVC.topViewController as ObservationDetailController
+            let detailVC = segue.destinationViewController as ObservationDetailController
+            detailVC.sourceViewController = NSStringFromClass(ObservationsController)
             // if passed from a cell
             if let indexPath = sender as? NSIndexPath {
                 let selectedCell = celldata[indexPath.row]
@@ -134,8 +136,38 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             } else if self.cameraImage != nil { // else from a camera
                 detailVC.imageFromCamera = self.cameraImage!
             }
-
+            detailVC.saveObservationDelegate = self
         }
+    }
+    
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // delegate of observationDetailController, the delegate conforms SaveObservationProtocol
+    //----------------------------------------------------------------------------------------------------------------------
+    func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
+        if media != nil {
+            println("delegate received!")
+            self.receivedNoteFromObservation = note
+            self.receivedMediaFromObservation = media
+            self.receivedFeedbackFromObservation = feedback
+//            var note = self.receivedNoteFromObservation
+//            var media = controller.noteMedia
+            var newCell = ObservationCell(objectID: note.objectID, state: note.state.integerValue,
+                modifiedAt: note.modified_at)
+            newCell.localFullPath = media!.full_path
+            celldata.insert(newCell, atIndex: 0)
+            self.observationCV.reloadData()
+            self.receivedNoteFromObservation!.push(apiService)
+            // add progressview, update progress in onCloudinaryProgress
+            observationCV.addSubview(uploadProgressView)
+            uploadProgressView.frame = observationCV.bounds
+        } else {
+            self.receivedNoteFromObservation = note
+            self.receivedFeedbackFromObservation = feedback
+            self.updateReceivedNoteStatus()
+            self.receivedNoteFromObservation?.push(apiService)
+        }
+
     }
     
     //----------------------------------------------------------------------------------------------------------------------
@@ -143,10 +175,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     //----------------------------------------------------------------------------------------------------------------------
     
     // IBAction for exit in observation detail page
-    @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
+//    @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
+//        dismissViewControllerAnimated(true, completion: nil)
+//    }
+
     @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
         dismissViewControllerAnimated(true, completion: nil)
         let originVC = segue.sourceViewController as ObservationDetailController
@@ -172,7 +204,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
             self.receivedNoteFromObservation?.push(apiService)
         }
     }
-    
+
     // update status in the new created cell
     func updateReceivedNoteStatus() {
         for obs in self.celldata {
@@ -185,7 +217,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate,
     //----------------------------------------------------------------------------------------------------------------------
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
-
     @IBAction func pickImage(sender: AnyObject) {
         var picker:UIImagePickerController = UIImagePickerController()
         // remember to assign delegate to self

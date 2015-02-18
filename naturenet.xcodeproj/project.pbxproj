@@ -32,6 +32,7 @@
 		FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */; };
 		FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */; };
 		FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */; };
+		FC6F24D31A92F76000FEF9FE /* HomeNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6F24D21A92F76000FEF9FE /* HomeNavController.swift */; };
 		FC8007A91A80336400510E30 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007A81A80336400510E30 /* ProfileController.swift */; };
 		FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */; };
 		FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */; };
@@ -84,6 +85,7 @@
 		FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationDetailController.swift; sourceTree = "<group>"; };
 		FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditObsTableViewCell.swift; sourceTree = "<group>"; };
 		FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDescriptionViewController.swift; sourceTree = "<group>"; };
+		FC6F24D21A92F76000FEF9FE /* HomeNavController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeNavController.swift; sourceTree = "<group>"; };
 		FC8007A81A80336400510E30 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteActivitySelectionViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */,
 				FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */,
 				FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */,
+				FC6F24D21A92F76000FEF9FE /* HomeNavController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */,
 				FC031E581A833E71007F67D7 /* NoteLocationTableViewController.swift in Sources */,
 				FCD318031A892E98003FC954 /* Wrappy.m in Sources */,
+				FC6F24D31A92F76000FEF9FE /* HomeNavController.swift in Sources */,
 				FC1134C81A6430EF00D548E8 /* APIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

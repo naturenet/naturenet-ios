@@ -16,6 +16,8 @@ class HomeController : UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var signinBtn: UIButton!
     
+    var prevViewController: ObservationDetailController?
+    
     var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
     var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     
@@ -42,6 +44,9 @@ class HomeController : UIViewController, UICollectionViewDataSource,
     }
 
     
+    //----------------------------------------------------------------------------------------------------------------------
+    // collectionView
+    //----------------------------------------------------------------------------------------------------------------------
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.items.count
     }
@@ -85,10 +90,32 @@ class HomeController : UIViewController, UICollectionViewDataSource,
         }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "observationSeg" {
+            let destinationVC = segue.destinationViewController as ObservationsController
+            if self.prevViewController != nil {
+                destinationVC.receivedNoteFromObservation = self.prevViewController!.saveNote()
+                destinationVC.receivedMediaFromObservation = self.prevViewController!.noteMedia
+                destinationVC.receivedFeedbackFromObservation = self.prevViewController!.feedback
+            }
+        }
+
+    }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // IBActions for receiced data passed back
+    //----------------------------------------------------------------------------------------------------------------------
+    
+    // IBAction for exit in observation detail page
+    
+//    @IBAction func observationDetailExitToHome(segue:UIStoryboardSegue) {
+//        dismissViewControllerAnimated(true, completion: nil)
+//        self.prevViewController = segue.sourceViewController as? ObservationDetailController
+//        self.performSegueWithIdentifier("observationSeg", sender: self)
+//    }
+//    
     @IBAction func cancelToHomeViewController(segue:UIStoryboardSegue) {
-        dismissViewControllerAnimated(true, completion: nil)
-        // self.navigationController?.popToRootViewControllerAnimated(true)
-        
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
 
 }

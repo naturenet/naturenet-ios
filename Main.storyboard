@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="489" y="-257"/>
+            <point key="canvasLocation" x="-937" y="-432"/>
         </scene>
         <!--Profile-->
         <scene sceneID="5sj-ed-Tm4">
@@ -240,7 +240,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Hq-Eh-EL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1410" y="-1131"/>
+            <point key="canvasLocation" x="708" y="-822"/>
         </scene>
         <!--Sign In-->
         <scene sceneID="85P-qF-8A2">
@@ -315,7 +315,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Y1-Gq-va3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-334" y="848"/>
+            <point key="canvasLocation" x="-922" y="684"/>
         </scene>
         <!--Signup One-->
         <scene sceneID="3yZ-uG-DVh">
@@ -360,12 +360,12 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UbR-en-8t5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="176" y="1774"/>
+            <point key="canvasLocation" x="-908" y="1834"/>
         </scene>
         <!--Observations-->
         <scene sceneID="mha-Xk-4jn">
             <objects>
-                <viewController id="VoY-hl-Epj" customClass="ObservationsController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ObservationsViewController" id="VoY-hl-Epj" customClass="ObservationsController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lwc-XN-PfK"/>
                         <viewControllerLayoutGuide type="bottom" id="ggZ-S6-vqo"/>
@@ -484,18 +484,24 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Zp3-K7-SSA"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Observations" id="oLc-DF-pGK">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="yS4-0t-vqp">
+                            <connections>
+                                <segue destination="mKz-YX-JQE" kind="unwind" unwindAction="cancelToHomeViewController:" id="sir-mx-bGX"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dKJ-Qh-2Sd"/>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cameraBtn" destination="dLT-iw-1CE" id="K9z-es-mu7"/>
                         <outlet property="observationCV" destination="Osk-2U-4DF" id="U81-OL-zwd"/>
-                        <segue destination="ZPd-cN-Nid" kind="presentation" identifier="observationDetailSegue" id="xrk-nU-TrO"/>
+                        <segue destination="iT3-ST-7Mc" kind="show" identifier="observationDetailSegue" id="2V5-4c-d9H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UFS-jY-fex" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="mKz-YX-JQE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1500" y="-2154"/>
+            <point key="canvasLocation" x="2245" y="-2284"/>
         </scene>
         <!--Observation-->
         <scene sceneID="eNB-Kf-sha">
@@ -608,12 +614,12 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cp6-kl-6MX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2510" y="-2943"/>
+            <point key="canvasLocation" x="1426" y="-2987"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Home Nav Controller-->
         <scene sceneID="T2S-ie-QQz">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4dx-qS-qFF" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4dx-qS-qFF" customClass="HomeNavController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3nj-kI-AL3">
@@ -630,11 +636,12 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KIB-ae-1KJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-746" y="-271"/>
+            <point key="canvasLocation" x="-1764" y="-353"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VPM-xr-aUY">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fej-Pz-W1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NmB-xi-hHy" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="QPN-y3-ZMB">
@@ -646,9 +653,8 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <segue destination="t4G-Hw-JHV" kind="relationship" relationship="rootViewController" id="GMX-N6-aO5"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fej-Pz-W1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1410" y="-271"/>
+            <point key="canvasLocation" x="-41" y="30"/>
         </scene>
         <!--Activities-->
         <scene sceneID="G3m-07-AEJ">
@@ -684,7 +690,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Activities" id="uvr-FT-QeU">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="3zH-eD-dXE">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="3zH-eD-dXE">
                             <connections>
                                 <segue destination="tbD-Sd-9pO" kind="unwind" unwindAction="cancelToHomeViewController:" id="74D-3C-nTi"/>
                             </connections>
@@ -697,7 +703,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qp1-ge-Zhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="tbD-Sd-9pO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2200" y="-566"/>
+            <point key="canvasLocation" x="1652" y="89"/>
         </scene>
         <!--Title-->
         <scene sceneID="oa5-Hq-k3v">
@@ -715,7 +721,11 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="6bH-Zc-V9e"/>
-                                    <barButtonItem systemItem="camera" id="gL5-pq-kWa"/>
+                                    <barButtonItem systemItem="camera" id="gL5-pq-kWa">
+                                        <connections>
+                                            <action selector="openCamera" destination="hMG-K1-N3g" id="MJu-CY-y2P"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="sQ4-FL-mzL"/>
                                 </items>
                             </toolbar>
@@ -754,11 +764,12 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <outlet property="activityIconImageView" destination="R3D-Gc-ANW" id="81j-V2-6hU"/>
                         <outlet property="activityNavItem" destination="Cfz-sc-ahz" id="AoK-2R-Wvm"/>
                         <outlet property="navigationItem" destination="Cfz-sc-ahz" id="L8A-Gz-xEM"/>
+                        <segue destination="iT3-ST-7Mc" kind="show" identifier="activityToObservation" id="fg6-OB-iFT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SG8-zI-uKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3014" y="-944"/>
+            <point key="canvasLocation" x="2363" y="-1234"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="w4K-R9-amY">
@@ -776,7 +787,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="acE-Vr-lZM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1816" y="-2943"/>
+            <point key="canvasLocation" x="728" y="-2987"/>
         </scene>
         <!--Observation-->
         <scene sceneID="aod-fM-Pyn">
@@ -858,12 +869,12 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     <navigationItem key="navigationItem" title="Observation" id="R3G-eh-Wun">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="tNG-fy-dch">
                             <connections>
-                                <segue destination="NBQ-iu-W0H" kind="unwind" unwindAction="cancelToObservationsViewController:" id="frA-AD-HNL"/>
+                                <action selector="cancelPressed:" destination="iT3-ST-7Mc" id="jgX-dN-GaH"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Send" id="WTd-D7-1qp">
                             <connections>
-                                <segue destination="NBQ-iu-W0H" kind="unwind" unwindAction="saveObservationDetail:" id="K2J-Fy-6jV"/>
+                                <action selector="sendPressed:" destination="iT3-ST-7Mc" id="6Vc-8L-K85"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -877,9 +888,8 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGH-Jb-d02" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="NBQ-iu-W0H" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3025" y="-2052"/>
+            <point key="canvasLocation" x="3088" y="-2450"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
@@ -890,7 +900,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <viewControllerLayoutGuide type="bottom" id="NOO-c9-LGT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LkA-CB-oD3">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F1Q-Mw-jHP">
@@ -928,7 +938,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhf-dO-1ZR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wmH-vx-Ojb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3727" y="-2639"/>
+            <point key="canvasLocation" x="4860" y="-3264"/>
         </scene>
         <!--Activity-->
         <scene sceneID="Ozr-jZ-JFj">
@@ -987,7 +997,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Joq-Hp-CoY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4I7-LF-w1e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3727" y="-1978"/>
+            <point key="canvasLocation" x="4860" y="-2549"/>
         </scene>
         <!--Location-->
         <scene sceneID="KjR-20-LMm">
@@ -1029,31 +1039,15 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kLL-Do-u0d" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="y7E-o5-Zmi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3714" y="-1227"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="qHl-t5-fUE">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZPd-cN-Nid" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="q9j-sh-pbi">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="iT3-ST-7Mc" kind="relationship" relationship="rootViewController" id="0IH-Jc-6MI"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MLR-Tc-BYk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2282" y="-2232"/>
+            <point key="canvasLocation" x="4860" y="-1813"/>
         </scene>
     </scenes>
     <resources>
+        <image name="back" width="32" height="32"/>
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fSU-fq-ZZv"/>
+        <segue reference="fg6-OB-iFT"/>
+        <segue reference="PbE-tg-8FU"/>
     </inferredMetricsTieBreakers>
 </document>

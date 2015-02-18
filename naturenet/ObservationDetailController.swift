@@ -10,6 +10,11 @@ import UIKit
 import CoreLocation
 import CoreData
 
+
+protocol SaveObservationProtocol {
+    func saveObservation(note: Note, media: Media?, feedback: Feedback?) -> Void
+}
+
 class ObservationDetailController: UIViewController, UITableViewDelegate, CLLocationManagerDelegate, CLUploaderDelegate {
 
     // UI Outlets
@@ -23,6 +28,10 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     // data passed from previous page
     var noteIdFromObservations: NSManagedObjectID?
     var imageFromCamera: UIImage?
+    var activityNameFromActivityDetail: String?
+    var sourceViewController: String?
+    var saveObservationDelegate: SaveObservationProtocol?
+    
     var noteMedia: Media?
     var note: Note?
     var feedback: Feedback?
@@ -118,7 +127,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    
     // receive data from activity selection
     @IBAction func passedActivitySelection(segue:UIStoryboardSegue) {
         let noteActivitySelectionVC = segue.sourceViewController as NoteActivitySelectionViewController
@@ -138,6 +146,35 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         self.detailTableView.reloadData()
         self.navigationController?.popViewControllerAnimated(true)
     }
+    
+    @IBAction func cancelPressed(sender: UIBarButtonItem) {
+        self.navigationController?.popViewControllerAnimated(false)
+    }
+    
+    @IBAction func sendPressed(sender: UIBarButtonItem) {
+        println("send pressed")
+        if sourceViewController == NSStringFromClass(ActivityDetailViewController) {
+            let nextViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ObservationsViewController")
+                                    as ObservationsController
+            nextViewController.sourceViewController = NSStringFromClass(ObservationDetailController)
+            self.navigationController?.pushViewController(nextViewController, animated: true)
+            self.saveObservationDelegate = nextViewController
+            self.saveNote()
+            self.saveObservationDelegate!.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
+        }
+        
+        if sourceViewController == NSStringFromClass(ObservationsController) {
+            self.navigationController?.popViewControllerAnimated(true)
+            if self.imageFromCamera != nil {
+                self.saveNote()
+            } else {
+                self.updateNote()
+            }
+            self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
+        }
+
+    }
+    
     
     //----------------------------------------------------------------------------------------------------------------------
     // LocationManager
@@ -212,6 +249,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         feedback.commit()
         
         mNote.commit()
+        self.note = mNote
         return mNote
     }
     
@@ -256,9 +294,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
                 managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as Note? {
                    self.note = mNote
             }
-//            self.note = noteMedia?.getNote()
             self.noteMedia = self.note?.getSingleMedia()
-            
             details[0] = note!.content
             
             var noteActivity = note!.context
@@ -273,7 +309,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
                     self.imageLoadingIndicator.stopAnimating()
                     self.imageLoadingIndicator.removeFromSuperview()
                 } else {
-                    println("full path doesn't exist")
+                    println("the image's full path doesn't exist")
                 }
             }
             
@@ -287,7 +323,12 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             self.noteImageView.image = self.imageFromCamera!
             imageLoadingIndicator.stopAnimating()
             imageLoadingIndicator.removeFromSuperview()
+            if let activityTitle = self.activityNameFromActivityDetail {
+                details[1] = activityTitle
+            }
+            
         }
+        
         
     }
     

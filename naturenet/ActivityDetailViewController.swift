@@ -8,13 +8,15 @@
 
 import UIKit
 
-class ActivityDetailViewController: UIViewController {
+class ActivityDetailViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     var activity: Context!
 
     @IBOutlet weak var activityNavItem: UINavigationItem!
     @IBOutlet weak var activityIconImageView: UIImageView!
     @IBOutlet weak var activityDescriptionTextView: UITextView!
+    
+    var cameraImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,4 +48,56 @@ class ActivityDetailViewController: UIViewController {
             }
         })
     }
+    
+
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // segues setup
+    //----------------------------------------------------------------------------------------------------------------------
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "activityToObservation" {
+//            let destinationVC = segue.destinationViewController as UINavigationController
+//            let detailVC = destinationVC.topViewController as ObservationDetailController
+            let detailVC = segue.destinationViewController as ObservationDetailController
+            detailVC.imageFromCamera = self.cameraImage!
+            detailVC.activityNameFromActivityDetail = activity.title
+            detailVC.sourceViewController = NSStringFromClass(ActivityDetailViewController)
+        }
+    }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // pick from camera or gallary
+    //----------------------------------------------------------------------------------------------------------------------
+    @IBAction func openCamera() {
+        var picker:UIImagePickerController = UIImagePickerController()
+        picker.delegate = self
+        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+            picker.sourceType = UIImagePickerControllerSourceType.Camera
+            self.presentViewController(picker, animated: true, completion: nil)
+        } else {
+            openGallary(picker)
+        }
+    }
+    
+    func openGallary(picker: UIImagePickerController!) {
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(picker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        println("picker cancel.")
+    }
+    
+    // after picking or taking a photo didFinishPickingMediaWithInfo
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.performSegueWithIdentifier("activityToObservation", sender: self)
+    }
+    
+
 }
