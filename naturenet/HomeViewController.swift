@@ -1,5 +1,5 @@
 //
-//  HomeController.swift
+//  HomeViewController.swift
 //  nn
 //
 //  Created by Jinyue Xia on 12/30/14.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class HomeController : UIViewController, UICollectionViewDataSource,
+class HomeViewController : UIViewController, UICollectionViewDataSource,
                         UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
 
     @IBOutlet weak var homeCollectionView: UICollectionView!
@@ -83,6 +83,8 @@ class HomeController : UIViewController, UICollectionViewDataSource,
             self.performSegueWithIdentifier("observationSeg", sender: self)
         case 1 :
             self.performSegueWithIdentifier("activitiesSeg", sender: self)
+        case 2 :
+            self.performSegueWithIdentifier("designIdeaSeg", sender: self)
         case 4 :
             self.performSegueWithIdentifier("profileSeg", sender: self)
         default:

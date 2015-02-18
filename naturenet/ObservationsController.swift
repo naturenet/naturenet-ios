@@ -31,15 +31,11 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     var sourceViewController: String?
     
-    override func viewWillAppear(animated: Bool) {
-
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         apiService.delegate = self
-        println("sourceVC is \(sourceViewController)")
         loadData()
+        
         if sourceViewController == NSStringFromClass(ObservationDetailController) {
             self.receivedNoteFromObservation!.push(apiService)
             self.updateCollectionView(self.receivedNoteFromObservation!, media: self.receivedMediaFromObservation!)
@@ -168,7 +164,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             self.updateReceivedNoteStatus()
             self.receivedNoteFromObservation?.push(apiService)
         }
-
     }
     
     func updateCollectionView(note: Note, media: Media) {

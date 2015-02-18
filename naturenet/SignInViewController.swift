@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class SignIn: UIViewController, APIControllerProtocol {
+class SignInViewController: UIViewController, APIControllerProtocol {
     var signInIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var site: Site?
     var account: Account?

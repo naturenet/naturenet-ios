@@ -161,7 +161,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             nextViewController.receivedNoteFromObservation = self.note
             nextViewController.receivedMediaFromObservation = self.noteMedia
             nextViewController.receivedFeedbackFromObservation = self.feedback
-
 //            self.saveObservationDelegate = nextViewController
 //            self.saveObservationDelegate!.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
         }
