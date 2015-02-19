@@ -42,7 +42,6 @@ class ConsentTableViewController: UITableViewController {
         if selections[indexPath.row] == 0 {
             cell?.accessoryType = .Checkmark
             selections[indexPath.row] = 1
-            println(cell!.textLabel!.text)
         }
 
     }
@@ -55,21 +54,28 @@ class ConsentTableViewController: UITableViewController {
         }
     }
 
-    @IBAction func consentSendPressed(sender: UIBarButtonItem) {
-        var consents = [String]()
-        var selectedIndex = 0
-        if selections[0] == 0 || selections[1] == 0 {
-            createWarningAlert()
-            return
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "consentToSignUp" {
+            let destinationVC = segue.destinationViewController as SignUpViewController
+            var consentStr = ""
+            var selectedIndex = 0
+            for selection in selections {
+                if selection == 1 {
+                    let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))!
+                    consentStr += cell.textLabel!.text!
+                }
+                selectedIndex++
+            }
+            destinationVC.consentString = consentStr
         }
         
-        for selection in selections {
-            if selection == 1 {
-                let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))!
-                consents.append(cell.textLabel!.text!)
-                println(consents)
-            }
-            selectedIndex++
+    }
+    
+    @IBAction func consentSendPressed(sender: UIBarButtonItem) {
+        if selections[0] == 0 || selections[1] == 0 {
+            createWarningAlert()
+        } else {
+            self.performSegueWithIdentifier("consentToSignUp", sender: self)
         }
     }
     
@@ -79,6 +85,7 @@ class ConsentTableViewController: UITableViewController {
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
+    
     
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

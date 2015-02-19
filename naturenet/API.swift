@@ -1,6 +1,6 @@
 //
 //  API.swift
-//  nn
+//  naturenet
 //
 //  Created by Jinyue Xia on 1/3/15.
 //  Copyright (c) 2015 Jinyue Xia. All rights reserved.
@@ -31,6 +31,7 @@ class API {
     }
     
     // get createAccount api link
+    // params: name,password,email,consent
     func getCreateAccountLink() -> String {
         return root + "account/new/" 
     }
