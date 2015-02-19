@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>00BD6566-C8CA-42FD-95BE-7E9F2A0D7EB3</string>
+	<key>IDESourceControlProjectName</key>
+	<string>naturenet</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BB9977BB4ADBAAC5D377966D48AAE679B3F20F71</key>
+		<string>https://github.com/naturenet/naturenet-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>naturenet.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BB9977BB4ADBAAC5D377966D48AAE679B3F20F71</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/naturenet/naturenet-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>BB9977BB4ADBAAC5D377966D48AAE679B3F20F71</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BB9977BB4ADBAAC5D377966D48AAE679B3F20F71</string>
+			<key>IDESourceControlWCCName</key>
+			<string>naturenet-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>
