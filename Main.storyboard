@@ -531,6 +531,10 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                     </mask>
                                 </variation>
                             </textField>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ERh-mG-hcE">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -545,30 +549,46 @@ A longer version of this consent form is available [at the ACES front desk/from 
                             <constraint firstItem="urb-gi-nPx" firstAttribute="leading" secondItem="ZiF-7m-k1y" secondAttribute="leading" id="8A5-lN-VZv"/>
                             <constraint firstItem="Fhk-BB-Qfy" firstAttribute="leading" secondItem="9fu-xR-cKK" secondAttribute="leadingMargin" constant="10" id="9bT-sR-VEI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="I7w-u1-jf6" secondAttribute="trailing" constant="25" id="DyN-tt-AYj"/>
+                            <constraint firstAttribute="centerY" secondItem="ERh-mG-hcE" secondAttribute="centerY" constant="0.5" id="FiG-95-mcz"/>
                             <constraint firstItem="NPj-ei-RvJ" firstAttribute="width" secondItem="7l1-Qe-EMY" secondAttribute="width" id="RGh-UL-ude"/>
                             <constraint firstItem="urb-gi-nPx" firstAttribute="centerY" secondItem="zp1-Zg-bl1" secondAttribute="centerY" id="boZ-Gi-ajL"/>
                             <constraint firstItem="NPj-ei-RvJ" firstAttribute="leading" secondItem="I7w-u1-jf6" secondAttribute="leading" id="clz-ff-kPK"/>
                             <constraint firstItem="NPj-ei-RvJ" firstAttribute="width" secondItem="zp1-Zg-bl1" secondAttribute="width" id="gnH-pu-0OS"/>
                             <constraint firstItem="I7w-u1-jf6" firstAttribute="top" secondItem="GWh-ca-rjn" secondAttribute="bottom" constant="40" id="jq8-Du-GSS"/>
                             <constraint firstItem="7l1-Qe-EMY" firstAttribute="top" secondItem="NPj-ei-RvJ" secondAttribute="bottom" constant="20" id="nXe-Ov-E2g"/>
+                            <constraint firstItem="ERh-mG-hcE" firstAttribute="top" secondItem="NPj-ei-RvJ" secondAttribute="bottom" constant="47" id="qzn-iZ-JgX"/>
                             <constraint firstItem="I7w-u1-jf6" firstAttribute="leading" secondItem="Fhk-BB-Qfy" secondAttribute="trailing" constant="10" id="rOI-Ad-Rwl"/>
                             <constraint firstItem="NPj-ei-RvJ" firstAttribute="width" secondItem="I7w-u1-jf6" secondAttribute="width" id="uDm-qR-giv"/>
                             <constraint firstItem="urb-gi-nPx" firstAttribute="leading" secondItem="Gr9-CR-hE8" secondAttribute="leading" id="vrw-KT-2wa"/>
+                            <constraint firstItem="ERh-mG-hcE" firstAttribute="centerX" secondItem="9fu-xR-cKK" secondAttribute="centerX" id="zp7-0r-iud"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="qzn-iZ-JgX"/>
+                            </mask>
+                        </variation>
                         <connections>
-                            <action selector="backgroundTouch:" destination="5hU-GR-cts" eventType="touchDown" id="hIV-3W-pUU"/>
+                            <action selector="backgroundTouch:" destination="5hU-GR-cts" eventType="touchDown" id="bXs-fY-Cyf"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Enter Your Details" id="50l-dH-urX">
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="TyH-Fa-Egx"/>
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="TyH-Fa-Egx">
+                            <connections>
+                                <action selector="signupSendPressed:" destination="5hU-GR-cts" id="EoG-nu-mzU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="passField" destination="zp1-Zg-bl1" id="7KV-bp-bDn"/>
+                        <outlet property="emailTextField" destination="7l1-Qe-EMY" id="lVj-Nn-q6n"/>
+                        <outlet property="loadingIndicator" destination="ERh-mG-hcE" id="PbV-Rv-ot1"/>
+                        <outlet property="nameTextField" destination="NPj-ei-RvJ" id="Pcx-De-4Vc"/>
+                        <outlet property="passTextField" destination="zp1-Zg-bl1" id="82J-pq-ODr"/>
+                        <outlet property="usernameTextField" destination="I7w-u1-jf6" id="CrC-qZ-eno"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DaO-tX-eGI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="492" y="2061"/>
+            <point key="canvasLocation" x="476" y="2176"/>
         </scene>
         <!--Observations-->
         <scene sceneID="mha-Xk-4jn">

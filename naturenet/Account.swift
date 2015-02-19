@@ -47,6 +47,14 @@ class Account: NNModel {
         nsManagedContext.save(nil)
     }
     
+    // push a new user to remote server as HTTP post
+    // returned JSON will be sent to apiService's delegate: ObservationsController
+    override func doPushNew(apiService: APIService) -> Void {
+        var url = APIAdapter.api.getCreateAccountLink(self.username)
+        var params = ["name": self.name, "password": self.password, "email": self.email] as Dictionary<String, Any>
+        apiService.post(NSStringFromClass(Account), params: params, url: url)
+    }
+    
     func getNotes() -> [Note] {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var predicate = NSPredicate(format: "account = %@", self.objectID)

@@ -32,8 +32,8 @@ class API {
     
     // get createAccount api link
     // params: name,password,email,consent
-    func getCreateAccountLink() -> String {
-        return root + "account/new/" 
+    func getCreateAccountLink(username: String) -> String {
+        return root + "account/new/" + username
     }
     
     // get createNote api link

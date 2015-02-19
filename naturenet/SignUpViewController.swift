@@ -8,10 +8,15 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, APIControllerProtocol {
     var consentString: String!
+    var apiService = APIService()
     
-    @IBOutlet weak var passField: UITextField!
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var passTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,17 +28,56 @@ class SignUpViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        apiService.delegate = self
     }
     
     @IBAction func backgroundTouch(sender: AnyObject) {
-        self.resignFirstResponder()
+        usernameTextField.resignFirstResponder()
+        passTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
+        nameTextField.resignFirstResponder()
+    }
+    
+    @IBAction func signupSendPressed(sender: UIBarButtonItem) {
+        if countElements(usernameTextField.text) == 0 || countElements(passTextField.text) == 0
+                || countElements(emailTextField.text) == 0 || countElements(nameTextField.text) == 0 {
+            createWarningAlert()
+        } else {
+            var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var account = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: nsManagedContext) as Account
+            account.name = nameTextField.text
+            account.username = usernameTextField.text
+            account.password = passTextField.text
+            account.email = emailTextField.text
+            account.commit()
+            SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+            var url = APIAdapter.api.getCreateAccountLink(account.username)
+            var params = ["name": account.name, "password": account.password, "email": account.email, "consent": consentString] as Dictionary<String, Any>
+            apiService.post(NSStringFromClass(Account), params: params, url: url)
+        }
+    }
+    
+    // implement this method for APIControllerProtocol delegate
+    func didReceiveResults(from: String, response: NSDictionary) {
+        dispatch_async(dispatch_get_main_queue(), {
+            var status = response["status_code"] as Int
+            if (status == 400) {
+                var errorMessage = "User Doesn't Exisit"
+                return
+            }
+            
+            if from == "POST_" + NSStringFromClass(Account) {
+                var data = response["data"] as NSDictionary!
+            }
+        })
+
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         var result = true
         let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
         
-        if textField == passField {
+        if textField == passTextField {
             if countElements(string) > 0 {
                 let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
                 let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
@@ -45,6 +89,12 @@ class SignUpViewController: UIViewController {
             }
         }
         return result
+    }
+
+    func createWarningAlert() {
+        var alert = UIAlertController(title: "Opps", message: "You must fill all fields!", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
     /*
