@@ -39,6 +39,11 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
     }
     
     @IBAction func signupSendPressed(sender: UIBarButtonItem) {
+        println("signup pressed")
+        self.loadingIndicator.hidden = false
+        self.loadingIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+
         if countElements(usernameTextField.text) == 0 || countElements(passTextField.text) == 0
                 || countElements(emailTextField.text) == 0 || countElements(nameTextField.text) == 0 {
             createWarningAlert()
@@ -59,6 +64,8 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
     
     // implement this method for APIControllerProtocol delegate
     func didReceiveResults(from: String, response: NSDictionary) {
+        self.loadingIndicator.stopAnimating()
+        UIApplication.sharedApplication().endIgnoringInteractionEvents()
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {
