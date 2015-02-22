@@ -95,7 +95,7 @@ class SignInViewController: UIViewController, APIControllerProtocol {
             var existingModifiedAt = existingAccount!.modified_at
             if existingModifiedAt != modified_at {
                 // usually user only is alllowed to change pass, email
-                existingAccount!.doUpdateCoreData(pass, email: email, modified_at: modified_at)
+                existingAccount!.updateToCoreData(data)
                 existingAccount!.commit()
             }
             self.account = existingAccount

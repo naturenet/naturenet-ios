@@ -36,15 +36,15 @@ class Account: NNModel {
     }
     
     // update data in core data
-    func doUpdateCoreData(pass: String, email: String, modified_at: NSNumber) {
-        self.setValue(pass, forKey: "password")
-        self.setValue(email, forKey: "email")
-        self.setValue(modified_at, forKey: "modified_at")
-        nsManagedContext.save(nil)
+    func updateToCoreData(data: NSDictionary) {
+        self.setValue(data["password"] as String, forKey: "password")
+        self.setValue(data["email"] as String, forKey: "email")
+        self.setValue(data[modified_at] as NSNumber, forKey: "modified_at")
+        SwiftCoreDataHelper.saveManagedObjectContext(self.nsManagedContext)
     }
     
     // save a new account in core data
-    override class func saveToCoreData(mAccount: NSDictionary) -> Account {
+    class func saveToCoreData(mAccount: NSDictionary) -> Account {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Account
         account.parseJSON(mAccount)
@@ -67,14 +67,7 @@ class Account: NNModel {
         var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: context) as [Note]
         return results
     }
-    
-    // update state 
-    override func doUpdataState() {
-        // println("after update, state is changed to: \(state)")
-        self.setValue(state, forKey: "state")
-        nsManagedContext.save(nil)
-    }
-    
+        
     // toString, debug use
     func toString() -> String {
         var string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"

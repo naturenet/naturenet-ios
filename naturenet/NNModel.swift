@@ -103,7 +103,7 @@ class NNModel: NSManagedObject {
         return model
     }
     
-    class func fetechEntitySingle(entityname: String, predicate: NSPredicate) -> NNModel? {
+    class func fetechEntitySingle(entityname: String, predicate: NSPredicate!) -> NNModel? {
         var model: NNModel?
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let request = NSFetchRequest(entityName: entityname)
@@ -122,8 +122,6 @@ class NNModel: NSManagedObject {
         return model
     }
     
-    class func saveToCoreData(data: NSDictionary) -> NNModel? { return nil }
-
     // update remote uid and state
     func updateAfterPost(idFromServer: Int, modifiedAtFromServer: NSNumber?) {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
@@ -150,10 +148,6 @@ class NNModel: NSManagedObject {
     
     func doPushUpdate(apiService: APIService) {}
     
-    func doUpdataState() {}
-    
     func doCommitChildren() {}
-    
-    func resolveDependencies() {}
 }
 

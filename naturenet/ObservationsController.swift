@@ -59,7 +59,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // the async tasks in the push methods will do the task(e.g. handling request, image uploading)
     // in the background thread.
     func didReceiveResults(from: String, response: NSDictionary) -> Void {
-        dispatch_async(dispatch_get_main_queue(), {
+//        dispatch_async(dispatch_get_main_queue(), {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
             var uid = response["data"]!["id"] as Int
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
@@ -74,7 +75,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     // if there is no media passed back, the note only needs to update instead of uploading
                     if self.receivedMediaFromObservation != nil {
-                        self.uploadToCloudinary()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.uploadToCloudinary()
+                        }
                     } else {
                         self.updateReceivedNoteStatus()
                     }
@@ -190,11 +193,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     //----------------------------------------------------------------------------------------------------------------------
     // IBActions for receiced data passed back
     //----------------------------------------------------------------------------------------------------------------------
-    
-    // IBAction for exit in observation detail page
-//    @IBAction func cancelToObservationsViewController(segue:UIStoryboardSegue) {
-//        dismissViewControllerAnimated(true, completion: nil)
-//    }
 
     @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
         dismissViewControllerAnimated(true, completion: nil)

@@ -74,13 +74,15 @@ class Note: NNModel {
         }
     }
     
-    // give a new note update local
+    // give a new note update local, only note description, activity can be updated
     func updateNote(mNote: NSDictionary) {
         self.setValue(mNote["modified_at"] as NSNumber, forKey: "modified_at")
         self.setValue(mNote["content"] as String, forKey: "content")
         if let contextID = mNote["context"]!["id"] as? Int {
             self.setValue(contextID, forKey: "context_id")
-            var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
+            let predicate = NSPredicate(format: "uid = \(contextID)")
+            let context = NNModel.fetechEntitySingle(NSStringFromClass(Context), predicate: predicate) as Context
+//            var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
             self.setValue(context, forKey: "context")
         }
         self.setValue(STATE.DOWNLOADED, forKey: "state")
@@ -91,7 +93,7 @@ class Note: NNModel {
     }
     
     // give a new note save to Note data
-    override class func saveToCoreData(mNote: NSDictionary) -> Note {
+    class func saveToCoreData(mNote: NSDictionary) -> Note {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as Note
         note.parseNoteJSON(mNote)

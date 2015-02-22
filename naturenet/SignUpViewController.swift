@@ -11,6 +11,7 @@ import UIKit
 class SignUpViewController: UIViewController, APIControllerProtocol {
     var consentString: String!
     var apiService = APIService()
+    var signInAccount: Account!
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
@@ -22,13 +23,12 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        println("passed consent is: \(consentString)")
+        apiService.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-        apiService.delegate = self
     }
     
     @IBAction func backgroundTouch(sender: AnyObject) {
@@ -39,53 +39,59 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
     }
     
     @IBAction func signupSendPressed(sender: UIBarButtonItem) {
-        println("signup pressed")
-        self.loadingIndicator.hidden = false
-        self.loadingIndicator.startAnimating()
-        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
-
         if countElements(usernameTextField.text) == 0 || countElements(passTextField.text) == 0
                 || countElements(emailTextField.text) == 0 || countElements(nameTextField.text) == 0 {
             createWarningAlert("You must fill all fields!")
         } else {
-            var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var account = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: nsManagedContext) as Account
-            account.name = nameTextField.text
-            account.username = usernameTextField.text
-            account.password = passTextField.text
-            account.email = emailTextField.text
-            account.commit()
-            SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
-            var url = APIAdapter.api.getCreateAccountLink(account.username)
-            var params = ["name": account.name, "password": account.password, "email": account.email, "consent": consentString] as Dictionary<String, Any>
+            self.startLoading()
+            var name = nameTextField.text
+            var username = usernameTextField.text
+            var password = passTextField.text
+            var email = emailTextField.text
+            var url = APIAdapter.api.getCreateAccountLink(username)
+            var params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
             apiService.post(NSStringFromClass(Account), params: params, url: url)
         }
     }
     
     // implement this method for APIControllerProtocol delegate
     func didReceiveResults(from: String, response: NSDictionary) {
-        self.loadingIndicator.stopAnimating()
-        self.loadingIndicator.hidden = true
-        UIApplication.sharedApplication().endIgnoringInteractionEvents()
+        println("got result from sign up")
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {
+                println("got result status 400")
+
                 var errorMessage = "User Doesn't Exisit"
                 var statusText = response["status_txt"] as String
                 self.createWarningAlert(statusText)
             }
             
             if status == 200 {
+                var data = response["data"] as NSDictionary!
                 if from == "POST_" + NSStringFromClass(Account) {
-                    var data = response["data"] as NSDictionary!
-                    Account.saveToCoreData(data)
-                    var site = NNModel.fetechEntitySingle(, predicate: <#NSPredicate#>)
+                    self.signInAccount = Account.saveToCoreData(data)
+                    let predicate = NSPredicate(format: "name= %@", "aces")
+                    if let site = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate!) as? Site {
+                        Session.signIn(self.signInAccount, site: site)
+                        self.stopLoading()
+                        self.navigationController?.popToRootViewControllerAnimated(true)
+                    } else {
+                        Site.doPullByNameFromServer(self.apiService, name: "aces")
+                    }
+                }
+                if from == "POST_" + NSStringFromClass(Site) {
+                    var site = Site.saveToCoreData(data)
+                    Session.signIn(self.signInAccount, site: site)
+                    self.stopLoading()
+                    self.navigationController?.popToRootViewControllerAnimated(true)
                 }
             }
         })
 
     }
     
+    // password textfield delegate, examine length not exceed 4
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         var result = true
         let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
@@ -94,11 +100,8 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
             if countElements(string) > 0 {
                 let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
                 let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
-                
                 let resultingStringLengthIsLegal = countElements(prospectiveText) <= 4
-                
-                result = replacementStringIsLegal &&
-                resultingStringLengthIsLegal
+                result = replacementStringIsLegal && resultingStringLengthIsLegal
             }
         }
         return result
@@ -110,6 +113,19 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
+    func startLoading() {
+        self.loadingIndicator.hidden = false
+        self.loadingIndicator.startAnimating()
+        UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+
+    }
+    
+    func stopLoading() {
+        self.loadingIndicator.stopAnimating()
+        self.loadingIndicator.hidden = true
+        UIApplication.sharedApplication().endIgnoringInteractionEvents()
+    }
+    
     /*
     // MARK: - Navigation
 

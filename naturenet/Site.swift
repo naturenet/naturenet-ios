@@ -23,7 +23,7 @@ class Site: NNModel {
         parseService.getResponse(NSStringFromClass(Site), url: siteUrl)
     }
     
-    override class func saveToCoreData(data: NSDictionary) -> Site {
+    class func saveToCoreData(data: NSDictionary) -> Site {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as Site
         mSite.parseJSON(data)

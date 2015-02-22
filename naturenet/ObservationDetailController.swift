@@ -289,6 +289,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     func loadData() {
         // load landmarks and activities (type: Context)
         loadContexts()
+        
         // load note informaiton, e.g. description/media image
         if let noteObjectID = self.noteIdFromObservations {
             var predicate = NSPredicate(format: "SELF = %@", noteObjectID)
@@ -305,13 +306,13 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             if let fullPath = noteMedia?.full_path {
                 let fileManager = NSFileManager.defaultManager()
                 if fileManager.fileExistsAtPath(fullPath) {
-                    println("you clicked an image with full path in ObservationDetailController: \(fullPath)")
+                    // println("you clicked an image with full path in ObservationDetailController: \(fullPath)")
                     let image = UIImage(named: fullPath)
                     self.noteImageView.image = image
                     self.imageLoadingIndicator.stopAnimating()
                     self.imageLoadingIndicator.removeFromSuperview()
                 } else {
-                    println("the image's full path doesn't exist")
+                    // println("the image's full path doesn't exist")
                 }
             }
             
