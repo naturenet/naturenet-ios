@@ -23,8 +23,16 @@ class Site: NNModel {
         parseService.getResponse(NSStringFromClass(Site), url: siteUrl)
     }
     
+    override class func saveToCoreData(data: NSDictionary) -> Site {
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as Site
+        mSite.parseJSON(data)
+        mSite.commit()
+        return mSite
+    }
+    
     // parse site JSON data
-    func parseSiteJSON(data: NSDictionary) -> Site {
+    func parseJSON(data: NSDictionary) -> Site {
         self.created_at = NSNumber(unsignedLongLong: UInt64(NSDate().timeIntervalSince1970 * 1000))
         self.name = data["name"] as String
         var contexts = data["contexts"] as NSArray
@@ -35,7 +43,6 @@ class Site: NNModel {
         self.resovleContextData(contexts)
         // println("A new site " + self.toString() + " saved")
         return self
-        
     }
     
     // save context
@@ -102,15 +109,5 @@ class Site: NNModel {
         var string = "name: \(name) uid: \(uid) created: \(created_at) state: \(state)"
         return string
     }
-    
-//    override func resolveDependencies() {
-//        if (contexts.count > 0) {
-//            for context in contexts {
-//                if let tContext = context as? Context {
-//                    tContext.state = STATE.DOWNLOADED
-//                }
-//            }
-//        }
-//    }
 
 }

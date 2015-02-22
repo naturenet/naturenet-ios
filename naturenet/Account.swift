@@ -24,7 +24,7 @@ class Account: NNModel {
         parseService.getResponse(NSStringFromClass(Account), url: accountUrl)
     }
     
-    func parseUserJSON(data: NSDictionary) -> Account {
+    func parseJSON(data: NSDictionary) -> Account {
         self.uid = data["id"] as Int
         self.username = data["username"] as String
         self.name = data["name"] as String
@@ -46,8 +46,8 @@ class Account: NNModel {
     // save a new account in core data
     override class func saveToCoreData(mAccount: NSDictionary) -> Account {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Note
-        account.parseNoteJSON(mAccount)
+        var account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Account
+        account.parseJSON(mAccount)
         println("account with \(account.uid) is: { \(account.toString()) } is saved")
         account.commit()
         return account

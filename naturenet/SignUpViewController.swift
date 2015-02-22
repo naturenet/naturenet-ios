@@ -73,13 +73,14 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
                 var errorMessage = "User Doesn't Exisit"
                 var statusText = response["status_txt"] as String
                 self.createWarningAlert(statusText)
-                return
             }
             
-            
-            if from == "POST_" + NSStringFromClass(Account) {
-                var data = response["data"] as NSDictionary!
-                
+            if status == 200 {
+                if from == "POST_" + NSStringFromClass(Account) {
+                    var data = response["data"] as NSDictionary!
+                    Account.saveToCoreData(data)
+                    var site = NNModel.fetechEntitySingle(, predicate: <#NSPredicate#>)
+                }
             }
         })
 
