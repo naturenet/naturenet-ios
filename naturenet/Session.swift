@@ -33,7 +33,7 @@ class Session: NSManagedObject {
         // println("session retrieved \(results)")
         if results.count > 0 {
             var session = results[0] as Session
-            if session.account_id.integerValue > 0 {
+            if session.account.uid.integerValue > 0 {
                 isSigned = true
             }
         }

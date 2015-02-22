@@ -46,7 +46,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
 
         if countElements(usernameTextField.text) == 0 || countElements(passTextField.text) == 0
                 || countElements(emailTextField.text) == 0 || countElements(nameTextField.text) == 0 {
-            createWarningAlert()
+            createWarningAlert("You must fill all fields!")
         } else {
             var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
             var account = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: nsManagedContext) as Account
@@ -65,16 +65,21 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
     // implement this method for APIControllerProtocol delegate
     func didReceiveResults(from: String, response: NSDictionary) {
         self.loadingIndicator.stopAnimating()
+        self.loadingIndicator.hidden = true
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {
                 var errorMessage = "User Doesn't Exisit"
+                var statusText = response["status_txt"] as String
+                self.createWarningAlert(statusText)
                 return
             }
             
+            
             if from == "POST_" + NSStringFromClass(Account) {
                 var data = response["data"] as NSDictionary!
+                
             }
         })
 
@@ -98,8 +103,8 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
         return result
     }
 
-    func createWarningAlert() {
-        var alert = UIAlertController(title: "Opps", message: "You must fill all fields!", preferredStyle: UIAlertControllerStyle.Alert)
+    func createWarningAlert(message: String) {
+        var alert = UIAlertController(title: "Opps", message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }

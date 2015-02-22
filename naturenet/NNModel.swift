@@ -102,6 +102,8 @@ class NNModel: NSManagedObject {
         }
         return model
     }
+    
+    class func saveToCoreData(data: NSDictionary) -> NNModel? { return nil }
 
     // update remote uid and state
     func updateAfterPost(idFromServer: Int, modifiedAtFromServer: NSNumber?) {

@@ -26,10 +26,6 @@ class Note: NNModel {
     func parseNoteJSON(mNote: NSDictionary) -> Note {
         self.uid = mNote["id"] as Int
         self.kind = mNote["kind"] as String
-//        var createAt = UInt64(mNote["created_at"] as NSTimeInterval)
-//        self.created_at = NSNumber(unsignedLongLong: createAt)
-//        var modifiedAt = UInt64(mNote["modified_at"] as NSTimeInterval)
-//        self.modified_at = NSNumber(unsignedLongLong: modifiedAt)
         self.created_at = mNote["created_at"] as NSNumber
         self.modified_at = mNote["modified_at"] as NSNumber
 
@@ -95,13 +91,12 @@ class Note: NNModel {
     }
     
     // give a new note save to Note data
-    class func saveNote(mNote: NSDictionary) -> Note {
+    override class func saveToCoreData(mNote: NSDictionary) -> Note {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as Note
-        note.parseNoteJSON(mNote as NSDictionary)
+        note.parseNoteJSON(mNote)
         println("note with \(note.uid) is: { \(note.toString()) } is saved")
         note.commit()
-        SwiftCoreDataHelper.saveManagedObjectContext(context)
         return note
     }
     

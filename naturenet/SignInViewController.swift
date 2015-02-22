@@ -105,7 +105,6 @@ class SignInViewController: UIViewController, APIControllerProtocol {
             var mAccount = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: managedContext) as Account
             mAccount.parseUserJSON(data)
             mAccount.commit()
-            SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
             self.account = mAccount
         }
         Session.signIn(self.account!, site: self.site!)
@@ -126,7 +125,6 @@ class SignInViewController: UIViewController, APIControllerProtocol {
             var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as Site
             mSite.parseSiteJSON(data)
             mSite.commit()
-            SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
             self.site = mSite
         }
         let inputUser = textFieldUname.text
@@ -159,7 +157,7 @@ class SignInViewController: UIViewController, APIControllerProtocol {
                 }
             } else {
                 // save mNote as a new note entry
-                Note.saveNote(mNote as NSDictionary)
+                Note.saveToCoreData(mNote as NSDictionary)
             }
         }
     }

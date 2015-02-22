@@ -30,10 +30,6 @@ class Account: NNModel {
         self.name = data["name"] as String
         self.password = data["password"] as String
         self.email = data["email"] as String
-//        var createAt = UInt64(data["created_at"] as NSTimeInterval)
-//        self.created_at = NSNumber(unsignedLongLong: createAt)
-//        var modifiedAt = UInt64(data["modified_at"] as NSTimeInterval)
-//        self.modified_at = NSNumber(unsignedLongLong: modifiedAt)
         self.created_at = data["created_at"] as NSNumber
         self.modified_at = data["modified_at"] as NSNumber
         return self
@@ -45,6 +41,16 @@ class Account: NNModel {
         self.setValue(email, forKey: "email")
         self.setValue(modified_at, forKey: "modified_at")
         nsManagedContext.save(nil)
+    }
+    
+    // save a new account in core data
+    override class func saveToCoreData(mAccount: NSDictionary) -> Account {
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Note
+        account.parseNoteJSON(mAccount)
+        println("account with \(account.uid) is: { \(account.toString()) } is saved")
+        account.commit()
+        return account
     }
     
     // push a new user to remote server as HTTP post

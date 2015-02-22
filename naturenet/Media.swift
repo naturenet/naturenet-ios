@@ -27,8 +27,6 @@ class Media: NNModel {
         self.url = media["link"] as? String
         self.title = media["title"] as String
         self.created_at = media["created_at"] as NSNumber
-//        var createAt = UInt64(media["created_at"] as NSTimeInterval)
-//        self.created_at = NSNumber(unsignedLongLong: createAt)
         self.state = STATE.DOWNLOADED
     }
 
