@@ -16,6 +16,12 @@ class TourViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         initMap()
+        var locations = getLocations()
+        for location in locations {
+            if location.location != nil {
+                setAnnotation(location)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -24,11 +30,10 @@ class TourViewController: UIViewController, MKMapViewDelegate {
     }
     
     func initMap() {
-    // 39.195998, -106.821823
         var latitude: CLLocationDegrees = 39.195998
         var longitude: CLLocationDegrees = -106.821823
-        var latDelta: CLLocationDegrees = 0.01
-        var lonDelta: CLLocationDegrees = 0.01
+        var latDelta: CLLocationDegrees = 0.0001
+        var lonDelta: CLLocationDegrees = 0.0001
         var span: MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
         var location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         var region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
@@ -37,9 +42,13 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         acesMapView.mapType = MKMapType.Satellite
     }
     
-    func setAnnotation(location: CLLocationCoordinate2D) {
+    func setAnnotation(location: TourLocation) {
         var annotation = MKPointAnnotation()
-        annotation.coordinate = location
+        annotation.coordinate = location.location!
+        annotation.title = location.title
+        annotation.subtitle = location.locationDescription!
+        
+        self.acesMapView.addAnnotation(annotation)
     }
     
     // given latitude and longtitude, return CLLocationCoordinate2D
@@ -50,11 +59,33 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         return location
     }
     
-    func loadLocations() {
+    func getLocations() -> [TourLocation] {
+        var latNumber: CLLocationDegrees?
+        var lonNumber: CLLocationDegrees?
+        var tourLocations = [TourLocation]()
         if let site = Session.getSite() {
-            
+            var landmarks = site.getLandmarks()
+            for landmark in landmarks {
+                var extras = landmark.extras
+                var tourLocation = TourLocation()
+                tourLocation.title = landmark.title
+                // because entry "Other" has no extras, no description
+                if extras.isEmpty {
+                    continue
+                }
+                var coordinate = extras.componentsSeparatedByString(",") as [String]
+                var latCoordinate = coordinate[0].componentsSeparatedByString(":") as [String]
+                var lonCoordinate = coordinate[1].componentsSeparatedByString(":") as [String]
+                latNumber = (latCoordinate[1] as NSString).doubleValue
+                lonNumber = (lonCoordinate[1] as NSString).doubleValue
+                var location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latNumber!, lonNumber!)
+                // println("location \(location.latitude) \(location.longitude)")
+                tourLocation.locationDescription = landmark.context_description
+                tourLocation.location = location
+                tourLocations.append(tourLocation)
+            }
         }
-        
+        return tourLocations
     }
     /*
     // MARK: - Navigation
@@ -66,4 +97,17 @@ class TourViewController: UIViewController, MKMapViewDelegate {
     }
     */
 
+    class TourLocation {
+        var location: CLLocationCoordinate2D?
+        var title: String!
+        var locationDescription: String?
+        
+        init(){}
+        
+        init(location: CLLocationCoordinate2D, title: String, locationDescription: String) {
+            self.location = location
+            self.title = title
+            self.locationDescription = locationDescription
+        }
+    }
 }

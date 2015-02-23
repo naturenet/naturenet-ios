@@ -76,15 +76,15 @@ class Site: NNModel {
     }
     
     // get landmarks
-    func getLandmarks() -> NSArray {
-        if (contexts.count > 0) {
-            return self.contexts
-        } else {
-            let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var predicate = NSPredicate(format: "site_uid = \(self.uid)")
-            var sitecontexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext)
-            return sitecontexts
+    func getLandmarks() -> [Context] {
+        var contexts = getContexts() as [Context]
+        var landmarks = [Context]()
+        for context in contexts {
+            if context.kind == "Landmark" {
+                landmarks.append(context)
+            }
         }
+        return landmarks
     }
     
     // parse contexts json to an array contains a list of dictionary
