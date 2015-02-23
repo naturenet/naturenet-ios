@@ -13,11 +13,13 @@ class TourViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var acesMapView: MKMapView!
     
+    var acesLocations: [TourLocation]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initMap()
-        var locations = getLocations()
-        for location in locations {
+        self.acesLocations = getLocations()
+        for location in self.acesLocations! {
             if location.location != nil {
                 setAnnotation(location)
             }
@@ -32,8 +34,8 @@ class TourViewController: UIViewController, MKMapViewDelegate {
     func initMap() {
         var latitude: CLLocationDegrees = 39.195998
         var longitude: CLLocationDegrees = -106.821823
-        var latDelta: CLLocationDegrees = 0.0001
-        var lonDelta: CLLocationDegrees = 0.0001
+        var latDelta: CLLocationDegrees = 0.0005
+        var lonDelta: CLLocationDegrees = 0.0005
         var span: MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
         var location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         var region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
@@ -49,6 +51,29 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         annotation.subtitle = location.locationDescription!
         
         self.acesMapView.addAnnotation(annotation)
+    }
+    
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        let reuseId = "test"
+        
+        var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
+        if anView == nil {
+            anView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            anView.canShowCallout = true
+        }
+        else {
+            anView.annotation = annotation
+        }
+        
+        //Set annotation-specific properties **AFTER**
+        //the view is dequeued or created...
+        
+//        let cpa = annotation as CustomPointAnnotation
+        anView.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as UIButton
+        anView.image = UIImage(named: "number1")
+        
+        return anView
+        
     }
     
     // given latitude and longtitude, return CLLocationCoordinate2D
