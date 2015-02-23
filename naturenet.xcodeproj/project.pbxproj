@@ -45,6 +45,8 @@
 		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
 		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
 		FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D801A6F7BC30096D594 /* APIAdapter.swift */; };
+		FCEC985A1A9ACC28007C4ED5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEC98591A9ACC28007C4ED5 /* MapKit.framework */; };
+		FCEC985C1A9ACD57007C4ED5 /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEC985B1A9ACD57007C4ED5 /* TourViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +109,8 @@
 		FCD318021A892E98003FC954 /* Wrappy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wrappy.m; sourceTree = "<group>"; };
 		FCD318041A892F13003FC954 /* naturenet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "naturenet-Bridging-Header.h"; sourceTree = "<group>"; };
 		FCE67D801A6F7BC30096D594 /* APIAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAdapter.swift; sourceTree = "<group>"; };
+		FCEC98591A9ACC28007C4ED5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		FCEC985B1A9ACD57007C4ED5 /* TourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCEC985A1A9ACC28007C4ED5 /* MapKit.framework in Frameworks */,
 				FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */,
 				FC1134CE1A64317F00D548E8 /* CoreData.framework in Frameworks */,
 				FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */,
@@ -133,6 +138,7 @@
 		FC1134871A642DD500D548E8 = {
 			isa = PBXGroup;
 			children = (
+				FCEC98591A9ACC28007C4ED5 /* MapKit.framework */,
 				FCD317EE1A892476003FC954 /* libCloudinary.a */,
 				FCD317D91A887473003FC954 /* CoreLocation.framework */,
 				FC1134CD1A64317F00D548E8 /* CoreData.framework */,
@@ -210,6 +216,7 @@
 				FC6F24D41A94571C00FEF9FE /* DesignIdeaViewController.swift */,
 				FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */,
 				FCB1D51F1A95B9F3006267E9 /* SignUpViewController.swift */,
+				FCEC985B1A9ACD57007C4ED5 /* TourViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -394,6 +401,7 @@
 				FC1134C71A6430EF00D548E8 /* API.swift in Sources */,
 				FC5BA3891A7859400069D59F /* Media.swift in Sources */,
 				FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */,
+				FCEC985C1A9ACD57007C4ED5 /* TourViewController.swift in Sources */,
 				FC031E581A833E71007F67D7 /* NoteLocationTableViewController.swift in Sources */,
 				FCD318031A892E98003FC954 /* Wrappy.m in Sources */,
 				FC1134C81A6430EF00D548E8 /* APIService.swift in Sources */,

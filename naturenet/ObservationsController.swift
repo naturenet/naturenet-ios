@@ -340,7 +340,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 // println("you have \(medias.count) medias")
                 for media in medias {
                     var mMedia = media as Media
-                    // println("in obs: \(mMedia.toString())")
                     var obscell = ObservationCell(objectID: mNote.objectID,
                         state: mNote.state.integerValue, modifiedAt: mNote.modified_at)
                     if let tPath = mMedia.thumb_path {
@@ -359,7 +358,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 }
             }
             celldata.sort({$0.modifiedAt.longLongValue > $1.modifiedAt.longLongValue})
-//            println("total notes: \(notes.count) total celldata: \(celldata.count)")
         }
     }
     

@@ -75,6 +75,18 @@ class Site: NNModel {
         }
     }
     
+    // get landmarks
+    func getLandmarks() -> NSArray {
+        if (contexts.count > 0) {
+            return self.contexts
+        } else {
+            let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var predicate = NSPredicate(format: "site_uid = \(self.uid)")
+            var sitecontexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext)
+            return sitecontexts
+        }
+    }
+    
     // parse contexts json to an array contains a list of dictionary
     // @Deprecated
     func convertContextData(contexts: NSArray) -> [[String: AnyObject?]]  {

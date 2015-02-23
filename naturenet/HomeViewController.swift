@@ -85,6 +85,8 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
             self.performSegueWithIdentifier("activitiesSeg", sender: self)
         case 2 :
             self.performSegueWithIdentifier("designIdeaSeg", sender: self)
+        case 3 :
+            self.performSegueWithIdentifier("homeToTour", sender: self)
         case 4 :
             self.performSegueWithIdentifier("profileSeg", sender: self)
         case 5 :
