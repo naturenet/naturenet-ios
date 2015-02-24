@@ -31,8 +31,12 @@ class APIService {
             if error != nil {
                 println(error!)
             } else {
-                var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
-                self.delegate?.didReceiveResults(from, response: jsonResult)
+                if  let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as? NSDictionary {
+                    self.delegate?.didReceiveResults(from, response: jsonResult)
+                } else {
+                    var message = ["status_code" : 600]
+                    self.delegate?.didReceiveResults(from, response: message)
+                }
             }
         })
         

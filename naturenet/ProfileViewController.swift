@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UITableViewController, UITableViewDelegate {
+class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate {
     
     // UI Outlets
     @IBOutlet var profileTableView: UITableView!
@@ -41,14 +41,54 @@ class ProfileViewController: UITableViewController, UITableViewDelegate {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // sign out is in section 2
         if indexPath.section == 2 {
-            Session.signOut()
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            createPopAlert()
+//            Session.signOut()
+//            self.navigationController?.popToRootViewControllerAnimated(true)
         }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
     }
+    
+    func createPopAlert() {
+    
+        var popover:UIPopoverController?
+        var alert:UIAlertController = UIAlertController(title: "Are you sure you want to sign out?", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        var cameraAction = UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.Destructive) {
+            UIAlertAction in
+            Session.signOut()
+            self.navigationController?.popToRootViewControllerAnimated(true)
+
+        }
+        
+        var gallaryAction = UIAlertAction(title: "Design Idea", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+        }
+        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            UIAlertAction in
+        }
+        
+        // Add the actions
+        alert.addAction(cameraAction)
+        alert.addAction(gallaryAction)
+        alert.addAction(cancelAction)
+        
+        // Present the actionsheet
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else {
+            popover = UIPopoverController(contentViewController: alert)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        println("picker cancel.")
+    }
+
     
     private func setupTableView() {
         if let account = Session.getAccount() {

@@ -39,7 +39,7 @@ class Account: NNModel {
     func updateToCoreData(data: NSDictionary) {
         self.setValue(data["password"] as String, forKey: "password")
         self.setValue(data["email"] as String, forKey: "email")
-        self.setValue(data[modified_at] as NSNumber, forKey: "modified_at")
+        self.setValue(data["modified_at"] as NSNumber, forKey: "modified_at")
         SwiftCoreDataHelper.saveManagedObjectContext(self.nsManagedContext)
     }
     

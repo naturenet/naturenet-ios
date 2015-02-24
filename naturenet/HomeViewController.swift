@@ -78,22 +78,27 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     
     // implement UICollectionViewDelegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        switch indexPath.row {
-        case 0 :
-            self.performSegueWithIdentifier("observationSeg", sender: self)
-        case 1 :
-            self.performSegueWithIdentifier("activitiesSeg", sender: self)
-        case 2 :
-            self.performSegueWithIdentifier("designIdeaSeg", sender: self)
-        case 3 :
-            self.performSegueWithIdentifier("homeToTour", sender: self)
-        case 4 :
-            self.performSegueWithIdentifier("profileSeg", sender: self)
-        case 5 :
-            self.performSegueWithIdentifier("homeToAboutSeg", sender: self)
-        default:
-            return
+        if Session.isSignedIn() {
+            switch indexPath.row {
+            case 0 :
+                self.performSegueWithIdentifier("observationSeg", sender: self)
+            case 1 :
+                self.performSegueWithIdentifier("activitiesSeg", sender: self)
+            case 2 :
+                self.performSegueWithIdentifier("designIdeaSeg", sender: self)
+            case 3 :
+                self.performSegueWithIdentifier("homeToTour", sender: self)
+            case 4 :
+                self.performSegueWithIdentifier("profileSeg", sender: self)
+            case 5 :
+                self.performSegueWithIdentifier("homeToAboutSeg", sender: self)
+            default:
+                return
+            }
+        } else {
+            createAlert("Please Sign In First")
         }
+
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -108,12 +113,18 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
 
     }
     
-    //----------------------------------------------------------------------------------------------------------------------
     // IBActions for receiced data passed back
-    //----------------------------------------------------------------------------------------------------------------------
-    
     @IBAction func cancelToHomeViewController(segue:UIStoryboardSegue) {
         self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    // create an alert
+    func createAlert(message: String) {
+        var alert = UIAlertController(title: "Sign In", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
 }

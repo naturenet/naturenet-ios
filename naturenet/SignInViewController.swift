@@ -50,6 +50,14 @@ class SignInViewController: UIViewController, APIControllerProtocol {
                 return
             }
             
+            // 600 is self defined error code on the phone's side
+            if (status == 600) {
+                var errorMessage = "Internet seems not working"
+                self.createAlert(errorMessage)
+                self.pauseIndicator()
+                return
+            }
+            
             // println("received results from \(from)")
             if from == "Account" {
                 // var data = response["data"] as NSDictionary!
@@ -119,7 +127,8 @@ class SignInViewController: UIViewController, APIControllerProtocol {
         } else {
             self.site = Site.saveToCoreData(data)
         }
-        let inputUser = textFieldUname.text
+        let inputUser = textFieldUname.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        
         Account.doPullByNameFromServer(parseService, name: inputUser)
     }
     
