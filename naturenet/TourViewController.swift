@@ -9,13 +9,14 @@
 import UIKit
 import MapKit
 
-class TourViewController: UIViewController, MKMapViewDelegate {
+class TourViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     @IBOutlet weak var acesMapView: MKMapView!
     
     var locationIconNames = ["number1", "number2", "number3", "number4", "number5", "number6", "number7",
                                 "number8", "number9", "number10", "number11"]
     var tourAnnotations: [TourLocationAnnotation]?
+    var cameraImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,12 +49,17 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         self.acesMapView.addAnnotation(annotation)
     }
     
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // mapView setup functions
+    //----------------------------------------------------------------------------------------------------------------------
+    
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         if !(annotation is TourLocationAnnotation) {
             return nil
         }
         
-        let reuseId = "test"
+        let reuseId = "customAnnotationView"
         
         var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
         if anView == nil {
@@ -73,6 +79,62 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         return anView
         
     }
+    
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+            self.performSegueWithIdentifier("tourToDetail", sender: view)
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "tourToDetail" {
+            let detailVC = segue.destinationViewController as LocationDetailViewController
+            // if passed from a cell
+            if let annotationView = sender as? MKAnnotationView {
+                let annotation = annotationView.annotation as TourLocationAnnotation
+                detailVC.locationTitle = annotation.title
+                detailVC.locationDescription = annotation.subtitle
+            }
+        }
+        if segue.identifier == "tourToObservationDetail" {
+            let detailVC = segue.destinationViewController as ObservationDetailController
+            detailVC.imageFromCamera = self.cameraImage!
+            detailVC.sourceViewController = NSStringFromClass(ActivityDetailViewController)
+        }
+    }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // pick from camera or gallary
+    //----------------------------------------------------------------------------------------------------------------------
+    @IBAction func openCamera() {
+        var picker:UIImagePickerController = UIImagePickerController()
+        picker.delegate = self
+        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+            picker.sourceType = UIImagePickerControllerSourceType.Camera
+            self.presentViewController(picker, animated: true, completion: nil)
+        } else {
+            openGallary(picker)
+        }
+    }
+    
+    func openGallary(picker: UIImagePickerController!) {
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(picker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        println("picker cancel.")
+    }
+    
+    // after picking or taking a photo didFinishPickingMediaWithInfo
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.performSegueWithIdentifier("tourToObservationDetail", sender: self)
+    }
+    
     
     // given latitude and longtitude, return CLLocationCoordinate2D
     func coordinatesToLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees,
@@ -115,6 +177,8 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         }
         return tourAnnotations
     }
+    
+    
     /*
     // MARK: - Navigation
 

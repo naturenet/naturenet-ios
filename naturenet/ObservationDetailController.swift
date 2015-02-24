@@ -55,7 +55,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         }
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -64,13 +63,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     //----------------------------------------------------------------------------------------------------------------------
     // tableView setup
     //----------------------------------------------------------------------------------------------------------------------
-//    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCellWithIdentifier("activitiesCell", forIndexPath: indexPath) as UITableViewCell
-//        var activity = self.activities[indexPath.row] as Context
-//        cell.textLabel?.text = note!.content
-//        return cell
-//        
-//    }
     
     // didSelectRowAtIndexPath
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -206,9 +198,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    
-    
-    
     //----------------------------------------------------------------------------------------------------------------------
     // save note
     //----------------------------------------------------------------------------------------------------------------------
@@ -228,7 +217,10 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         mNote.state = NNModel.STATE.NEW
         if let desc = descriptionLabel.text {
             mNote.content = desc
-            var selectedActivity = getActivityByName(desc)!
+        }
+        
+        if let activity = activityLable.text {
+            var selectedActivity = getActivityByName(activity)!
             mNote.context = selectedActivity
         }
         
@@ -303,6 +295,9 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         // load landmarks and activities (type: Context)
         loadContexts()
         
+        // this step looks neccessary for set descriptionLabel text consistently
+        descriptionLabel.text = " "
+        
         // load note informaiton, e.g. description/media image
         if let noteObjectID = self.noteIdFromObservations {
             var predicate = NSPredicate(format: "SELF = %@", noteObjectID)
@@ -324,8 +319,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
                     self.noteImageView.image = image
                     self.imageLoadingIndicator.stopAnimating()
                     self.imageLoadingIndicator.removeFromSuperview()
-                } else {
-                    // println("the image's full path doesn't exist")
                 }
             }
             
@@ -340,8 +333,12 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             imageLoadingIndicator.stopAnimating()
             imageLoadingIndicator.removeFromSuperview()
             if let activityTitle = self.activityNameFromActivityDetail {
-                locationLabel.text = activityTitle
+                activityLable.text = activityTitle
+            } else {
+                activityLable.text = "Free Observation"
             }
+            descriptionLabel.text = descriptionLabel.text
+            locationLabel.text = "Other"
             
         }
         

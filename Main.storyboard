@@ -15,7 +15,7 @@
                         <viewControllerLayoutGuide type="top" id="i43-Ya-fV5"/>
                         <viewControllerLayoutGuide type="bottom" id="BtJ-pV-wsB"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="VId-76-czs">
+                    <view key="view" contentMode="scaleToFill" id="VId-76-czs" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -25,24 +25,110 @@
                                     <outlet property="delegate" destination="ekY-aI-Kns" id="g2G-CQ-eXQ"/>
                                 </connections>
                             </mapView>
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.79999999999999982" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPm-BE-VvC">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NIO-pY-YPI"/>
+                                    <barButtonItem systemItem="camera" id="GR6-Pr-IkV">
+                                        <color key="tintColor" red="0.1706252626444037" green="0.46957890580375772" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="B9y-xk-Cnb"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="eN1-5M-SHF" firstAttribute="bottom" secondItem="BtJ-pV-wsB" secondAttribute="top" id="17k-YF-0gL"/>
+                            <constraint firstItem="fPm-BE-VvC" firstAttribute="bottom" secondItem="BtJ-pV-wsB" secondAttribute="top" id="L7a-Nw-sUl"/>
+                            <constraint firstItem="fPm-BE-VvC" firstAttribute="leading" secondItem="eN1-5M-SHF" secondAttribute="leading" id="OK5-By-Gbj"/>
                             <constraint firstAttribute="trailing" secondItem="eN1-5M-SHF" secondAttribute="trailing" id="S97-aa-kFE"/>
                             <constraint firstItem="eN1-5M-SHF" firstAttribute="top" secondItem="i43-Ya-fV5" secondAttribute="bottom" id="lor-iC-kDQ"/>
                             <constraint firstItem="eN1-5M-SHF" firstAttribute="leading" secondItem="VId-76-czs" secondAttribute="leading" id="nc5-QX-p1C"/>
+                            <constraint firstItem="fPm-BE-VvC" firstAttribute="trailing" secondItem="eN1-5M-SHF" secondAttribute="trailing" id="qWa-jN-Ez5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Aces Tour" id="3nh-Mx-dUX"/>
+                    <navigationItem key="navigationItem" title="Aces Tour" id="3nh-Mx-dUX">
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="6LP-sb-Opz">
+                            <connections>
+                                <action selector="openCamera" destination="ekY-aI-Kns" id="1aJ-mR-Gll"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="AcesMapView" destination="eN1-5M-SHF" id="x02-8b-f18"/>
                         <outlet property="acesMapView" destination="eN1-5M-SHF" id="33q-3x-ewM"/>
+                        <segue destination="KIt-YQ-zZN" kind="show" identifier="tourToDetail" id="uOa-IB-BMv"/>
+                        <segue destination="G2L-CF-kVP" kind="show" identifier="tourToObservationDetail" id="Bgt-hD-Bey"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ihd-sT-MSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-355" y="-1324"/>
+            <point key="canvasLocation" x="-509" y="-2195"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="4jo-N2-DQd">
+            <objects>
+                <viewController id="KIt-YQ-zZN" customClass="LocationDetailViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0J0-f8-LRf"/>
+                        <viewControllerLayoutGuide type="bottom" id="Sv7-7w-zAI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mtf-7g-HlN">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jIM-Ow-215">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MSl-TQ-07o">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="tdU-Ya-fMO"/>
+                                    <barButtonItem systemItem="camera" id="DAD-k4-2GM"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="oyn-t5-WKC"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="2XE-GL-spS"/>
+                            <constraint firstItem="jIM-Ow-215" firstAttribute="top" secondItem="mtf-7g-HlN" secondAttribute="top" id="3NI-jT-T68"/>
+                            <constraint firstItem="MSl-TQ-07o" firstAttribute="top" secondItem="jIM-Ow-215" secondAttribute="bottom" constant="20" id="5kb-tU-SHP"/>
+                            <constraint firstItem="jIM-Ow-215" firstAttribute="leading" secondItem="mtf-7g-HlN" secondAttribute="leading" id="Top-X4-TvW"/>
+                            <constraint firstItem="MSl-TQ-07o" firstAttribute="leading" secondItem="jIM-Ow-215" secondAttribute="leading" id="cMq-Gi-krW"/>
+                            <constraint firstItem="MSl-TQ-07o" firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="dof-hx-HST"/>
+                            <constraint firstItem="MSl-TQ-07o" firstAttribute="bottom" secondItem="Sv7-7w-zAI" secondAttribute="top" id="urC-nb-Ugx"/>
+                            <constraint firstItem="Sv7-7w-zAI" firstAttribute="top" secondItem="MSl-TQ-07o" secondAttribute="bottom" id="zgk-hb-YNo"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="urC-nb-Ugx"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="7rF-tf-6IK"/>
+                        <barButtonItem systemItem="camera" id="lcR-vB-b6b">
+                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Gn6-Ej-509"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Title" id="UHd-t4-tQR">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="K4x-E9-nXS"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="descriptionTextView" destination="jIM-Ow-215" id="pBf-OX-n82"/>
+                        <outlet property="navItem" destination="UHd-t4-tQR" id="nkN-WB-4bB"/>
+                        <segue destination="G2L-CF-kVP" kind="show" identifier="tourDetailToObservation" id="WtA-7r-5HU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0C7-FZ-Wg2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="668" y="-2110"/>
         </scene>
         <!--NatureNet-->
         <scene sceneID="ufC-wZ-h7g">
@@ -170,7 +256,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-937" y="-432"/>
+            <point key="canvasLocation" x="-1761" y="-424"/>
         </scene>
         <!--Profile-->
         <scene sceneID="5sj-ed-Tm4">
@@ -283,7 +369,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Hq-Eh-EL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="696" y="-1048"/>
+            <point key="canvasLocation" x="500" y="-744"/>
         </scene>
         <!--Sign In-->
         <scene sceneID="85P-qF-8A2">
@@ -771,7 +857,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UFS-jY-fex" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="mKz-YX-JQE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1451" y="-2186"/>
+            <point key="canvasLocation" x="1375" y="-1542"/>
         </scene>
         <!--Observation-->
         <scene sceneID="eNB-Kf-sha">
@@ -784,16 +870,16 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <sections>
                             <tableViewSection id="K0M-AT-Hk1">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="LyZ-HL-DYd">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="250" id="LyZ-HL-DYd">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LyZ-HL-DYd" id="5sH-iR-KKo">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c30-VZ-Zvu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="250"/>
                                                 </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="szJ-Ae-r0l">
-                                                    <rect key="frame" x="282" y="81" width="37" height="37"/>
+                                                    <rect key="frame" x="282" y="107" width="37" height="37"/>
                                                     <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -811,7 +897,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                             </tableViewSection>
                             <tableViewSection id="Iah-wC-wvZ">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="7U8-vc-El2" detailTextLabel="wZA-hV-cBY" style="IBUITableViewCellStyleValue1" id="kvc-CR-juq">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="7U8-vc-El2" detailTextLabel="iJT-f8-e4q" style="IBUITableViewCellStyleValue1" id="kvc-CR-juq">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kvc-CR-juq" id="lhk-mS-rrn">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -822,7 +908,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wZA-hV-cBY">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iJT-f8-e4q">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -831,7 +917,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="PaI-Fo-sAG" detailTextLabel="80m-dP-zFf" style="IBUITableViewCellStyleValue1" id="mg4-uv-Okq">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="PaI-Fo-sAG" detailTextLabel="42e-hL-LJ2" style="IBUITableViewCellStyleValue1" id="mg4-uv-Okq">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mg4-uv-Okq" id="4BB-P0-bit">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -842,7 +928,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Free Observation" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="80m-dP-zFf">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="42e-hL-LJ2">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -851,7 +937,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="eDm-qD-YLr" detailTextLabel="6cu-sH-BPP" style="IBUITableViewCellStyleValue1" id="SWE-TB-lhc">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="eDm-qD-YLr" detailTextLabel="CYg-Mh-GMp" style="IBUITableViewCellStyleValue1" id="SWE-TB-lhc">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SWE-TB-lhc" id="IGU-8z-Izp">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -862,10 +948,10 @@ A longer version of this consent form is available [at the ACES front desk/from 
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Other" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6cu-sH-BPP">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CYg-Mh-GMp">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -892,10 +978,10 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="activityLable" destination="80m-dP-zFf" id="Cpn-U7-prQ"/>
-                        <outlet property="descriptionLabel" destination="wZA-hV-cBY" id="yoN-6e-Kgb"/>
+                        <outlet property="activityLable" destination="42e-hL-LJ2" id="Rre-dg-6PK"/>
+                        <outlet property="descriptionLabel" destination="iJT-f8-e4q" id="sgn-ar-jtA"/>
                         <outlet property="imageLoadingIndicator" destination="szJ-Ae-r0l" id="NxI-rg-5AA"/>
-                        <outlet property="locationLabel" destination="6cu-sH-BPP" id="BWD-mU-Hxr"/>
+                        <outlet property="locationLabel" destination="CYg-Mh-GMp" id="r7u-eM-qL8"/>
                         <outlet property="noteImageView" destination="c30-VZ-Zvu" id="Olf-p0-fmE"/>
                         <outlet property="observationTableView" destination="SSC-9e-6OT" id="Eqv-m0-2FI"/>
                         <segue destination="XQG-p1-1s3" kind="show" identifier="editObsToDescription" id="dvS-jN-7vj"/>
@@ -905,7 +991,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cp6-kl-6MX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3462" y="-1886"/>
+            <point key="canvasLocation" x="2162" y="-3241"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T2S-ie-QQz">
@@ -927,7 +1013,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KIB-ae-1KJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1764" y="-353"/>
+            <point key="canvasLocation" x="-2956" y="-337"/>
         </scene>
         <!--Design Idea-->
         <scene sceneID="zYZ-JQ-Lzz">
@@ -1014,7 +1100,7 @@ A longer version of this consent form is available [at the ACES front desk/from 
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fej-Pz-W1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="982" y="475"/>
+            <point key="canvasLocation" x="770" y="475"/>
         </scene>
         <!--About-->
         <scene sceneID="9Ko-Dm-v1W">
@@ -1111,7 +1197,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qp1-ge-Zhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="tbD-Sd-9pO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1973" y="467"/>
+            <point key="canvasLocation" x="1489" y="475"/>
         </scene>
         <!--Title-->
         <scene sceneID="oa5-Hq-k3v">
@@ -1177,7 +1263,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SG8-zI-uKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2701" y="-353"/>
+            <point key="canvasLocation" x="2261" y="475"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
@@ -1226,7 +1312,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhf-dO-1ZR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wmH-vx-Ojb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4828" y="-2936"/>
+            <point key="canvasLocation" x="3620" y="-3576"/>
         </scene>
         <!--Activity-->
         <scene sceneID="Ozr-jZ-JFj">
@@ -1240,8 +1326,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-uJ-50B">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-uJ-50B">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activitySelectionCell" textLabel="Usd-ZV-BCq" style="IBUITableViewCellStyleDefault" id="oWQ-gN-t4z">
@@ -1285,7 +1371,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Joq-Hp-CoY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4I7-LF-w1e" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4828" y="-2175"/>
+            <point key="canvasLocation" x="3676" y="-2495"/>
         </scene>
         <!--Location-->
         <scene sceneID="KjR-20-LMm">
@@ -1327,7 +1413,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kLL-Do-u0d" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="y7E-o5-Zmi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4848" y="-1343"/>
+            <point key="canvasLocation" x="3696" y="-1559"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zZr-tW-N6p">
@@ -1354,8 +1440,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9ac-AY-f52"/>
         <segue reference="PbE-tg-8FU"/>
-        <segue reference="cMI-fD-Rxu"/>
+        <segue reference="9ac-AY-f52"/>
+        <segue reference="Bgt-hD-Bey"/>
     </inferredMetricsTieBreakers>
 </document>
