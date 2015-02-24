@@ -15,15 +15,18 @@ protocol SaveObservationProtocol {
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) -> Void
 }
 
-class ObservationDetailController: UIViewController, UITableViewDelegate, CLLocationManagerDelegate, CLUploaderDelegate {
+class ObservationDetailController: UITableViewController, CLLocationManagerDelegate {
 
     // UI Outlets
     @IBOutlet weak var noteImageView: UIImageView!
     @IBOutlet weak var imageLoadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var detailTableView: UITableView!
+    
+    @IBOutlet var observationTableView: UITableView!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var activityLable: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
     
     let locationManager = CLLocationManager()
-    var cloudinary:CLCloudinary = CLCloudinary()
     
     // data passed from previous page
     var noteIdFromObservations: NSManagedObjectID?
@@ -42,14 +45,9 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     var userLat: CLLocationDegrees?
     var userLon: CLLocationDegrees?
     
-    // tableview data
-    var titles = ["Description", "Activity", "Location"]
-    var details = [" ", "Free Observation", "Other"]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.detailTableView.reloadData()
         loadData()
         // only request location on new observation
         if imageFromCamera != nil {
@@ -57,6 +55,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         }
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -65,27 +64,23 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     //----------------------------------------------------------------------------------------------------------------------
     // tableView setup
     //----------------------------------------------------------------------------------------------------------------------
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
-    }
+//    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCellWithIdentifier("activitiesCell", forIndexPath: indexPath) as UITableViewCell
+//        var activity = self.activities[indexPath.row] as Context
+//        cell.textLabel?.text = note!.content
+//        return cell
+//        
+//    }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "profilecell")
-        let cell = tableView.dequeueReusableCellWithIdentifier("editObsCell", forIndexPath: indexPath) as EditObsTableViewCell
-        cell.editCellTitle!.text = titles[indexPath.row]
-        cell.editCellDetail!.text = details[indexPath.row]
-        return cell
-    }
-
     // didSelectRowAtIndexPath
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.row {
         case 0 :
             self.performSegueWithIdentifier("editObsToDescription", sender: self)
         case 1 :
-            self.performSegueWithIdentifier("selectObsActivitySeg", sender: self)
+            self.performSegueWithIdentifier("editObsToActivity", sender: self)
         case 2 :
-            self.performSegueWithIdentifier("selectObsLocationSeg", sender: self)
+            self.performSegueWithIdentifier("editObsToLocation", sender: self)
         default:
             return
         }
@@ -97,17 +92,17 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "editObsToDescription" {
             let destinationVC = segue.destinationViewController as NoteDescriptionViewController
-            destinationVC.noteContent = details[0]
+            destinationVC.noteContent = descriptionLabel.text
         }
-        if segue.identifier == "selectObsActivitySeg" {
+        if segue.identifier == "editObsToActivity" {
             let destinationVC = segue.destinationViewController as NoteActivitySelectionViewController
             destinationVC.activities = self.activities
-            destinationVC.selectedActivityTitle = details[1]
+            destinationVC.selectedActivityTitle = activityLable.text
         }
-        if segue.identifier == "selectObsLocationSeg" {
+        if segue.identifier == "editObsToLocation" {
             let destinationVC = segue.destinationViewController as NoteLocationTableViewController
             destinationVC.landmarks = self.landmarks
-            destinationVC.selectedLocation = details[2]
+            destinationVC.selectedLocation = locationLabel.text
         }
         
     }
@@ -120,8 +115,7 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     @IBAction func passedDescription(segue:UIStoryboardSegue) {
         let noteDescriptionVC = segue.sourceViewController as NoteDescriptionViewController
         if let desc = noteDescriptionVC.noteContent {
-            details[0] = desc
-            self.detailTableView.reloadData()
+            descriptionLabel.text = desc
         }
         self.navigationItem.rightBarButtonItem?.style = .Done
         self.navigationController?.popViewControllerAnimated(true)
@@ -131,9 +125,8 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     @IBAction func passedActivitySelection(segue:UIStoryboardSegue) {
         let noteActivitySelectionVC = segue.sourceViewController as NoteActivitySelectionViewController
         if let activityTitle = noteActivitySelectionVC.selectedActivityTitle {
-            details[1] = activityTitle
+            activityLable.text = activityTitle
         }
-        self.detailTableView.reloadData()
         self.navigationController?.popViewControllerAnimated(true)
     }
     
@@ -141,14 +134,13 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     @IBAction func passedLocationSelection(segue:UIStoryboardSegue) {
         let noteLocationSelectionVC = segue.sourceViewController as NoteLocationTableViewController
         if let locationTitle = noteLocationSelectionVC.selectedLocation {
-            details[2] = locationTitle
+            locationLabel.text = locationTitle
         }
-        self.detailTableView.reloadData()
         self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func cancelPressed(sender: UIBarButtonItem) {
-        self.navigationController?.popViewControllerAnimated(false)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func sendPressed(sender: UIBarButtonItem) {
@@ -234,9 +226,11 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         mNote.account = account!
         mNote.kind = "FieldNote"
         mNote.state = NNModel.STATE.NEW
-        mNote.content = details[0]
-        var selectedActivity = getActivityByName(details[1])!
-        mNote.context = selectedActivity
+        if let desc = descriptionLabel.text {
+            mNote.content = desc
+            var selectedActivity = getActivityByName(desc)!
+            mNote.context = selectedActivity
+        }
         
         var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
         var createdAt = NSNumber(unsignedLongLong: timestamp)
@@ -255,17 +249,19 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         media.commit()
         
         // save to Feedback
-        var selectedLandmark = getLandmarkByName(details[2])!
-        var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as Feedback
-        feedback.account = account!
-        feedback.state = NNModel.STATE.NEW
-        feedback.kind = "landmark"
-        feedback.note = mNote
-        feedback.target_model = "Note"
-        feedback.content = selectedLandmark.name
-        feedback.created_at = Double(createdAt)
-        self.feedback = feedback
-        feedback.commit()
+        if let landmark = locationLabel.text {
+            var selectedLandmark = getLandmarkByName(landmark)!
+            var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as Feedback
+            feedback.account = account!
+            feedback.state = NNModel.STATE.NEW
+            feedback.kind = "landmark"
+            feedback.note = mNote
+            feedback.target_model = "Note"
+            feedback.content = selectedLandmark.name
+            feedback.created_at = Double(createdAt)
+            self.feedback = feedback
+            feedback.commit()
+        }
         
         mNote.commit()
         self.note = mNote
@@ -274,26 +270,26 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     
     // update note 
     func updateNote() -> Note {
-        note!.content = details[0]
-        var selectedActivity = getActivityByName(details[1])!
-        note!.context = selectedActivity
-        var selectedLandmark = getLandmarkByName(details[2])!
-        var predicate = NSPredicate(format: "note = %@", note!.objectID)
-        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var fetchedFeedback = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Feedback), withPredicate: predicate,
-                                managedObjectContext: nsManagedContext) as Feedback?
-        if fetchedFeedback != nil {
-            fetchedFeedback!.content = selectedLandmark.name
-            fetchedFeedback!.commit()
+        if let desc = descriptionLabel.text {
+            note!.content = desc
         }
-        self.feedback = fetchedFeedback
-        
-//        var fetchedMedia = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Media), withPredicate: predicate,
-//            managedObjectContext: nsManagedContext) as Media?
-//        if fetchedMedia != nil {
-//            fetchedMedia!.commit()
-//        }
-//        self.noteMedia = fetchedMedia
+        if let activity = activityLable.text {
+            var selectedActivity = getActivityByName(activity)!
+            note!.context = selectedActivity
+        }
+        if let landmark = locationLabel.text {
+            var selectedLandmark = getLandmarkByName(landmark)!
+            var predicate = NSPredicate(format: "note = %@", note!.objectID)
+            var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+            var fetchedFeedback = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Feedback), withPredicate: predicate,
+                managedObjectContext: nsManagedContext) as Feedback?
+            if fetchedFeedback != nil {
+                fetchedFeedback!.content = selectedLandmark.name
+                fetchedFeedback!.commit()
+            }
+            feedback = fetchedFeedback
+        }
+
         note!.commit()
         return self.note!
     }
@@ -315,17 +311,11 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
                    self.note = mNote
             }
             self.noteMedia = self.note?.getSingleMedia()
-            details[0] = note!.content
+            descriptionLabel.text = note!.content
             
             var noteActivity = note!.context
-            details[1] = noteActivity.title
-            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
-            self.noteImageView.addSubview(activityIndicator)
-            activityIndicator.frame = self.noteImageView.bounds
-            activityIndicator.center = self.noteImageView.center
-            activityIndicator.startAnimating()
-            self.imageLoadingIndicator = activityIndicator
-//            imageLoadingIndicator.startAnimating()
+            activityLable.text = noteActivity.title
+            imageLoadingIndicator.startAnimating()
             if let fullPath = noteMedia?.full_path {
                 let fileManager = NSFileManager.defaultManager()
                 if fileManager.fileExistsAtPath(fullPath) {
@@ -344,17 +334,16 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             }
             
             var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
-            details[2] = landmarkTitle
+            locationLabel.text = landmarkTitle
         } else if self.imageFromCamera != nil {
             self.noteImageView.image = self.imageFromCamera!
             imageLoadingIndicator.stopAnimating()
             imageLoadingIndicator.removeFromSuperview()
             if let activityTitle = self.activityNameFromActivityDetail {
-                details[1] = activityTitle
+                locationLabel.text = activityTitle
             }
             
         }
-        
         
     }
     

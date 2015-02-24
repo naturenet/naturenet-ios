@@ -125,7 +125,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("observationDetailSegue", sender: indexPath)
+        self.performSegueWithIdentifier("ObservationsToDetail", sender: indexPath)
     }
     
     //----------------------------------------------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     //----------------------------------------------------------------------------------------------------------------------
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "observationDetailSegue" {
+        if segue.identifier == "ObservationsToDetail" {
 //            let destinationVC = segue.destinationViewController as UINavigationController
 //            let detailVC = destinationVC.topViewController as ObservationDetailController
             let detailVC = segue.destinationViewController as ObservationDetailController
@@ -284,7 +284,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
-        self.performSegueWithIdentifier("observationDetailSegue", sender: self)
+        self.performSegueWithIdentifier("ObservationsToDetail", sender: self)
     }
     
     // implement later if it is needed
