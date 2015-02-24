@@ -161,8 +161,6 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             nextViewController.receivedNoteFromObservation = self.note
             nextViewController.receivedMediaFromObservation = self.noteMedia
             nextViewController.receivedFeedbackFromObservation = self.feedback
-//            self.saveObservationDelegate = nextViewController
-//            self.saveObservationDelegate!.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
         }
         
         if sourceViewController == NSStringFromClass(ObservationsController) {
@@ -200,15 +198,20 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     // implement location didFailWithError
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         println("error happened locationmanager \(error.domain)")
+        var message = "NatureNet requires to acess your location"
+        noLocationAlert(message)
 
-        var alert = UIAlertController(title: "Alert", message: "NatureNet requires to acess your location", preferredStyle: UIAlertControllerStyle.Alert)
+    }
+    
+    func noLocationAlert(message: String) {
+        var alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Canel", style: UIAlertActionStyle.Cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
-           
-        }))
+        var okAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!);
+            return
+        })
+        alert.addAction(okAction)
         self.presentViewController(alert, animated: true, completion: nil)
-       
-        
     }
     
     
@@ -222,8 +225,10 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
         var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
         if imageFromCamera != nil {
-            mNote.longitude = self.userLon!
-            mNote.latitude = self.userLat!
+            if userLon != nil && userLat != nil {
+                mNote.longitude = self.userLon!
+                mNote.latitude = self.userLat!
+            }
         }
         var account = Session.getAccount()
         mNote.account = account!
@@ -314,7 +319,13 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
             
             var noteActivity = note!.context
             details[1] = noteActivity.title
-            imageLoadingIndicator.startAnimating()
+            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+            self.noteImageView.addSubview(activityIndicator)
+            activityIndicator.frame = self.noteImageView.bounds
+            activityIndicator.center = self.noteImageView.center
+            activityIndicator.startAnimating()
+            self.imageLoadingIndicator = activityIndicator
+//            imageLoadingIndicator.startAnimating()
             if let fullPath = noteMedia?.full_path {
                 let fileManager = NSFileManager.defaultManager()
                 if fileManager.fileExistsAtPath(fullPath) {

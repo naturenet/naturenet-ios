@@ -53,7 +53,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     }
     
     
-    // after post, when note uid is ready, order must follow this
+    // after post, do it in background in case the user goes back home
+    // when note uid is ready, order must follow this
     // upload feedback -> upload to cloudinary -> upload media
     // start the tasks from main thread(cloudinary requires main thread!!),
     // the async tasks in the push methods will do the task(e.g. handling request, image uploading)
@@ -255,7 +256,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
         else {
             popover = UIPopoverController(contentViewController: alert)
-            // popover!.presentPopoverFromRect(cameraBtn.vie, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
         }
     }
     
@@ -340,6 +340,15 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 // println("you have \(medias.count) medias")
                 for media in medias {
                     var mMedia = media as Media
+                    // url is empty, but has fullpath or thumbpath, then check whether the file exists
+                    if mMedia.url == nil {
+                        let fileManager = NSFileManager.defaultManager()
+                        if (mMedia.thumb_path != nil && !fileManager.fileExistsAtPath(mMedia.thumb_path!))
+                            || (mMedia.full_path != nil && !fileManager.fileExistsAtPath(mMedia.full_path!)) {
+                                continue
+                        }
+                    }
+                    
                     var obscell = ObservationCell(objectID: mNote.objectID,
                         state: mNote.state.integerValue, modifiedAt: mNote.modified_at)
                     if let tPath = mMedia.thumb_path {
@@ -351,10 +360,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                     if let mediaURL = mMedia.url {
                         obscell.imageURL = mediaURL
                     }
-                    // only the media has url && full_path && thumb_path can be
-                    if mMedia.url != nil {
-                        celldata.append(obscell)
-                    }
+
+                    
+                    celldata.append(obscell)
                 }
             }
             celldata.sort({$0.modifiedAt.longLongValue > $1.modifiedAt.longLongValue})
@@ -372,7 +380,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         activityIndicator.startAnimating()
         
         let fileManager = NSFileManager.defaultManager()
-        // println("haha, I am here again \(indexPath.row)th")
+         println("haha, I am here again \(indexPath.row)th")
         if let lPath = cellImage.localThumbPath {
             if fileManager.fileExistsAtPath(lPath) {
                 cell.mImageView.image = UIImage(named: lPath)
@@ -381,7 +389,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
         } else if let fPath = cellImage.localFullPath {
-            // println("image local full path is :  \(fPath)")
+             println("image local full path is :  \(fPath)")
             if fileManager.fileExistsAtPath(fPath) {
                 cell.mImageView.image = UIImage(named: fPath)
                 activityIndicator.stopAnimating()

@@ -784,15 +784,21 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <sections>
                             <tableViewSection id="K0M-AT-Hk1">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="145" id="LyZ-HL-DYd">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="LyZ-HL-DYd">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LyZ-HL-DYd" id="5sH-iR-KKo">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kbN-JG-P1u">
-                                                    <rect key="frame" x="0.0" y="-138" width="600" height="321"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c30-VZ-Zvu">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                                 </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="c30-VZ-Zvu" firstAttribute="leading" secondItem="5sH-iR-KKo" secondAttribute="leading" id="5Wo-At-Ixs"/>
+                                                <constraint firstAttribute="trailing" secondItem="c30-VZ-Zvu" secondAttribute="trailing" id="FHu-qK-A6P"/>
+                                                <constraint firstItem="c30-VZ-Zvu" firstAttribute="centerY" secondItem="5sH-iR-KKo" secondAttribute="centerY" id="GPo-NG-SBj"/>
+                                                <constraint firstItem="c30-VZ-Zvu" firstAttribute="top" secondItem="5sH-iR-KKo" secondAttribute="top" id="v92-BE-ufT"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -878,13 +884,12 @@ A longer version of this consent form is available [at the ACES front desk/from 
                         <outlet property="descriptionLabel" destination="wZA-hV-cBY" id="b9i-EB-dcV"/>
                         <outlet property="locationLabel" destination="6cu-sH-BPP" id="Sg4-z0-Yej"/>
                         <outlet property="locationSelectionLabel" destination="80m-dP-zFf" id="bYq-3o-cSE"/>
-                        <outlet property="noteImageView" destination="kbN-JG-P1u" id="ajs-hj-1MK"/>
                         <outlet property="obsDescription" destination="wZA-hV-cBY" id="SCk-iR-VW5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cp6-kl-6MX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1426" y="-2987"/>
+            <point key="canvasLocation" x="3074" y="-3307"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="T2S-ie-QQz">
@@ -1179,25 +1184,21 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <!--Observation-->
         <scene sceneID="aod-fM-Pyn">
             <objects>
-                <viewController id="iT3-ST-7Mc" customClass="ObservationDetailController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" id="iT3-ST-7Mc" customClass="ObservationDetailController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fI6-AN-qhm"/>
                         <viewControllerLayoutGuide type="bottom" id="0Aq-b7-aif"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="lBC-mk-1PP">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k7K-E5-D7X">
-                                <rect key="frame" x="0.0" y="69" width="600" height="213"/>
-                            </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="9H5-Di-JE2">
-                                <rect key="frame" x="281" y="157" width="37" height="37"/>
-                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" dataMode="prototypes" style="grouped" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="45" sectionHeaderHeight="1" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="biu-MC-PED">
-                                <rect key="frame" x="0.0" y="283" width="600" height="253"/>
+                                <rect key="frame" x="0.0" y="272" width="600" height="254"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="197" id="8H1-Ac-RFS"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="editObsCell" textLabel="jxh-bP-f4a" detailTextLabel="5me-7e-p3p" style="IBUITableViewCellStyleValue1" id="TiF-6l-dqx" customClass="EditObsTableViewCell" customModule="naturenet" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -1225,31 +1226,43 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="8H1-Ac-RFS"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="iT3-ST-7Mc" id="Jb9-Tv-v90"/>
                                     <outlet property="delegate" destination="iT3-ST-7Mc" id="BBW-oz-uH3"/>
                                 </connections>
                             </tableView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k7K-E5-D7X">
+                                <rect key="frame" x="0.0" y="64" width="600" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="Jdp-Mc-CMs"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="biu-MC-PED" firstAttribute="top" secondItem="k7K-E5-D7X" secondAttribute="bottom" constant="1" id="0ls-AV-Ti0"/>
-                            <constraint firstAttribute="width" secondItem="k7K-E5-D7X" secondAttribute="width" id="3Bb-Yd-bAH"/>
-                            <constraint firstAttribute="centerX" secondItem="biu-MC-PED" secondAttribute="centerX" id="7x7-7B-hJB"/>
-                            <constraint firstItem="9H5-Di-JE2" firstAttribute="centerX" secondItem="k7K-E5-D7X" secondAttribute="centerX" id="Aof-hE-74Q"/>
-                            <constraint firstItem="0Aq-b7-aif" firstAttribute="top" secondItem="k7K-E5-D7X" secondAttribute="bottom" constant="274" id="H9n-4r-4wk"/>
-                            <constraint firstItem="0Aq-b7-aif" firstAttribute="top" secondItem="biu-MC-PED" secondAttribute="bottom" constant="20" id="Ix3-5G-BIa"/>
-                            <constraint firstAttribute="width" secondItem="biu-MC-PED" secondAttribute="width" id="Pae-2d-i55"/>
-                            <constraint firstItem="k7K-E5-D7X" firstAttribute="top" secondItem="fI6-AN-qhm" secondAttribute="bottom" constant="5" id="Yh5-dc-QyC"/>
-                            <constraint firstItem="k7K-E5-D7X" firstAttribute="top" secondItem="fI6-AN-qhm" secondAttribute="bottom" constant="5" id="aLC-tQ-gYc"/>
-                            <constraint firstAttribute="centerX" secondItem="k7K-E5-D7X" secondAttribute="centerX" id="ak5-QZ-RdD"/>
-                            <constraint firstAttribute="trailing" secondItem="k7K-E5-D7X" secondAttribute="trailing" id="ebN-ty-7nV"/>
-                            <constraint firstItem="9H5-Di-JE2" firstAttribute="centerY" secondItem="k7K-E5-D7X" secondAttribute="centerY" id="iLd-9d-Pc0"/>
+                            <constraint firstItem="biu-MC-PED" firstAttribute="leading" secondItem="lBC-mk-1PP" secondAttribute="leading" id="0od-MI-Ypk"/>
+                            <constraint firstItem="biu-MC-PED" firstAttribute="top" secondItem="k7K-E5-D7X" secondAttribute="bottom" constant="8" symbolic="YES" id="HUw-xk-qjt"/>
+                            <constraint firstItem="k7K-E5-D7X" firstAttribute="width" secondItem="biu-MC-PED" secondAttribute="width" id="NJF-fq-lUB"/>
+                            <constraint firstAttribute="centerX" secondItem="k7K-E5-D7X" secondAttribute="centerX" id="Pz8-KR-nYJ"/>
+                            <constraint firstItem="biu-MC-PED" firstAttribute="trailing" secondItem="k7K-E5-D7X" secondAttribute="trailing" id="RU6-eJ-8SH"/>
+                            <constraint firstItem="k7K-E5-D7X" firstAttribute="top" secondItem="fI6-AN-qhm" secondAttribute="bottom" id="YDE-Jr-H3c"/>
+                            <constraint firstItem="0Aq-b7-aif" firstAttribute="top" secondItem="biu-MC-PED" secondAttribute="bottom" constant="30" id="dmI-iX-emd"/>
+                            <constraint firstAttribute="trailing" secondItem="k7K-E5-D7X" secondAttribute="trailing" id="nOA-jb-qFJ"/>
+                            <constraint firstAttribute="width" secondItem="k7K-E5-D7X" secondAttribute="width" id="o4k-Ur-1as"/>
+                            <constraint firstItem="k7K-E5-D7X" firstAttribute="leading" secondItem="lBC-mk-1PP" secondAttribute="leadingMargin" id="rE3-sG-iMO"/>
+                            <constraint firstItem="biu-MC-PED" firstAttribute="leading" secondItem="k7K-E5-D7X" secondAttribute="leading" id="xBR-i4-X3L"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="aLC-tQ-gYc"/>
-                                <exclude reference="ebN-ty-7nV"/>
+                                <exclude reference="nOA-jb-qFJ"/>
+                                <exclude reference="rE3-sG-iMO"/>
+                                <exclude reference="RU6-eJ-8SH"/>
+                                <exclude reference="xBR-i4-X3L"/>
                             </mask>
                         </variation>
                     </view>
@@ -1267,7 +1280,6 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                     </navigationItem>
                     <connections>
                         <outlet property="detailTableView" destination="biu-MC-PED" id="WUF-Jx-82h"/>
-                        <outlet property="imageLoadingIndicator" destination="9H5-Di-JE2" id="g1S-3i-XQ0"/>
                         <outlet property="noteImageView" destination="k7K-E5-D7X" id="Jaa-y3-c3H"/>
                         <segue destination="XQG-p1-1s3" kind="show" identifier="editObsToDescription" id="HfF-D6-TYP"/>
                         <segue destination="c0p-Yw-gqU" kind="show" identifier="selectObsActivitySeg" id="CCv-3e-bOx"/>
@@ -1276,7 +1288,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGH-Jb-d02" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3588" y="-2662"/>
+            <point key="canvasLocation" x="3653" y="-2639"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
