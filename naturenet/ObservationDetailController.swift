@@ -199,8 +199,20 @@ class ObservationDetailController: UIViewController, UITableViewDelegate, CLLoca
     
     // implement location didFailWithError
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        println(error)
+        println("error happened locationmanager \(error.domain)")
+
+        var alert = UIAlertController(title: "Alert", message: "NatureNet requires to acess your location", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Canel", style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { action in
+           
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+       
+        
     }
+    
+    
+    
     
     //----------------------------------------------------------------------------------------------------------------------
     // save note

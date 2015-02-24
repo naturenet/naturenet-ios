@@ -20,7 +20,7 @@ class TourViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         initMap()
-        self.tourAnnotations = getLocations()
+        self.tourAnnotations = getTourAnnotations()
         for location in self.tourAnnotations! {
             setAnnotation(location)
         }
@@ -82,7 +82,7 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         return location
     }
     
-    func getLocations() -> [TourLocationAnnotation] {
+    func getTourAnnotations() -> [TourLocationAnnotation] {
         var latNumber: CLLocationDegrees?
         var lonNumber: CLLocationDegrees?
         var tourAnnotations = [TourLocationAnnotation] ()
