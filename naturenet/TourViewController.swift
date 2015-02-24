@@ -13,16 +13,16 @@ class TourViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var acesMapView: MKMapView!
     
-    var acesLocations: [TourLocation]?
+    var locationIconNames = ["number1", "number2", "number3", "number4", "number5", "number6", "number7",
+                                "number8", "number9", "number10", "number11"]
+    var tourAnnotations: [TourLocationAnnotation]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initMap()
-        self.acesLocations = getLocations()
-        for location in self.acesLocations! {
-            if location.location != nil {
-                setAnnotation(location)
-            }
+        self.tourAnnotations = getLocations()
+        for location in self.tourAnnotations! {
+            setAnnotation(location)
         }
     }
 
@@ -44,16 +44,15 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         acesMapView.mapType = MKMapType.Satellite
     }
     
-    func setAnnotation(location: TourLocation) {
-        var annotation = MKPointAnnotation()
-        annotation.coordinate = location.location!
-        annotation.title = location.title
-        annotation.subtitle = location.locationDescription!
-        
+    func setAnnotation(annotation: TourLocationAnnotation) {
         self.acesMapView.addAnnotation(annotation)
     }
     
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if !(annotation is TourLocationAnnotation) {
+            return nil
+        }
+        
         let reuseId = "test"
         
         var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
@@ -68,10 +67,9 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         //Set annotation-specific properties **AFTER**
         //the view is dequeued or created...
         
-//        let cpa = annotation as CustomPointAnnotation
+        let cpa = annotation as TourLocationAnnotation
         anView.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as UIButton
-        anView.image = UIImage(named: "number1")
-        
+        anView.image = UIImage(named: cpa.imageName)
         return anView
         
     }
@@ -84,16 +82,16 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         return location
     }
     
-    func getLocations() -> [TourLocation] {
+    func getLocations() -> [TourLocationAnnotation] {
         var latNumber: CLLocationDegrees?
         var lonNumber: CLLocationDegrees?
-        var tourLocations = [TourLocation]()
+        var tourAnnotations = [TourLocationAnnotation] ()
         if let site = Session.getSite() {
             var landmarks = site.getLandmarks()
             for landmark in landmarks {
                 var extras = landmark.extras
-                var tourLocation = TourLocation()
-                tourLocation.title = landmark.title
+                var tourAnnotation = TourLocationAnnotation()
+                tourAnnotation.title = landmark.title
                 // because entry "Other" has no extras, no description
                 if extras.isEmpty {
                     continue
@@ -105,12 +103,17 @@ class TourViewController: UIViewController, MKMapViewDelegate {
                 lonNumber = (lonCoordinate[1] as NSString).doubleValue
                 var location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latNumber!, lonNumber!)
                 // println("location \(location.latitude) \(location.longitude)")
-                tourLocation.locationDescription = landmark.context_description
-                tourLocation.location = location
-                tourLocations.append(tourLocation)
+                tourAnnotation.subtitle = landmark.context_description
+                tourAnnotation.coordinate = location
+                
+                var title = landmark.title.componentsSeparatedByString(".")
+                if let iconIndex = title[0].toInt() {
+                    tourAnnotation.imageName = self.locationIconNames[iconIndex - 1]
+                }
+                tourAnnotations.append(tourAnnotation)
             }
         }
-        return tourLocations
+        return tourAnnotations
     }
     /*
     // MARK: - Navigation
@@ -121,18 +124,8 @@ class TourViewController: UIViewController, MKMapViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-
-    class TourLocation {
-        var location: CLLocationCoordinate2D?
-        var title: String!
-        var locationDescription: String?
-        
-        init(){}
-        
-        init(location: CLLocationCoordinate2D, title: String, locationDescription: String) {
-            self.location = location
-            self.title = title
-            self.locationDescription = locationDescription
-        }
+    
+    class TourLocationAnnotation: MKPointAnnotation {
+        var imageName: String!
     }
 }
