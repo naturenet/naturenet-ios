@@ -20,6 +20,7 @@ class LocationDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         navItem.title = locationTitle
         descriptionTextView.text = locationDescription
+//        descriptionTextView.font.fontWithSize(20)
     }
 
     override func didReceiveMemoryWarning() {

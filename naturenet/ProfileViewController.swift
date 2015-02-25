@@ -54,26 +54,23 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     func createPopAlert() {
     
         var popover:UIPopoverController?
-        var alert:UIAlertController = UIAlertController(title: "Are you sure you want to sign out?", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        var title = "Before you sign out, would you like to submit a design suggestion to make NatureNet better?"
+        var alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-        var cameraAction = UIAlertAction(title: "Sign Out", style: UIAlertActionStyle.Destructive) {
+        var cameraAction = UIAlertAction(title: "No (sign me out)", style: UIAlertActionStyle.Destructive) {
             UIAlertAction in
             Session.signOut()
             self.navigationController?.popToRootViewControllerAnimated(true)
 
         }
         
-        var gallaryAction = UIAlertAction(title: "Design Idea", style: UIAlertActionStyle.Default) {
+        var gallaryAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
             UIAlertAction in
         }
-        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
-            UIAlertAction in
-        }
-        
+ 
         // Add the actions
         alert.addAction(cameraAction)
         alert.addAction(gallaryAction)
-        alert.addAction(cancelAction)
         
         // Present the actionsheet
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {

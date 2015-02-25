@@ -34,8 +34,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
+        super.viewDidLoad()        
     }
     
     override func didReceiveMemoryWarning() {

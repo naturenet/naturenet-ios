@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol APIControllerProtocol {
     func didReceiveResults(from: String, response: NSDictionary) -> Void
@@ -25,6 +26,7 @@ class APIService {
     
     func request(from: String, url: String) {
         var nsURL = NSURL(string: url)
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         let task = NSURLSession.sharedSession().dataTaskWithURL(nsURL!, completionHandler: {
             (data, response, error) in
             var error: NSError?
@@ -33,6 +35,8 @@ class APIService {
             } else {
                 if  let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as? NSDictionary {
                     self.delegate?.didReceiveResults(from, response: jsonResult)
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
                 } else {
                     var message = ["status_code" : 600]
                     self.delegate?.didReceiveResults(from, response: message)
@@ -54,7 +58,8 @@ class APIService {
         var err: NSError?
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+
         var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             // println("Response: \(response)")
             var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
@@ -75,6 +80,7 @@ class APIService {
                     // Okay, the parsedJSON is here, let's get the value for 'success' out of it
                     var success = parseJSON["status_code"] as? Int
                     // println("Succes: \(success)")
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     self.delegate?.didReceiveResults(source, response: parseJSON)
                 }
                 else {

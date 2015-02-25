@@ -43,6 +43,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         
         acesMapView.setRegion(region, animated: true)
         acesMapView.mapType = MKMapType.Satellite
+        acesMapView.showsUserLocation = true
     }
     
     func setAnnotation(annotation: TourLocationAnnotation) {
