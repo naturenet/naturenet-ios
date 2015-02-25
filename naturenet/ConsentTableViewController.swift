@@ -36,6 +36,7 @@ class ConsentTableViewController: UITableViewController {
         // Return the number of sections.
         return 1
     }
+    
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0))
