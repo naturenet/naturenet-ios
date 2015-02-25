@@ -45,6 +45,10 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
         ideaTextView.resignFirstResponder()
     }
     
+    @IBAction func backpressed() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     // when typing, change rightBarButtonItem style to be Done(bold)
     func textViewDidChange(textView: UITextView!) {
         self.navigationItem.rightBarButtonItem?.style = .Done

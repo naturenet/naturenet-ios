@@ -142,8 +142,11 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             let nextViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ObservationsViewController")
                                     as ObservationsController
             self.navigationController?.pushViewController(nextViewController, animated: true)
-            nextViewController.sourceViewController = NSStringFromClass(ObservationDetailController)
+            nextViewController.sourceViewController = sourceViewController
             self.saveNote()
+//            self.saveObservationDelegate = nextViewController
+//            nextViewController.cameraImage = self.imageFromCamera
+//            self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
             nextViewController.receivedNoteFromObservation = self.note
             nextViewController.receivedMediaFromObservation = self.noteMedia
             nextViewController.receivedFeedbackFromObservation = self.feedback

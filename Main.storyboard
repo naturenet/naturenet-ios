@@ -290,7 +290,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="" id="NiN-By-QfK">
+                            <tableViewSection headerTitle="Observations you have made" id="4Ys-xm-Ub2">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="profileObservatonCell" textLabel="blF-iO-fym" detailTextLabel="9f0-aQ-xtO" style="IBUITableViewCellStyleValue1" id="hxL-MD-cle">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -315,6 +315,10 @@
                                             <segue destination="VoY-hl-Epj" kind="show" identifier="profileToObservation" id="fSU-fq-ZZv"/>
                                         </connections>
                                     </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Design ideas you have made" id="NiN-By-QfK">
+                                <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="profileDesignIdeaCell" textLabel="fWr-TT-niz" detailTextLabel="4Zq-2t-1Xe" style="IBUITableViewCellStyleValue1" id="itx-s5-TwE">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="itx-s5-TwE" id="OFa-ee-shX">
@@ -337,7 +341,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="" id="4mK-Zj-6xk">
+                            <tableViewSection id="4mK-Zj-6xk">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="profileSignOutCell" textLabel="x4c-FQ-aNj" style="IBUITableViewCellStyleDefault" id="X6z-4H-M6f">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -361,7 +365,13 @@
                             <outlet property="delegate" destination="s5c-IR-cv4" id="PvI-ti-1Ig"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Profile" id="Rky-gJ-008"/>
+                    <navigationItem key="navigationItem" title="Profile" id="Rky-gJ-008">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="a8y-Uc-Tco">
+                            <connections>
+                                <action selector="backpressed" destination="s5c-IR-cv4" id="4lB-vN-gEs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="numOfDesignIdeasLabel" destination="4Zq-2t-1Xe" id="vzw-Hd-h7z"/>
                         <outlet property="numOfObsLabel" destination="9f0-aQ-xtO" id="Xma-97-nMC"/>
@@ -1073,6 +1083,11 @@ A longer version of this consent form is available [at the ACES front desk/from 
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Design Idea" id="h9j-vD-VQT">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="MqG-dC-atg">
+                            <connections>
+                                <action selector="backpressed" destination="2z6-fJ-NyL" id="BQQ-ZA-sEP"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Send" id="x3R-IQ-mkl">
                             <connections>
                                 <action selector="ideaSendPressed:" destination="2z6-fJ-NyL" id="K4G-eZ-cQa"/>

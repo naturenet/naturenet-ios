@@ -39,11 +39,11 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // sign out is in section 2
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             createPopAlert()
         }
-        if indexPath.section == 1 {
-            if indexPath.row == 1 {
+        if indexPath.section == 2 {
+            if indexPath.row == 0 {
                 self.performSegueWithIdentifier("profileToDesignIdea", sender: self)
             }
         }
@@ -51,6 +51,10 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+    }
+    
+    @IBAction func backpressed() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func createPopAlert() {

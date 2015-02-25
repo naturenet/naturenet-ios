@@ -36,10 +36,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         apiService.delegate = self
         loadData()
         
-        if sourceViewController == NSStringFromClass(ObservationDetailController) {
+        if sourceViewController == NSStringFromClass(ActivityDetailViewController)
+            || sourceViewController == NSStringFromClass(TourViewController)
+            || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             self.receivedNoteFromObservation!.push(apiService)
             self.updateCollectionView(self.receivedNoteFromObservation!, media: self.receivedMediaFromObservation!)
         }
+
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -60,8 +63,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // the async tasks in the push methods will do the task(e.g. handling request, image uploading)
     // in the background thread.
     func didReceiveResults(from: String, response: NSDictionary) -> Void {
-//        dispatch_async(dispatch_get_main_queue(), {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+        dispatch_async(dispatch_get_main_queue(), {
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
             var uid = response["data"]!["id"] as Int
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
@@ -76,9 +79,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     // if there is no media passed back, the note only needs to update instead of uploading
                     if self.receivedMediaFromObservation != nil {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.uploadToCloudinary()
-                        }
+                        self.uploadToCloudinary()
                     } else {
                         self.updateReceivedNoteStatus()
                     }
@@ -146,6 +147,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             } else if self.cameraImage != nil { // else from a camera
                 detailVC.imageFromCamera = self.cameraImage!
             }
+            // assign observationsController(self) to be a delegate for ObservationDetailController
             detailVC.saveObservationDelegate = self
         }
     }
@@ -156,7 +158,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     //----------------------------------------------------------------------------------------------------------------------
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
         if self.cameraImage != nil {
-            println("delegate received!")
+            // println("delegate received!")
             self.receivedNoteFromObservation = note
             self.receivedMediaFromObservation = media
             self.receivedFeedbackFromObservation = feedback
@@ -175,7 +177,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             modifiedAt: note.modified_at)
         newCell.localFullPath = media.full_path
         celldata.insert(newCell, atIndex: 0)
-        self.observationCV.reloadData()
+//        self.observationCV.reloadData()
         // add progressview, update progress in onCloudinaryProgress
         observationCV.addSubview(uploadProgressView)
         uploadProgressView.frame = observationCV.bounds
@@ -319,7 +321,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         var progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
         uploadProgressView.setProgress(progress, animated: true)
         println("uploading to cloudinary... wait! \(progress * 100)%")
-        // println("bytesWritten: \(bytesWritten) totalBytesWritten: \(totalBytesWritten) totalBytesExptectedToWrite \(totalBytesExpectedToWrite)")
     }
 
     
