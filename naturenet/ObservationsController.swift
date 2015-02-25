@@ -16,12 +16,15 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet weak var observationCV: UICollectionView!
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
     
+    
     // data
     var apiService = APIService()
     var celldata = [ObservationCell]()
-    var cameraImage: UIImage?
-    let uploadProgressView: UIProgressView = UIProgressView(progressViewStyle: .Default)
     var cloudinary:CLCloudinary = CLCloudinary()
+    var cameraImage: UIImage?
+    
+    let uploadProgressView: UIProgressView = UIProgressView(progressViewStyle: .Default)
+    var refresher: UIRefreshControl!
     
     // data received after clicking "send" from ObservationDetailController 
     // values set in saveObservationDetail()
@@ -43,6 +46,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             self.updateCollectionView(self.receivedNoteFromObservation!, media: self.receivedMediaFromObservation!)
         }
 
+        refresher = UIRefreshControl()
+        refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        self.observationCV.addSubview(refresher)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -55,6 +62,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         // Dispose of any resources that can be recreated.
     }
     
+    func refresh() {
+        println("refreshing")
+    }
     
     // after post, do it in background in case the user goes back home
     // when note uid is ready, order must follow this
@@ -64,7 +74,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // in the background thread.
     func didReceiveResults(from: String, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+            var status = response["status_code"] as Int
+            if status == 600 {
+                self.updateReceivedNoteStatus()
+                self.createAlert("Please check your Internet connection")
+                return
+            }
+            
             var uid = response["data"]!["id"] as Int
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
@@ -162,8 +178,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             self.receivedNoteFromObservation = note
             self.receivedMediaFromObservation = media
             self.receivedFeedbackFromObservation = feedback
-            self.receivedNoteFromObservation!.push(apiService)
             updateCollectionView(note, media: media!)
+            self.receivedNoteFromObservation!.push(apiService)
+            updateReceivedNoteStatus(ObservationCell.UPLOADSTATE.SENDING)
         } else {
             self.receivedNoteFromObservation = note
             self.receivedFeedbackFromObservation = feedback
@@ -183,7 +200,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         uploadProgressView.frame = observationCV.bounds
     }
     
-    // update status in the new created cell
+    // update status in the new created cell based on the state of note's media
     func updateReceivedNoteStatus() {
         for obs in self.celldata {
             if obs.objectID == self.receivedNoteFromObservation!.objectID {
@@ -192,6 +209,18 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
         self.observationCV.reloadData()
     }
+    
+    
+    // manually update the status of uploading the note, e.g. "sending"
+    func updateReceivedNoteStatus(state: Int) {
+        for obs in self.celldata {
+            if obs.objectID == self.receivedNoteFromObservation!.objectID {
+                obs.state = state
+            }
+        }
+        self.observationCV.reloadData()
+    }
+
     
 
     //----------------------------------------------------------------------------------------------------------------------
@@ -406,6 +435,16 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             media!.setLocalThumbPath(tPath)
         }
     }
+    
+    
+    // create an alert
+    func createAlert(message: String) {
+        var alert = UIAlertController(title: "Internet Connection Problem", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
 }
 
 //----------------------------------------------------------------------------------------------
@@ -425,16 +464,23 @@ class ObservationCell {
         self.modifiedAt = modifiedAt
     }
     
+    struct UPLOADSTATE {
+        static let SENDING = 10
+    }
+    
     func getStatus() -> String {
         var status: String = "ready to send"
         if (self.state == NNModel.STATE.DOWNLOADED || self.state == NNModel.STATE.NEW) {
             status = "ready to send"
         }
         
-        if (self.state == NNModel.STATE.SYNCED) {
+        if self.state == NNModel.STATE.SYNCED {
             status = "sent"
         }
         
+        if self.state == UPLOADSTATE.SENDING {
+            status = "sending"
+        }
         return status
     }
     

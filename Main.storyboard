@@ -574,7 +574,7 @@ The researchers and other visitors will be able to look at your contributions an
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="140" id="s3U-ft-Li4">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="consentTableViewCell" rowHeight="140" id="s3U-ft-Li4" customClass="ConsentTableViewCell" customModule="naturenet" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s3U-ft-Li4" id="wtX-Qj-eR7">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1483,8 +1483,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="PbE-tg-8FU"/>
+        <segue reference="9ac-AY-f52"/>
         <segue reference="WtA-7r-5HU"/>
-        <segue reference="fSU-fq-ZZv"/>
-        <segue reference="CdL-uj-8Z8"/>
     </inferredMetricsTieBreakers>
 </document>

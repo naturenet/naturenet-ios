@@ -29,13 +29,15 @@ class APIService {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         let task = NSURLSession.sharedSession().dataTaskWithURL(nsURL!, completionHandler: {
             (data, response, error) in
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             var error: NSError?
             if error != nil {
                 println(error!)
+                var erorrMessage = ["status_code" : 600]
+                self.delegate?.didReceiveResults(from, response: erorrMessage)
             } else {
                 if  let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as? NSDictionary {
                     self.delegate?.didReceiveResults(from, response: jsonResult)
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
                 } else {
                     var message = ["status_code" : 600]
@@ -61,7 +63,7 @@ class APIService {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
         var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-            // println("Response: \(response)")
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
             // println("Body: \(strData)")
             var err: NSError?
@@ -72,6 +74,8 @@ class APIService {
                 println(err!.localizedDescription)
                 let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
                 println("Error could not parse JSON: '\(jsonStr)'")
+                var erorrMessage = ["status_code" : 600]
+                self.delegate?.didReceiveResults(source, response: erorrMessage)
             }
             else {
                 // The JSONObjectWithData constructor didn't return an error. But, we should still
@@ -80,13 +84,15 @@ class APIService {
                     // Okay, the parsedJSON is here, let's get the value for 'success' out of it
                     var success = parseJSON["status_code"] as? Int
                     // println("Succes: \(success)")
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     self.delegate?.didReceiveResults(source, response: parseJSON)
                 }
                 else {
                     // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
                     let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
                     println("Error could not parse JSON: \(jsonStr)")
+                    var erorrMessage = ["status_code" : 600]
+                    self.delegate?.didReceiveResults(source, response: erorrMessage)
+
                 }
             }
         })

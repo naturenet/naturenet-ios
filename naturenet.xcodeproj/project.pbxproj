@@ -35,6 +35,7 @@
 		FC6F24D51A94571C00FEF9FE /* DesignIdeaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6F24D41A94571C00FEF9FE /* DesignIdeaViewController.swift */; };
 		FC8007A91A80336400510E30 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007A81A80336400510E30 /* ProfileViewController.swift */; };
 		FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */; };
+		FC8DF4841A9E56340070BFC1 /* ConsentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8DF4831A9E56340070BFC1 /* ConsentTableViewCell.swift */; };
 		FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */; };
 		FCA005491A832B010066686D /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA005481A832B010066686D /* Feedback.swift */; };
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
@@ -93,6 +94,7 @@
 		FC6F24D41A94571C00FEF9FE /* DesignIdeaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignIdeaViewController.swift; sourceTree = "<group>"; };
 		FC8007A81A80336400510E30 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		FC8DF4831A9E56340070BFC1 /* ConsentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsentTableViewCell.swift; sourceTree = "<group>"; };
 		FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteActivitySelectionViewController.swift; sourceTree = "<group>"; };
 		FCA005481A832B010066686D /* Feedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				FC1134CA1A64310100D548E8 /* HomeCell.swift */,
 				FC8007AA1A80902900510E30 /* ProfileTableViewCell.swift */,
 				FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */,
+				FC8DF4831A9E56340070BFC1 /* ConsentTableViewCell.swift */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -332,7 +335,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FC11348B1A642DD500D548E8 /* Build configuration list for PBXProject "naturenet" */;
+			buildConfigurationList = FC11348B1A642DD500D548E8 /* Build configuration list for PBXProject "NatureNet" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -376,6 +379,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC8DF4841A9E56340070BFC1 /* ConsentTableViewCell.swift in Sources */,
 				FCAE49B01A75E31E0011283A /* Session.swift in Sources */,
 				FC012CC01A769E3F00D9CBF1 /* Site.swift in Sources */,
 				FC8007A91A80336400510E30 /* ProfileViewController.swift in Sources */,
@@ -597,7 +601,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FC11348B1A642DD500D548E8 /* Build configuration list for PBXProject "naturenet" */ = {
+		FC11348B1A642DD500D548E8 /* Build configuration list for PBXProject "NatureNet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FC1134B01A642DD600D548E8 /* Debug */,
