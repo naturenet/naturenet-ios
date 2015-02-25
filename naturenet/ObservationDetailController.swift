@@ -136,7 +136,9 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     }
     
     @IBAction func sendPressed(sender: UIBarButtonItem) {
-        if sourceViewController == NSStringFromClass(ActivityDetailViewController) {
+        if sourceViewController == NSStringFromClass(ActivityDetailViewController)
+            || sourceViewController == NSStringFromClass(TourViewController)
+            || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             let nextViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ObservationsViewController")
                                     as ObservationsController
             self.navigationController?.pushViewController(nextViewController, animated: true)

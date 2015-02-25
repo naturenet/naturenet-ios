@@ -25,12 +25,15 @@
                                     <outlet property="delegate" destination="ekY-aI-Kns" id="g2G-CQ-eXQ"/>
                                 </connections>
                             </mapView>
-                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.79999999999999982" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPm-BE-VvC">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPm-BE-VvC">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="NIO-pY-YPI"/>
                                     <barButtonItem systemItem="camera" id="GR6-Pr-IkV">
                                         <color key="tintColor" red="0.1706252626444037" green="0.46957890580375772" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="openCamera" destination="ekY-aI-Kns" id="KOd-3c-6NK"/>
+                                        </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="B9y-xk-Cnb"/>
                                 </items>
@@ -47,13 +50,7 @@
                             <constraint firstItem="fPm-BE-VvC" firstAttribute="trailing" secondItem="eN1-5M-SHF" secondAttribute="trailing" id="qWa-jN-Ez5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Aces Tour" id="3nh-Mx-dUX">
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="6LP-sb-Opz">
-                            <connections>
-                                <action selector="openCamera" destination="ekY-aI-Kns" id="1aJ-mR-Gll"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Aces Tour" id="3nh-Mx-dUX"/>
                     <connections>
                         <outlet property="AcesMapView" destination="eN1-5M-SHF" id="x02-8b-f18"/>
                         <outlet property="acesMapView" destination="eN1-5M-SHF" id="33q-3x-ewM"/>
@@ -81,15 +78,19 @@
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="tdU-Ya-fMO"/>
-                                    <barButtonItem systemItem="camera" id="DAD-k4-2GM"/>
+                                    <barButtonItem systemItem="camera" id="DAD-k4-2GM">
+                                        <connections>
+                                            <action selector="openCamera" destination="KIt-YQ-zZN" id="Uge-ui-NIh"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="oyn-t5-WKC"/>
                                 </items>
                             </toolbar>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jIM-Ow-215">
-                                <rect key="frame" x="0.0" y="64" width="600" height="415"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -97,7 +98,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="2XE-GL-spS"/>
                             <constraint firstItem="jIM-Ow-215" firstAttribute="top" secondItem="mtf-7g-HlN" secondAttribute="top" constant="64" id="3NI-jT-T68"/>
-                            <constraint firstItem="MSl-TQ-07o" firstAttribute="top" secondItem="jIM-Ow-215" secondAttribute="bottom" constant="77" id="5kb-tU-SHP"/>
+                            <constraint firstItem="MSl-TQ-07o" firstAttribute="top" secondItem="jIM-Ow-215" secondAttribute="bottom" id="5kb-tU-SHP"/>
                             <constraint firstItem="jIM-Ow-215" firstAttribute="leading" secondItem="mtf-7g-HlN" secondAttribute="leading" id="Top-X4-TvW"/>
                             <constraint firstItem="MSl-TQ-07o" firstAttribute="leading" secondItem="jIM-Ow-215" secondAttribute="leading" id="cMq-Gi-krW"/>
                             <constraint firstItem="MSl-TQ-07o" firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="dof-hx-HST"/>
@@ -117,7 +118,13 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Gn6-Ej-509"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Title" id="UHd-t4-tQR"/>
+                    <navigationItem key="navigationItem" title="Title" id="UHd-t4-tQR">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="Zbf-08-3ac">
+                            <connections>
+                                <action selector="backpressed" destination="KIt-YQ-zZN" id="vwA-2B-Nlx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="descriptionTextView" destination="jIM-Ow-215" id="pBf-OX-n82"/>
                         <outlet property="navItem" destination="UHd-t4-tQR" id="nkN-WB-4bB"/>
@@ -327,9 +334,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="2z6-fJ-NyL" kind="show" identifier="profileToDesignIdea" id="RdS-kN-n7B"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -363,6 +367,7 @@
                         <outlet property="numOfObsLabel" destination="9f0-aQ-xtO" id="Xma-97-nMC"/>
                         <outlet property="profileTableView" destination="xw9-E7-ZRW" id="9mK-C2-ek7"/>
                         <outlet property="welcomeLabel" destination="SGH-LC-e9f" id="uUK-Ue-1Xi"/>
+                        <segue destination="2z6-fJ-NyL" kind="show" identifier="profileToDesignIdea" id="CdL-uj-8Z8"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Hq-Eh-EL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1115,9 +1120,9 @@ A longer version of this consent form is available [at the ACES front desk/from 
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NRH-FE-vcr">
                                 <rect key="frame" x="0.0" y="5" width="600" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
+                                <mutableString key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
 
-NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</string>
+NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
@@ -1438,8 +1443,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PbE-tg-8FU"/>
-        <segue reference="9ac-AY-f52"/>
         <segue reference="WtA-7r-5HU"/>
+        <segue reference="fSU-fq-ZZv"/>
+        <segue reference="CdL-uj-8Z8"/>
     </inferredMetricsTieBreakers>
 </document>

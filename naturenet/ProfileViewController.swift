@@ -35,15 +35,17 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     
     // returning to view
     override func viewWillAppear(animated: Bool) {
-//        tblTasks.reloadData()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // sign out is in section 2
         if indexPath.section == 2 {
             createPopAlert()
-//            Session.signOut()
-//            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+        if indexPath.section == 1 {
+            if indexPath.row == 1 {
+                self.performSegueWithIdentifier("profileToDesignIdea", sender: self)
+            }
         }
     }
     
@@ -52,25 +54,30 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     }
     
     func createPopAlert() {
-    
         var popover:UIPopoverController?
-        var title = "Before you sign out, would you like to submit a design suggestion to make NatureNet better?"
+        var title = "Before you sign out, do you suggestion to make NatureNet better?"
         var alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-        var cameraAction = UIAlertAction(title: "No (sign me out)", style: UIAlertActionStyle.Destructive) {
+        var singoutAction = UIAlertAction(title: "No (sign me out)", style: UIAlertActionStyle.Destructive) {
             UIAlertAction in
             Session.signOut()
             self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+        
+        var yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            self.performSegueWithIdentifier("profileToDesignIdea", sender: self)
 
         }
         
-        var gallaryAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
             UIAlertAction in
         }
  
         // Add the actions
-        alert.addAction(cameraAction)
-        alert.addAction(gallaryAction)
+        alert.addAction(singoutAction)
+        alert.addAction(yesAction)
+        alert.addAction(cancelAction)
         
         // Present the actionsheet
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
@@ -80,6 +87,7 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
             popover = UIPopoverController(contentViewController: alert)
         }
     }
+
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
         picker.dismissViewControllerAnimated(true, completion: nil)

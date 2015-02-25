@@ -99,7 +99,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         if segue.identifier == "tourToObservationDetail" {
             let detailVC = segue.destinationViewController as ObservationDetailController
             detailVC.imageFromCamera = self.cameraImage!
-            detailVC.sourceViewController = NSStringFromClass(ActivityDetailViewController)
+            detailVC.sourceViewController = NSStringFromClass(TourViewController)
         }
     }
     
@@ -126,7 +126,6 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
         picker.dismissViewControllerAnimated(true, completion: nil)
-        println("picker cancel.")
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
@@ -178,17 +177,6 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         }
         return tourAnnotations
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     class TourLocationAnnotation: MKPointAnnotation {
         var imageName: String!
