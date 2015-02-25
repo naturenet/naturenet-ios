@@ -177,7 +177,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             modifiedAt: note.modified_at)
         newCell.localFullPath = media.full_path
         celldata.insert(newCell, atIndex: 0)
-//        self.observationCV.reloadData()
+        self.observationCV.reloadData()
         // add progressview, update progress in onCloudinaryProgress
         observationCV.addSubview(uploadProgressView)
         uploadProgressView.frame = observationCV.bounds
@@ -193,36 +193,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         self.observationCV.reloadData()
     }
     
-    //----------------------------------------------------------------------------------------------------------------------
-    // IBActions for receiced data passed back
-    //----------------------------------------------------------------------------------------------------------------------
-
-    @IBAction func saveObservationDetail(segue:UIStoryboardSegue) {
-        dismissViewControllerAnimated(true, completion: nil)
-        let originVC = segue.sourceViewController as ObservationDetailController
-        if self.cameraImage != nil {
-            self.receivedNoteFromObservation = originVC.saveNote()
-            self.receivedMediaFromObservation = originVC.noteMedia
-            self.receivedFeedbackFromObservation = originVC.feedback
-            var note = self.receivedNoteFromObservation
-            var media = originVC.noteMedia
-            var newCell = ObservationCell(objectID: note!.objectID, state: note!.state.integerValue,
-                modifiedAt: note!.modified_at)
-            newCell.localFullPath = media!.full_path
-            celldata.insert(newCell, atIndex: 0)
-            self.observationCV.reloadData()
-            self.receivedNoteFromObservation!.push(apiService)
-            // add progressview, update progress in onCloudinaryProgress
-            observationCV.addSubview(uploadProgressView)
-            uploadProgressView.frame = observationCV.bounds
-        } else {
-            self.receivedNoteFromObservation = originVC.updateNote()
-            self.receivedFeedbackFromObservation = originVC.feedback
-            self.updateReceivedNoteStatus()
-            self.receivedNoteFromObservation?.push(apiService)
-        }
-    }
-
 
     //----------------------------------------------------------------------------------------------------------------------
     // pick from camera or gallary
