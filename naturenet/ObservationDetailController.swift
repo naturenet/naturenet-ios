@@ -161,7 +161,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             }
             self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
         }
-
     }
     
     
@@ -182,6 +181,9 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         self.userLat = userLocaiton.coordinate.latitude
         self.userLon = userLocaiton.coordinate.longitude
         self.locationManager.stopUpdatingLocation()
+        // update current location as the location selection
+        var landmarkName = determineLandmarkByLocation(self.userLat!, lon: self.userLon!)
+        self.locationLabel.text = landmarkName
     }
     
     // implement location didFailWithError
@@ -202,6 +204,25 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         alert.addAction(okAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    func determineLandmarkByLocation(lat: CLLocationDegrees, lon: CLLocationDegrees) -> String {
+        let latError = 0.0001;
+        let lonError = 0.0001;
+        var name: String = "Other"
+
+        for landmark in self.landmarks {
+            if let location = landmark.getCoordinatesForLandmark() {
+                if (abs(lat - location.latitude) < latError
+                    && abs(lon - location.longitude) < lonError) {
+                        name = landmark.title
+                        break
+                }
+            }
+        }
+        return name
+    }
+    
+    
     
     //----------------------------------------------------------------------------------------------------------------------
     // save note

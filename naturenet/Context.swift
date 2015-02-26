@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import MapKit
 
 @objc(Context)
 class Context: NNModel {
@@ -39,6 +40,27 @@ class Context: NNModel {
         self.kind = context["kind"] as String
         self.state = STATE.DOWNLOADED
         return self
+    }
+    
+    // if context is the landmark, get the its cooridnate pair from extras
+    func getCoordinatesForLandmark() -> CLLocationCoordinate2D? {
+        var location: CLLocationCoordinate2D?
+        if self.kind != "Landmark" {
+            return nil
+        }
+        
+        var extras = self.extras
+        // because entry "Other" has no extras, no description
+        if !extras.isEmpty {
+            var coordinate = extras.componentsSeparatedByString(",") as [String]
+            var latCoordinate = coordinate[0].componentsSeparatedByString(":") as [String]
+            var lonCoordinate = coordinate[1].componentsSeparatedByString(":") as [String]
+            var latNumber = (latCoordinate[1] as NSString).doubleValue
+            var lonNumber = (lonCoordinate[1] as NSString).doubleValue
+            location = CLLocationCoordinate2DMake(latNumber, lonNumber)
+        }
+        
+        return location
     }
 
     func toString() -> String {

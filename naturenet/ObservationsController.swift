@@ -244,8 +244,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         self.observationCV.reloadData()
     }
 
-    
-
     //----------------------------------------------------------------------------------------------------------------------
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
