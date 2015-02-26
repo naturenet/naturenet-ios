@@ -11,7 +11,7 @@ import CoreData
 import UIKit
 
 @objc(Media)
-class Media: NNModel {
+class Media: NNModel, CLUploaderDelegate {
     
     @NSManaged var thumb_path: String?
     @NSManaged var full_path: String?
@@ -21,6 +21,8 @@ class Media: NNModel {
     @NSManaged var note: Note
     
     var apiService: APIService?
+    var uploadProgressView: UIProgressView?
+    var cloudinary:CLCloudinary = CLCloudinary()
     
     func parseMediaJSON(media: NSDictionary) {
         self.uid = media["id"] as Int
@@ -66,4 +68,32 @@ class Media: NNModel {
         self.apiService!.post(NSStringFromClass(Media), params: params, url: posturl)
     }
     
+    //----------------------------------------------------------------------------------------------
+    // cloudinary upload
+    func uploadToCloudinary() {
+        var image = UIImage(named: self.full_path!)
+        let forUpload = UIImageJPEGRepresentation(image, 0.6) as NSData
+        cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
+        cloudinary.config().setValue("893246586645466", forKey: "api_key")
+        cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
+        let uploader = Wrappy.create(cloudinary, delegate: self)
+        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
+    }
+    
+    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
+        let publicId = successResult["public_id"] as String
+        self.url = successResult["url"] as? String
+        println("now cloudinary uploaded, public id is: \(publicId), ready for uploading media")
+        // push media after cloudinary is finished
+        var params = ["link": publicId] as Dictionary<String, Any>
+        self.doPushNew(self.apiService!, params: params)
+    }
+    
+    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
+        //do any progress update you may need
+        var progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
+        uploadProgressView!.setProgress(progress, animated: true)
+        println("uploading to cloudinary... wait! \(progress * 100)%")
+    }
+
 }

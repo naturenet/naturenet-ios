@@ -159,6 +159,7 @@ class Note: NNModel {
     
     // get the landmark(location) from feedback with kind of 'landmark'
     // not straightforward, but this the way how data stored in the server
+    // this function is actually getSignleFeedback
     func getLandmark() -> String? {
         var landmark: String?
         var feedbacks = getFeedbacks() as [Feedback]

@@ -95,7 +95,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                     self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     // if there is no media passed back, the note only needs to update instead of uploading
                     if self.receivedMediaFromObservation != nil {
-                        self.uploadToCloudinary()
+                        self.receivedMediaFromObservation!.apiService = self.apiService
+                        self.receivedMediaFromObservation!.uploadProgressView = self.uploadProgressView
+                        self.receivedMediaFromObservation!.uploadToCloudinary()
                     } else {
                         self.updateReceivedNoteStatus()
                     }
@@ -293,36 +295,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
 
     }
 
-    //----------------------------------------------------------------------------------------------
-    // cloudinary upload
-    func uploadToCloudinary() {
-        // println("uploading image path is: \(self.full_path)")
-        var image = UIImage(named: self.receivedMediaFromObservation!.full_path!)
-        let forUpload = UIImageJPEGRepresentation(image, 0.6) as NSData
-        cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
-        cloudinary.config().setValue("893246586645466", forKey: "api_key")
-        cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
-        let uploader = Wrappy.create(cloudinary, delegate: self)
-        uploader.upload(forUpload, options: nil, withCompletion:onCloudinaryCompletion, andProgress:onCloudinaryProgress)
-    }
-    
-    func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
-        let publicId = successResult["public_id"] as String
-        self.receivedMediaFromObservation!.url = successResult["url"] as? String
-        println("now cloudinary uploaded, public id is: \(publicId), ready for uploading media")
-        // push media after cloudinary is finished
-        var params = ["link": publicId] as Dictionary<String, Any>
-        self.receivedMediaFromObservation!.doPushNew(self.apiService, params: params)
-    }
-    
-    func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
-        //do any progress update you may need
-        var progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
-        uploadProgressView.setProgress(progress, animated: true)
-        println("uploading to cloudinary... wait! \(progress * 100)%")
-    }
-
-    
     //----------------------------------------------------------------------------------------------
     // some utility functions
     //----------------------------------------------------------------------------------------------
