@@ -10,7 +10,7 @@ Instructions:
 
 3. Connect your registered iPhone, import the project to Xcode. You can double click "naturenet.xcodeproj" in the project directory.
 
-4. Make sure you have signed in Xcode with your Apple developer account. Go to preferences -> Accounts -> Apple ID -> Enter your credentials. After your ID is authenticated, you should see "Univerity of North Carolina Charlotte" under your ID, click that and click "view details". Click "+" under signing identities, and select "iOS development", a valid idenetity should appear. If it does not, your account have not been added into the developer's program. Click "refresh" on the provisioning proflies, you should see a bunch of profiles. Now click done to finish.
+4. Make sure you have signed in Xcode with your Apple developer account. Go to preferences -> Accounts -> Apple ID -> Enter your credentials. After your ID is authenticated, you should see "Univerity of North Carolina Charlotte" under your ID, click that and click "view details". Click "+" under signing identities, and select "iOS development", a valid identity should appear. If it does not, your account have not been added into the developer's program. Click "refresh" on the provisioning proflies, you should see a bunch of profiles. Now click done to finish.
 
 5. Now, you should see your iPhone is the target and click run. Xcode will deploy the app on your phone.
 
