@@ -20,7 +20,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // data
     var apiService = APIService()
     var celldata = [ObservationCell]()
-    var cloudinary:CLCloudinary = CLCloudinary()
+    var cloudinary: CLCloudinary = CLCloudinary()
     var cameraImage: UIImage?
     
 //    let uploadProgressView: UIProgressView = UIProgressView(progressViewStyle: .Default)
@@ -259,7 +259,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             self.openCamera(picker)
         }
         
-        var gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default) {
+        var gallaryAction = UIAlertAction(title: "Gallery", style: UIAlertActionStyle.Default) {
             UIAlertAction in
             self.openGallary(picker)
         }
@@ -371,7 +371,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         activityIndicator.startAnimating()
         
         let fileManager = NSFileManager.defaultManager()
-         println("haha, I am here again \(indexPath.row)th")
+        // println("haha, I am here again \(indexPath.row)th")
         if let lPath = cellImage.localThumbPath {
             if fileManager.fileExistsAtPath(lPath) {
                 cell.mImageView.image = UIImage(named: lPath)
@@ -380,7 +380,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
         } else if let fPath = cellImage.localFullPath {
-             println("image local full path is :  \(fPath)")
+            // println("image local full path is :  \(fPath)")
             if fileManager.fileExistsAtPath(fPath) {
                 cell.mImageView.image = UIImage(named: fPath)
                 activityIndicator.stopAnimating()

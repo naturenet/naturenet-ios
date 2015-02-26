@@ -25,7 +25,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
         if Session.isSignedIn() {
             signinBtn.hidden = true
             var account = Session.getAccount()
-            welcomeLabel.text = "welcome, " + account!.username
+            welcomeLabel.text = "Welcome, " + account!.username
             welcomeLabel.hidden = false
         } else {
             signinBtn.hidden = false
