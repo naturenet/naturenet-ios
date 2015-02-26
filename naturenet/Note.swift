@@ -157,9 +157,24 @@ class Note: NNModel {
         return results
     }
     
+    // getSignleFeedback
+    func getSignleFeedback() -> Feedback? {
+        var landmark: Feedback?
+        var feedbacks = getFeedbacks() as [Feedback]
+        if feedbacks.count > 0 {
+            for feedback in feedbacks {
+                if feedback.kind == "landmark" {
+                    landmark = feedback
+                    break
+                }
+            }
+        }
+        return landmark
+    }
+    
+    
     // get the landmark(location) from feedback with kind of 'landmark'
     // not straightforward, but this the way how data stored in the server
-    // this function is actually getSignleFeedback
     func getLandmark() -> String? {
         var landmark: String?
         var feedbacks = getFeedbacks() as [Feedback]
@@ -180,7 +195,7 @@ class Note: NNModel {
         var url = APIAdapter.api.getCreateNoteLink(Session.getAccount()!.username)
         var params = ["kind": self.kind, "content": self.content, "context": self.context.name,
                         "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
-        apiService.post(NSStringFromClass(Note), params: params, url: url)
+        apiService.post(NSStringFromClass(Note), sourceData: self, params: params, url: url)
     }
     
     // update an existing note to remote server as HTTP post
@@ -189,7 +204,7 @@ class Note: NNModel {
         var url = APIAdapter.api.getUpdateNoteLink(self.uid.integerValue)
         var params = ["kind": self.kind, "username": self.account.username, "content": self.content, "context": self.context.name,
             "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
-        apiService.post(NSStringFromClass(Note), params: params, url: url)
+        apiService.post(NSStringFromClass(Note), sourceData: self, params: params, url: url)
     }
  
     func doPushMedias(apiService: APIService) {

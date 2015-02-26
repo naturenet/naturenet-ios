@@ -65,7 +65,7 @@ class Media: NNModel, CLUploaderDelegate {
     func doPushNew(apiService: APIService, params: Dictionary<String, Any>) {
         self.apiService = apiService
         var posturl = APIAdapter.api.getCreateMediaLink(self.note.uid.integerValue)
-        self.apiService!.post(NSStringFromClass(Media), params: params, url: posturl)
+        self.apiService!.post(NSStringFromClass(Media), sourceData: self, params: params, url: posturl)
     }
     
     //----------------------------------------------------------------------------------------------

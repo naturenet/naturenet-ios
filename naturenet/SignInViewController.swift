@@ -40,7 +40,7 @@ class SignInViewController: UIViewController, APIControllerProtocol {
     }
     
     // after getting data from server
-    func didReceiveResults(from: String, response: NSDictionary) -> Void {
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {

@@ -11,7 +11,7 @@ import UIKit
 class SignUpViewController: UIViewController, APIControllerProtocol {
     var consentString: String!
     var apiService = APIService()
-    var signInAccount: Account!
+    var signInAccount: Account?
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passTextField: UITextField!
@@ -50,12 +50,13 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
             var email = emailTextField.text
             var url = APIAdapter.api.getCreateAccountLink(username)
             var params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
-            apiService.post(NSStringFromClass(Account), params: params, url: url)
+//            self.signInAccount = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: SwiftCoreDataHelper.nsManagedObjectContext) as Account
+            apiService.post(NSStringFromClass(Account), sourceData: self.signInAccount?, params: params, url: url)
         }
     }
     
     // implement this method for APIControllerProtocol delegate
-    func didReceiveResults(from: String, response: NSDictionary) {
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         println("got result from sign up")
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
@@ -73,7 +74,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
                     self.signInAccount = Account.saveToCoreData(data)
                     let predicate = NSPredicate(format: "name= %@", "aces")
                     if let site = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate!) as? Site {
-                        Session.signIn(self.signInAccount, site: site)
+                        Session.signIn(self.signInAccount!, site: site)
                         self.stopLoading()
                         self.navigationController?.popToRootViewControllerAnimated(true)
                     } else {
@@ -82,7 +83,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
                 }
                 if from == "POST_" + NSStringFromClass(Site) {
                     var site = Site.saveToCoreData(data)
-                    Session.signIn(self.signInAccount, site: site)
+                    Session.signIn(self.signInAccount!, site: site)
                     self.stopLoading()
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 }

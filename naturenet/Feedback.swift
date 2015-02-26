@@ -37,14 +37,14 @@ class Feedback: NNModel {
         var posturl = APIAdapter.api.getCreateFeedbackLink(self.kind, model: self.target_model, uid: self.note.uid.integerValue, userName: self.account.username)
 //        println{"request feedback link is: \(posturl)"}
         var params = ["content": self.content] as Dictionary<String, Any>
-        apiService.post(NSStringFromClass(Feedback), params: params, url: posturl)
+        apiService.post(NSStringFromClass(Feedback), sourceData: self, params: params, url: posturl)
     }
     
     override func doPushUpdate(apiService: APIService) {
         var posturl = APIAdapter.api.getUpdateFeedbackLink(self.uid.integerValue)
         //        println{"request feedback link is: \(posturl)"}
         var params = ["content": self.content, "username": self.account.username] as Dictionary<String, Any>
-        apiService.post(NSStringFromClass(Feedback), params: params, url: posturl)
+        apiService.post(NSStringFromClass(Feedback), sourceData: self, params: params, url: posturl)
     }
 
     func toString() -> String {

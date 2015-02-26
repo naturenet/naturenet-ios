@@ -28,7 +28,7 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
         // Dispose of any resources that can be recreated.
     }
     
-    func didReceiveResults(from: String, response: NSDictionary) {
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         dispatch_async(dispatch_get_main_queue(), {
             if from == "POST_" + NSStringFromClass(Note) {
                 var uid = response["data"]!["id"] as Int

@@ -116,7 +116,7 @@ class NNModel: NSManagedObject {
     func push(apiService: APIService) {
         if state == STATE.SAVED || state == STATE.NEW {
             doPushNew(apiService)
-        } else if state == STATE.MODIFIED {
+        } else if state == STATE.MODIFIED || state == STATE.DOWNLOADED {
             doPushUpdate(apiService)
         }
         

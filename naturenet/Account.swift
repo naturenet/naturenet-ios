@@ -58,7 +58,7 @@ class Account: NNModel {
     override func doPushNew(apiService: APIService) -> Void {
         var url = APIAdapter.api.getCreateAccountLink(self.username)
         var params = ["name": self.name, "password": self.password, "email": self.email] as Dictionary<String, Any>
-        apiService.post(NSStringFromClass(Account), params: params, url: url)
+        apiService.post(NSStringFromClass(Account), sourceData: self,  params: params, url: url)
     }
     
     func getNotes() -> [Note] {

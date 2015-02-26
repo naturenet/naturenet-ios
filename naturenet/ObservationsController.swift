@@ -64,7 +64,23 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     func refresh() {
         println("refreshing")
-        
+        var uploadNumbers: Int = 0
+        for data in celldata {
+            if data.getStatus() == "ready to send" {
+
+                var noteObjectId = data.objectID
+                let predicate = NSPredicate(format: "self = %@", noteObjectId)
+                var note = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as Note
+                self.receivedFeedbackFromObservation = nil
+                self.receivedMediaFromObservation = nil
+                self.receivedMediaFromObservation = nil
+                note.push(self.apiService)
+                uploadNumbers++
+            }
+        }
+        if uploadNumbers == 0 {
+            refresher.endRefreshing()
+        }
     }
     
     // after post, do it in background in case the user goes back home
@@ -73,11 +89,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // start the tasks from main thread(cloudinary requires main thread!!),
     // the async tasks in the push methods will do the task(e.g. handling request, image uploading)
     // in the background thread.
-    func didReceiveResults(from: String, response: NSDictionary) -> Void {
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if status == 600 {
-                self.updateReceivedNoteStatus()
+                if let note = sourceData as? Note {
+                    self.updateReceivedNoteStatus(note)
+                }
                 self.createAlert("Please check your Internet connection")
                 return
             }
@@ -86,38 +104,37 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
                 var modifiedAt = response["data"]!["modified_at"] as NSNumber
-                var newNote: Note?
-                if let note = self.receivedNoteFromObservation {
-                    newNote =  note
-                } else {
-                    let predicate = NSPredicate(format: "uid = \(uid)")
-                    newNote = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as? Note
+                if let newNote = sourceData as? Note {
+                    newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    newNote.doPushFeedbacks(self.apiService)
                 }
-                self.receivedNoteFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                self.receivedNoteFromObservation!.doPushFeedbacks(self.apiService)
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
                 println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, if this is not, do update")
                 var modifiedAt = response["data"]!["modified_at"] as NSNumber
-                if self.receivedFeedbackFromObservation != nil {
-                    self.receivedFeedbackFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                    // if there is no media passed back, the note only needs to update instead of uploading
-                    if self.receivedMediaFromObservation != nil {
-                        self.receivedMediaFromObservation!.apiService = self.apiService
-                        self.receivedMediaFromObservation!.uploadProgressView = self.uploadProgressView
-                        self.receivedMediaFromObservation!.uploadToCloudinary()
-                    } else {
-                        self.updateReceivedNoteStatus()
+                if let newNoteFeedback = sourceData as? Feedback {
+                    newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    let note = newNoteFeedback.note
+                    if let newNoteMedia = note.getSingleMedia() {
+                        if newNoteMedia.url != nil {
+                            self.updateReceivedNoteStatus(note)
+                            self.refresher.endRefreshing()
+                        } else {
+                            newNoteMedia.apiService = self.apiService
+                            newNoteMedia.uploadProgressView = self.uploadProgressView
+                            newNoteMedia.uploadToCloudinary()
+                        }
                     }
                 }
             }
             if from == "POST_" + NSStringFromClass(Media) {
                 println("now after post_media")
-                self.receivedMediaFromObservation!.updateAfterPost(uid, modifiedAtFromServer: nil)
-                self.updateReceivedNoteStatus()
-                // it's time to remove progressview
-//                self.uploadProgressView.removeFromSuperview()
-                self.uploadProgressView.setProgress(0, animated: false)
+                if let newNoteMedia = sourceData as? Media {
+                    newNoteMedia.updateAfterPost(uid, modifiedAtFromServer: nil)
+                    self.updateReceivedNoteStatus(newNoteMedia.note)
+                    self.uploadProgressView.setProgress(0, animated: false)
+                    self.refresher.endRefreshing()
+                }
             }
         })
     }
@@ -192,7 +209,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         } else {
             self.receivedNoteFromObservation = note
             self.receivedFeedbackFromObservation = feedback
-            self.updateReceivedNoteStatus()
+            self.updateReceivedNoteStatus(note)
             self.receivedNoteFromObservation?.push(apiService)
         }
     }
@@ -207,10 +224,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     }
     
     // update status in the new created cell based on the state of note's media
-    func updateReceivedNoteStatus() {
+    func updateReceivedNoteStatus(note: Note) {
         for obs in self.celldata {
-            if obs.objectID == self.receivedNoteFromObservation!.objectID {
-                obs.state = self.receivedNoteFromObservation!.state.integerValue
+            if obs.objectID == note.objectID {
+                obs.state = note.state.integerValue
             }
         }
         self.observationCV.reloadData()

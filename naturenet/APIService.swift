@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol APIControllerProtocol {
-    func didReceiveResults(from: String, response: NSDictionary) -> Void
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void
 }
 
 class APIService {
@@ -34,14 +34,14 @@ class APIService {
             if error != nil {
                 println(error!)
                 var erorrMessage = ["status_code" : 600]
-                self.delegate?.didReceiveResults(from, response: erorrMessage)
+                self.delegate?.didReceiveResults(from, sourceData: nil, response: erorrMessage)
             } else {
                 if  let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as? NSDictionary {
-                    self.delegate?.didReceiveResults(from, response: jsonResult)
+                    self.delegate?.didReceiveResults(from, sourceData: nil, response: jsonResult)
 
                 } else {
                     var message = ["status_code" : 600]
-                    self.delegate?.didReceiveResults(from, response: message)
+                    self.delegate?.didReceiveResults(from,sourceData: nil, response: message)
                 }
             }
         })
@@ -50,7 +50,7 @@ class APIService {
     }
 
     // send a http post request
-    func post(from: String, params : Dictionary<String, Any>, url: String) {
+    func post(from: String, sourceData: NNModel?, params : Dictionary<String, Any>, url: String) {
         var source: String = "POST_" + from
         var request = NSMutableURLRequest(URL: NSURL(string: url)!)
         var session = NSURLSession.sharedSession()
@@ -75,7 +75,7 @@ class APIService {
                 let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
                 println("Error could not parse JSON: '\(jsonStr)'")
                 var erorrMessage = ["status_code" : 600]
-                self.delegate?.didReceiveResults(source, response: erorrMessage)
+                self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
             }
             else {
                 // The JSONObjectWithData constructor didn't return an error. But, we should still
@@ -84,14 +84,14 @@ class APIService {
                     // Okay, the parsedJSON is here, let's get the value for 'success' out of it
                     var success = parseJSON["status_code"] as? Int
                     // println("Succes: \(success)")
-                    self.delegate?.didReceiveResults(source, response: parseJSON)
+                    self.delegate?.didReceiveResults(source, sourceData: sourceData, response: parseJSON)
                 }
                 else {
                     // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
                     let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
                     println("Error could not parse JSON: \(jsonStr)")
                     var erorrMessage = ["status_code" : 600]
-                    self.delegate?.didReceiveResults(source, response: erorrMessage)
+                    self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
 
                 }
             }
