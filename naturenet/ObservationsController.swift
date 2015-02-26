@@ -15,7 +15,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // UI Outlets
     @IBOutlet weak var observationCV: UICollectionView!
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
-    
+    @IBOutlet weak var uploadProgressView: UIProgressView!
     
     // data
     var apiService = APIService()
@@ -23,7 +23,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     var cloudinary:CLCloudinary = CLCloudinary()
     var cameraImage: UIImage?
     
-    let uploadProgressView: UIProgressView = UIProgressView(progressViewStyle: .Default)
+//    let uploadProgressView: UIProgressView = UIProgressView(progressViewStyle: .Default)
     var refresher: UIRefreshControl!
     
     // data received after clicking "send" from ObservationDetailController 
@@ -64,6 +64,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     func refresh() {
         println("refreshing")
+        
     }
     
     // after post, do it in background in case the user goes back home
@@ -85,6 +86,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
                 var modifiedAt = response["data"]!["modified_at"] as NSNumber
+                var newNote: Note?
+                if let note = self.receivedNoteFromObservation {
+                    newNote =  note
+                } else {
+                    let predicate = NSPredicate(format: "uid = \(uid)")
+                    newNote = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as? Note
+                }
                 self.receivedNoteFromObservation!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 self.receivedNoteFromObservation!.doPushFeedbacks(self.apiService)
             }
@@ -108,7 +116,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 self.receivedMediaFromObservation!.updateAfterPost(uid, modifiedAtFromServer: nil)
                 self.updateReceivedNoteStatus()
                 // it's time to remove progressview
-                self.uploadProgressView.removeFromSuperview()
+//                self.uploadProgressView.removeFromSuperview()
+                self.uploadProgressView.setProgress(0, animated: false)
             }
         })
     }
@@ -153,8 +162,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ObservationsToDetail" {
-//            let destinationVC = segue.destinationViewController as UINavigationController
-//            let detailVC = destinationVC.topViewController as ObservationDetailController
             let detailVC = segue.destinationViewController as ObservationDetailController
             detailVC.sourceViewController = NSStringFromClass(ObservationsController)
             // if passed from a cell
@@ -176,7 +183,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     //----------------------------------------------------------------------------------------------------------------------
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
         if self.cameraImage != nil {
-            // println("delegate received!")
             self.receivedNoteFromObservation = note
             self.receivedMediaFromObservation = media
             self.receivedFeedbackFromObservation = feedback
@@ -191,15 +197,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
     }
     
+    // refresh data
     func updateCollectionView(note: Note, media: Media) {
         var newCell = ObservationCell(objectID: note.objectID, state: note.state.integerValue,
             modifiedAt: note.modified_at)
         newCell.localFullPath = media.full_path
         celldata.insert(newCell, atIndex: 0)
         self.observationCV.reloadData()
-        // add progressview, update progress in onCloudinaryProgress
-        observationCV.addSubview(uploadProgressView)
-        uploadProgressView.frame = observationCV.bounds
     }
     
     // update status in the new created cell based on the state of note's media
