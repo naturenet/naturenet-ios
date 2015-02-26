@@ -1,10 +1,9 @@
 # naturenet-ios
 =======================
 NatureNet iOS
-
-Step 1: pull or download the code on your computer
-
-Step 2: import to xcode, or double click "naturenet.xcodeproj"
+1. Download Xcode from here: https://developer.apple.com/xcode/downloads/ or go to App Store search Xcode and install it.
+2. Download the source from Github. Pull or download  the code as zip on your computer
+3. Import the project to Xcode. You can double click "naturenet.xcodeproj" in the code directory
 ```Swift
   
 ```
