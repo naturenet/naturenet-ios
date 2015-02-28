@@ -2,7 +2,7 @@
 //  ConsentTableViewCell.swift
 //  NatureNet
 //
-//  Created by Jinyue Xia on 2/25/15.
+//  Created by Jinyue Xia on 2/27/15.
 //  Copyright (c) 2015 Jinyue Xia. All rights reserved.
 //
 
@@ -20,5 +20,5 @@ class ConsentTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }
