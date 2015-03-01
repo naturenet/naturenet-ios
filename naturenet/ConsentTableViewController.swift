@@ -79,11 +79,9 @@ class ConsentTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as ConsentTableViewCell
 
-        if cell.consentSwitch.on {
+   
             cell.consentSwitch.on = false
-        } else {
-            cell.consentSwitch.on = true
-        }
+        
 
     }
 

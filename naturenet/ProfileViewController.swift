@@ -59,7 +59,7 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     
     func createPopAlert() {
         var popover:UIPopoverController?
-        var title = "Before you sign out, do you have suggestions to make NatureNet better?"
+        var title = "Before you sign out, do you have any suggestions to make NatureNet better?"
         var alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         var singoutAction = UIAlertAction(title: "No (sign me out)", style: UIAlertActionStyle.Destructive) {
