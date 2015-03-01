@@ -509,7 +509,7 @@ The researchers and other visitors will be able to look at your contributions an
         <scene sceneID="YWn-rB-Spd">
             <objects>
                 <tableViewController title="Signup Two" id="VxR-LH-H0V" customClass="ConsentTableViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" allowsMultipleSelection="YES" rowHeight="90" sectionHeaderHeight="10" sectionFooterHeight="10" id="sfW-Ng-yEA">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" allowsMultipleSelection="YES" rowHeight="100" sectionHeaderHeight="10" sectionFooterHeight="10" id="sfW-Ng-yEA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>

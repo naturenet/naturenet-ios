@@ -24,4 +24,13 @@ class ConsentTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func switchChange(sender: UISwitch) {
+        if sender.on {
+            self.setSelected(true, animated: true)
+        } else {
+            self.setSelected(false, animated: true)
+        }
+
+    }
+    
 }
