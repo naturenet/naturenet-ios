@@ -10,6 +10,9 @@ import UIKit
 
 class ConsentTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var consentTextLabel: UILabel!
+    @IBOutlet weak var consentSwitch: UISwitch!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

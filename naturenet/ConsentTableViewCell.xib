@@ -14,15 +14,15 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p5v-mP-pZs">
-                        <rect key="frame" x="428" y="13" width="51" height="31"/>
-                    </switch>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhK-bi-P7e">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhK-bi-P7e">
                         <rect key="frame" x="8" y="18" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p5v-mP-pZs">
+                        <rect key="frame" x="428" y="13" width="51" height="31"/>
+                    </switch>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="p5v-mP-pZs" secondAttribute="centerY" id="5OJ-Yj-PTP"/>
@@ -31,6 +31,10 @@
                     <constraint firstAttribute="centerY" secondItem="DhK-bi-P7e" secondAttribute="centerY" id="nVX-L0-nTa"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="consentSwitch" destination="p5v-mP-pZs" id="keT-TQ-Ldp"/>
+                <outlet property="consentTextLabel" destination="DhK-bi-P7e" id="NRy-f6-4jJ"/>
+            </connections>
             <point key="canvasLocation" x="370.5" y="168"/>
         </tableViewCell>
     </objects>
