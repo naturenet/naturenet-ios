@@ -11,12 +11,18 @@ import UIKit
 class ConsentTableViewController: UITableViewController {
     
     var selections:[Int] = [0, 0, 0, 0]
+    let firstConsent = "(Required) I agree to allow any comments, observations, and profile information" +
+                        "that I choose to share with others via the online application to be visible to others who use the application at the same time or after me."
+    var data: [String]?
 
+    // To participate in NatureNet we will need you to agree to a few things:
     @IBOutlet var consentTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.data = [firstConsent, firstConsent, firstConsent, firstConsent]
+        let cellNib = UINib(nibName: "ConsentTableViewCell", bundle: NSBundle.mainBundle())
+        tableView.registerNib(cellNib, forCellReuseIdentifier: "consentTableViewCell")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -37,40 +43,49 @@ class ConsentTableViewController: UITableViewController {
         return 1
     }
     
-
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0))
-        if selections[indexPath.row] == 0 {
-            cell?.accessoryType = .Checkmark
-            selections[indexPath.row] = 1
-        }
-
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.data!.count
     }
     
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0))
-        if selections[indexPath.row] == 1 {
-            cell?.accessoryType = .None
-            selections[indexPath.row] = 0
-        }
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("consentTableViewCell", forIndexPath: indexPath) as ConsentTableViewCell
+        cell.consentTextLabel?.text = data![indexPath.row]
+        return cell
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "consentToSignUp" {
-            let destinationVC = segue.destinationViewController as SignUpViewController
-            var consentStr = ""
-            var selectedIndex = 0
-            for selection in selections {
-                if selection == 1 {
-                    let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))!
-                    consentStr += cell.textLabel!.text!
-                }
-                selectedIndex++
-            }
-            destinationVC.consentString = consentStr
-        }
-        
-    }
+//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0))
+//        if selections[indexPath.row] == 0 {
+//            cell?.accessoryType = .Checkmark
+//            selections[indexPath.row] = 1
+//        }
+//
+//    }
+//    
+//    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+//        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0))
+//        if selections[indexPath.row] == 1 {
+//            cell?.accessoryType = .None
+//            selections[indexPath.row] = 0
+//        }
+//    }
+//
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        if segue.identifier == "consentToSignUp" {
+//            let destinationVC = segue.destinationViewController as SignUpViewController
+//            var consentStr = ""
+//            var selectedIndex = 0
+//            for selection in selections {
+//                if selection == 1 {
+//                    let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))!
+//                    consentStr += cell.textLabel!.text!
+//                }
+//                selectedIndex++
+//            }
+//            destinationVC.consentString = consentStr
+//        }
+//        
+//    }
     
     @IBAction func consentSendPressed(sender: UIBarButtonItem) {
         if selections[0] == 0 || selections[1] == 0 {

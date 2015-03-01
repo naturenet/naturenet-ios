@@ -509,105 +509,22 @@ The researchers and other visitors will be able to look at your contributions an
         <scene sceneID="YWn-rB-Spd">
             <objects>
                 <tableViewController title="Signup Two" id="VxR-LH-H0V" customClass="ConsentTableViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsMultipleSelection="YES" rowHeight="90" sectionHeaderHeight="10" sectionFooterHeight="10" id="sfW-Ng-yEA">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" allowsMultipleSelection="YES" rowHeight="90" sectionHeaderHeight="10" sectionFooterHeight="10" id="sfW-Ng-yEA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <sections>
-                            <tableViewSection headerTitle="To participate in NatureNet we will need you to agree to a few things:" id="kbM-tr-asU">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="XUe-V8-duq" style="IBUITableViewCellStyleDefault" id="jYZ-cc-H38">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jYZ-cc-H38" id="ddP-k3-DqA">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XUe-V8-duq">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <string key="text">(Required) I agree that any nature photos I take using the NatureNet application may be uploaded to the tabletop at ACES and/or a website now under development.</string>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Qip-Vj-LI9" rowHeight="100" style="IBUITableViewCellStyleDefault" id="OCo-l8-kBy">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OCo-l8-kBy" id="vqY-gr-cX9">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Qip-Vj-LI9">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <string key="text">(Required) I agree to allow any comments, observations, and profile information that I choose to share with others via the online application to be visible to others who use the application at the same time or after me.</string>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="HvO-np-TbK" style="IBUITableViewCellStyleDefault" id="0Qc-ZV-OFJ">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Qc-ZV-OFJ" id="YmI-5n-bKE">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="(Optional) I agree to be videotaped/audiotaped during my participation in this study." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HvO-np-TbK">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="HNL-s0-5SA" style="IBUITableViewCellStyleDefault" id="ZfL-99-RF3">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZfL-99-RF3" id="uZI-YT-M43">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="(Optional) I agree to complete a short questionnaire during or after my participation in this study." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HNL-s0-5SA">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="consentTableViewCell" rowHeight="140" id="s3U-ft-Li4" customClass="ConsentTableViewCell" customModule="naturenet" customModuleProvider="target">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s3U-ft-Li4" id="wtX-Qj-eR7">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ffH-lV-rGC">
-                                                    <rect key="frame" x="542" y="54" width="52" height="31"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="pBV-TZ-HWk"/>
-                                                    </constraints>
-                                                </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S3e-Hk-afj">
-                                                    <rect key="frame" x="8" y="42" width="524" height="54"/>
-                                                    <string key="text">(Required) I agree to allow any comments, observations, and profile information that I choose to share with others via the online application to be visible to others who use the application at the same time or after me.</string>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="S3e-Hk-afj" firstAttribute="leading" secondItem="wtX-Qj-eR7" secondAttribute="leadingMargin" id="TO0-Go-eKR"/>
-                                                <constraint firstItem="ffH-lV-rGC" firstAttribute="trailing" secondItem="wtX-Qj-eR7" secondAttribute="trailingMargin" id="UIf-BF-f2V"/>
-                                                <constraint firstItem="ffH-lV-rGC" firstAttribute="leading" secondItem="S3e-Hk-afj" secondAttribute="trailing" constant="10" id="UQ7-IN-2go"/>
-                                                <constraint firstItem="ffH-lV-rGC" firstAttribute="centerY" secondItem="S3e-Hk-afj" secondAttribute="centerY" id="fGB-5v-T7b"/>
-                                                <constraint firstAttribute="centerY" secondItem="S3e-Hk-afj" secondAttribute="centerY" constant="1" id="n0H-gL-25r"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ZtO-5h-iyL">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZtO-5h-iyL" id="fQV-Py-Jq4">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
                         <connections>
-                            <outlet property="dataSource" destination="VxR-LH-H0V" id="gdA-hz-Kb5"/>
-                            <outlet property="delegate" destination="VxR-LH-H0V" id="OLQ-5t-Hpo"/>
+                            <outlet property="dataSource" destination="VxR-LH-H0V" id="6xs-6L-k8e"/>
+                            <outlet property="delegate" destination="VxR-LH-H0V" id="tFv-8d-qOc"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Consent" id="1OY-uP-Cvv">
