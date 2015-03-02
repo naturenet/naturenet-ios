@@ -10,6 +10,10 @@ import Foundation
 import CoreData
 import UIKit
 
+protocol UpdateProgressViewDelegate {
+    func onUpdateProgress(progress: Float)
+}
+
 @objc(Media)
 class Media: NNModel, CLUploaderDelegate {
     
@@ -20,8 +24,8 @@ class Media: NNModel, CLUploaderDelegate {
     @NSManaged var url: String?
     @NSManaged var note: Note
     
+    var updateProgressDelegate: UpdateProgressViewDelegate?
     var apiService: APIService?
-    var uploadProgressView: UIProgressView?
     var cloudinary:CLCloudinary = CLCloudinary()
     
     func parseMediaJSON(media: NSDictionary) {
@@ -92,7 +96,7 @@ class Media: NNModel, CLUploaderDelegate {
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
         //do any progress update you may need
         var progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
-        uploadProgressView!.setProgress(progress, animated: true)
+        self.updateProgressDelegate?.onUpdateProgress(progress)
         println("uploading to cloudinary... wait! \(progress * 100)%")
     }
 

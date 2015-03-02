@@ -11,7 +11,7 @@ import CoreData
 
 
 class ObservationsController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate,
-                                APIControllerProtocol, CLUploaderDelegate, SaveObservationProtocol {
+                                APIControllerProtocol, CLUploaderDelegate, SaveObservationProtocol, UpdateProgressViewDelegate {
     // UI Outlets
     @IBOutlet weak var observationCV: UICollectionView!
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
@@ -42,8 +42,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             self.receivedNoteFromObservation!.push(apiService)
             self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: ObservationCell.UPLOADSTATE.SENDING)
+            self.uploadProgressView.setProgress(0.01, animated: false)
         }
-
+        
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -116,7 +117,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                             self.refresher.endRefreshing()
                         } else {
                             newNoteMedia.apiService = self.apiService
-                            newNoteMedia.uploadProgressView = self.uploadProgressView
+                            newNoteMedia.updateProgressDelegate = self
                             newNoteMedia.uploadToCloudinary()
                         }
                     }
@@ -190,13 +191,14 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     }
     
     //----------------------------------------------------------------------------------------------------------------------
-    // delegate of observationDetailController, the delegate conforms SaveObservationProtocol
+    // observationDetailController's delegate(observationsController/self), the delegate conforms SaveObservationProtocol
     //----------------------------------------------------------------------------------------------------------------------
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
         if media != nil {
             updateCollectionView(note, media: media!)
         }
         note.push(apiService)
+        self.uploadProgressView.setProgress(0.01, animated: false)
         updateReceivedNoteStatus(note, state: ObservationCell.UPLOADSTATE.SENDING)
     }
     
@@ -228,6 +230,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             }
         }
         self.observationCV.reloadData()
+    }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // the delegate conforms UpdateProgressViewDelegate
+    //----------------------------------------------------------------------------------------------------------------------
+    func onUpdateProgress(progress: Float) {
+        self.uploadProgressView.setProgress(progress, animated: true)
     }
 
     //----------------------------------------------------------------------------------------------------------------------
