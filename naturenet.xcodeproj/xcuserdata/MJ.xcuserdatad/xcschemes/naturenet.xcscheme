@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC11348F1A642DD500D548E8"
-               BuildableName = "naturenet.app"
-               BlueprintName = "naturenet"
-               ReferencedContainer = "container:naturenet.xcodeproj">
+               BuildableName = "NatureNet.app"
+               BlueprintName = "NatureNet"
+               ReferencedContainer = "container:NatureNet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC1134A71A642DD600D548E8"
-               BuildableName = "naturenetTests.xctest"
-               BlueprintName = "naturenetTests"
-               ReferencedContainer = "container:naturenet.xcodeproj">
+               BuildableName = "NatureNetTests.xctest"
+               BlueprintName = "NatureNetTests"
+               ReferencedContainer = "container:NatureNet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC1134A71A642DD600D548E8"
-               BuildableName = "naturenetTests.xctest"
-               BlueprintName = "naturenetTests"
-               ReferencedContainer = "container:naturenet.xcodeproj">
+               BuildableName = "NatureNetTests.xctest"
+               BlueprintName = "NatureNetTests"
+               ReferencedContainer = "container:NatureNet.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FC11348F1A642DD500D548E8"
-            BuildableName = "naturenet.app"
-            BlueprintName = "naturenet"
-            ReferencedContainer = "container:naturenet.xcodeproj">
+            BuildableName = "NatureNet.app"
+            BlueprintName = "NatureNet"
+            ReferencedContainer = "container:NatureNet.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FC11348F1A642DD500D548E8"
-            BuildableName = "naturenet.app"
-            BlueprintName = "naturenet"
-            ReferencedContainer = "container:naturenet.xcodeproj">
+            BuildableName = "NatureNet.app"
+            BlueprintName = "NatureNet"
+            ReferencedContainer = "container:NatureNet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FC11348F1A642DD500D548E8"
-            BuildableName = "naturenet.app"
-            BlueprintName = "naturenet"
-            ReferencedContainer = "container:naturenet.xcodeproj">
+            BuildableName = "NatureNet.app"
+            BlueprintName = "NatureNet"
+            ReferencedContainer = "container:NatureNet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

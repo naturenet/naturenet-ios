@@ -66,12 +66,12 @@
 		FC012CBF1A769E3F00D9CBF1 /* Site.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		FC012CC11A76AD9800D9CBF1 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteLocationTableViewController.swift; sourceTree = "<group>"; };
-		FC1134901A642DD500D548E8 /* naturenet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = naturenet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC1134901A642DD500D548E8 /* NatureNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NatureNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1134941A642DD500D548E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC1134951A642DD500D548E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC1134981A642DD500D548E8 /* naturenet.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = naturenet.xcdatamodel; sourceTree = "<group>"; };
 		FC1134A21A642DD600D548E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		FC1134A81A642DD600D548E8 /* naturenetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = naturenetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC1134A81A642DD600D548E8 /* NatureNetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NatureNetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1134AD1A642DD600D548E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC1134AE1A642DD600D548E8 /* naturenetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = naturenetTests.swift; sourceTree = "<group>"; };
 		FC1134B81A642FAE00D548E8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Main.storyboard; sourceTree = "<group>"; };
@@ -157,8 +157,8 @@
 		FC1134911A642DD500D548E8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FC1134901A642DD500D548E8 /* naturenet.app */,
-				FC1134A81A642DD600D548E8 /* naturenetTests.xctest */,
+				FC1134901A642DD500D548E8 /* NatureNet.app */,
+				FC1134A81A642DD600D548E8 /* NatureNetTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -284,9 +284,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FC11348F1A642DD500D548E8 /* naturenet */ = {
+		FC11348F1A642DD500D548E8 /* NatureNet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FC1134B21A642DD600D548E8 /* Build configuration list for PBXNativeTarget "naturenet" */;
+			buildConfigurationList = FC1134B21A642DD600D548E8 /* Build configuration list for PBXNativeTarget "NatureNet" */;
 			buildPhases = (
 				FC11348C1A642DD500D548E8 /* Sources */,
 				FC11348D1A642DD500D548E8 /* Frameworks */,
@@ -296,14 +296,14 @@
 			);
 			dependencies = (
 			);
-			name = naturenet;
-			productName = naturenet;
-			productReference = FC1134901A642DD500D548E8 /* naturenet.app */;
+			name = NatureNet;
+			productName = NatureNet;
+			productReference = FC1134901A642DD500D548E8 /* NatureNet.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FC1134A71A642DD600D548E8 /* naturenetTests */ = {
+		FC1134A71A642DD600D548E8 /* NatureNetTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FC1134B51A642DD600D548E8 /* Build configuration list for PBXNativeTarget "naturenetTests" */;
+			buildConfigurationList = FC1134B51A642DD600D548E8 /* Build configuration list for PBXNativeTarget "NatureNetTests" */;
 			buildPhases = (
 				FC1134A41A642DD600D548E8 /* Sources */,
 				FC1134A51A642DD600D548E8 /* Frameworks */,
@@ -314,9 +314,9 @@
 			dependencies = (
 				FC1134AA1A642DD600D548E8 /* PBXTargetDependency */,
 			);
-			name = naturenetTests;
-			productName = naturenetTests;
-			productReference = FC1134A81A642DD600D548E8 /* naturenetTests.xctest */;
+			name = NatureNetTests;
+			productName = NatureNetTests;
+			productReference = FC1134A81A642DD600D548E8 /* NatureNetTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -351,8 +351,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FC11348F1A642DD500D548E8 /* naturenet */,
-				FC1134A71A642DD600D548E8 /* naturenetTests */,
+				FC11348F1A642DD500D548E8 /* NatureNet */,
+				FC1134A71A642DD600D548E8 /* NatureNetTests */,
 			);
 		};
 /* End PBXProject section */
@@ -433,7 +433,7 @@
 /* Begin PBXTargetDependency section */
 		FC1134AA1A642DD600D548E8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FC11348F1A642DD500D548E8 /* naturenet */;
+			target = FC11348F1A642DD500D548E8 /* NatureNet */;
 			targetProxy = FC1134A91A642DD600D548E8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -614,7 +614,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FC1134B21A642DD600D548E8 /* Build configuration list for PBXNativeTarget "naturenet" */ = {
+		FC1134B21A642DD600D548E8 /* Build configuration list for PBXNativeTarget "NatureNet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FC1134B31A642DD600D548E8 /* Debug */,
@@ -623,7 +623,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FC1134B51A642DD600D548E8 /* Build configuration list for PBXNativeTarget "naturenetTests" */ = {
+		FC1134B51A642DD600D548E8 /* Build configuration list for PBXNativeTarget "NatureNetTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FC1134B61A642DD600D548E8 /* Debug */,
