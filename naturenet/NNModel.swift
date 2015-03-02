@@ -42,6 +42,7 @@ class NNModel: NSManagedObject {
 //    }
     
     // pull information from coredata
+    // ** Deprecated **
     class func doPullByNameFromCoreData(entityname: String, attr: String, name: String?) -> NNModel? {
         var model: NNModel?
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
@@ -64,6 +65,7 @@ class NNModel: NSManagedObject {
     }
     
     // pull information from coredata
+    // ** Deprecated **
     class func doPullByUIDFromCoreData(entityname: String, uid: Int) -> NNModel? {
         var model: NNModel?
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext

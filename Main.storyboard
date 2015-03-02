@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -62,10 +62,10 @@
             </objects>
             <point key="canvasLocation" x="-509" y="-2195"/>
         </scene>
-        <!--Title-->
+        <!--LocationDetail-->
         <scene sceneID="4jo-N2-DQd">
             <objects>
-                <viewController id="KIt-YQ-zZN" customClass="LocationDetailViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="LocationDetail" id="KIt-YQ-zZN" customClass="LocationDetailViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0J0-f8-LRf"/>
                         <viewControllerLayoutGuide type="bottom" id="Sv7-7w-zAI"/>
@@ -86,21 +86,29 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="oyn-t5-WKC"/>
                                 </items>
                             </toolbar>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jIM-Ow-215">
-                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jIM-Ow-215">
+                                <rect key="frame" x="0.0" y="104" width="600" height="452"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Ek-Im-Gmb">
+                                <rect key="frame" x="0.0" y="64" width="600" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="2XE-GL-spS"/>
-                            <constraint firstItem="jIM-Ow-215" firstAttribute="top" secondItem="mtf-7g-HlN" secondAttribute="top" constant="64" id="3NI-jT-T68"/>
                             <constraint firstItem="MSl-TQ-07o" firstAttribute="top" secondItem="jIM-Ow-215" secondAttribute="bottom" id="5kb-tU-SHP"/>
+                            <constraint firstItem="jIM-Ow-215" firstAttribute="top" secondItem="3Ek-Im-Gmb" secondAttribute="bottom" constant="10" id="7so-3V-liw"/>
+                            <constraint firstItem="3Ek-Im-Gmb" firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="GyP-S5-LTB"/>
+                            <constraint firstItem="3Ek-Im-Gmb" firstAttribute="top" secondItem="0J0-f8-LRf" secondAttribute="bottom" id="KwZ-TJ-shK"/>
                             <constraint firstItem="jIM-Ow-215" firstAttribute="leading" secondItem="mtf-7g-HlN" secondAttribute="leading" id="Top-X4-TvW"/>
                             <constraint firstItem="MSl-TQ-07o" firstAttribute="leading" secondItem="jIM-Ow-215" secondAttribute="leading" id="cMq-Gi-krW"/>
+                            <constraint firstItem="3Ek-Im-Gmb" firstAttribute="leading" secondItem="jIM-Ow-215" secondAttribute="leading" id="cTs-8g-1Sz"/>
                             <constraint firstItem="MSl-TQ-07o" firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="dof-hx-HST"/>
                             <constraint firstItem="MSl-TQ-07o" firstAttribute="bottom" secondItem="Sv7-7w-zAI" secondAttribute="top" id="urC-nb-Ugx"/>
                             <constraint firstItem="Sv7-7w-zAI" firstAttribute="top" secondItem="MSl-TQ-07o" secondAttribute="bottom" id="zgk-hb-YNo"/>
@@ -128,6 +136,7 @@
                     <connections>
                         <outlet property="descriptionTextView" destination="jIM-Ow-215" id="pBf-OX-n82"/>
                         <outlet property="navItem" destination="UHd-t4-tQR" id="nkN-WB-4bB"/>
+                        <outlet property="titleTextField" destination="3Ek-Im-Gmb" id="2Kf-Q6-tZB"/>
                         <segue destination="G2L-CF-kVP" kind="show" identifier="tourDetailToObservation" id="WtA-7r-5HU"/>
                     </connections>
                 </viewController>
@@ -1085,10 +1094,10 @@ The researchers and other visitors will be able to look at your contributions an
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NRH-FE-vcr">
                                 <rect key="frame" x="0.0" y="5" width="600" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
+                                <mutableString key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
 
-NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
@@ -1408,8 +1417,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9ac-AY-f52"/>
+        <segue reference="WtA-7r-5HU"/>
         <segue reference="PbE-tg-8FU"/>
-        <segue reference="cMI-fD-Rxu"/>
+        <segue reference="9ac-AY-f52"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -15,11 +15,18 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
     
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var navItem: UINavigationItem!
+    @IBOutlet weak var titleTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        navItem.title = locationTitle
+        if locationTitle == "Other" {
+            navItem.title = locationTitle
+        } else {
+            var substrings = locationTitle.componentsSeparatedByString(".")
+            navItem.title = substrings[0]
+        }
+        titleTextField.text = locationTitle
         descriptionTextView.text = locationDescription
     }
 
