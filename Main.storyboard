@@ -86,21 +86,22 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="oyn-t5-WKC"/>
                                 </items>
                             </toolbar>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jIM-Ow-215">
-                                <rect key="frame" x="0.0" y="104" width="600" height="452"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jIM-Ow-215">
+                                <rect key="frame" x="0.0" y="105" width="600" height="451"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Ek-Im-Gmb">
-                                <rect key="frame" x="0.0" y="64" width="600" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Ek-Im-Gmb">
+                                <rect key="frame" x="0.0" y="69" width="600" height="26"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="3Ek-Im-Gmb" firstAttribute="top" secondItem="0J0-f8-LRf" secondAttribute="bottom" constant="5" id="1k6-c9-aEY"/>
                             <constraint firstAttribute="trailing" secondItem="jIM-Ow-215" secondAttribute="trailing" id="2XE-GL-spS"/>
                             <constraint firstItem="MSl-TQ-07o" firstAttribute="top" secondItem="jIM-Ow-215" secondAttribute="bottom" id="5kb-tU-SHP"/>
                             <constraint firstItem="jIM-Ow-215" firstAttribute="top" secondItem="3Ek-Im-Gmb" secondAttribute="bottom" constant="10" id="7so-3V-liw"/>
@@ -115,6 +116,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="KwZ-TJ-shK"/>
                                 <exclude reference="urC-nb-Ugx"/>
                             </mask>
                         </variation>
@@ -1094,10 +1096,10 @@ The researchers and other visitors will be able to look at your contributions an
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NRH-FE-vcr">
                                 <rect key="frame" x="0.0" y="5" width="600" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
+                                <string key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
 
-NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</mutableString>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
@@ -1207,26 +1209,24 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jJb-So-Cjl">
-                                <rect key="frame" x="0.0" y="232" width="600" height="128"/>
+                                <rect key="frame" x="0.0" y="232" width="600" height="280"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="wjh-yq-AVh"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="jJb-So-Cjl" firstAttribute="leading" secondItem="prM-kJ-Vyi" secondAttribute="leading" id="A5Y-44-D8Q"/>
-                            <constraint firstItem="jJb-So-Cjl" firstAttribute="top" secondItem="R3D-Gc-ANW" secondAttribute="bottom" constant="8" symbolic="YES" id="Et6-PD-GZg"/>
-                            <constraint firstItem="R3D-Gc-ANW" firstAttribute="leading" secondItem="jJb-So-Cjl" secondAttribute="leading" id="V8V-kB-zxV"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="leading" secondItem="R3D-Gc-ANW" secondAttribute="leading" id="2lD-Mg-X0h"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="bottom" secondItem="prM-kJ-Vyi" secondAttribute="top" id="4B0-hT-IrP"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="top" secondItem="R3D-Gc-ANW" secondAttribute="bottom" constant="8" symbolic="YES" id="J4a-fu-8cV"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="leading" secondItem="prM-kJ-Vyi" secondAttribute="leading" id="USA-3j-cmY"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="trailing" secondItem="prM-kJ-Vyi" secondAttribute="trailing" id="aE1-e7-oqP"/>
                             <constraint firstItem="prM-kJ-Vyi" firstAttribute="bottom" secondItem="j1U-AM-HpR" secondAttribute="top" id="alW-Rp-N4l"/>
                             <constraint firstItem="prM-kJ-Vyi" firstAttribute="leading" secondItem="SAj-U6-AyP" secondAttribute="leading" id="fg7-yo-cM6"/>
+                            <constraint firstItem="jJb-So-Cjl" firstAttribute="trailing" secondItem="R3D-Gc-ANW" secondAttribute="trailing" id="izE-cM-yCH"/>
                             <constraint firstItem="R3D-Gc-ANW" firstAttribute="top" secondItem="kmW-c5-yqd" secondAttribute="bottom" id="pOA-L0-yat"/>
-                            <constraint firstItem="R3D-Gc-ANW" firstAttribute="trailing" secondItem="jJb-So-Cjl" secondAttribute="trailing" id="vKq-6m-aKQ"/>
                             <constraint firstAttribute="trailing" secondItem="prM-kJ-Vyi" secondAttribute="trailing" id="wAe-gY-SMD"/>
-                            <constraint firstItem="jJb-So-Cjl" firstAttribute="trailing" secondItem="prM-kJ-Vyi" secondAttribute="trailing" id="yly-BP-1wZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="Cfz-sc-ahz"/>
@@ -1304,7 +1304,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-uJ-50B">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activitySelectionCell" textLabel="Usd-ZV-BCq" style="IBUITableViewCellStyleDefault" id="oWQ-gN-t4z">
@@ -1417,8 +1417,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WtA-7r-5HU"/>
         <segue reference="PbE-tg-8FU"/>
         <segue reference="9ac-AY-f52"/>
+        <segue reference="EWU-e4-npt"/>
     </inferredMetricsTieBreakers>
 </document>
