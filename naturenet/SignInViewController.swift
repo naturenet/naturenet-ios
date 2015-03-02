@@ -98,7 +98,6 @@ class SignInViewController: UIViewController, APIControllerProtocol {
         
         let predicate = NSPredicate(format: "username = %@", username)
         let existingAccount = NNModel.fetechEntitySingle(NSStringFromClass(Account), predicate: predicate) as Account?
-//        var existingAccount = NNModel.doPullByNameFromCoreData(NSStringFromClass(Account), attr: "username", name: username) as Account?
         if existingAccount != nil {
             // println("input user existing in core date: \(existingAccount?.toString())")
             // println("You have this user in core data: \(inputUser)")
@@ -123,7 +122,6 @@ class SignInViewController: UIViewController, APIControllerProtocol {
         var sitename = data["name"] as String
         let predicate = NSPredicate(format: "name = %@", "aces")
         let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as Site?
-//        var exisitingSite = NNModel.doPullByNameFromCoreData(NSStringFromClass(Site), attr:"name", name: "aces") as? Site
         if exisitingSite != nil {
             // println("You have aces site in core data: "  + exisitingSite!.toString())
             // should check if modified date is changed here!! but no modified date returned from API
