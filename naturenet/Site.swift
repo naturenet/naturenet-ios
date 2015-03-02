@@ -56,6 +56,7 @@ class Site: NNModel {
             var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as Context
             mContext.parseContextJSON(tContext as NSDictionary)
             mContext.site_uid = self.uid
+//            mContext.site = self
             mContext.commit()
             self.contexts.addObject(mContext)
             SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
@@ -65,14 +66,11 @@ class Site: NNModel {
     
     // get contexts
     func getContexts() -> NSArray {
-        if (contexts.count > 0) {
-            return self.contexts
-        } else {
-            let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var predicate = NSPredicate(format: "site_uid = \(self.uid)")
-            var sitecontexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext)
-            return sitecontexts
-        }
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        // let predicate = NSPredicate(format: "site = %@", self.objectID)
+        var predicate = NSPredicate(format: "site_uid = \(self.uid)")
+        var sitecontexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext)
+        return sitecontexts
     }
     
     // get landmarks

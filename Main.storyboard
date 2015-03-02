@@ -10,7 +10,7 @@
         <!--Aces Tour-->
         <scene sceneID="nGI-vM-jEN">
             <objects>
-                <viewController id="ekY-aI-Kns" customClass="TourViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ekY-aI-Kns" customClass="TourViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i43-Ya-fV5"/>
                         <viewControllerLayoutGuide type="bottom" id="BtJ-pV-wsB"/>
@@ -65,7 +65,7 @@
         <!--LocationDetail-->
         <scene sceneID="4jo-N2-DQd">
             <objects>
-                <viewController title="LocationDetail" id="KIt-YQ-zZN" customClass="LocationDetailViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="LocationDetail" id="KIt-YQ-zZN" customClass="LocationDetailViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0J0-f8-LRf"/>
                         <viewControllerLayoutGuide type="bottom" id="Sv7-7w-zAI"/>
@@ -149,7 +149,7 @@
         <!--NatureNet-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="HomeViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="HomeViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -189,7 +189,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="homecell" id="DOj-KB-QfN" customClass="HomeCell" customModule="naturenet" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="homecell" id="DOj-KB-QfN" customClass="HomeCell" customModule="NatureNet" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -277,7 +277,7 @@
         <!--Profile-->
         <scene sceneID="5sj-ed-Tm4">
             <objects>
-                <tableViewController id="s5c-IR-cv4" customClass="ProfileViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="s5c-IR-cv4" customClass="ProfileViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="xw9-E7-ZRW">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -398,7 +398,7 @@
         <!--Sign In-->
         <scene sceneID="85P-qF-8A2">
             <objects>
-                <viewController id="PsJ-bN-In7" customClass="SignInViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PsJ-bN-In7" customClass="SignInViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nuS-QR-2De"/>
                         <viewControllerLayoutGuide type="bottom" id="bZL-O3-J9F"/>
@@ -519,7 +519,7 @@ The researchers and other visitors will be able to look at your contributions an
         <!--Signup Two-->
         <scene sceneID="YWn-rB-Spd">
             <objects>
-                <tableViewController title="Signup Two" id="VxR-LH-H0V" customClass="ConsentTableViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Signup Two" id="VxR-LH-H0V" customClass="ConsentTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" allowsMultipleSelection="YES" rowHeight="100" sectionHeaderHeight="10" sectionFooterHeight="10" id="sfW-Ng-yEA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -557,7 +557,7 @@ The researchers and other visitors will be able to look at your contributions an
         <!--Enter Your Details-->
         <scene sceneID="P0P-3u-Mnl">
             <objects>
-                <viewController id="5hU-GR-cts" customClass="SignUpViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5hU-GR-cts" customClass="SignUpViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GWh-ca-rjn"/>
                         <viewControllerLayoutGuide type="bottom" id="uzl-2c-wLQ"/>
@@ -683,7 +683,7 @@ The researchers and other visitors will be able to look at your contributions an
         <!--Observations-->
         <scene sceneID="mha-Xk-4jn">
             <objects>
-                <viewController storyboardIdentifier="ObservationsViewController" id="VoY-hl-Epj" customClass="ObservationsController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ObservationsViewController" id="VoY-hl-Epj" customClass="ObservationsController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="lwc-XN-PfK"/>
                         <viewControllerLayoutGuide type="bottom" id="ggZ-S6-vqo"/>
@@ -723,7 +723,7 @@ The researchers and other visitors will be able to look at your contributions an
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="obscell" id="eGd-yx-PtJ" customClass="HomeCell" customModule="naturenet" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="obscell" id="eGd-yx-PtJ" customClass="HomeCell" customModule="NatureNet" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -836,7 +836,7 @@ The researchers and other visitors will be able to look at your contributions an
         <!--Observation-->
         <scene sceneID="eNB-Kf-sha">
             <objects>
-                <tableViewController id="G2L-CF-kVP" customClass="ObservationDetailController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="G2L-CF-kVP" customClass="ObservationDetailController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="SSC-9e-6OT">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -992,7 +992,7 @@ The researchers and other visitors will be able to look at your contributions an
         <!--Design Idea-->
         <scene sceneID="zYZ-JQ-Lzz">
             <objects>
-                <viewController id="2z6-fJ-NyL" customClass="DesignIdeaViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2z6-fJ-NyL" customClass="DesignIdeaViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BzZ-ML-f50"/>
                         <viewControllerLayoutGuide type="bottom" id="aEJ-07-jvJ"/>
@@ -1128,7 +1128,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <!--Activities-->
         <scene sceneID="G3m-07-AEJ">
             <objects>
-                <tableViewController id="t4G-Hw-JHV" customClass="ActivitiesTableViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="t4G-Hw-JHV" customClass="ActivitiesTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="5D8-2k-lgn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1181,7 +1181,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <!--ActivityDetail-->
         <scene sceneID="oa5-Hq-k3v">
             <objects>
-                <viewController title="ActivityDetail" id="hMG-K1-N3g" customClass="ActivityDetailViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="ActivityDetail" id="hMG-K1-N3g" customClass="ActivityDetailViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kmW-c5-yqd"/>
                         <viewControllerLayoutGuide type="bottom" id="j1U-AM-HpR"/>
@@ -1245,7 +1245,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
             <objects>
-                <viewController id="XQG-p1-1s3" customClass="NoteDescriptionViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XQG-p1-1s3" customClass="NoteDescriptionViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hmD-1m-jny"/>
                         <viewControllerLayoutGuide type="bottom" id="NOO-c9-LGT"/>
@@ -1294,7 +1294,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <!--Activity-->
         <scene sceneID="Ozr-jZ-JFj">
             <objects>
-                <viewController id="c0p-Yw-gqU" customClass="NoteActivitySelectionViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="c0p-Yw-gqU" customClass="NoteActivitySelectionViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="X8T-iq-9vQ"/>
                         <viewControllerLayoutGuide type="bottom" id="X9v-0y-0QC"/>
@@ -1353,7 +1353,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <!--Location-->
         <scene sceneID="KjR-20-LMm">
             <objects>
-                <tableViewController id="7lI-9u-DaR" customClass="NoteLocationTableViewController" customModule="naturenet" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="7lI-9u-DaR" customClass="NoteLocationTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="moI-a6-Cx8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
