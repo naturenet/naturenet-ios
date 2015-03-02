@@ -46,11 +46,16 @@ class Note: NNModel {
         self.content = mNote["content"] as String
         var contextID = mNote["context"]!["id"] as Int
         self.context_id = contextID
-        var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
+        
+//        var context = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Context), uid: contextID) as Context
+        let contextPredicate = NSPredicate(format: "uid = \(contextID)")
+        let context = NNModel.fetechEntitySingle(NSStringFromClass(Context), predicate: contextPredicate) as Context
         self.context = context
         var accountID = mNote["account"]!["id"] as Int
         self.account_id = accountID
-        var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account
+//        var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account
+        let accountPredicate = NSPredicate(format: "uid = \(accountID)")
+        let account = NNModel.fetechEntitySingle(NSStringFromClass(Account), predicate: accountPredicate) as Account
         self.account = account
         self.status = mNote["status"] as String
         self.state = STATE.DOWNLOADED

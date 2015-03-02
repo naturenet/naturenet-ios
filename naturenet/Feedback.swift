@@ -28,7 +28,9 @@ class Feedback: NNModel {
         self.created_at = feedback["created_at"] as NSNumber
         var accountID = feedback["account"]!["id"] as Int
         self.account_id = accountID
-        var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account
+//        var account = NNModel.doPullByUIDFromCoreData(NSStringFromClass(Account), uid: accountID) as Account
+        let predicate = NSPredicate(format: "uid = \(accountID)")
+        let account = NNModel.fetechEntitySingle(NSStringFromClass(Account), predicate: predicate) as Account
         self.account = account
         self.state = STATE.DOWNLOADED
     }

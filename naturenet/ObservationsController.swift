@@ -29,9 +29,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // data received after clicking "send" from ObservationDetailController 
     // values set in saveObservationDetail()
     var receivedNoteFromObservation: Note?
-    var receivedMediaFromObservation: Media?
-    var receivedFeedbackFromObservation: Feedback?
-    
     var sourceViewController: String?
     
     override func viewDidLoad() {
@@ -39,11 +36,12 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         apiService.delegate = self
         loadData()
         
+        // if the received photo is from Activity/Tour/Location
         if sourceViewController == NSStringFromClass(ActivityDetailViewController)
             || sourceViewController == NSStringFromClass(TourViewController)
             || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             self.receivedNoteFromObservation!.push(apiService)
-            self.updateCollectionView(self.receivedNoteFromObservation!, media: self.receivedMediaFromObservation!)
+            self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: ObservationCell.UPLOADSTATE.SENDING)
         }
 
         refresher = UIRefreshControl()
@@ -67,13 +65,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         var uploadNumbers: Int = 0
         for data in celldata {
             if data.getStatus() == "ready to send" {
-
                 var noteObjectId = data.objectID
                 let predicate = NSPredicate(format: "self = %@", noteObjectId)
                 var note = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as Note
-                self.receivedFeedbackFromObservation = nil
-                self.receivedMediaFromObservation = nil
-                self.receivedMediaFromObservation = nil
+                self.receivedNoteFromObservation = nil
                 note.push(self.apiService)
                 uploadNumbers++
             }
@@ -110,7 +105,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 }
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
-                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, if this is not, do update")
+                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
                 var modifiedAt = response["data"]!["modified_at"] as NSNumber
                 if let newNoteFeedback = sourceData as? Feedback {
                     newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
@@ -194,24 +189,15 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
     }
     
-    
     //----------------------------------------------------------------------------------------------------------------------
     // delegate of observationDetailController, the delegate conforms SaveObservationProtocol
     //----------------------------------------------------------------------------------------------------------------------
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
-        if self.cameraImage != nil {
-            self.receivedNoteFromObservation = note
-            self.receivedMediaFromObservation = media
-            self.receivedFeedbackFromObservation = feedback
+        if media != nil {
             updateCollectionView(note, media: media!)
-            self.receivedNoteFromObservation!.push(apiService)
-            updateReceivedNoteStatus(ObservationCell.UPLOADSTATE.SENDING)
-        } else {
-            self.receivedNoteFromObservation = note
-            self.receivedFeedbackFromObservation = feedback
-            self.updateReceivedNoteStatus(note)
-            self.receivedNoteFromObservation?.push(apiService)
         }
+        note.push(apiService)
+        updateReceivedNoteStatus(note, state: ObservationCell.UPLOADSTATE.SENDING)
     }
     
     // refresh data
@@ -235,9 +221,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     
     // manually update the status of uploading the note, e.g. "sending"
-    func updateReceivedNoteStatus(state: Int) {
+    func updateReceivedNoteStatus(note: Note, state: Int) {
         for obs in self.celldata {
-            if obs.objectID == self.receivedNoteFromObservation!.objectID {
+            if obs.objectID == note.objectID {
                 obs.state = state
             }
         }
@@ -321,6 +307,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // load data for this collectionview
     func loadData() {
         if !Session.isSignedIn() {
+            createAlert("You have not signed in!")
             return
         }
         if let account = Session.getAccount() {
@@ -351,8 +338,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                     if let mediaURL = mMedia.url {
                         obscell.imageURL = mediaURL
                     }
-
-                    
                     celldata.append(obscell)
                 }
             }
@@ -461,7 +446,8 @@ class ObservationCell {
     
     func getStatus() -> String {
         var status: String = "ready to send"
-        if (self.state == NNModel.STATE.DOWNLOADED || self.state == NNModel.STATE.NEW) {
+        if (self.state == NNModel.STATE.DOWNLOADED || self.state == NNModel.STATE.NEW
+            || self.state == NNModel.STATE.SAVED) {
             status = "ready to send"
         }
         

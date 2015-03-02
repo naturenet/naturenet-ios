@@ -57,8 +57,6 @@ class ActivityDetailViewController: UIViewController, UINavigationControllerDele
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "activityToObservation" {
-//            let destinationVC = segue.destinationViewController as UINavigationController
-//            let detailVC = destinationVC.topViewController as ObservationDetailController
             let detailVC = segue.destinationViewController as ObservationDetailController
             detailVC.imageFromCamera = self.cameraImage!
             detailVC.activityNameFromActivityDetail = activity.title

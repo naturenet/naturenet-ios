@@ -148,18 +148,17 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
 //            nextViewController.cameraImage = self.imageFromCamera
 //            self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
             nextViewController.receivedNoteFromObservation = self.note
-            nextViewController.receivedMediaFromObservation = self.noteMedia
-            nextViewController.receivedFeedbackFromObservation = self.feedback
         }
         
         if sourceViewController == NSStringFromClass(ObservationsController) {
             self.navigationController?.popViewControllerAnimated(true)
             if self.imageFromCamera != nil {
                 self.saveNote()
+                self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
             } else {
                 self.updateNote()
+                self.saveObservationDelegate?.saveObservation(self.note!, media: nil, feedback: self.feedback)
             }
-            self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
         }
     }
     
@@ -196,7 +195,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     func noLocationAlert(message: String) {
         var alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Canel", style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
         var okAction = UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
             UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!);
             return
@@ -221,7 +220,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         }
         return name
     }
-    
     
     
     //----------------------------------------------------------------------------------------------------------------------
@@ -253,6 +251,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
         var createdAt = NSNumber(unsignedLongLong: timestamp)
         mNote.created_at = createdAt
+        mNote.modified_at = createdAt
         
         // save to Media
         var fileName = String(timestamp) + ".jpg"

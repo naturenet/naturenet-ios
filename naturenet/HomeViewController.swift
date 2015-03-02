@@ -15,9 +15,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var homeCollectionView: UICollectionView!
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var signinBtn: UIButton!
-    
-    var prevViewController: ObservationDetailController?
-    
+        
     var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
     var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     
@@ -96,18 +94,6 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
             }
         } else {
             createAlert("Please Sign In First")
-        }
-
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "observationSeg" {
-            let destinationVC = segue.destinationViewController as ObservationsController
-            if self.prevViewController != nil {
-                destinationVC.receivedNoteFromObservation = self.prevViewController!.saveNote()
-                destinationVC.receivedMediaFromObservation = self.prevViewController!.noteMedia
-                destinationVC.receivedFeedbackFromObservation = self.prevViewController!.feedback
-            }
         }
 
     }
