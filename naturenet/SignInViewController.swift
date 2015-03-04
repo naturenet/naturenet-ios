@@ -30,6 +30,10 @@ class SignInViewController: UIViewController, APIControllerProtocol {
     @IBAction func btnSignIn() {
         textFieldUname.resignFirstResponder()
         textFieldUpass.resignFirstResponder()
+        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+            createAlert("username or password cannot be empty")
+            return
+        }
         parseService.delegate = self
         createIndicator()
         Site.doPullByNameFromServer(parseService, name: "aces")
@@ -39,12 +43,28 @@ class SignInViewController: UIViewController, APIControllerProtocol {
         super.viewDidLoad()
     }
     
+    // password textfield delegate, examine length not exceed 4
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        var result = true
+        let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        
+        if textField == textFieldUpass {
+            if countElements(string) > 0 {
+                let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
+                let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
+                let resultingStringLengthIsLegal = countElements(prospectiveText) <= 4
+                result = replacementStringIsLegal && resultingStringLengthIsLegal
+            }
+        }
+        return result
+    }
+    
     // after getting data from server
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {
-                var errorMessage = "User Doesn't Exisit"
+                var errorMessage = "user doesn't exisit"
                 self.createAlert(errorMessage)
                 self.pauseIndicator()
                 return

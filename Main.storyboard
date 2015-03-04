@@ -413,6 +413,7 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="textFieldDoneEditing:" destination="PsJ-bN-In7" eventType="editingDidEnd" id="Rav-cX-k4I"/>
+                                    <outlet property="delegate" destination="PsJ-bN-In7" id="vBP-4x-7GL"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="46" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsm-N6-RWa">
