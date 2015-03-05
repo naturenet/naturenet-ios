@@ -103,6 +103,16 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 if let newNote = sourceData as? Note {
                     newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     newNote.doPushFeedbacks(self.apiService)
+//                    if let newNoteMedia = newNote.getSingleMedia() {
+//                        if newNoteMedia.url != nil {
+//                            self.updateReceivedNoteStatus(newNote)
+//                            self.refresher.endRefreshing()
+//                        } else {
+//                            newNoteMedia.apiService = self.apiService
+//                            newNoteMedia.updateProgressDelegate = self
+//                            newNoteMedia.uploadToCloudinary()
+//                        }
+//                    }
                 }
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
@@ -196,9 +206,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
         if media != nil {
             updateCollectionView(note, media: media!)
+            self.uploadProgressView.setProgress(0.01, animated: false)
         }
         note.push(apiService)
-        self.uploadProgressView.setProgress(0.01, animated: false)
+//        self.uploadProgressView.setProgress(0.01, animated: false)
         updateReceivedNoteStatus(note, state: ObservationCell.UPLOADSTATE.SENDING)
     }
     
