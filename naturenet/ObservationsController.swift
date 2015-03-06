@@ -41,7 +41,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             || sourceViewController == NSStringFromClass(TourViewController)
             || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             self.receivedNoteFromObservation!.push(apiService)
-            self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: ObservationCell.UPLOADSTATE.SENDING)
+            self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: NNModel.STATE.SENDING)
             self.uploadProgressView.setProgress(0.01, animated: false)
         }
         
@@ -203,7 +203,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
         note.push(apiService)
 //        self.uploadProgressView.setProgress(0.01, animated: false)
-        updateReceivedNoteStatus(note, state: ObservationCell.UPLOADSTATE.SENDING)
+        updateReceivedNoteStatus(note, state: NNModel.STATE.SENDING)
     }
     
     // refresh data
@@ -453,10 +453,6 @@ class ObservationCell {
         self.modifiedAt = modifiedAt
     }
     
-    struct UPLOADSTATE {
-        static let SENDING = 10
-    }
-    
     func getStatus() -> String {
         var status: String = "ready to send"
         if (self.state == NNModel.STATE.DOWNLOADED || self.state == NNModel.STATE.NEW
@@ -468,7 +464,7 @@ class ObservationCell {
             status = "sent"
         }
         
-        if self.state == UPLOADSTATE.SENDING {
+        if self.state == NNModel.STATE.SENDING {
             status = "sending"
         }
         return status

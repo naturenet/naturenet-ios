@@ -21,6 +21,7 @@ class NNModel: NSManagedObject {
         static let MODIFIED = 3
         static let SYNCED = 4
         static let DOWNLOADED = 5
+        static let SENDING = 6
     }
     
     func commit() -> Void {
