@@ -103,27 +103,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 if let newNote = sourceData as? Note {
                     newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     newNote.doPushFeedbacks(self.apiService)
-//                    if let newNoteMedia = newNote.getSingleMedia() {
-//                        if newNoteMedia.url != nil {
-//                            self.updateReceivedNoteStatus(newNote)
-//                            self.refresher.endRefreshing()
-//                        } else {
-//                            newNoteMedia.apiService = self.apiService
-//                            newNoteMedia.updateProgressDelegate = self
-//                            newNoteMedia.uploadToCloudinary()
-//                        }
-//                    }
-                }
-            }
-            if from == "POST_" + NSStringFromClass(Feedback) {
-                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
-                var modifiedAt = response["data"]!["modified_at"] as NSNumber
-                if let newNoteFeedback = sourceData as? Feedback {
-                    newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                    let note = newNoteFeedback.note
-                    if let newNoteMedia = note.getSingleMedia() {
+                    if let newNoteMedia = newNote.getSingleMedia() {
                         if newNoteMedia.url != nil {
-                            self.updateReceivedNoteStatus(note)
+                            self.updateReceivedNoteStatus(newNote)
                             self.refresher.endRefreshing()
                         } else {
                             newNoteMedia.apiService = self.apiService
@@ -131,6 +113,17 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                             newNoteMedia.uploadToCloudinary()
                         }
                     }
+                }
+            }
+            if from == "POST_" + NSStringFromClass(Feedback) {
+                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
+                var modifiedAt = response["data"]!["modified_at"] as NSNumber
+                if let newNoteFeedback = sourceData as? Feedback {
+                    newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+//                    let note = newNoteFeedback.note
+//                    if let newNoteMedia = note.getSingleMedia() {
+//                      do something with the note if it is needed
+//                    }
                 }
             }
             if from == "POST_" + NSStringFromClass(Media) {
