@@ -36,6 +36,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
     func textFieldDidBeginEditing(textField: UITextField) {
         self.alertLabel.text = ""
         self.alertLabel.hidden = true
+        self.navigationItem.rightBarButtonItem?.enabled = true
     }
     
     @IBAction func backgroundTouch(sender: AnyObject) {
@@ -49,6 +50,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
         if countElements(usernameTextField.text) == 0 || countElements(passTextField.text) == 0
                 || countElements(emailTextField.text) == 0 || countElements(nameTextField.text) == 0 {
             showAlertLabel("You must fill all fields!")
+            self.navigationItem.rightBarButtonItem?.enabled = false
         } else {
             self.startLoading()
             var name = nameTextField.text

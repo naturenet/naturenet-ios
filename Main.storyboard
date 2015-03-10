@@ -50,7 +50,13 @@
                             <constraint firstItem="fPm-BE-VvC" firstAttribute="trailing" secondItem="eN1-5M-SHF" secondAttribute="trailing" id="qWa-jN-Ez5"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Aces Tour" id="3nh-Mx-dUX"/>
+                    <navigationItem key="navigationItem" title="Aces Tour" id="3nh-Mx-dUX">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="dO0-YA-vTy">
+                            <connections>
+                                <segue destination="gbd-Fz-wZP" kind="unwind" unwindAction="cancelToHomeViewController:" id="lOs-wL-ulB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="AcesMapView" destination="eN1-5M-SHF" id="x02-8b-f18"/>
                         <outlet property="acesMapView" destination="eN1-5M-SHF" id="33q-3x-ewM"/>
@@ -59,6 +65,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ihd-sT-MSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="gbd-Fz-wZP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-509" y="-2195"/>
         </scene>
@@ -412,11 +419,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                 <connections>
+                                    <action selector="passTextFieldDidChange:" destination="PsJ-bN-In7" eventType="editingChanged" id="pDg-6J-2hD"/>
                                     <action selector="textFieldDoneEditing:" destination="PsJ-bN-In7" eventType="editingDidEnd" id="Rav-cX-k4I"/>
                                     <outlet property="delegate" destination="PsJ-bN-In7" id="vBP-4x-7GL"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="46" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsm-N6-RWa">
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="46" placeholderIntrinsicHeight="30" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsm-N6-RWa">
                                 <rect key="frame" x="200" y="244" width="200" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Sign In">
@@ -426,18 +434,6 @@
                                     <action selector="btnSignIn" destination="PsJ-bN-In7" eventType="touchUpInside" id="GWj-AX-GNa"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L5u-1n-78D">
-                                <rect key="frame" x="200" y="135" width="200" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="rRW-zi-rrl"/>
-                                    <constraint firstAttribute="height" constant="30" id="vHj-fA-SOX"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="textFieldDoneEditing:" destination="PsJ-bN-In7" eventType="editingDidEndOnExit" id="CM3-tk-F2u"/>
-                                </connections>
-                            </textField>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5q3-Rg-Eff">
                                 <rect key="frame" x="138" y="106" width="325" height="21"/>
                                 <constraints>
@@ -453,6 +449,20 @@
                                     </mask>
                                 </variation>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L5u-1n-78D">
+                                <rect key="frame" x="200" y="135" width="200" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="rRW-zi-rrl"/>
+                                    <constraint firstAttribute="height" constant="30" id="vHj-fA-SOX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="textFieldDoneEditing:" destination="PsJ-bN-In7" eventType="editingDidEndOnExit" id="CM3-tk-F2u"/>
+                                    <action selector="usernameTextFieldDidChange:" destination="PsJ-bN-In7" eventType="editingChanged" id="rsN-M2-VMQ"/>
+                                    <outlet property="delegate" destination="PsJ-bN-In7" id="INd-TW-hAr"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -489,6 +499,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="alertLabel" destination="5q3-Rg-Eff" id="sqA-I2-aVU"/>
+                        <outlet property="signButton" destination="hsm-N6-RWa" id="9v2-xe-aoN"/>
                         <outlet property="textFieldUname" destination="L5u-1n-78D" id="dGT-qL-q1M"/>
                         <outlet property="textFieldUpass" destination="8bA-iF-ez9" id="6qF-mB-ej9"/>
                     </connections>
@@ -707,7 +718,7 @@ The researchers and other visitors will be able to look at your contributions an
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Enter Your Details" id="50l-dH-urX">
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="TyH-Fa-Egx">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Send" id="TyH-Fa-Egx">
                             <connections>
                                 <action selector="signupSendPressed:" destination="5hU-GR-cts" id="EoG-nu-mzU"/>
                             </connections>
@@ -1463,8 +1474,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fSU-fq-ZZv"/>
         <segue reference="CdL-uj-8Z8"/>
-        <segue reference="cMI-fD-Rxu"/>
+        <segue reference="fSU-fq-ZZv"/>
+        <segue reference="Bgt-hD-Bey"/>
     </inferredMetricsTieBreakers>
 </document>

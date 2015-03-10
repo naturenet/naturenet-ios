@@ -17,6 +17,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     @IBOutlet weak var textFieldUname: UITextField!
     @IBOutlet weak var textFieldUpass: UITextField!
     @IBOutlet weak var alertLabel: UILabel!
+    @IBOutlet weak var signButton: UIButton!
     
     var parseService = APIService()
 
@@ -29,11 +30,32 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         textFieldUpass.resignFirstResponder()
     }
     
+    @IBAction func usernameTextFieldDidChange(sender: UITextField) {
+        if !textFieldUname.text.isEmpty && !textFieldUpass.text.isEmpty {
+            self.signButton.enabled = true
+        }
+        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+            self.signButton.enabled = false
+            
+        }
+    }
+    
+    @IBAction func passTextFieldDidChange(sender: UITextField) {
+        if !textFieldUname.text.isEmpty && !textFieldUpass.text.isEmpty {
+            self.signButton.enabled = true
+        }
+        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+            self.signButton.enabled = false
+            
+        }
+    }
+    
     @IBAction func btnSignIn() {
         textFieldUname.resignFirstResponder()
         textFieldUpass.resignFirstResponder()
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
-            showFailMessage("username or password cannot be empty")
+            self.signButton.enabled = false
+            self.showFailMessage("username or password cannot be empty")
             return
         }
         parseService.delegate = self
@@ -45,9 +67,18 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         super.viewDidLoad()
     }
     
+    func textFieldDidEndEditing(textField: UITextField) {
+        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+            self.signButton.enabled = false
+        }
+    }
 
     func textFieldDidBeginEditing(textField: UITextField) {
         self.alertLabel.hidden = true
+        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+            self.signButton.enabled = false
+
+        }
     }
     
     // password textfield delegate, examine length not exceed 4

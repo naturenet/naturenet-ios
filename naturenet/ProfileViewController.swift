@@ -62,13 +62,13 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
         var title = "Before you sign out, do you have any suggestions to make NatureNet better?"
         var alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-        var singoutAction = UIAlertAction(title: "No (sign me out)", style: UIAlertActionStyle.Destructive) {
+        var singoutAction = UIAlertAction(title: "Sign me out", style: UIAlertActionStyle.Destructive) {
             UIAlertAction in
             Session.signOut()
             self.navigationController?.popToRootViewControllerAnimated(true)
         }
         
-        var yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+        var yesAction = UIAlertAction(title: "Leave a design idea", style: UIAlertActionStyle.Default) {
             UIAlertAction in
             self.performSegueWithIdentifier("profileToDesignIdea", sender: self)
 
