@@ -51,10 +51,10 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     
     // when typing, change rightBarButtonItem style to be Done(bold)
     func textViewDidChange(textView: UITextView!) {
+        self.navigationItem.rightBarButtonItem?.enabled = true
         self.navigationItem.rightBarButtonItem?.style = .Done
-//        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGrayColor()
         if countElements(self.ideaTextView.text) == 0 {
-            self.navigationItem.rightBarButtonItem?.style = .Plain
+            self.navigationItem.rightBarButtonItem?.enabled = false
         }
     }
     
@@ -65,6 +65,7 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     
     @IBAction func ideaSendPressed(sender: UIBarButtonItem) {
         if countElements(self.ideaTextView.text) == 0 {
+            // here should never be called
             self.createWarningAlert()
         } else {
             self.idea = saveIdea()
@@ -73,7 +74,7 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     }
     
     func createAlert() {
-        var alert = UIAlertController(title: "Thanks", message: "Your idea has been sent, thanks!", preferredStyle: UIAlertControllerStyle.Alert)
+        var alert = UIAlertController(title: "Your idea has been sent, thanks!", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: {
             action in
             if action.style == .Default{

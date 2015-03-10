@@ -1095,7 +1095,7 @@ The researchers and other visitors will be able to look at your contributions an
                                 <action selector="backpressed" destination="2z6-fJ-NyL" id="BQQ-ZA-sEP"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="x3R-IQ-mkl">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Send" id="x3R-IQ-mkl">
                             <connections>
                                 <action selector="ideaSendPressed:" destination="2z6-fJ-NyL" id="K4G-eZ-cQa"/>
                             </connections>
