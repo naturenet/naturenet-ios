@@ -9,13 +9,15 @@
 import UIKit
 import CoreData
 
-class SignInViewController: UIViewController, APIControllerProtocol {
+class SignInViewController: UIViewController, APIControllerProtocol, UITextFieldDelegate {
     var signInIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var site: Site?
     var account: Account?
 
     @IBOutlet weak var textFieldUname: UITextField!
     @IBOutlet weak var textFieldUpass: UITextField!
+    @IBOutlet weak var alertLabel: UILabel!
+    
     var parseService = APIService()
 
     @IBAction func textFieldDoneEditing(sender: UITextField) {
@@ -31,7 +33,7 @@ class SignInViewController: UIViewController, APIControllerProtocol {
         textFieldUname.resignFirstResponder()
         textFieldUpass.resignFirstResponder()
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
-            createAlert("username or password cannot be empty")
+            showFailMessage("username or password cannot be empty")
             return
         }
         parseService.delegate = self
@@ -41,6 +43,11 @@ class SignInViewController: UIViewController, APIControllerProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+
+    func textFieldDidBeginEditing(textField: UITextField) {
+        self.alertLabel.hidden = true
     }
     
     // password textfield delegate, examine length not exceed 4
@@ -58,14 +65,15 @@ class SignInViewController: UIViewController, APIControllerProtocol {
         }
         return result
     }
+ 
     
     // after getting data from server
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {
-                var errorMessage = "user doesn't exisit"
-                self.createAlert(errorMessage)
+                var errorMessage = "We didn't recognize your NatureNet Name or Password"
+                self.showFailMessage(errorMessage)
                 self.pauseIndicator()
                 return
             }
@@ -73,7 +81,8 @@ class SignInViewController: UIViewController, APIControllerProtocol {
             // 600 is self defined error code on the phone's side
             if (status == 600) {
                 var errorMessage = "Internet seems not working"
-                self.createAlert(errorMessage)
+                // self.createAlert(errorMessage)
+                self.showFailMessage(errorMessage)
                 self.pauseIndicator()
                 return
             }
@@ -111,7 +120,7 @@ class SignInViewController: UIViewController, APIControllerProtocol {
         
         if pass != self.textFieldUpass.text {
             var errorMessage = "Password is Wrong"
-            self.createAlert(errorMessage)
+            self.showFailMessage(errorMessage)
             self.pauseIndicator()
             return
         }
@@ -198,6 +207,12 @@ class SignInViewController: UIViewController, APIControllerProtocol {
     func pauseIndicator() {
         signInIndicator.stopAnimating()
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
+    }
+    
+    // show sign in failed message
+    func showFailMessage(message: String) {
+        self.alertLabel.text = message
+        self.alertLabel.hidden = false
     }
     
     // create an alert

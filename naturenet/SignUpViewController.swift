@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, APIControllerProtocol {
+class SignUpViewController: UIViewController, APIControllerProtocol, UITextFieldDelegate {
     var consentString: String!
     var apiService = APIService()
     var signInAccount: Account?
@@ -18,6 +18,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var alertLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,12 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
         // Dispose of any resources that can be recreated.
     }
     
+    // when any textField rececives input, dismiss alertMessage
+    func textFieldDidBeginEditing(textField: UITextField) {
+        self.alertLabel.text = ""
+        self.alertLabel.hidden = true
+    }
+    
     @IBAction func backgroundTouch(sender: AnyObject) {
         usernameTextField.resignFirstResponder()
         passTextField.resignFirstResponder()
@@ -41,7 +48,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
     @IBAction func signupSendPressed(sender: UIBarButtonItem) {
         if countElements(usernameTextField.text) == 0 || countElements(passTextField.text) == 0
                 || countElements(emailTextField.text) == 0 || countElements(nameTextField.text) == 0 {
-            createWarningAlert("You must fill all fields!")
+            showAlertLabel("You must fill all fields!")
         } else {
             self.startLoading()
             var name = nameTextField.text
@@ -62,10 +69,9 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
             var status = response["status_code"] as Int
             if (status == 400) {
                 println("got result status 400")
-
-                var errorMessage = "User Doesn't Exisit"
                 var statusText = response["status_txt"] as String
-                self.createWarningAlert(statusText)
+                self.stopLoading()
+                self.showAlertLabel(statusText)
             }
             
             if status == 200 {
@@ -108,9 +114,14 @@ class SignUpViewController: UIViewController, APIControllerProtocol {
         return result
     }
 
+    func showAlertLabel(message: String) {
+        self.alertLabel.text = message
+        self.alertLabel.hidden = false
+    }
+    
     func createWarningAlert(message: String) {
-        var alert = UIAlertController(title: "Opps", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        var alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 

@@ -84,8 +84,8 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     }
     
     func createWarningAlert() {
-        var alert = UIAlertController(title: "Opps", message: "You did not input any idea!", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        var alert = UIAlertController(title: "Oops", message: "You did not input any idea!", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
