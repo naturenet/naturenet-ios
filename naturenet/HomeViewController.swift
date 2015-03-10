@@ -75,6 +75,10 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     
     // implement UICollectionViewDelegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 5 {
+            self.performSegueWithIdentifier("homeToAboutSeg", sender: self)
+        }
+        
         if Session.isSignedIn() {
             switch indexPath.row {
             case 0 :
@@ -87,8 +91,6 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
                 self.performSegueWithIdentifier("homeToTour", sender: self)
             case 4 :
                 self.performSegueWithIdentifier("profileSeg", sender: self)
-            case 5 :
-                self.performSegueWithIdentifier("homeToAboutSeg", sender: self)
             default:
                 return
             }
