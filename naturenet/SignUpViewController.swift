@@ -66,11 +66,11 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
     
     // implement this method for APIControllerProtocol delegate
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
-        println("got result from sign up")
+        // println("got result from sign up")
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as Int
             if (status == 400) {
-                println("got result status 400")
+                // println("got result status 400")
                 var statusText = response["status_txt"] as String
                 self.stopLoading()
                 self.showAlertLabel(statusText)
