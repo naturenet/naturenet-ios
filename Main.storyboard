@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -173,6 +173,7 @@
                                 <connections>
                                     <action selector="signButtonTouchCancel:" destination="vXZ-lx-hvc" eventType="touchCancel" id="f73-DC-SAJ"/>
                                     <action selector="signButtonTouchDown:" destination="vXZ-lx-hvc" eventType="touchDown" id="Jwy-0O-BMR"/>
+                                    <action selector="signButtonTouchUp:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="KSp-6a-dGG"/>
                                     <segue destination="PsJ-bN-In7" kind="show" identifier="signInSeg" id="YFj-T4-jUG"/>
                                 </connections>
                             </button>
@@ -414,11 +415,6 @@
                                 <rect key="frame" x="200" y="190" width="200" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
-                                <connections>
-                                    <action selector="passTextFieldDidChange:" destination="PsJ-bN-In7" eventType="editingChanged" id="pDg-6J-2hD"/>
-                                    <action selector="textFieldDoneEditing:" destination="PsJ-bN-In7" eventType="editingDidEnd" id="Rav-cX-k4I"/>
-                                    <outlet property="delegate" destination="PsJ-bN-In7" id="vBP-4x-7GL"/>
-                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="46" placeholderIntrinsicHeight="30" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsm-N6-RWa">
                                 <rect key="frame" x="200" y="244" width="200" height="30"/>
@@ -431,7 +427,7 @@
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5q3-Rg-Eff">
-                                <rect key="frame" x="138" y="106" width="325" height="21"/>
+                                <rect key="frame" x="138" y="107" width="325" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="325" id="97g-rJ-66u"/>
                                     <constraint firstAttribute="height" constant="21" id="qhS-uq-yZL"/>
@@ -453,25 +449,41 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                <connections>
-                                    <action selector="textFieldDoneEditing:" destination="PsJ-bN-In7" eventType="editingDidEndOnExit" id="CM3-tk-F2u"/>
-                                    <action selector="usernameTextFieldDidChange:" destination="PsJ-bN-In7" eventType="editingChanged" id="rsN-M2-VMQ"/>
-                                    <outlet property="delegate" destination="PsJ-bN-In7" id="INd-TW-hAr"/>
-                                </connections>
                             </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="47" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="ldc-M5-2uB">
+                                <rect key="frame" x="20" y="282" width="560" height="300"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loginFormCell" id="FxB-TR-ba6">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FxB-TR-ba6" id="jLd-Gm-Gbw">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="PsJ-bN-In7" id="fz0-ZQ-4eN"/>
+                                    <outlet property="delegate" destination="PsJ-bN-In7" id="la8-LV-xyE"/>
+                                </connections>
+                            </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="8bA-iF-ez9" firstAttribute="leading" secondItem="L5u-1n-78D" secondAttribute="leading" id="20y-Rg-JeB"/>
                             <constraint firstItem="hsm-N6-RWa" firstAttribute="centerX" secondItem="8bA-iF-ez9" secondAttribute="centerX" id="5Rg-b6-R6P"/>
+                            <constraint firstItem="ldc-M5-2uB" firstAttribute="leading" secondItem="zg6-kY-uzE" secondAttribute="leading" constant="20" id="ALH-7q-nVa"/>
                             <constraint firstItem="hsm-N6-RWa" firstAttribute="trailing" secondItem="8bA-iF-ez9" secondAttribute="trailing" id="EFW-4c-7BS"/>
                             <constraint firstItem="8bA-iF-ez9" firstAttribute="top" secondItem="L5u-1n-78D" secondAttribute="bottom" constant="25" id="F7b-gN-Dqg"/>
                             <constraint firstItem="8bA-iF-ez9" firstAttribute="trailing" secondItem="L5u-1n-78D" secondAttribute="trailing" id="GbC-X9-LVz"/>
                             <constraint firstItem="5q3-Rg-Eff" firstAttribute="centerX" secondItem="hsm-N6-RWa" secondAttribute="centerX" id="KZN-CK-Wgb"/>
                             <constraint firstAttribute="centerX" secondItem="L5u-1n-78D" secondAttribute="centerX" id="LS5-Ig-vp8"/>
+                            <constraint firstItem="bZL-O3-J9F" firstAttribute="top" secondItem="ldc-M5-2uB" secondAttribute="bottom" constant="18" id="LoH-ro-bxO"/>
                             <constraint firstItem="5q3-Rg-Eff" firstAttribute="trailing" secondItem="zg6-kY-uzE" secondAttribute="trailingMargin" id="NzF-G7-Kof"/>
+                            <constraint firstItem="ldc-M5-2uB" firstAttribute="centerX" secondItem="hsm-N6-RWa" secondAttribute="centerX" id="Urg-Vv-kAa"/>
                             <constraint firstAttribute="centerY" secondItem="L5u-1n-78D" secondAttribute="centerY" multiplier="2" id="bhR-0k-6ze"/>
                             <constraint firstItem="L5u-1n-78D" firstAttribute="width" secondItem="8bA-iF-ez9" secondAttribute="width" id="cXN-5h-yFq"/>
+                            <constraint firstItem="ldc-M5-2uB" firstAttribute="top" secondItem="hsm-N6-RWa" secondAttribute="bottom" constant="8" symbolic="YES" id="dzu-Of-DGS"/>
                             <constraint firstItem="5q3-Rg-Eff" firstAttribute="leading" secondItem="zg6-kY-uzE" secondAttribute="leadingMargin" id="fXA-dp-CV0"/>
                             <constraint firstItem="hsm-N6-RWa" firstAttribute="top" secondItem="8bA-iF-ez9" secondAttribute="bottom" constant="24" id="fyj-V4-WHx"/>
                             <constraint firstItem="L5u-1n-78D" firstAttribute="top" secondItem="5q3-Rg-Eff" secondAttribute="bottom" constant="8" id="kLk-Y5-EXo"/>
@@ -496,8 +508,7 @@
                     <connections>
                         <outlet property="alertLabel" destination="5q3-Rg-Eff" id="sqA-I2-aVU"/>
                         <outlet property="signButton" destination="hsm-N6-RWa" id="9v2-xe-aoN"/>
-                        <outlet property="textFieldUname" destination="L5u-1n-78D" id="dGT-qL-q1M"/>
-                        <outlet property="textFieldUpass" destination="8bA-iF-ez9" id="6qF-mB-ej9"/>
+                        <outlet property="signFormTableView" destination="ldc-M5-2uB" id="U4A-M4-oY4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Y1-Gq-va3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1474,8 +1485,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CdL-uj-8Z8"/>
-        <segue reference="fSU-fq-ZZv"/>
-        <segue reference="WtA-7r-5HU"/>
+        <segue reference="9ac-AY-f52"/>
+        <segue reference="PbE-tg-8FU"/>
+        <segue reference="cMI-fD-Rxu"/>
     </inferredMetricsTieBreakers>
 </document>

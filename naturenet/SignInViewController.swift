@@ -9,18 +9,25 @@
 import UIKit
 import CoreData
 
-class SignInViewController: UIViewController, APIControllerProtocol, UITextFieldDelegate {
+class SignInViewController: UIViewController, APIControllerProtocol, UITextFieldDelegate, UITableViewDelegate {
     var signInIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var site: Site?
     var account: Account?
+    
+    let signFormLabels = ["Username", "Password"]
+    let signFromPlaceholder = ["Enter username", "Enter password"]
 
     @IBOutlet weak var textFieldUname: UITextField!
     @IBOutlet weak var textFieldUpass: UITextField!
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var signButton: UIButton!
+    @IBOutlet weak var signFormTableView: UITableView!
     
     var parseService = APIService()
 
+    //----------------------------------------------------------------------------------------------------------------------
+    // IBActions with textfields
+    //----------------------------------------------------------------------------------------------------------------------
     @IBAction func textFieldDoneEditing(sender: UITextField) {
         sender.resignFirstResponder()
     }
@@ -96,7 +103,67 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         }
         return result
     }
- 
+
+    //----------------------------------------------------------------------------------------------------------------------
+    // TableView for sign in form
+    //----------------------------------------------------------------------------------------------------------------------
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // #warning Potentially incomplete method implementation.
+        // Return the number of sections.
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellNib = UINib(nibName: "LogInTableViewCell", bundle: NSBundle.mainBundle())
+        tableView.registerNib(cellNib, forCellReuseIdentifier: "inputFormCell")
+        let cell = tableView.dequeueReusableCellWithIdentifier("inputFormCell", forIndexPath: indexPath) as LogInTableViewCell
+        cell.formItemLabel.text = signFormLabels[indexPath.row]
+        cell.formInputTextField.placeholder = signFromPlaceholder[indexPath.row]
+        cell.formInputTextField.addTarget(self, action: "inputFieldTest:", forControlEvents: UIControlEvents.EditingChanged)
+        if indexPath.row == 0 {
+            self.textFieldUname = cell.formInputTextField
+            self.textFieldUname.addTarget(self, action: "usernameTextFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+        } else {
+            self.textFieldUpass = cell.formInputTextField
+            self.textFieldUpass.addTarget(self, action: "passTextFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
+            self.textFieldUpass.delegate = self
+            self.textFieldUpass.keyboardType = UIKeyboardType.NumberPad
+        }
+        
+
+//        var loginCell = tableView.dequeueReusableCellWithIdentifier("loginFormCell") as UITableViewCell
+//        loginCell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "loginFormCell")
+//        loginCell.accessoryType = UITableViewCellAccessoryType.None
+//        var inputTextField = UITextField(frame: CGRect(x: 110.0, y: 10, width: 185.0, height: 30.0))
+//        loginCell.contentView.addSubview(inputTextField)
+        
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.layoutMargins = UIEdgeInsetsZero
+        cell.separatorInset = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        println("you selected \(indexPath.row)")
+    }
+    
+    func inputFieldTest(sender: UITextField) {
+        var nsIndexPath = NSIndexPath(forRow: 1, inSection: 0)
+        let cell = signFormTableView.dequeueReusableCellWithIdentifier("inputFormCell", forIndexPath: nsIndexPath) as LogInTableViewCell
+
+        sender.superview
+        println("Test + \(cell.formInputTextField.text)")
+        
+    }
+    
     
     // after getting data from server
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {

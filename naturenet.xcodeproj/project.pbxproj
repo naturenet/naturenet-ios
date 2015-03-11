@@ -29,6 +29,8 @@
 		FC5BA3891A7859400069D59F /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3881A7859400069D59F /* Media.swift */; };
 		FC5BA38B1A78BACF0069D59F /* ObservationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */; };
 		FC5C318C1A8CFFA400A59B89 /* ActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */; };
+		FC5EBE431AB0072D006B02B7 /* LogInTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EBE411AB0072D006B02B7 /* LogInTableViewCell.swift */; };
+		FC5EBE441AB0072D006B02B7 /* LogInTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC5EBE421AB0072D006B02B7 /* LogInTableViewCell.xib */; };
 		FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */; };
 		FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */; };
 		FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */; };
@@ -89,6 +91,8 @@
 		FC5BA3881A7859400069D59F /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		FC5BA38A1A78BACF0069D59F /* ObservationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationsController.swift; sourceTree = "<group>"; };
 		FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitiesTableViewController.swift; sourceTree = "<group>"; };
+		FC5EBE411AB0072D006B02B7 /* LogInTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInTableViewCell.swift; sourceTree = "<group>"; };
+		FC5EBE421AB0072D006B02B7 /* LogInTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInTableViewCell.xib; sourceTree = "<group>"; };
 		FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationDetailController.swift; sourceTree = "<group>"; };
 		FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditObsTableViewCell.swift; sourceTree = "<group>"; };
 		FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDescriptionViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +266,8 @@
 				FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */,
 				FC67C1551AA16EBE0012B903 /* ConsentTableViewCell.swift */,
 				FC67C1561AA16EBE0012B903 /* ConsentTableViewCell.xib */,
+				FC5EBE411AB0072D006B02B7 /* LogInTableViewCell.swift */,
+				FC5EBE421AB0072D006B02B7 /* LogInTableViewCell.xib */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -365,6 +371,7 @@
 				FC1134BB1A642FDC00D548E8 /* Images.xcassets in Resources */,
 				FC1134A31A642DD600D548E8 /* LaunchScreen.xib in Resources */,
 				FC67C1581AA16EBE0012B903 /* ConsentTableViewCell.xib in Resources */,
+				FC5EBE441AB0072D006B02B7 /* LogInTableViewCell.xib in Resources */,
 				FC1134B91A642FAE00D548E8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,6 +411,7 @@
 				FC6F24D51A94571C00FEF9FE /* DesignIdeaViewController.swift in Sources */,
 				FCA005491A832B010066686D /* Feedback.swift in Sources */,
 				FCB9DD741A91763C00D1781D /* ActivityDetailViewController.swift in Sources */,
+				FC5EBE431AB0072D006B02B7 /* LogInTableViewCell.swift in Sources */,
 				FC1134BD1A64308D00D548E8 /* SignInViewController.swift in Sources */,
 				FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */,
 				FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */,

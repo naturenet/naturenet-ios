@@ -48,6 +48,10 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
         signinBtn.alpha = 0.6
     }
     
+    @IBAction func signButtonTouchUp(sender: UIButton) {
+        signinBtn.alpha = 0.6
+    }
+    
     //----------------------------------------------------------------------------------------------------------------------
     // collectionView
     //----------------------------------------------------------------------------------------------------------------------
