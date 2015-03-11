@@ -107,7 +107,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     
     // create an alert
     func createAlert(message: String) {
-        var alert = UIAlertController(title: "Sign In", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        var alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         }))

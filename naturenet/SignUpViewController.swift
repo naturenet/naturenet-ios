@@ -32,11 +32,27 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func usernameTextFieldDidChange(sender: UITextField) {
+        toggleEnableForSendButton()
+    }
+    
+    @IBAction func passTextFieldDidChange(sender: UITextField) {
+        toggleEnableForSendButton()
+    }
+    
+    @IBAction func nameTextFieldDidChange(sender: UITextField) {
+        toggleEnableForSendButton()
+    }
+    
+    @IBAction func emailTextFieldDidChange(sender: UITextField) {
+        toggleEnableForSendButton()
+    }
+    
     // when any textField rececives input, dismiss alertMessage
     func textFieldDidBeginEditing(textField: UITextField) {
         self.alertLabel.text = ""
         self.alertLabel.hidden = true
-        self.navigationItem.rightBarButtonItem?.enabled = true
+//        self.navigationItem.rightBarButtonItem?.enabled = true
     }
     
     @IBAction func backgroundTouch(sender: AnyObject) {
@@ -59,9 +75,24 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
             var email = emailTextField.text
             var url = APIAdapter.api.getCreateAccountLink(username)
             var params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
-//            self.signInAccount = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: SwiftCoreDataHelper.nsManagedObjectContext) as Account
             apiService.post(NSStringFromClass(Account), sourceData: self.signInAccount?, params: params, url: url)
         }
+    }
+    
+    // password textfield delegate, examine length not exceed 4
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        var result = true
+        let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        
+        if textField == passTextField {
+            if countElements(string) > 0 {
+                let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
+                let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
+                let resultingStringLengthIsLegal = countElements(prospectiveText) <= 4
+                result = replacementStringIsLegal && resultingStringLengthIsLegal
+            }
+        }
+        return result
     }
     
     // implement this method for APIControllerProtocol delegate
@@ -100,22 +131,25 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
 
     }
     
-    // password textfield delegate, examine length not exceed 4
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        var result = true
-        let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        
-        if textField == passTextField {
-            if countElements(string) > 0 {
-                let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
-                let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
-                let resultingStringLengthIsLegal = countElements(prospectiveText) <= 4
-                result = replacementStringIsLegal && resultingStringLengthIsLegal
-            }
+    // check all the textfields have been filled
+    func checkInputFieldsValid() -> Bool {
+        var isValid = false
+        if !usernameTextField.text.isEmpty && !passTextField.text.isEmpty
+            && !nameTextField.text.isEmpty && !emailTextField.text.isEmpty {
+            isValid = true
         }
-        return result
+        
+        return isValid
     }
 
+    func toggleEnableForSendButton() {
+        if checkInputFieldsValid() {
+            navigationItem.rightBarButtonItem?.enabled = true
+        } else {
+            navigationItem.rightBarButtonItem?.enabled = false
+        }
+    }
+    
     func showAlertLabel(message: String) {
         self.alertLabel.text = message
         self.alertLabel.hidden = false

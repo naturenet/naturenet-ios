@@ -135,13 +135,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Gn6-Ej-509"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Title" id="UHd-t4-tQR">
-                        <barButtonItem key="leftBarButtonItem" image="back" id="Zbf-08-3ac">
-                            <connections>
-                                <action selector="backpressed" destination="KIt-YQ-zZN" id="vwA-2B-Nlx"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Title" id="UHd-t4-tQR"/>
                     <connections>
                         <outlet property="descriptionTextView" destination="jIM-Ow-215" id="pBf-OX-n82"/>
                         <outlet property="navItem" destination="UHd-t4-tQR" id="nkN-WB-4bB"/>
@@ -292,7 +286,7 @@
                         <sections>
                             <tableViewSection headerTitle="" id="yfi-bI-937">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profileWelcomeCell" textLabel="SGH-LC-e9f" style="IBUITableViewCellStyleDefault" id="BVK-dn-TfS">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="profileWelcomeCell" textLabel="SGH-LC-e9f" style="IBUITableViewCellStyleDefault" id="BVK-dn-TfS">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BVK-dn-TfS" id="Mls-Gq-Qyf">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -609,6 +603,7 @@ The researchers and other visitors will be able to look at your contributions an
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                 <connections>
+                                    <action selector="passTextFieldDidChange:" destination="5hU-GR-cts" eventType="editingChanged" id="hY5-SA-mh4"/>
                                     <outlet property="delegate" destination="5hU-GR-cts" id="ktL-C8-V6W"/>
                                 </connections>
                             </textField>
@@ -617,6 +612,7 @@ The researchers and other visitors will be able to look at your contributions an
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
+                                    <action selector="nameTextFieldDidChange:" destination="5hU-GR-cts" eventType="editingChanged" id="nIv-5i-U3r"/>
                                     <outlet property="delegate" destination="5hU-GR-cts" id="9Gn-rL-ii8"/>
                                 </connections>
                             </textField>
@@ -625,6 +621,7 @@ The researchers and other visitors will be able to look at your contributions an
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                 <connections>
+                                    <action selector="emailTextFieldDidChange:" destination="5hU-GR-cts" eventType="editingChanged" id="mnC-ed-ghK"/>
                                     <outlet property="delegate" destination="5hU-GR-cts" id="JT3-sl-ChJ"/>
                                 </connections>
                             </textField>
@@ -657,6 +654,7 @@ The researchers and other visitors will be able to look at your contributions an
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
+                                    <action selector="usernameTextFieldDidChange:" destination="5hU-GR-cts" eventType="editingChanged" id="zco-3z-RiS"/>
                                     <outlet property="delegate" destination="5hU-GR-cts" id="GWu-tW-JcW"/>
                                 </connections>
                             </textField>
@@ -1476,6 +1474,6 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
     <inferredMetricsTieBreakers>
         <segue reference="CdL-uj-8Z8"/>
         <segue reference="fSU-fq-ZZv"/>
-        <segue reference="Bgt-hD-Bey"/>
+        <segue reference="WtA-7r-5HU"/>
     </inferredMetricsTieBreakers>
 </document>
