@@ -40,6 +40,13 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func signButtonTouchDown(sender: UIButton) {
+        signinBtn.alpha = 1.0
+    }
+    
+    @IBAction func signButtonTouchCancel(sender: UIButton) {
+        signinBtn.alpha = 0.6
+    }
     
     //----------------------------------------------------------------------------------------------------------------------
     // collectionView

@@ -159,9 +159,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ9-fO-ba7">
+                            <button opaque="NO" alpha="0.59999999999999964" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ9-fO-ba7">
                                 <rect key="frame" x="240" y="556" width="120" height="34"/>
-                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.038127622435359595" green="0.74932922979797978" blue="0.10219779091257809" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="0Hp-2W-6mm"/>
                                 </constraints>
@@ -171,6 +171,8 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="signButtonTouchCancel:" destination="vXZ-lx-hvc" eventType="touchCancel" id="f73-DC-SAJ"/>
+                                    <action selector="signButtonTouchDown:" destination="vXZ-lx-hvc" eventType="touchDown" id="Jwy-0O-BMR"/>
                                     <segue destination="PsJ-bN-In7" kind="show" identifier="signInSeg" id="YFj-T4-jUG"/>
                                 </connections>
                             </button>
