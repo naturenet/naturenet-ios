@@ -15,38 +15,35 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ddV-5l-Fzn">
-                        <rect key="frame" x="116" y="7" width="322" height="30"/>
+                        <rect key="frame" x="40" y="13" width="398" height="19"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcj-0D-BG2">
-                        <rect key="frame" x="8" y="12" width="100" height="20"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qef-Ev-2gX">
+                        <rect key="frame" x="8" y="10" width="24" height="24"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="100" id="jyh-qn-Age"/>
+                            <constraint firstAttribute="height" constant="24" id="Wjg-mC-RlU"/>
+                            <constraint firstAttribute="width" constant="24" id="r6V-Kh-FBb"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottomMargin" secondItem="ddV-5l-Fzn" secondAttribute="bottom" constant="-1.5" id="3br-I3-ELQ"/>
-                    <constraint firstItem="ddV-5l-Fzn" firstAttribute="leading" secondItem="Gcj-0D-BG2" secondAttribute="trailing" constant="8" symbolic="YES" id="N05-3y-jNk"/>
-                    <constraint firstItem="Gcj-0D-BG2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="S8O-8c-CiC"/>
-                    <constraint firstItem="Gcj-0D-BG2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Wh2-fI-221"/>
-                    <constraint firstItem="Gcj-0D-BG2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="ZNm-9H-Na8"/>
-                    <constraint firstItem="ddV-5l-Fzn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-1" id="h9Y-sE-Ll1"/>
-                    <constraint firstItem="ddV-5l-Fzn" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="vz7-Jw-Oxs"/>
+                    <constraint firstItem="ddV-5l-Fzn" firstAttribute="leading" secondItem="Qef-Ev-2gX" secondAttribute="trailing" constant="8" symbolic="YES" id="09g-wg-YDr"/>
+                    <constraint firstItem="Qef-Ev-2gX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="FAC-SL-Sc7"/>
+                    <constraint firstItem="ddV-5l-Fzn" firstAttribute="centerY" secondItem="Qef-Ev-2gX" secondAttribute="centerY" id="L5r-cd-QYK"/>
+                    <constraint firstAttribute="centerY" secondItem="Qef-Ev-2gX" secondAttribute="centerY" id="NDV-Fh-E5E"/>
+                    <constraint firstItem="ddV-5l-Fzn" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="yFG-ET-6Fa"/>
+                    <constraint firstItem="ddV-5l-Fzn" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="yd7-3U-ZJd"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
-                        <exclude reference="ZNm-9H-Na8"/>
+                        <exclude reference="yFG-ET-6Fa"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="formInputTextField" destination="ddV-5l-Fzn" id="xug-Ji-mU3"/>
-                <outlet property="formItemLabel" destination="Gcj-0D-BG2" id="iQo-fX-GkZ"/>
+                <outlet property="formItemImage" destination="Qef-Ev-2gX" id="t6x-NK-BzK"/>
             </connections>
             <point key="canvasLocation" x="418" y="377"/>
         </tableViewCell>

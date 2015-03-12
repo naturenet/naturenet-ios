@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class HomeViewController : UIViewController, UICollectionViewDataSource,
-                        UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
+                        UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, saveInputStateProtocol  {
 
     @IBOutlet weak var homeCollectionView: UICollectionView!
     @IBOutlet weak var welcomeLabel: UILabel!
@@ -18,6 +18,8 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
         
     var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
     var images = ["camera", "activity", "bulb", "map", "profile", "about"]
+    
+    var designIdeaInput: String?
     
     override func viewWillAppear(animated: Bool) {
         if Session.isSignedIn() {
@@ -88,6 +90,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 5 {
             self.performSegueWithIdentifier("homeToAboutSeg", sender: self)
+            return
         }
         
         if Session.isSignedIn() {
@@ -109,6 +112,21 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
             createAlert("Please Sign In First")
         }
 
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "designIdeaSeg" {
+            let destinationVC = segue.destinationViewController as DesignIdeaViewController
+            destinationVC.delegate = self
+            if self.designIdeaInput != nil {
+                destinationVC.designIdeaSavedInput = self.designIdeaInput
+            }
+        }
+    }
+
+    // implement saveInputStateProtocol
+    func saveInputState(input: String?) {
+        self.designIdeaInput = input
     }
     
     // IBActions for receiced data passed back

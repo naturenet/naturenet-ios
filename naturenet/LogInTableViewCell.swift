@@ -10,8 +10,8 @@ import UIKit
 
 class LogInTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var formItemLabel: UILabel!
     @IBOutlet weak var formInputTextField: UITextField!
+    @IBOutlet weak var formItemImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

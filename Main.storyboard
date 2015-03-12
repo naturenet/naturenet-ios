@@ -269,8 +269,8 @@
                         <segue destination="NmB-xi-hHy" kind="presentation" identifier="activitiesSeg" id="cPW-ju-p46"/>
                         <segue destination="s5c-IR-cv4" kind="show" identifier="profileSeg" id="bA5-c6-l5A"/>
                         <segue destination="2z6-fJ-NyL" kind="show" identifier="designIdeaSeg" id="9ac-AY-f52"/>
-                        <segue destination="RdE-3V-cc7" kind="presentation" identifier="homeToAboutSeg" id="T1J-Xq-Cxa"/>
                         <segue destination="ekY-aI-Kns" kind="show" identifier="homeToTour" id="d48-h3-pwP"/>
+                        <segue destination="d12-Pt-zwy" kind="show" identifier="homeToAboutSeg" id="8lE-IS-s0L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -1166,7 +1166,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vBo-3H-aPe" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="aAk-zD-24c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="445" y="1459"/>
+            <point key="canvasLocation" x="-943" y="120"/>
         </scene>
         <!--Activities-->
         <scene sceneID="G3m-07-AEJ">
@@ -1434,24 +1434,6 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 <exit id="y7E-o5-Zmi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3696" y="-1559"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="zZr-tW-N6p">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RdE-3V-cc7" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CBQ-4a-orp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="d12-Pt-zwy" kind="relationship" relationship="rootViewController" id="kWa-QF-tyP"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pCt-Sk-0eO" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-85" y="684"/>
         </scene>
     </scenes>
     <resources>

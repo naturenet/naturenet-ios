@@ -8,12 +8,18 @@
 
 import UIKit
 
+protocol saveInputStateProtocol {
+   func saveInputState(input: String?)
+}
+
 class DesignIdeaViewController: UIViewController, APIControllerProtocol {
 
     @IBOutlet weak var ideaTextView: UITextView!
     
     var apiService = APIService()
     var idea: Note?
+    var designIdeaSavedInput: String?
+    var delegate: saveInputStateProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,17 +41,18 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
                 println("now after post_designIdea. Done!")
                 var modifiedAt = response["data"]!["modified_at"] as NSNumber
                 self.idea!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                self.designIdeaSavedInput = nil
             }
             self.createAlert()
         })
     }
-    
     
     @IBAction func backgroundTap(sender: UIControl) {
         ideaTextView.resignFirstResponder()
     }
     
     @IBAction func backpressed() {
+        self.delegate?.saveInputState(designIdeaSavedInput)
         self.navigationController?.popViewControllerAnimated(true)
     }
     
@@ -56,6 +63,7 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
         if countElements(self.ideaTextView.text) == 0 {
             self.navigationItem.rightBarButtonItem?.enabled = false
         }
+        self.designIdeaSavedInput = textView.text
     }
     
     // touch starts, dismiss keyboard
@@ -120,6 +128,10 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
         ideaTextView.layer.cornerRadius = 5
         ideaTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
         ideaTextView.layer.borderWidth = 1
+        if designIdeaSavedInput != nil {
+            ideaTextView.text = designIdeaSavedInput
+            self.navigationItem.rightBarButtonItem?.enabled = true
+        }
     }
 
 }

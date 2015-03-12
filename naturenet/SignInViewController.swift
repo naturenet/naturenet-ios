@@ -15,10 +15,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     var account: Account?
     
     let signFormLabels = ["Username", "Password"]
+    let signFormImageNames = ["user", "padlock"]
     let signFromPlaceholder = ["Enter username", "Enter password"]
 
-    @IBOutlet weak var textFieldUname: UITextField!
-    @IBOutlet weak var textFieldUpass: UITextField!
+    var textFieldUname: UITextField!
+    var textFieldUpass: UITextField!
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var signButton: UIButton!
     @IBOutlet weak var signFormTableView: UITableView!
@@ -26,15 +27,17 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     var parseService = APIService()
 
     //----------------------------------------------------------------------------------------------------------------------
-    // IBActions with textfields
+    // IBActions/Functions with textfields
     //----------------------------------------------------------------------------------------------------------------------
     @IBAction func textFieldDoneEditing(sender: UITextField) {
         sender.resignFirstResponder()
     }
     
     @IBAction func backgroundTap(sender: UIControl) {
-        textFieldUname.resignFirstResponder()
-        textFieldUpass.resignFirstResponder()
+        if textFieldUpass != nil && textFieldUname != nil {
+            textFieldUname.resignFirstResponder()
+            textFieldUpass.resignFirstResponder()
+        }
     }
     
     @IBAction func usernameTextFieldDidChange(sender: UITextField) {
@@ -44,7 +47,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         }
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
-            self.signButton.alpha = 0.6
+            self.signButton.alpha = 0.7
             
         }
     }
@@ -56,7 +59,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         }
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
-            self.signButton.alpha = 0.6
+            self.signButton.alpha = 0.7
         }
     }
     
@@ -66,7 +69,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         // should never be called
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
-            self.signButton.alpha = 0.6
+            self.signButton.alpha = 0.7
             self.showFailMessage("username or password cannot be empty")
             return
         }
@@ -82,7 +85,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     func textFieldDidEndEditing(textField: UITextField) {
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
-            self.signButton.alpha = 0.6
+            self.signButton.alpha = 0.7
         }
     }
 
@@ -90,7 +93,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         self.alertLabel.hidden = true
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
-            self.signButton.alpha = 0.6
+            self.signButton.alpha = 0.7
         }
     }
     
@@ -127,9 +130,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         let cellNib = UINib(nibName: "LogInTableViewCell", bundle: NSBundle.mainBundle())
         tableView.registerNib(cellNib, forCellReuseIdentifier: "inputFormCell")
         let cell = tableView.dequeueReusableCellWithIdentifier("inputFormCell", forIndexPath: indexPath) as LogInTableViewCell
-        cell.formItemLabel.text = signFormLabels[indexPath.row]
+        cell.formItemImage.image = UIImage(named: signFormImageNames[indexPath.row])
         cell.formInputTextField.placeholder = signFromPlaceholder[indexPath.row]
         cell.formInputTextField.addTarget(self, action: "textFieldDidBeginEditing:", forControlEvents: UIControlEvents.EditingDidBegin)
+        cell.formInputTextField.addTarget(self, action: "textFieldDoneEditing:", forControlEvents: UIControlEvents.EditingDidEnd)
+
         if indexPath.row == 0 {
             self.textFieldUname = cell.formInputTextField
             self.textFieldUname.addTarget(self, action: "usernameTextFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)

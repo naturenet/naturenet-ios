@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate {
+class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate, saveInputStateProtocol {
     
     // UI Outlets
     @IBOutlet var profileTableView: UITableView!
@@ -16,6 +16,8 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     @IBOutlet weak var numOfObsLabel: UILabel!
     @IBOutlet weak var numOfDesignIdeasLabel: UILabel!
     
+    // for saving design idea input from design idea controller
+    var designIdeaInput: String?
     
     var details = [String]()
     
@@ -49,12 +51,24 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-    }
     
     @IBAction func backpressed() {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "profileToDesignIdea" {
+            let destinationVC = segue.destinationViewController as DesignIdeaViewController
+            destinationVC.delegate = self
+            if self.designIdeaInput != nil {
+                destinationVC.designIdeaSavedInput = self.designIdeaInput
+            }
+        }
+    }
+    
+    // implement saveInputStateProtocol
+    func saveInputState(input: String?) {
+        self.designIdeaInput = input
     }
     
     func createPopAlert() {
@@ -95,9 +109,8 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
         picker.dismissViewControllerAnimated(true, completion: nil)
-        println("picker cancel.")
+        // println("picker cancel.")
     }
-
     
     private func setupTableView() {
         if let account = Session.getAccount() {
