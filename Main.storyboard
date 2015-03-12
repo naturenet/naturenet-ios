@@ -4,7 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Aces Tour-->
@@ -411,48 +410,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="4-digit password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8bA-iF-ez9">
-                                <rect key="frame" x="200" y="190" width="200" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="46" placeholderIntrinsicHeight="30" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsm-N6-RWa">
-                                <rect key="frame" x="200" y="244" width="200" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Sign In">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="btnSignIn" destination="PsJ-bN-In7" eventType="touchUpInside" id="GWj-AX-GNa"/>
-                                </connections>
-                            </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5q3-Rg-Eff">
-                                <rect key="frame" x="138" y="107" width="325" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="325" id="97g-rJ-66u"/>
-                                    <constraint firstAttribute="height" constant="21" id="qhS-uq-yZL"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5q3-Rg-Eff">
+                                <rect key="frame" x="18" y="84" width="564" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="1" green="0.011788656139999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="qhS-uq-yZL"/>
-                                    </mask>
-                                </variation>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L5u-1n-78D">
-                                <rect key="frame" x="200" y="135" width="200" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="rRW-zi-rrl"/>
-                                    <constraint firstAttribute="height" constant="30" id="vHj-fA-SOX"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                            </textField>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="47" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="ldc-M5-2uB">
-                                <rect key="frame" x="20" y="282" width="560" height="300"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="40" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="ldc-M5-2uB">
+                                <rect key="frame" x="18" y="106" width="566" height="82"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="82" id="7Vj-14-nwM"/>
+                                </constraints>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loginFormCell" id="FxB-TR-ba6">
@@ -467,33 +436,33 @@
                                     <outlet property="delegate" destination="PsJ-bN-In7" id="la8-LV-xyE"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" alpha="0.59999999999999964" contentMode="scaleToFill" placeholderIntrinsicWidth="46" placeholderIntrinsicHeight="30" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsm-N6-RWa">
+                                <rect key="frame" x="200" y="285" width="200" height="30"/>
+                                <color key="backgroundColor" red="0.040505203801265662" green="0.80348405934545464" blue="0.11655737924598605" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Ksg-QM-5D9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSignIn" destination="PsJ-bN-In7" eventType="touchUpInside" id="GWj-AX-GNa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="8bA-iF-ez9" firstAttribute="leading" secondItem="L5u-1n-78D" secondAttribute="leading" id="20y-Rg-JeB"/>
-                            <constraint firstItem="hsm-N6-RWa" firstAttribute="centerX" secondItem="8bA-iF-ez9" secondAttribute="centerX" id="5Rg-b6-R6P"/>
-                            <constraint firstItem="ldc-M5-2uB" firstAttribute="leading" secondItem="zg6-kY-uzE" secondAttribute="leading" constant="20" id="ALH-7q-nVa"/>
-                            <constraint firstItem="hsm-N6-RWa" firstAttribute="trailing" secondItem="8bA-iF-ez9" secondAttribute="trailing" id="EFW-4c-7BS"/>
-                            <constraint firstItem="8bA-iF-ez9" firstAttribute="top" secondItem="L5u-1n-78D" secondAttribute="bottom" constant="25" id="F7b-gN-Dqg"/>
-                            <constraint firstItem="8bA-iF-ez9" firstAttribute="trailing" secondItem="L5u-1n-78D" secondAttribute="trailing" id="GbC-X9-LVz"/>
-                            <constraint firstItem="5q3-Rg-Eff" firstAttribute="centerX" secondItem="hsm-N6-RWa" secondAttribute="centerX" id="KZN-CK-Wgb"/>
-                            <constraint firstAttribute="centerX" secondItem="L5u-1n-78D" secondAttribute="centerX" id="LS5-Ig-vp8"/>
-                            <constraint firstItem="bZL-O3-J9F" firstAttribute="top" secondItem="ldc-M5-2uB" secondAttribute="bottom" constant="18" id="LoH-ro-bxO"/>
-                            <constraint firstItem="5q3-Rg-Eff" firstAttribute="trailing" secondItem="zg6-kY-uzE" secondAttribute="trailingMargin" id="NzF-G7-Kof"/>
-                            <constraint firstItem="ldc-M5-2uB" firstAttribute="centerX" secondItem="hsm-N6-RWa" secondAttribute="centerX" id="Urg-Vv-kAa"/>
-                            <constraint firstAttribute="centerY" secondItem="L5u-1n-78D" secondAttribute="centerY" multiplier="2" id="bhR-0k-6ze"/>
-                            <constraint firstItem="L5u-1n-78D" firstAttribute="width" secondItem="8bA-iF-ez9" secondAttribute="width" id="cXN-5h-yFq"/>
-                            <constraint firstItem="ldc-M5-2uB" firstAttribute="top" secondItem="hsm-N6-RWa" secondAttribute="bottom" constant="8" symbolic="YES" id="dzu-Of-DGS"/>
-                            <constraint firstItem="5q3-Rg-Eff" firstAttribute="leading" secondItem="zg6-kY-uzE" secondAttribute="leadingMargin" id="fXA-dp-CV0"/>
-                            <constraint firstItem="hsm-N6-RWa" firstAttribute="top" secondItem="8bA-iF-ez9" secondAttribute="bottom" constant="24" id="fyj-V4-WHx"/>
-                            <constraint firstItem="L5u-1n-78D" firstAttribute="top" secondItem="5q3-Rg-Eff" secondAttribute="bottom" constant="8" id="kLk-Y5-EXo"/>
+                            <constraint firstItem="hsm-N6-RWa" firstAttribute="centerY" secondItem="zg6-kY-uzE" secondAttribute="centerY" id="0Cg-S5-FCh"/>
+                            <constraint firstItem="hsm-N6-RWa" firstAttribute="centerX" secondItem="5q3-Rg-Eff" secondAttribute="centerX" id="Cx6-Ph-W2w"/>
+                            <constraint firstItem="ldc-M5-2uB" firstAttribute="leading" secondItem="zg6-kY-uzE" secondAttribute="leadingMargin" constant="2" id="Jla-Be-ROc"/>
+                            <constraint firstItem="5q3-Rg-Eff" firstAttribute="centerX" secondItem="zg6-kY-uzE" secondAttribute="centerX" id="PRI-xq-Hlw"/>
+                            <constraint firstItem="ldc-M5-2uB" firstAttribute="top" secondItem="5q3-Rg-Eff" secondAttribute="bottom" constant="4" id="jzE-zL-3f1"/>
+                            <constraint firstItem="ldc-M5-2uB" firstAttribute="trailing" secondItem="zg6-kY-uzE" secondAttribute="trailingMargin" id="tMA-c8-DiO"/>
+                            <constraint firstItem="5q3-Rg-Eff" firstAttribute="leading" secondItem="zg6-kY-uzE" secondAttribute="leadingMargin" constant="2" id="w17-fX-3A3"/>
+                            <constraint firstItem="5q3-Rg-Eff" firstAttribute="top" secondItem="nuS-QR-2De" secondAttribute="bottom" constant="20" id="wxh-en-7BZ"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="NzF-G7-Kof"/>
-                                <exclude reference="fXA-dp-CV0"/>
-                            </mask>
-                        </variation>
                         <connections>
                             <action selector="backgroundTap:" destination="PsJ-bN-In7" eventType="touchDown" id="8xL-ZS-cW7"/>
                         </connections>
@@ -611,7 +580,7 @@ The researchers and other visitors will be able to look at your contributions an
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zp1-Zg-bl1">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zp1-Zg-bl1">
                                 <rect key="frame" x="102" y="174" width="457" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
@@ -620,7 +589,7 @@ The researchers and other visitors will be able to look at your contributions an
                                     <outlet property="delegate" destination="5hU-GR-cts" id="ktL-C8-V6W"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="full name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NPj-ei-RvJ">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="full name" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="NPj-ei-RvJ">
                                 <rect key="frame" x="102" y="224" width="457" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -629,7 +598,7 @@ The researchers and other visitors will be able to look at your contributions an
                                     <outlet property="delegate" destination="5hU-GR-cts" id="9Gn-rL-ii8"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7l1-Qe-EMY">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7l1-Qe-EMY">
                                 <rect key="frame" x="102" y="274" width="457" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
@@ -662,7 +631,7 @@ The researchers and other visitors will be able to look at your contributions an
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I7w-u1-jf6">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="I7w-u1-jf6">
                                 <rect key="frame" x="102" y="124" width="457" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>

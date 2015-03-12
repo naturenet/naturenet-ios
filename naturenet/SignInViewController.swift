@@ -40,9 +40,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     @IBAction func usernameTextFieldDidChange(sender: UITextField) {
         if !textFieldUname.text.isEmpty && !textFieldUpass.text.isEmpty {
             self.signButton.enabled = true
+            self.signButton.alpha = 1.0
         }
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
+            self.signButton.alpha = 0.6
             
         }
     }
@@ -50,10 +52,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     @IBAction func passTextFieldDidChange(sender: UITextField) {
         if !textFieldUname.text.isEmpty && !textFieldUpass.text.isEmpty {
             self.signButton.enabled = true
+            self.signButton.alpha = 1.0
         }
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
-            
+            self.signButton.alpha = 0.6
         }
     }
     
@@ -62,6 +65,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         textFieldUpass.resignFirstResponder()
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
+            self.signButton.alpha = 0.6
             self.showFailMessage("username or password cannot be empty")
             return
         }
@@ -77,6 +81,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     func textFieldDidEndEditing(textField: UITextField) {
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
+            self.signButton.alpha = 0.6
         }
     }
 
@@ -84,7 +89,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         self.alertLabel.hidden = true
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
-
+            self.signButton.alpha = 0.6
         }
     }
     
@@ -123,7 +128,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         let cell = tableView.dequeueReusableCellWithIdentifier("inputFormCell", forIndexPath: indexPath) as LogInTableViewCell
         cell.formItemLabel.text = signFormLabels[indexPath.row]
         cell.formInputTextField.placeholder = signFromPlaceholder[indexPath.row]
-        cell.formInputTextField.addTarget(self, action: "inputFieldTest:", forControlEvents: UIControlEvents.EditingChanged)
+        cell.formInputTextField.addTarget(self, action: "textFieldDidBeginEditing:", forControlEvents: UIControlEvents.EditingDidBegin)
         if indexPath.row == 0 {
             self.textFieldUname = cell.formInputTextField
             self.textFieldUname.addTarget(self, action: "usernameTextFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
@@ -132,16 +137,9 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             self.textFieldUpass.addTarget(self, action: "passTextFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
             self.textFieldUpass.delegate = self
             self.textFieldUpass.keyboardType = UIKeyboardType.NumberPad
+            self.textFieldUpass.secureTextEntry = true
         }
-        
-
-//        var loginCell = tableView.dequeueReusableCellWithIdentifier("loginFormCell") as UITableViewCell
-//        loginCell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "loginFormCell")
-//        loginCell.accessoryType = UITableViewCellAccessoryType.None
-//        var inputTextField = UITextField(frame: CGRect(x: 110.0, y: 10, width: 185.0, height: 30.0))
-//        loginCell.contentView.addSubview(inputTextField)
-        
-        
+            
         return cell
     }
     
@@ -151,18 +149,14 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         cell.preservesSuperviewLayoutMargins = false
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("you selected \(indexPath.row)")
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 1.0
     }
     
-    func inputFieldTest(sender: UITextField) {
-        var nsIndexPath = NSIndexPath(forRow: 1, inSection: 0)
-        let cell = signFormTableView.dequeueReusableCellWithIdentifier("inputFormCell", forIndexPath: nsIndexPath) as LogInTableViewCell
-
-        sender.superview
-        println("Test + \(cell.formInputTextField.text)")
-        
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1.0
     }
+    
     
     
     // after getting data from server
