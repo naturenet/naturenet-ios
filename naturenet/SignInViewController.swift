@@ -63,6 +63,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     @IBAction func btnSignIn() {
         textFieldUname.resignFirstResponder()
         textFieldUpass.resignFirstResponder()
+        // should never be called
         if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
             self.signButton.enabled = false
             self.signButton.alpha = 0.6
@@ -156,7 +157,6 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 1.0
     }
-    
     
     
     // after getting data from server

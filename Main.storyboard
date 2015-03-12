@@ -437,7 +437,7 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" alpha="0.59999999999999964" contentMode="scaleToFill" placeholderIntrinsicWidth="46" placeholderIntrinsicHeight="30" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hsm-N6-RWa">
-                                <rect key="frame" x="200" y="285" width="200" height="30"/>
+                                <rect key="frame" x="200" y="193" width="200" height="30"/>
                                 <color key="backgroundColor" red="0.040505203801265662" green="0.80348405934545464" blue="0.11655737924598605" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="Ksg-QM-5D9"/>
@@ -454,7 +454,7 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="hsm-N6-RWa" firstAttribute="centerY" secondItem="zg6-kY-uzE" secondAttribute="centerY" id="0Cg-S5-FCh"/>
+                            <constraint firstItem="hsm-N6-RWa" firstAttribute="top" secondItem="ldc-M5-2uB" secondAttribute="bottom" constant="5" id="AT7-HT-oZe"/>
                             <constraint firstItem="hsm-N6-RWa" firstAttribute="centerX" secondItem="5q3-Rg-Eff" secondAttribute="centerX" id="Cx6-Ph-W2w"/>
                             <constraint firstItem="ldc-M5-2uB" firstAttribute="leading" secondItem="zg6-kY-uzE" secondAttribute="leadingMargin" constant="2" id="Jla-Be-ROc"/>
                             <constraint firstItem="5q3-Rg-Eff" firstAttribute="centerX" secondItem="zg6-kY-uzE" secondAttribute="centerX" id="PRI-xq-Hlw"/>
