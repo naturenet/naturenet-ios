@@ -51,7 +51,6 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
         }
     }
     
-    
     @IBAction func backpressed() {
         self.navigationController?.popViewControllerAnimated(true)
     }
@@ -119,11 +118,14 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
             var numOfObservations = 0
             
             for note in notes {
-                if note.kind == "FieldNote" {
-                    numOfObservations++
-                }
-                if note.kind == "DesignIdea" {
-                    numOfDesginIdeas++
+                // only counts synced notes
+                if note.state == NNModel.STATE.SYNCED {
+                    if note.kind == "FieldNote" {
+                        numOfObservations++
+                    }
+                    if note.kind == "DesignIdea" {
+                        numOfDesginIdeas++
+                    }
                 }
             }
             

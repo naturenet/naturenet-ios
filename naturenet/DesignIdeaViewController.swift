@@ -21,6 +21,12 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     var designIdeaSavedInput: String?
     var delegate: saveInputStateProtocol?
     
+    // alert types
+    let INTERNETPROBLEM = 0
+    let SUCCESS = 1
+    let NOINPUT = 2
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         apiService.delegate = self
@@ -37,13 +43,22 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         dispatch_async(dispatch_get_main_queue(), {
             if from == "POST_" + NSStringFromClass(Note) {
-                var uid = response["data"]!["id"] as Int
-                println("now after post_designIdea. Done!")
-                var modifiedAt = response["data"]!["modified_at"] as NSNumber
-                self.idea!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                self.designIdeaSavedInput = nil
+                var status = response["status_code"] as Int
+                if status == 600 {
+                    self.createAlert(nil, message: "Looks you have a problem with Internet connection!", type: self.INTERNETPROBLEM)
+                    return
+                }
+                
+                if status == 200 {
+                    var uid = response["data"]!["id"] as Int
+                    println("now after post_designIdea. Done!")
+                    var modifiedAt = response["data"]!["modified_at"] as NSNumber
+                    self.idea!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    self.designIdeaSavedInput = nil
+                }
+
             }
-            self.createAlert()
+            self.createAlert(nil, message: "Your idea has been sent, thanks!", type: self.SUCCESS)
         })
     }
     
@@ -74,30 +89,26 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     @IBAction func ideaSendPressed(sender: UIBarButtonItem) {
         if countElements(self.ideaTextView.text) == 0 {
             // here should never be called
-            self.createWarningAlert()
+            self.createAlert("Oops", message: "Your input is empty!", type: self.NOINPUT)
         } else {
             self.idea = saveIdea()
             self.idea!.push(apiService)
         }
     }
     
-    func createAlert() {
-        var alert = UIAlertController(title: "Your idea has been sent, thanks!", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+    func createAlert(title: String?, message: String, type: Int) {
+        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: {
             action in
-            if action.style == .Default{
-                self.navigationController?.popViewControllerAnimated(true)
+            if type == self.SUCCESS {
+                if action.style == .Default{
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
             }
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func createWarningAlert() {
-        var alert = UIAlertController(title: "Oops", message: "You did not input any idea!", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-
     // save to core data first
     func saveIdea() -> Note {
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext

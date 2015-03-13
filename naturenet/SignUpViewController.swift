@@ -107,6 +107,12 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
                 self.showAlertLabel(statusText)
             }
             
+            if status == 600 {
+                let statusText = "Internet seems not working, please check your Internt!"
+                self.stopLoading()
+                self.showAlertLabel(statusText)
+            }
+            
             if status == 200 {
                 var data = response["data"] as NSDictionary!
                 if from == "POST_" + NSStringFromClass(Account) {
