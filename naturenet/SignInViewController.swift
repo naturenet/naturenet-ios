@@ -256,8 +256,13 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             self.site = Site.saveToCoreData(data)
         }
         let inputUser = textFieldUname.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        
-        Account.doPullByNameFromServer(parseService, name: inputUser)
+        if !SignInViewController.hasWhiteSpace(inputUser) {
+            Account.doPullByNameFromServer(parseService, name: inputUser)
+        } else {
+            var errorMessage = "Username is not valid"
+            self.showFailMessage(errorMessage)
+            self.pauseIndicator()
+        }
     }
     
        
@@ -319,6 +324,16 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             self.dismissViewControllerAnimated(true, completion: nil)
         }))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    // trim whitespace after a string and check the string has a whitespace
+    class func hasWhiteSpace(string: String) -> Bool {
+        var hasSpace = false
+        let whitespace = NSCharacterSet.whitespaceCharacterSet()
+        if let range = string.rangeOfCharacterFromSet(whitespace) {
+            hasSpace = true
+        }
+        return hasSpace
     }
     
 }

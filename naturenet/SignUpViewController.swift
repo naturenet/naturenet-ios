@@ -69,13 +69,19 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
             self.navigationItem.rightBarButtonItem?.enabled = false
         } else {
             self.startLoading()
-            var name = nameTextField.text
-            var username = usernameTextField.text
-            var password = passTextField.text
-            var email = emailTextField.text
-            var url = APIAdapter.api.getCreateAccountLink(username)
-            var params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
-            apiService.post(NSStringFromClass(Account), sourceData: self.signInAccount?, params: params, url: url)
+            let name = nameTextField.text
+            let username = usernameTextField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let password = passTextField.text
+            let email = emailTextField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            if !SignInViewController.hasWhiteSpace(username) && !SignInViewController.hasWhiteSpace(email) {
+                var url = APIAdapter.api.getCreateAccountLink(username)
+                var params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
+                apiService.post(NSStringFromClass(Account), sourceData: self.signInAccount?, params: params, url: url)
+            } else {
+                var errorMessage = "Username or email should not contain spaces"
+                self.showAlertLabel(errorMessage)
+                self.stopLoading()
+            }
         }
     }
     
@@ -159,12 +165,6 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
     func showAlertLabel(message: String) {
         self.alertLabel.text = message
         self.alertLabel.hidden = false
-    }
-    
-    func createWarningAlert(message: String) {
-        var alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
     }
 
     func startLoading() {
