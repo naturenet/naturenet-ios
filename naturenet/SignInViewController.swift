@@ -252,6 +252,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             // println("You have aces site in core data: "  + exisitingSite!.toString())
             // should check if modified date is changed here!! but no modified date returned from API
             self.site = exisitingSite
+            self.site?.updateToCoreData(data)
         } else {
             self.site = Site.saveToCoreData(data)
         }

@@ -105,6 +105,12 @@ class NNModel: NSManagedObject {
         return model
     }
     
+    // update local data with the server
+    func updateToCoreData(data: NSDictionary) {
+        
+    }
+
+    
     // update remote uid and state
     func updateAfterPost(idFromServer: Int, modifiedAtFromServer: NSNumber?) {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext

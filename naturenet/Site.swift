@@ -31,6 +31,20 @@ class Site: NNModel {
         return mSite
     }
     
+    // update data in core data
+    override func updateToCoreData(data: NSDictionary) {
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var contexts = data["contexts"] as NSArray
+        for tContext in contexts {
+            let uid = tContext["id"] as Int
+            var predicate = NSPredicate(format: "uid = \(uid)")
+            var mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as Context
+            mContext.updateToCoreData(tContext as NSDictionary)
+        }
+        SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
+
+    }
+    
     // parse site JSON data
     func parseJSON(data: NSDictionary) -> Site {
         self.created_at = NSNumber(unsignedLongLong: UInt64(NSDate().timeIntervalSince1970 * 1000))

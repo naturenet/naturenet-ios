@@ -42,6 +42,31 @@ class Context: NNModel {
         return self
     }
     
+    
+    // update data in core data
+    override func updateToCoreData(data: NSDictionary) {
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        self.setValue(data["id"] as Int, forKey: "uid")
+        self.setValue(data["name"] as String, forKey: "name")
+        if let desc = data["description"] as? String {
+            self.setValue(desc, forKey: "context_description")
+        } else {
+            self.setValue("", forKey: "context_description")
+        }
+        
+        if let extras = data["extras"] as? String {
+            self.setValue(extras, forKey: "extras")
+        } else {
+            self.setValue("", forKey: "extras")
+        }
+        
+        self.setValue(data["title"] as String, forKey: "title")
+        self.setValue(data["kind"] as String, forKey: "kind")
+        self.state = STATE.DOWNLOADED
+        self.setValue(STATE.DOWNLOADED, forKey: "state")
+        SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
+    }
+    
     // if context is the landmark, get the its cooridnate pair from extras
     func getCoordinatesForLandmark() -> CLLocationCoordinate2D? {
         var location: CLLocationCoordinate2D?

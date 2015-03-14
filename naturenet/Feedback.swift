@@ -29,8 +29,10 @@ class Feedback: NNModel {
         var accountID = feedback["account"]!["id"] as Int
         self.account_id = accountID
         let predicate = NSPredicate(format: "uid = \(accountID)")
-        let account = NNModel.fetechEntitySingle(NSStringFromClass(Account), predicate: predicate) as Account
-        self.account = account
+        // the feedback can be other user's comment in "feedbacks"
+        if let account = NNModel.fetechEntitySingle(NSStringFromClass(Account), predicate: predicate) as? Account {
+            self.account = account
+        }
         self.state = STATE.DOWNLOADED
     }
     
