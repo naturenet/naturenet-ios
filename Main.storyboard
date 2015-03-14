@@ -1149,9 +1149,9 @@ The researchers and other visitors will be able to look at your contributions an
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NRH-FE-vcr">
                                 <rect key="frame" x="0.0" y="5" width="600" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
+                                <mutableString key="text">NatureNet is a citizen science project with a crowd-sourced design. The goal to increase motivation for participation and to identify creative ways in which people can contribute to sustainable bio-diversity at the Aspen Center for Environmental Studies (ACES).
 
-NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</string>
+NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant to the University of North Carolina at Charlotte, the University of Maryland, and the University of Colorado. The project is in coordination with the naturalists at ACES. For more information about the NatureNet project you can visit our website at nature-net.org or send email to Naturenet@AspenNature.org.</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
