@@ -256,7 +256,8 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         // save to Media
         var fileName = String(timestamp) + ".jpg"
         UIImageWriteToSavedPhotosAlbum(self.noteImageView.image!, nil, nil, nil)
-        var fullPath = ObservationCell.saveToDocumentDirectory(UIImagePNGRepresentation(self.noteImageView.image), name: fileName)
+//        var fullPath = ObservationCell.saveToDocumentDirectory(UIImagePNGRepresentation(self.noteImageView.image), name: fileName)
+        var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(self.noteImageView.image, 1.0), name: fileName)
         var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as Media
         media.note = mNote
         media.state = NNModel.STATE.NEW
