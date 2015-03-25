@@ -122,6 +122,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
                 destinationVC.designIdeaSavedInput = self.designIdeaInput
             }
         }
+        // self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
     }
 
     // implement saveInputStateProtocol

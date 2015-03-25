@@ -68,8 +68,8 @@ class Context: NNModel {
     }
     
     // if context is the landmark, get the its cooridnate pair from extras
-    func getCoordinatesForLandmark() -> CLLocationCoordinate2D? {
-        var location: CLLocationCoordinate2D?
+    func getCoordinatesForLandmark() -> CLLocation? {
+        var location: CLLocation?
         if self.kind != "Landmark" {
             return nil
         }
@@ -82,7 +82,8 @@ class Context: NNModel {
             var lonCoordinate = coordinate[1].componentsSeparatedByString(":") as [String]
             var latNumber = (latCoordinate[1] as NSString).doubleValue
             var lonNumber = (lonCoordinate[1] as NSString).doubleValue
-            location = CLLocationCoordinate2DMake(latNumber, lonNumber)
+//            location = CLLocationCoordinate2DMake(latNumber, lonNumber)
+            location = CLLocation(latitude: latNumber, longitude: lonNumber)
         }
         
         return location

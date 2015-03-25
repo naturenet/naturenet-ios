@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 import CoreData
 
-
 protocol SaveObservationProtocol {
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) -> Void
 }
@@ -181,7 +180,8 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         self.userLon = userLocaiton.coordinate.longitude
         self.locationManager.stopUpdatingLocation()
         // update current location as the location selection
-        var landmarkName = determineLandmarkByLocation(self.userLat!, lon: self.userLon!)
+        var landmarkName = determineLandmarkByLocation(userLocaiton)
+        println("detected location is: \(landmarkName)");
         self.locationLabel.text = landmarkName
     }
     
@@ -204,6 +204,8 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    // @Deprecated
+    // old way to determine landmark location
     func determineLandmarkByLocation(lat: CLLocationDegrees, lon: CLLocationDegrees) -> String {
         let latError = 0.0001;
         let lonError = 0.0001;
@@ -211,13 +213,42 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
 
         for landmark in self.landmarks {
             if let location = landmark.getCoordinatesForLandmark() {
-                if (abs(lat - location.latitude) < latError
-                    && abs(lon - location.longitude) < lonError) {
+                if (abs(lat - location.coordinate.latitude) < latError
+                    && abs(lon - location.coordinate.longitude) < lonError) {
                         name = landmark.title
                         break
                 }
             }
         }
+        return name
+    }
+    
+    // a new way
+    func determineLandmarkByLocation(userLocaiton: CLLocation) -> String {
+        let upleftLat = 39.199845
+        let upleftLon = -106.824084
+        let bottomrightLat = 39.194026
+        let bottomrightLon = -106.819499
+        
+        var name: String = "Other"
+        let locationLon = userLocaiton.coordinate.longitude
+        let locationLat = userLocaiton.coordinate.latitude
+        
+        // make sure the user is in the park
+        if locationLat < upleftLat && locationLat > bottomrightLat
+            && locationLon < bottomrightLon && locationLon > upleftLon {
+            var minDistance = 3000.0
+            for landmark in self.landmarks {
+                if let location = landmark.getCoordinatesForLandmark() {
+                    var distance: CLLocationDistance = userLocaiton.distanceFromLocation(location)
+                    if distance < minDistance {
+                        minDistance = distance
+                        name = landmark.title
+                    }
+                }
+            }
+        }
+
         return name
     }
     

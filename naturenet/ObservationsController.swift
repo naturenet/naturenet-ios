@@ -497,7 +497,8 @@ class ObservationCell {
         var savedPath: String?
         
         // LibraryDirectory may need to be changed to DocumentationDirectory when it is deployed on a phone
-        var paths:[AnyObject] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.LibraryDirectory,
+        // changed from LibraryDirectory to CachesDirectory to handle data storage efficiency.
+        var paths:[AnyObject] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory,
             NSSearchPathDomainMask.UserDomainMask, true)
         if paths.count > 0 {
             documentDirectory = paths[0] as? String

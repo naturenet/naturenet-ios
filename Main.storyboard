@@ -1025,6 +1025,7 @@ The researchers and other visitors will be able to look at your contributions an
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4dx-qS-qFF" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3nj-kI-AL3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
