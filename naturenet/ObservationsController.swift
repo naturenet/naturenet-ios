@@ -17,15 +17,20 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
     @IBOutlet weak var uploadProgressView: UIProgressView!
     
+    struct CameraImage {
+        var image: UIImage
+        var isFromGallery: Boolean
+    }
+    
+    
     // data
     var apiService = APIService()
     var celldata = [ObservationCell]()
     var cloudinary: CLCloudinary = CLCloudinary()
     var cameraImage: UIImage?
     
-//    let uploadProgressView: UIProgressView = UIProgressView(progressViewStyle: .Default)
     var refresher: UIRefreshControl!
-    
+
     // data received after clicking "send" from ObservationDetailController 
     // values set in saveObservationDetail()
     var receivedNoteFromObservation: Note?
@@ -42,7 +47,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             self.receivedNoteFromObservation!.push(apiService)
             self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: NNModel.STATE.SENDING)
-            self.uploadProgressView.setProgress(0.01, animated: false)
+            self.uploadProgressView.setProgress(0.01, animated: true)
         }
         
         refresher = UIRefreshControl()
@@ -62,7 +67,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     }
     
     func refresh() {
-        println("refreshing")
         var uploadNumbers: Int = 0
         for data in celldata {
             if data.getStatus() == "ready to send" {
@@ -120,10 +124,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 var modifiedAt = response["data"]!["modified_at"] as NSNumber
                 if let newNoteFeedback = sourceData as? Feedback {
                     newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-//                    let note = newNoteFeedback.note
-//                    if let newNoteMedia = note.getSingleMedia() {
-//                      do something with the note if it is needed
-//                    }
                 }
             }
             if from == "POST_" + NSStringFromClass(Media) {

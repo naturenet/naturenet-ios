@@ -175,12 +175,14 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     // implement location didUpdataLocation
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         println("location is  \(locations)")
-        var userLocaiton: CLLocation = locations[0] as CLLocation
-        self.userLat = userLocaiton.coordinate.latitude
-        self.userLon = userLocaiton.coordinate.longitude
+        var userLocation: CLLocation = locations[0] as CLLocation
+        self.userLat = userLocation.coordinate.latitude
+        self.userLon = userLocation.coordinate.longitude
         self.locationManager.stopUpdatingLocation()
+        // testing
+        // var userLocation = CLLocation(latitude: 39.195698, longitude: -106.822153)
         // update current location as the location selection
-        var landmarkName = determineLandmarkByLocation(userLocaiton)
+        var landmarkName = determineLandmarkByLocation(userLocation)
         println("detected location is: \(landmarkName)");
         self.locationLabel.text = landmarkName
     }
@@ -237,7 +239,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         // make sure the user is in the park
         if locationLat < upleftLat && locationLat > bottomrightLat
             && locationLon < bottomrightLon && locationLon > upleftLon {
-            var minDistance = 3000.0
+            var minDistance = 2000.0
             for landmark in self.landmarks {
                 if let location = landmark.getCoordinatesForLandmark() {
                     var distance: CLLocationDistance = userLocaiton.distanceFromLocation(location)
