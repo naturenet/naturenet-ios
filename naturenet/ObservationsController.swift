@@ -17,17 +17,17 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet weak var cameraBtn: UIBarButtonItem!
     @IBOutlet weak var uploadProgressView: UIProgressView!
     
-    struct CameraImage {
-        var image: UIImage
-        var isFromGallery: Boolean
+    // add an isFromGallery flag with the picked image
+    struct PickedImage {
+        var image: UIImage?
+        var isFromGallery: Bool = false
     }
-    
-    
+
     // data
     var apiService = APIService()
     var celldata = [ObservationCell]()
     var cloudinary: CLCloudinary = CLCloudinary()
-    var cameraImage: UIImage?
+    var pickedImage: PickedImage?
     
     var refresher: UIRefreshControl!
 
@@ -184,9 +184,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             if let indexPath = sender as? NSIndexPath {
                 let selectedCell = celldata[indexPath.row]
                 detailVC.noteIdFromObservations = selectedCell.objectID
-                self.cameraImage = nil
-            } else if self.cameraImage != nil { // else from a camera
-                detailVC.imageFromCamera = self.cameraImage!
+                self.pickedImage = nil
+            } else if self.pickedImage != nil { // else from a camera
+                detailVC.imageFromObservation = self.pickedImage
             }
             // assign observationsController(self) to be a delegate for ObservationDetailController
             detailVC.saveObservationDelegate = self
@@ -202,7 +202,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             self.uploadProgressView.setProgress(0.01, animated: false)
         }
         note.push(apiService)
-//        self.uploadProgressView.setProgress(0.01, animated: false)
         updateReceivedNoteStatus(note, state: NNModel.STATE.SENDING)
     }
     
@@ -224,7 +223,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
         self.observationCV.reloadData()
     }
-    
     
     // manually update the status of uploading the note, e.g. "sending"
     func updateReceivedNoteStatus(note: Note, state: Int) {
@@ -250,6 +248,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         var picker:UIImagePickerController = UIImagePickerController()
         // remember to assign delegate to self
         picker.delegate = self
+        self.pickedImage = PickedImage(image: nil, isFromGallery: false)
+        
         var popover:UIPopoverController?
         var alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
@@ -283,6 +283,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     func openCamera(picker: UIImagePickerController!) {
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
             picker.sourceType = UIImagePickerControllerSourceType.Camera
+            self.pickedImage?.isFromGallery = false
             self.presentViewController(picker, animated: true, completion: nil)
         } else {
             openGallary(picker)
@@ -291,6 +292,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
 
     func openGallary(picker: UIImagePickerController!) {
         picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        self.pickedImage?.isFromGallery = true
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             self.presentViewController(picker, animated: true, completion: nil)
         }
@@ -298,13 +300,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
         picker.dismissViewControllerAnimated(true, completion: nil)
-        println("picker cancel.")
+        // println("picker cancel.")
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         picker.dismissViewControllerAnimated(true, completion: nil)
-        self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.pickedImage?.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("ObservationsToDetail", sender: self)
     }
     
@@ -320,7 +322,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // load data for this collectionview
     func loadData() {
         if !Session.isSignedIn() {
-            createAlert("You have not signed in!")
+            createAlert("You have to signed in!")
             return
         }
         if let account = Session.getAccount() {

@@ -76,7 +76,10 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let detailVC = segue.destinationViewController as ObservationDetailController
-        detailVC.imageFromCamera = self.cameraImage!
+//        detailVC.imageFromCamera = self.cameraImage!
+//        detailVC.imageFromObservation?.image = self.cameraImage!
+//        detailVC.imageFromObservation?.isFromGallery = false
+        detailVC.imageFromObservation = ObservationsController.PickedImage(image: self.cameraImage, isFromGallery: false)
         detailVC.sourceViewController = NSStringFromClass(LocationDetailViewController)
 
     }

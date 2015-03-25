@@ -890,23 +890,31 @@ The researchers and other visitors will be able to look at your contributions an
         <scene sceneID="eNB-Kf-sha">
             <objects>
                 <tableViewController id="G2L-CF-kVP" customClass="ObservationDetailController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="SSC-9e-6OT">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="5" sectionFooterHeight="5" id="SSC-9e-6OT">
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection id="K0M-AT-Hk1">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="250" id="LyZ-HL-DYd">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="255" id="LyZ-HL-DYd">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LyZ-HL-DYd" id="5sH-iR-KKo">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c30-VZ-Zvu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="250"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="255"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="c30-VZ-Zvu" secondAttribute="height" multiplier="4:3" id="p6M-CQ-XBz"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="p6M-CQ-XBz"/>
+                                                        </mask>
+                                                    </variation>
                                                 </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="szJ-Ae-r0l">
-                                                    <rect key="frame" x="282" y="107" width="37" height="37"/>
+                                                    <rect key="frame" x="282" y="109" width="37" height="37"/>
                                                     <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -1455,6 +1463,6 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
     <inferredMetricsTieBreakers>
         <segue reference="9ac-AY-f52"/>
         <segue reference="PbE-tg-8FU"/>
-        <segue reference="cMI-fD-Rxu"/>
+        <segue reference="Bgt-hD-Bey"/>
     </inferredMetricsTieBreakers>
 </document>

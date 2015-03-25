@@ -98,7 +98,10 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         }
         if segue.identifier == "tourToObservationDetail" {
             let detailVC = segue.destinationViewController as ObservationDetailController
-            detailVC.imageFromCamera = self.cameraImage!
+//            detailVC.imageFromCamera = self.cameraImage!
+//            detailVC.imageFromObservation?.image = self.cameraImage!
+//            detailVC.imageFromObservation?.isFromGallery = false
+            detailVC.imageFromObservation = ObservationsController.PickedImage(image: self.cameraImage, isFromGallery: false)
             detailVC.sourceViewController = NSStringFromClass(TourViewController)
         }
     }

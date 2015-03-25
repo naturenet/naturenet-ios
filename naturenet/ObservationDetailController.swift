@@ -29,7 +29,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // data passed from previous page
     var noteIdFromObservations: NSManagedObjectID?
-    var imageFromCamera: UIImage?
+    var imageFromObservation: ObservationsController.PickedImage?
     var activityNameFromActivityDetail: String?
     var sourceViewController: String?
     var saveObservationDelegate: SaveObservationProtocol?
@@ -46,10 +46,10 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         loadData()
         // only request location on new observation
-        if imageFromCamera != nil {
+        if imageFromObservation != nil {
             initLocationManager()
         }
     }
@@ -65,15 +65,17 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // didSelectRowAtIndexPath
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        switch indexPath.row {
-        case 0 :
-            self.performSegueWithIdentifier("editObsToDescription", sender: self)
-        case 1 :
-            self.performSegueWithIdentifier("editObsToActivity", sender: self)
-        case 2 :
-            self.performSegueWithIdentifier("editObsToLocation", sender: self)
-        default:
-            return
+        if indexPath.section == 1 {
+            switch indexPath.row {
+            case 0 :
+                self.performSegueWithIdentifier("editObsToDescription", sender: self)
+            case 1 :
+                self.performSegueWithIdentifier("editObsToActivity", sender: self)
+            case 2 :
+                self.performSegueWithIdentifier("editObsToLocation", sender: self)
+            default:
+                return
+            }
         }
     }
     
@@ -151,7 +153,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         
         if sourceViewController == NSStringFromClass(ObservationsController) {
             self.navigationController?.popViewControllerAnimated(true)
-            if self.imageFromCamera != nil {
+            if self.imageFromObservation != nil {
                 self.saveNote()
                 self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
             } else {
@@ -225,7 +227,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         return name
     }
     
-    // a new way
+    // a new way, always choose the closest location as long as the locaiton is in the park
     func determineLandmarkByLocation(userLocaiton: CLLocation) -> String {
         let upleftLat = 39.199845
         let upleftLon = -106.824084
@@ -262,10 +264,14 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     func saveNote() -> Note {
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
         var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
-        if imageFromCamera != nil {
+        if imageFromObservation != nil {
             if userLon != nil && userLat != nil {
                 mNote.longitude = self.userLon!
                 mNote.latitude = self.userLat!
+            }
+
+            if !self.imageFromObservation!.isFromGallery {
+                UIImageWriteToSavedPhotosAlbum(self.noteImageView.image!, nil, nil, nil)
             }
         }
         var account = Session.getAccount()
@@ -288,8 +294,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         
         // save to Media
         var fileName = String(timestamp) + ".jpg"
-        UIImageWriteToSavedPhotosAlbum(self.noteImageView.image!, nil, nil, nil)
-//        var fullPath = ObservationCell.saveToDocumentDirectory(UIImagePNGRepresentation(self.noteImageView.image), name: fileName)
         var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(self.noteImageView.image, 1.0), name: fileName)
         var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as Media
         media.note = mNote
@@ -387,8 +391,8 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             
             var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
             locationLabel.text = landmarkTitle
-        } else if self.imageFromCamera != nil {
-            self.noteImageView.image = self.imageFromCamera!
+        } else if self.imageFromObservation != nil {
+            self.noteImageView.image = self.imageFromObservation!.image
             imageLoadingIndicator.stopAnimating()
             imageLoadingIndicator.removeFromSuperview()
             if let activityTitle = self.activityNameFromActivityDetail {
