@@ -17,8 +17,9 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var signinBtn: UIButton!
         
     var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
-    var images = ["camera", "activity", "bulb", "map", "profile", "about"]
-    
+//    var images = ["camera", "activity", "bulb", "map", "profile", "about"]
+    var images = ["nnObservations", "nnActivities", "nnDesign", "nnAces", "nnProfile", "nnAbout"]
+
     var designIdeaInput: String?
     
     override func viewWillAppear(animated: Bool) {

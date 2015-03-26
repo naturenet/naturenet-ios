@@ -9,7 +9,8 @@
 import UIKit
 import MapKit
 
-class TourViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class TourViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate,
+                        UIImagePickerControllerDelegate {
 
     @IBOutlet weak var acesMapView: MKMapView!
     
@@ -17,9 +18,11 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
                                 "number8", "number9", "number10", "number11"]
     var tourAnnotations: [TourLocationAnnotation]?
     var cameraImage: UIImage?
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         initMap()
         self.tourAnnotations = getTourAnnotations()
         for location in self.tourAnnotations! {
@@ -33,6 +36,8 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     }
     
     func initMap() {
+        // request to authorize to use location
+        locationManager.requestAlwaysAuthorization()
         var latitude: CLLocationDegrees = 39.195998
         var longitude: CLLocationDegrees = -106.821823
         var latDelta: CLLocationDegrees = 0.0005
@@ -98,9 +103,6 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         }
         if segue.identifier == "tourToObservationDetail" {
             let detailVC = segue.destinationViewController as ObservationDetailController
-//            detailVC.imageFromCamera = self.cameraImage!
-//            detailVC.imageFromObservation?.image = self.cameraImage!
-//            detailVC.imageFromObservation?.isFromGallery = false
             detailVC.imageFromObservation = ObservationsController.PickedImage(image: self.cameraImage, isFromGallery: false)
             detailVC.sourceViewController = NSStringFromClass(TourViewController)
         }
