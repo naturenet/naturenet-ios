@@ -13,6 +13,8 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
                         UIImagePickerControllerDelegate {
 
     @IBOutlet weak var acesMapView: MKMapView!
+    @IBOutlet weak var toolBar: UIToolbar!
+    
     
     var locationIconNames = ["number1", "number2", "number3", "number4", "number5", "number6", "number7",
                                 "number8", "number9", "number10", "number11"]
@@ -22,7 +24,6 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         initMap()
         self.tourAnnotations = getTourAnnotations()
         for location in self.tourAnnotations! {
@@ -49,6 +50,14 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         acesMapView.setRegion(region, animated: true)
         acesMapView.mapType = MKMapType.Satellite
         acesMapView.showsUserLocation = true
+        
+        // programmatically add locaiton, camera, refresh buttonBarItems
+        var locationBtnItem = MKUserTrackingBarButtonItem(mapView: self.acesMapView)
+        var flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        var cameraItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Camera, target: self, action: "openCamera")
+        var refreshItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLocations")
+        var items: [UIBarButtonItem] = [locationBtnItem, flexibleSpaceItem, cameraItem, flexibleSpaceItem, refreshItem]
+        self.toolBar.setItems(items, animated: true)
     }
     
     func setAnnotation(annotation: TourLocationAnnotation) {
@@ -87,7 +96,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     }
     
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
-            self.performSegueWithIdentifier("tourToDetail", sender: view)
+        self.performSegueWithIdentifier("tourToDetail", sender: view)
     }
     
     
@@ -106,6 +115,10 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
             detailVC.imageFromObservation = ObservationsController.PickedImage(image: self.cameraImage, isFromGallery: false)
             detailVC.sourceViewController = NSStringFromClass(TourViewController)
         }
+    }
+    
+    private func refreshLocations() {
+    
     }
     
     //----------------------------------------------------------------------------------------------------------------------

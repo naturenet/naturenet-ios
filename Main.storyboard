@@ -19,34 +19,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="eN1-5M-SHF">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="ekY-aI-Kns" id="g2G-CQ-eXQ"/>
                                 </connections>
                             </mapView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPm-BE-VvC">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VWf-vb-6Qt">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NIO-pY-YPI"/>
-                                    <barButtonItem systemItem="camera" id="GR6-Pr-IkV">
-                                        <color key="tintColor" red="0.1706252626444037" green="0.46957890580375772" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="openCamera" destination="ekY-aI-Kns" id="KOd-3c-6NK"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="B9y-xk-Cnb"/>
+                                    <barButtonItem title="Item" id="JBx-4D-Xnq"/>
                                 </items>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eN1-5M-SHF" firstAttribute="bottom" secondItem="BtJ-pV-wsB" secondAttribute="top" id="17k-YF-0gL"/>
-                            <constraint firstItem="fPm-BE-VvC" firstAttribute="bottom" secondItem="BtJ-pV-wsB" secondAttribute="top" id="L7a-Nw-sUl"/>
-                            <constraint firstItem="fPm-BE-VvC" firstAttribute="leading" secondItem="eN1-5M-SHF" secondAttribute="leading" id="OK5-By-Gbj"/>
+                            <constraint firstAttribute="bottom" secondItem="VWf-vb-6Qt" secondAttribute="bottom" id="1Zp-W9-NHD"/>
+                            <constraint firstItem="VWf-vb-6Qt" firstAttribute="leading" secondItem="VId-76-czs" secondAttribute="leading" id="6tY-sA-f0d"/>
                             <constraint firstAttribute="trailing" secondItem="eN1-5M-SHF" secondAttribute="trailing" id="S97-aa-kFE"/>
-                            <constraint firstItem="eN1-5M-SHF" firstAttribute="top" secondItem="i43-Ya-fV5" secondAttribute="bottom" id="lor-iC-kDQ"/>
+                            <constraint firstAttribute="trailing" secondItem="VWf-vb-6Qt" secondAttribute="trailing" id="SxJ-Hv-9AP"/>
+                            <constraint firstItem="eN1-5M-SHF" firstAttribute="top" secondItem="VId-76-czs" secondAttribute="top" id="c9r-ht-Q9c"/>
                             <constraint firstItem="eN1-5M-SHF" firstAttribute="leading" secondItem="VId-76-czs" secondAttribute="leading" id="nc5-QX-p1C"/>
-                            <constraint firstItem="fPm-BE-VvC" firstAttribute="trailing" secondItem="eN1-5M-SHF" secondAttribute="trailing" id="qWa-jN-Ez5"/>
+                            <constraint firstItem="eN1-5M-SHF" firstAttribute="bottom" secondItem="BtJ-pV-wsB" secondAttribute="top" id="ylI-yF-JYB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Aces Tour" id="3nh-Mx-dUX">
@@ -59,6 +52,7 @@
                     <connections>
                         <outlet property="AcesMapView" destination="eN1-5M-SHF" id="x02-8b-f18"/>
                         <outlet property="acesMapView" destination="eN1-5M-SHF" id="33q-3x-ewM"/>
+                        <outlet property="toolBar" destination="VWf-vb-6Qt" id="mSi-hB-Rkr"/>
                         <segue destination="KIt-YQ-zZN" kind="show" identifier="tourToDetail" id="uOa-IB-BMv"/>
                         <segue destination="G2L-CF-kVP" kind="show" identifier="tourToObservationDetail" id="Bgt-hD-Bey"/>
                     </connections>
