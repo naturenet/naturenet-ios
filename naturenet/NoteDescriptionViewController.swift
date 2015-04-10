@@ -26,7 +26,7 @@ class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func textViewDidChange(textView: UITextView!) { //Handle the text changes here
+    func textViewDidChange(textView: UITextView) { //Handle the text changes here
         noteContent = noteDescriptionTextView.text
     }
     

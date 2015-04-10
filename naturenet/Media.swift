@@ -29,10 +29,10 @@ class Media: NNModel, CLUploaderDelegate {
     var cloudinary:CLCloudinary = CLCloudinary()
     
     func parseMediaJSON(media: NSDictionary) {
-        self.uid = media["id"] as Int
+        self.uid = media["id"] as! Int
         self.url = media["link"] as? String
-        self.title = media["title"] as String
-        self.created_at = media["created_at"] as NSNumber
+        self.title = media["title"] as! String
+        self.created_at = media["created_at"] as! NSNumber
         self.state = STATE.DOWNLOADED
     }
 
@@ -85,7 +85,7 @@ class Media: NNModel, CLUploaderDelegate {
     }
     
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
-        let publicId = successResult["public_id"] as String
+        let publicId = successResult["public_id"] as! String
         self.url = successResult["url"] as? String
         println("now cloudinary uploaded, public id is: \(publicId), ready for uploading media")
         // push media after cloudinary is finished

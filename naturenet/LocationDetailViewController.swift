@@ -60,12 +60,12 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("tourDetailToObservation", sender: self)
@@ -75,7 +75,7 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailVC = segue.destinationViewController as ObservationDetailController
+        let detailVC = segue.destinationViewController as! ObservationDetailController
 //        detailVC.imageFromCamera = self.cameraImage!
 //        detailVC.imageFromObservation?.image = self.cameraImage!
 //        detailVC.imageFromObservation?.isFromGallery = false

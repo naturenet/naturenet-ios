@@ -103,10 +103,10 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
         
         if textField == textFieldUpass {
-            if countElements(string) > 0 {
+            if count(string) > 0 {
                 let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
                 let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
-                let resultingStringLengthIsLegal = countElements(prospectiveText) <= 4
+                let resultingStringLengthIsLegal = count(prospectiveText) <= 4
                 result = replacementStringIsLegal && resultingStringLengthIsLegal
             }
         }
@@ -129,7 +129,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellNib = UINib(nibName: "LogInTableViewCell", bundle: NSBundle.mainBundle())
         tableView.registerNib(cellNib, forCellReuseIdentifier: "inputFormCell")
-        let cell = tableView.dequeueReusableCellWithIdentifier("inputFormCell", forIndexPath: indexPath) as LogInTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("inputFormCell", forIndexPath: indexPath) as! LogInTableViewCell
         cell.formItemImage.image = UIImage(named: signFormImageNames[indexPath.row])
         cell.formInputTextField.placeholder = signFromPlaceholder[indexPath.row]
         cell.formInputTextField.addTarget(self, action: "textFieldDidBeginEditing:", forControlEvents: UIControlEvents.EditingDidBegin)
@@ -167,7 +167,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     // after getting data from server
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as Int
+            var status = response["status_code"] as! Int
             if (status == 400) {
                 var errorMessage = "We didn't recognize your NatureNet Name or Password"
                 self.showFailMessage(errorMessage)
@@ -187,20 +187,20 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             // println("received results from \(from)")
             if from == "Account" {
                 // var data = response["data"] as NSDictionary!
-                var data = response["data"] as NSDictionary!
-                var model = data["_model_"] as String
+                var data = response["data"] as! NSDictionary!
+                var model = data["_model_"] as! String
                 self.handleUserData(data)
             }
             
             if from == "Site" {
-                var data = response["data"] as NSDictionary!
-                var model = data["_model_"] as String
+                var data = response["data"] as! NSDictionary!
+                var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
             
             if from == "Note" {
                 // response["data"] is an array of notes
-                var data = response["data"] as NSArray!
+                var data = response["data"] as! NSArray!
                 self.handleNoteData(data)
                 self.pauseIndicator()
                 self.navigationController?.popToRootViewControllerAnimated(true)
@@ -210,10 +210,10 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     
     // parse account info and save
     func handleUserData(data: NSDictionary) {
-        var username = data["username"] as String
-        var pass = data["password"] as String
-        var email = data["email"] as String
-        var modified_at = data["modified_at"] as NSNumber
+        var username = data["username"] as! String
+        var pass = data["password"] as! String
+        var email = data["email"] as! String
+        var modified_at = data["modified_at"] as! NSNumber
         
         if pass != self.textFieldUpass.text {
             var errorMessage = "Password is Wrong"
@@ -223,7 +223,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         }
         
         let predicate = NSPredicate(format: "username = %@", username)
-        let existingAccount = NNModel.fetechEntitySingle(NSStringFromClass(Account), predicate: predicate) as Account?
+        let existingAccount = NNModel.fetechEntitySingle(NSStringFromClass(Account), predicate: predicate) as? Account
         if existingAccount != nil {
             // println("input user existing in core date: \(existingAccount?.toString())")
             // println("You have this user in core data: \(inputUser)")
@@ -245,9 +245,9 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     // parse site info and save
     // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
-        var sitename = data["name"] as String
+        var sitename = data["name"] as! String
         let predicate = NSPredicate(format: "name = %@", "aces")
-        let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as Site?
+        let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
         if exisitingSite != nil {
             // println("You have aces site in core data: "  + exisitingSite!.toString())
             // should check if modified date is changed here!! but no modified date returned from API
@@ -275,24 +275,24 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         }
         
         for mNote in notes {
-            var serverNote = mNote as NSDictionary
+            var serverNote = mNote as! NSDictionary
             var localNote: Note?
-            let noteUID = serverNote["id"] as Int
+            let noteUID = serverNote["id"] as! Int
             let predicate = NSPredicate(format: "uid = \(noteUID)")
             let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            let items = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext) as [Note]
+            let items = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext) as! [Note]
 
             if (items.count > 0) {
                 localNote = items[0]
             }
             
             if localNote != nil {
-                if localNote!.modified_at != serverNote["modified_at"] as NSNumber {
+                if localNote!.modified_at != serverNote["modified_at"] as! NSNumber {
                     localNote!.updateNote(serverNote)
                 }
             } else {
                 // save mNote as a new note entry
-                Note.saveToCoreData(mNote as NSDictionary)
+                Note.saveToCoreData(mNote as! NSDictionary)
             }
         }
     }

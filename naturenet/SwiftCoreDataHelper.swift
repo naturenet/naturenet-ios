@@ -12,13 +12,13 @@ import CoreData
 
 class SwiftCoreDataHelper {
     class var nsManagedObjectContext: NSManagedObjectContext {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
     }
     
-    class func insertManagedObject(className:NSString, managedObjectConect:NSManagedObjectContext) -> AnyObject {
-        let managedObject:NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName(className, inManagedObjectContext: managedObjectConect) as NSManagedObject
+    class func insertManagedObject(className: String, managedObjectConect:NSManagedObjectContext) -> AnyObject {
+        let managedObject:NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName(className, inManagedObjectContext: managedObjectConect) as! NSManagedObject
         
         return managedObject
         
@@ -26,7 +26,7 @@ class SwiftCoreDataHelper {
     
     class func getEntityByModelName(className:NSString, managedObjectContext:NSManagedObjectContext) -> AnyObject {
         let fetchRequest:NSFetchRequest = NSFetchRequest()
-        let entetyDescription:NSEntityDescription = NSEntityDescription.entityForName(className, inManagedObjectContext: managedObjectContext)!
+        let entetyDescription:NSEntityDescription = NSEntityDescription.entityForName(className as String, inManagedObjectContext: managedObjectContext)!
         let entity = NSManagedObject(entity: entetyDescription, insertIntoManagedObjectContext: managedObjectContext)
         return entity
     }
@@ -40,7 +40,7 @@ class SwiftCoreDataHelper {
         }
     }
     
-    class func fetchEntities(className:NSString, withPredicate predicate:NSPredicate?, managedObjectContext:NSManagedObjectContext) -> NSArray{
+    class func fetchEntities(className: String, withPredicate predicate:NSPredicate?, managedObjectContext:NSManagedObjectContext) -> NSArray{
         let fetchRequest:NSFetchRequest = NSFetchRequest()
         let entetyDescription:NSEntityDescription = NSEntityDescription.entityForName(className, inManagedObjectContext: managedObjectContext)!
         
@@ -55,7 +55,7 @@ class SwiftCoreDataHelper {
         return items
     }
     
-    class func fetchEntitySingle(className:NSString, withPredicate predicate: NSPredicate?, managedObjectContext:NSManagedObjectContext) -> AnyObject? {
+    class func fetchEntitySingle(className: String, withPredicate predicate: NSPredicate?, managedObjectContext:NSManagedObjectContext) -> AnyObject? {
         var entity: AnyObject?
         var entities = fetchEntities(className, withPredicate: predicate, managedObjectContext:managedObjectContext)
         if entities.count > 0 {

@@ -22,8 +22,8 @@ class Context: NNModel {
     @NSManaged var site: Site
     
     func parseContextJSON(context: NSDictionary) -> Context {
-        self.uid = context["id"] as Int
-        self.name = context["name"] as String
+        self.uid = context["id"] as! Int
+        self.name = context["name"] as! String
         if let desc = context["description"] as? String {
             self.context_description = desc
         } else {
@@ -36,8 +36,8 @@ class Context: NNModel {
             self.extras = ""
         }
   
-        self.title = context["title"] as String
-        self.kind = context["kind"] as String
+        self.title = context["title"] as! String
+        self.kind = context["kind"] as! String
         self.state = STATE.DOWNLOADED
         return self
     }
@@ -46,8 +46,8 @@ class Context: NNModel {
     // update data in core data
     override func updateToCoreData(data: NSDictionary) {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        self.setValue(data["id"] as Int, forKey: "uid")
-        self.setValue(data["name"] as String, forKey: "name")
+        self.setValue(data["id"] as! Int, forKey: "uid")
+        self.setValue(data["name"] as! String, forKey: "name")
         if let desc = data["description"] as? String {
             self.setValue(desc, forKey: "context_description")
         } else {
@@ -60,8 +60,8 @@ class Context: NNModel {
             self.setValue("", forKey: "extras")
         }
         
-        self.setValue(data["title"] as String, forKey: "title")
-        self.setValue(data["kind"] as String, forKey: "kind")
+        self.setValue(data["title"] as! String, forKey: "title")
+        self.setValue(data["kind"] as! String, forKey: "kind")
         self.state = STATE.DOWNLOADED
         self.setValue(STATE.DOWNLOADED, forKey: "state")
         SwiftCoreDataHelper.saveManagedObjectContext(managedContext)

@@ -25,28 +25,28 @@ class Account: NNModel {
     }
     
     func parseJSON(data: NSDictionary) -> Account {
-        self.uid = data["id"] as Int
-        self.username = data["username"] as String
-        self.name = data["name"] as String
-        self.password = data["password"] as String
-        self.email = data["email"] as String
-        self.created_at = data["created_at"] as NSNumber
-        self.modified_at = data["modified_at"] as NSNumber
+        self.uid = data["id"] as! Int
+        self.username = data["username"] as! String
+        self.name = data["name"] as! String
+        self.password = data["password"] as! String
+        self.email = data["email"] as! String
+        self.created_at = data["created_at"] as! NSNumber
+        self.modified_at = data["modified_at"] as! NSNumber
         return self
     }
     
     // update data in core data
     override func updateToCoreData(data: NSDictionary) {
-        self.setValue(data["password"] as String, forKey: "password")
-        self.setValue(data["email"] as String, forKey: "email")
-        self.setValue(data["modified_at"] as NSNumber, forKey: "modified_at")
+        self.setValue(data["password"] as! String, forKey: "password")
+        self.setValue(data["email"] as! String, forKey: "email")
+        self.setValue(data["modified_at"] as! NSNumber, forKey: "modified_at")
         SwiftCoreDataHelper.saveManagedObjectContext(self.nsManagedContext)
     }
     
     // save a new account in core data
     class func saveToCoreData(mAccount: NSDictionary) -> Account {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as Account
+        var account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as! Account
         account.parseJSON(mAccount)
         println("account with \(account.uid) is: { \(account.toString()) } is saved")
         account.commit()
@@ -64,7 +64,7 @@ class Account: NNModel {
     func getNotes() -> [Note] {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var predicate = NSPredicate(format: "account = %@", self.objectID)
-        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: context) as [Note]
+        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: context) as! [Note]
         return results
     }
         

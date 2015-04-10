@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -171,7 +171,7 @@
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fyp-jb-iKo">
-                                <rect key="frame" x="278" y="569" width="45" height="22"/>
+                                <rect key="frame" x="278" y="568" width="45" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -260,11 +260,11 @@
                         <outlet property="signinBtn" destination="PJ9-fO-ba7" id="TkG-xK-k1Q"/>
                         <outlet property="welcomeLabel" destination="fyp-jb-iKo" id="J4J-sG-voQ"/>
                         <segue destination="VoY-hl-Epj" kind="show" identifier="observationSeg" id="PbE-tg-8FU"/>
-                        <segue destination="NmB-xi-hHy" kind="presentation" identifier="activitiesSeg" id="cPW-ju-p46"/>
                         <segue destination="s5c-IR-cv4" kind="show" identifier="profileSeg" id="bA5-c6-l5A"/>
                         <segue destination="2z6-fJ-NyL" kind="show" identifier="designIdeaSeg" id="9ac-AY-f52"/>
                         <segue destination="ekY-aI-Kns" kind="show" identifier="homeToTour" id="d48-h3-pwP"/>
                         <segue destination="d12-Pt-zwy" kind="show" identifier="homeToAboutSeg" id="8lE-IS-s0L"/>
+                        <segue destination="t4G-Hw-JHV" kind="show" identifier="activitiesSeg" id="tiA-zq-296"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -482,7 +482,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Y1-Gq-va3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-922" y="684"/>
+            <point key="canvasLocation" x="-1000" y="646"/>
         </scene>
         <!--Signup One-->
         <scene sceneID="3yZ-uG-DVh">
@@ -539,7 +539,7 @@ The researchers and other visitors will be able to look at your contributions an
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ZtO-5h-iyL">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="consentCell" id="ZtO-5h-iyL">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZtO-5h-iyL" id="fQV-Py-Jq4">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -784,7 +784,7 @@ The researchers and other visitors will be able to look at your contributions an
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.59999999999999964" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="iY7-42-Vja">
-                                                    <rect key="frame" x="8" y="127" width="139" height="21"/>
+                                                    <rect key="frame" x="8" y="126" width="139" height="21"/>
                                                     <color key="backgroundColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1117,25 +1117,7 @@ The researchers and other visitors will be able to look at your contributions an
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="io2-wi-xr1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1160" y="-292"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="VPM-xr-aUY">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NmB-xi-hHy" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QPN-y3-ZMB">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="t4G-Hw-JHV" kind="relationship" relationship="rootViewController" id="GMX-N6-aO5"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fej-Pz-W1Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="770" y="475"/>
+            <point key="canvasLocation" x="1136" y="-604"/>
         </scene>
         <!--About-->
         <scene sceneID="9Ko-Dm-v1W">
@@ -1214,9 +1196,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <toolbarItems>
-                        <barButtonItem title="Item" id="s7N-uh-XRd"/>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Activities" id="uvr-FT-QeU">
                         <barButtonItem key="leftBarButtonItem" image="back" id="3zH-eD-dXE">
                             <connections>
@@ -1224,15 +1204,16 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <segue destination="hMG-K1-N3g" kind="show" identifier="activityDetail" id="Nfv-ei-fl4"/>
+                        <segue destination="C6g-qo-Rrm" kind="show" identifier="birdCounting" id="9vL-or-Lp1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qp1-ge-Zhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="tbD-Sd-9pO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1489" y="475"/>
+            <point key="canvasLocation" x="-352" y="58"/>
         </scene>
         <!--ActivityDetail-->
         <scene sceneID="oa5-Hq-k3v">
@@ -1247,7 +1228,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="prM-kJ-Vyi">
-                                <rect key="frame" x="0.0" y="512" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="6bH-Zc-V9e"/>
                                     <barButtonItem systemItem="camera" id="gL5-pq-kWa">
@@ -1265,7 +1246,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="jJb-So-Cjl">
-                                <rect key="frame" x="0.0" y="232" width="600" height="280"/>
+                                <rect key="frame" x="0.0" y="232" width="600" height="324"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1296,7 +1277,179 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SG8-zI-uKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2261" y="475"/>
+            <point key="canvasLocation" x="1541" y="163"/>
+        </scene>
+        <!--Bird Counting-->
+        <scene sceneID="zee-3N-vnZ">
+            <objects>
+                <tableViewController title="Bird Counting" id="C6g-qo-Rrm" customClass="BirdCountingTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="paB-Rb-deq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection id="iLC-py-uyj">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="1tK-3M-arm">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1tK-3M-arm" id="aUA-8C-QWe">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="These birds are commonly seen at ACES at this time of year. Click on any that you see and record how many." lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A3z-sT-7r3">
+                                                    <rect key="frame" x="76" y="4" width="516" height="92"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bird" translatesAutoresizingMaskIntoConstraints="NO" id="q1i-Xb-oCK">
+                                                    <rect key="frame" x="8" y="12" width="60" height="76"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="39" id="F6l-hL-OnJ"/>
+                                                        <constraint firstAttribute="width" constant="60" id="TN5-bR-dIk"/>
+                                                        <constraint firstAttribute="width" constant="60" id="VYp-7f-EYt"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="F6l-hL-OnJ"/>
+                                                            <exclude reference="VYp-7f-EYt"/>
+                                                        </mask>
+                                                    </variation>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="A3z-sT-7r3" firstAttribute="trailing" secondItem="aUA-8C-QWe" secondAttribute="trailingMargin" id="3lv-G8-D14"/>
+                                                <constraint firstItem="A3z-sT-7r3" firstAttribute="top" secondItem="aUA-8C-QWe" secondAttribute="topMargin" constant="-4" id="LqU-Ge-Y2d"/>
+                                                <constraint firstAttribute="centerY" secondItem="A3z-sT-7r3" secondAttribute="centerY" id="QKC-kJ-doT"/>
+                                                <constraint firstItem="A3z-sT-7r3" firstAttribute="leading" secondItem="q1i-Xb-oCK" secondAttribute="trailing" constant="8" id="bg2-5k-p3Z"/>
+                                                <constraint firstItem="q1i-Xb-oCK" firstAttribute="leading" secondItem="aUA-8C-QWe" secondAttribute="leadingMargin" id="lK7-Jj-JlB"/>
+                                                <constraint firstAttribute="centerY" secondItem="q1i-Xb-oCK" secondAttribute="centerY" id="lc6-7f-zpb"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="A3z-sT-7r3" secondAttribute="bottom" constant="-4" id="pVa-0X-V8n"/>
+                                                <constraint firstItem="q1i-Xb-oCK" firstAttribute="top" secondItem="aUA-8C-QWe" secondAttribute="topMargin" constant="4" id="wn2-Ql-qx4"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="pVa-0X-V8n"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Birds" id="xjb-kX-8k5">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="250" id="Awv-LF-q08">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Awv-LF-q08" id="0Hk-q1-KPh">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="J3d-vV-4fm">
+                                                    <rect key="frame" x="0.0" y="8" width="600" height="233"/>
+                                                    <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XfM-lE-EDS">
+                                                        <size key="itemSize" width="142" height="141"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="birdcell" id="sWO-SK-Ixc" customClass="BirdCountingCollectionViewCell" customModule="NatureNet" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                                <rect key="frame" x="0.0" y="0.0" width="142" height="141"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5T-21-9m1">
+                                                                        <rect key="frame" x="8" y="117" width="126" height="16"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FKT-6g-ZAL">
+                                                                        <rect key="frame" x="8" y="8" width="126" height="101"/>
+                                                                    </imageView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            </view>
+                                                            <constraints>
+                                                                <constraint firstItem="v5T-21-9m1" firstAttribute="trailing" secondItem="sWO-SK-Ixc" secondAttribute="trailingMargin" id="KEZ-Vz-C3D"/>
+                                                                <constraint firstAttribute="centerX" secondItem="v5T-21-9m1" secondAttribute="centerX" id="LGL-qP-0Lf"/>
+                                                                <constraint firstItem="v5T-21-9m1" firstAttribute="leading" secondItem="sWO-SK-Ixc" secondAttribute="leadingMargin" id="i8t-c3-ICD"/>
+                                                                <constraint firstItem="v5T-21-9m1" firstAttribute="top" secondItem="FKT-6g-ZAL" secondAttribute="bottom" constant="8" id="jdr-rv-KA0"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="FKT-6g-ZAL" secondAttribute="trailing" id="pRk-Oi-1K2"/>
+                                                                <constraint firstItem="FKT-6g-ZAL" firstAttribute="leading" secondItem="sWO-SK-Ixc" secondAttribute="leadingMargin" id="rSm-e0-ezF"/>
+                                                                <constraint firstItem="v5T-21-9m1" firstAttribute="bottom" secondItem="sWO-SK-Ixc" secondAttribute="bottomMargin" id="tAQ-1P-867"/>
+                                                                <constraint firstItem="v5T-21-9m1" firstAttribute="top" secondItem="FKT-6g-ZAL" secondAttribute="bottom" constant="8" id="u6g-mn-Otu"/>
+                                                                <constraint firstItem="v5T-21-9m1" firstAttribute="bottom" secondItem="sWO-SK-Ixc" secondAttribute="bottomMargin" id="uPB-Aj-DFz"/>
+                                                                <constraint firstItem="FKT-6g-ZAL" firstAttribute="top" secondItem="sWO-SK-Ixc" secondAttribute="topMargin" id="zEZ-iG-crN"/>
+                                                            </constraints>
+                                                            <variation key="default">
+                                                                <mask key="constraints">
+                                                                    <exclude reference="LGL-qP-0Lf"/>
+                                                                    <exclude reference="u6g-mn-Otu"/>
+                                                                </mask>
+                                                            </variation>
+                                                            <connections>
+                                                                <outlet property="imageView" destination="FKT-6g-ZAL" id="sVE-aa-c2E"/>
+                                                                <outlet property="label" destination="v5T-21-9m1" id="iGm-pM-ANj"/>
+                                                            </connections>
+                                                        </collectionViewCell>
+                                                    </cells>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="C6g-qo-Rrm" id="P8e-5d-k7Z"/>
+                                                        <outlet property="delegate" destination="C6g-qo-Rrm" id="Kz4-68-I39"/>
+                                                    </connections>
+                                                </collectionView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="J3d-vV-4fm" firstAttribute="centerY" secondItem="0Hk-q1-KPh" secondAttribute="centerY" id="5tB-Hy-7Xb"/>
+                                                <constraint firstItem="J3d-vV-4fm" firstAttribute="leading" secondItem="0Hk-q1-KPh" secondAttribute="leading" id="HWQ-hA-bYv"/>
+                                                <constraint firstAttribute="trailing" secondItem="J3d-vV-4fm" secondAttribute="trailing" id="Xe7-eI-mO7"/>
+                                                <constraint firstItem="J3d-vV-4fm" firstAttribute="top" secondItem="0Hk-q1-KPh" secondAttribute="topMargin" id="zRM-dD-0iA"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="MZU-Ir-FHn">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Vtd-QH-J3V" detailTextLabel="Exv-8L-GXF" style="IBUITableViewCellStyleValue1" id="5mr-PN-QRJ">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5mr-PN-QRJ" id="Jrm-Mq-fcs">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="My Observations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vtd-QH-J3V">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Exv-8L-GXF">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="C6g-qo-Rrm" id="YgG-YK-QnL"/>
+                            <outlet property="delegate" destination="C6g-qo-Rrm" id="ebZ-Dy-PPP"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="birdsCollectionView" destination="J3d-vV-4fm" id="APf-Ol-8sj"/>
+                        <segue destination="ge3-uC-lRe" kind="show" identifier="birdCountingDetail" id="m0n-Dy-9Ef"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dZg-dB-hDO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="461" y="793"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
@@ -1448,15 +1601,155 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
             </objects>
             <point key="canvasLocation" x="3696" y="-1559"/>
         </scene>
+        <!--BirdCountingDetail-->
+        <scene sceneID="wVR-ig-w2E">
+            <objects>
+                <tableViewController title="BirdCountingDetail" id="ge3-uC-lRe" customClass="BirdCountingDetailTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="BHd-2q-hZ2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection id="tGs-z4-t77">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="birdImageCell" rowHeight="150" id="3dH-JO-YI6">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3dH-JO-YI6" id="IXH-gA-mbb">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bird" translatesAutoresizingMaskIntoConstraints="NO" id="ST4-jB-CVq">
+                                                    <rect key="frame" x="8" y="8" width="143" height="133"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="143" id="USH-x2-6zL"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-2R-14d">
+                                                    <rect key="frame" x="161" y="8" width="133" height="133"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="jOZ-2R-14d" secondAttribute="height" multiplier="1:1" id="WNf-cF-VAl"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal">
+                                                        <string key="title">Add 
+your Photo</string>
+                                                        <color key="titleColor" red="0.17062526259999999" green="0.4695789058" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="leading" secondItem="ST4-jB-CVq" secondAttribute="trailing" constant="10" id="1Qn-zm-KaJ"/>
+                                                <constraint firstItem="ST4-jB-CVq" firstAttribute="leading" secondItem="IXH-gA-mbb" secondAttribute="leadingMargin" id="4Po-aL-vok"/>
+                                                <constraint firstItem="ST4-jB-CVq" firstAttribute="bottom" secondItem="IXH-gA-mbb" secondAttribute="bottomMargin" id="6zm-6w-MYq"/>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="centerY" secondItem="ST4-jB-CVq" secondAttribute="centerY" id="FGF-NH-HNq"/>
+                                                <constraint firstItem="ST4-jB-CVq" firstAttribute="top" secondItem="IXH-gA-mbb" secondAttribute="topMargin" id="FYR-hl-VUp"/>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="bottom" secondItem="IXH-gA-mbb" secondAttribute="bottomMargin" id="Kij-j0-P1r"/>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="top" secondItem="IXH-gA-mbb" secondAttribute="topMargin" id="WrZ-L3-g3p"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="FGF-NH-HNq"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="Yp3-OI-gsZ">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="numberPickerCell" textLabel="mAA-ai-Uvb" detailTextLabel="ZJQ-eq-H2i" style="IBUITableViewCellStyleValue1" id="XTS-u1-YyU">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XTS-u1-YyU" id="mKc-oJ-qKd">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="How Many" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mAA-ai-Uvb">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZJQ-eq-H2i">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell hidden="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="birdDetailCell" rowHeight="150" id="6nO-9H-4jm">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6nO-9H-4jm" id="xIb-Ik-bgI">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Xj-1l-taU">
+                                                    <rect key="frame" x="13" y="-7" width="574" height="162"/>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="ge3-uC-lRe" id="bbx-ph-gQo"/>
+                                                        <outlet property="delegate" destination="ge3-uC-lRe" id="aLo-yE-gEQ"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="4Xj-1l-taU" secondAttribute="trailing" constant="5" id="WIN-UP-irF"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="4Xj-1l-taU" secondAttribute="bottom" constant="4" id="r8o-Y6-jMc"/>
+                                                <constraint firstItem="4Xj-1l-taU" firstAttribute="leading" secondItem="xIb-Ik-bgI" secondAttribute="leadingMargin" constant="5" id="uJj-r3-tSK"/>
+                                                <constraint firstItem="4Xj-1l-taU" firstAttribute="top" secondItem="xIb-Ik-bgI" secondAttribute="topMargin" constant="4" id="yRJ-92-abI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="eiG-c7-Nid" detailTextLabel="jTG-ou-9aE" style="IBUITableViewCellStyleValue1" id="5U9-q4-oEJ">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5U9-q4-oEJ" id="ekk-EV-So3">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Other Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eiG-c7-Nid">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="This is Mallard" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jTG-ou-9aE">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="ge3-uC-lRe" id="7y8-r9-cCg"/>
+                            <outlet property="delegate" destination="ge3-uC-lRe" id="mZc-G7-fgR"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="Bs9-1T-FOx">
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="dgM-1V-Kaf"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addPhotoBtn" destination="jOZ-2R-14d" id="ecK-8X-GDr"/>
+                        <outlet property="tableview" destination="BHd-2q-hZ2" id="GQD-B3-gdt"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fb6-Ko-EKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1541" y="1217"/>
+        </scene>
     </scenes>
     <resources>
         <image name="back" width="25" height="25"/>
+        <image name="bird" width="64" height="64"/>
         <image name="bulb" width="128" height="128"/>
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9ac-AY-f52"/>
         <segue reference="PbE-tg-8FU"/>
-        <segue reference="Bgt-hD-Bey"/>
+        <segue reference="9ac-AY-f52"/>
+        <segue reference="EWU-e4-npt"/>
     </inferredMetricsTieBreakers>
 </document>

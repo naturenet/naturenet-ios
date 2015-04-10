@@ -10,12 +10,13 @@ import UIKit
 import MapKit
 
 class TourViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate,
-                        UIImagePickerControllerDelegate {
+                        UIImagePickerControllerDelegate, APIControllerProtocol {
 
     @IBOutlet weak var acesMapView: MKMapView!
     @IBOutlet weak var toolBar: UIToolbar!
     
     
+    var site: Site!
     var locationIconNames = ["number1", "number2", "number3", "number4", "number5", "number6", "number7",
                                 "number8", "number9", "number10", "number11"]
     var tourAnnotations: [TourLocationAnnotation]?
@@ -88,8 +89,8 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         //Set annotation-specific properties **AFTER**
         //the view is dequeued or created...
         
-        let cpa = annotation as TourLocationAnnotation
-        anView.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as UIButton
+        let cpa = annotation as! TourLocationAnnotation
+        anView.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
         anView.image = UIImage(named: cpa.imageName)
         return anView
         
@@ -102,25 +103,65 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "tourToDetail" {
-            let detailVC = segue.destinationViewController as LocationDetailViewController
+            let detailVC = segue.destinationViewController as! LocationDetailViewController
             // if passed from a cell
             if let annotationView = sender as? MKAnnotationView {
-                let annotation = annotationView.annotation as TourLocationAnnotation
+                let annotation = annotationView.annotation as! TourLocationAnnotation
                 detailVC.locationTitle = annotation.title
                 detailVC.locationDescription = annotation.subtitle
             }
         }
         if segue.identifier == "tourToObservationDetail" {
-            let detailVC = segue.destinationViewController as ObservationDetailController
+            let detailVC = segue.destinationViewController as! ObservationDetailController
             detailVC.imageFromObservation = ObservationsController.PickedImage(image: self.cameraImage, isFromGallery: false)
             detailVC.sourceViewController = NSStringFromClass(TourViewController)
         }
     }
     
-    private func refreshLocations() {
-    
+    func refreshLocations() {
+        var parseService = APIService()
+        parseService.delegate = self
+        Site.doPullByNameFromServer(parseService, name: "aces")
     }
     
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
+        dispatch_async(dispatch_get_main_queue(), {
+            var status = response["status_code"] as! Int
+            if (status == 400) {
+                var errorMessage = "We didn't recognize your NatureNet Name or Password"
+                return
+            }
+            
+            // 600 is self defined error code on the phone's side
+            if (status == 600) {
+                var errorMessage = "Internet seems not working"
+                return
+            }
+            
+            if from == "Site" {
+                var data = response["data"] as! NSDictionary!
+                var sitename = data["name"] as! String
+                let predicate = NSPredicate(format: "name = %@", "aces")
+                let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
+                if exisitingSite != nil {
+                    // println("You have aces site in core data: "  + exisitingSite!.toString())
+                    // should check if modified date is changed here!! but no modified date returned from API
+                    self.site = exisitingSite
+                    self.site?.updateToCoreData(data)
+                } else {
+                    self.site = Site.saveToCoreData(data)
+                }
+                // update annotations on the map
+                self.tourAnnotations = self.getTourAnnotations()
+                self.acesMapView.removeAnnotations(self.acesMapView.annotations)
+                for location in self.tourAnnotations! {
+                    self.setAnnotation(location)
+                }
+            }
+
+        })
+    }
+
     //----------------------------------------------------------------------------------------------------------------------
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
@@ -142,12 +183,12 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("tourToObservationDetail", sender: self)

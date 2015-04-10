@@ -64,7 +64,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     
     // The cell that is returned must be retrieved from a call to dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("homecell", forIndexPath: indexPath) as HomeCell
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("homecell", forIndexPath: indexPath) as! HomeCell
         cell.mLabel.text = self.items[indexPath.row]
         // cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.whiteColor() : UIColor.lightGrayColor()
         cell.mImageView.image = UIImage(named: self.images[indexPath.row])
@@ -72,8 +72,8 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     }
     
     // programmatically set the cell's size
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
-        sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
             var photoPath =  self.images[indexPath.row]
             var mImage = UIImage(named: self.images[indexPath.row])
             let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -117,7 +117,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "designIdeaSeg" {
-            let destinationVC = segue.destinationViewController as DesignIdeaViewController
+            let destinationVC = segue.destinationViewController as! DesignIdeaViewController
             destinationVC.delegate = self
             if self.designIdeaInput != nil {
                 destinationVC.designIdeaSavedInput = self.designIdeaInput

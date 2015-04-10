@@ -43,16 +43,16 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         dispatch_async(dispatch_get_main_queue(), {
             if from == "POST_" + NSStringFromClass(Note) {
-                var status = response["status_code"] as Int
+                var status = response["status_code"] as! Int
                 if status == 600 {
                     self.createAlert(nil, message: "Looks you have a problem with Internet connection!", type: self.INTERNETPROBLEM)
                     return
                 }
                 
                 if status == 200 {
-                    var uid = response["data"]!["id"] as Int
+                    var uid = response["data"]!["id"] as! Int
                     println("now after post_designIdea. Done!")
-                    var modifiedAt = response["data"]!["modified_at"] as NSNumber
+                    var modifiedAt = response["data"]!["modified_at"] as! NSNumber
                     self.idea!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     self.designIdeaSavedInput = nil
                 }
@@ -75,19 +75,19 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     func textViewDidChange(textView: UITextView!) {
         self.navigationItem.rightBarButtonItem?.enabled = true
         self.navigationItem.rightBarButtonItem?.style = .Done
-        if countElements(self.ideaTextView.text) == 0 {
+        if count(self.ideaTextView.text) == 0 {
             self.navigationItem.rightBarButtonItem?.enabled = false
         }
         self.designIdeaSavedInput = textView.text
     }
     
     // touch starts, dismiss keyboard
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.ideaTextView.resignFirstResponder()
     }
     
     @IBAction func ideaSendPressed(sender: UIBarButtonItem) {
-        if countElements(self.ideaTextView.text) == 0 {
+        if count(self.ideaTextView.text) == 0 {
             // here should never be called
             self.createAlert("Oops", message: "Your input is empty!", type: self.NOINPUT)
         } else {
@@ -112,14 +112,14 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     // save to core data first
     func saveIdea() -> Note {
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var note = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
+        var note = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
         note.state = NNModel.STATE.NEW
         if let account = Session.getAccount() {
             note.account = account
         }
         
         if let site = Session.getSite() {
-            var contexts = site.getContexts() as [Context]
+            var contexts = site.getContexts() as! [Context]
             for context in contexts {
                 if context.kind == "Design" {
                     note.context = context

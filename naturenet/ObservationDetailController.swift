@@ -84,16 +84,16 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     //----------------------------------------------------------------------------------------------------------------------
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "editObsToDescription" {
-            let destinationVC = segue.destinationViewController as NoteDescriptionViewController
+            let destinationVC = segue.destinationViewController as! NoteDescriptionViewController
             destinationVC.noteContent = descriptionLabel.text
         }
         if segue.identifier == "editObsToActivity" {
-            let destinationVC = segue.destinationViewController as NoteActivitySelectionViewController
+            let destinationVC = segue.destinationViewController as! NoteActivitySelectionViewController
             destinationVC.activities = self.activities
             destinationVC.selectedActivityTitle = activityLable.text
         }
         if segue.identifier == "editObsToLocation" {
-            let destinationVC = segue.destinationViewController as NoteLocationTableViewController
+            let destinationVC = segue.destinationViewController as! NoteLocationTableViewController
             destinationVC.landmarks = self.landmarks
             destinationVC.selectedLocation = locationLabel.text
         }
@@ -106,7 +106,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // receive data from note description textview
     @IBAction func passedDescription(segue:UIStoryboardSegue) {
-        let noteDescriptionVC = segue.sourceViewController as NoteDescriptionViewController
+        let noteDescriptionVC = segue.sourceViewController as! NoteDescriptionViewController
         if let desc = noteDescriptionVC.noteContent {
             descriptionLabel.text = desc
         }
@@ -116,7 +116,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // receive data from activity selection
     @IBAction func passedActivitySelection(segue:UIStoryboardSegue) {
-        let noteActivitySelectionVC = segue.sourceViewController as NoteActivitySelectionViewController
+        let noteActivitySelectionVC = segue.sourceViewController as! NoteActivitySelectionViewController
         if let activityTitle = noteActivitySelectionVC.selectedActivityTitle {
             activityLable.text = activityTitle
         }
@@ -125,7 +125,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // receive data from activity selection
     @IBAction func passedLocationSelection(segue:UIStoryboardSegue) {
-        let noteLocationSelectionVC = segue.sourceViewController as NoteLocationTableViewController
+        let noteLocationSelectionVC = segue.sourceViewController as! NoteLocationTableViewController
         if let locationTitle = noteLocationSelectionVC.selectedLocation {
             locationLabel.text = locationTitle
         }
@@ -141,7 +141,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             || sourceViewController == NSStringFromClass(TourViewController)
             || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             let nextViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ObservationsViewController")
-                                    as ObservationsController
+                                    as! ObservationsController
             self.navigationController?.pushViewController(nextViewController, animated: true)
             nextViewController.sourceViewController = sourceViewController
             self.saveNote()
@@ -177,7 +177,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     // implement location didUpdataLocation
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         println("location is  \(locations)")
-        var userLocation: CLLocation = locations[0] as CLLocation
+        var userLocation: CLLocation = locations[0] as! CLLocation
         self.userLat = userLocation.coordinate.latitude
         self.userLon = userLocation.coordinate.longitude
         self.locationManager.stopUpdatingLocation()
@@ -263,7 +263,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
 
     func saveNote() -> Note {
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as Note
+        var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
         if imageFromObservation != nil {
             if userLon != nil && userLat != nil {
                 mNote.longitude = self.userLon!
@@ -295,7 +295,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         // save to Media
         var fileName = String(timestamp) + ".jpg"
         var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(self.noteImageView.image, 1.0), name: fileName)
-        var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as Media
+        var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as! Media
         media.note = mNote
         media.state = NNModel.STATE.NEW
         media.full_path = fullPath
@@ -306,7 +306,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         // save to Feedback
         if let landmark = locationLabel.text {
             var selectedLandmark = getLandmarkByName(landmark)!
-            var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as Feedback
+            var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as! Feedback
             feedback.account = account!
             feedback.state = NNModel.STATE.NEW
             feedback.kind = "landmark"
@@ -337,7 +337,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             var predicate = NSPredicate(format: "note = %@", note!.objectID)
             var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
             var fetchedFeedback = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Feedback), withPredicate: predicate,
-                managedObjectContext: nsManagedContext) as Feedback?
+                managedObjectContext: nsManagedContext) as! Feedback?
             if fetchedFeedback != nil {
                 fetchedFeedback!.content = selectedLandmark.name
                 fetchedFeedback!.commit()
@@ -365,7 +365,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         if let noteObjectID = self.noteIdFromObservations {
             var predicate = NSPredicate(format: "SELF = %@", noteObjectID)
             if let mNote = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Note), withPredicate: predicate,
-                managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as Note? {
+                managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as! Note? {
                    self.note = mNote
             }
             self.noteMedia = self.note?.getSingleMedia()
@@ -412,7 +412,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         if let site: Site = Session.getSite() {
             let siteContexts = site.getContexts()
             for sContext in siteContexts {
-                let context = sContext as Context
+                let context = sContext as! Context
                 if context.kind == "Landmark" {
                     self.landmarks.append(context)
                 }
@@ -458,7 +458,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         var title: String?
         for feedback in feedbacks {
             // ?? not sure this is the right way to get landmark feedback
-            var landmarkFeedback = feedback as Feedback
+            var landmarkFeedback = feedback as! Feedback
             for context in contexts {
                 if landmarkFeedback.content == context.name {
                     title = context.title

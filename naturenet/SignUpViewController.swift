@@ -63,8 +63,8 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
     }
     
     @IBAction func signupSendPressed(sender: UIBarButtonItem) {
-        if countElements(usernameTextField.text) == 0 || countElements(passTextField.text) == 0
-                || countElements(emailTextField.text) == 0 || countElements(nameTextField.text) == 0 {
+        if count(usernameTextField.text) == 0 || count(passTextField.text) == 0
+                || count(emailTextField.text) == 0 || count(nameTextField.text) == 0 {
             showAlertLabel("You must fill all fields!")
             self.navigationItem.rightBarButtonItem?.enabled = false
         } else {
@@ -76,7 +76,7 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
             if !SignInViewController.hasWhiteSpace(username) && !SignInViewController.hasWhiteSpace(email) {
                 var url = APIAdapter.api.getCreateAccountLink(username)
                 var params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
-                apiService.post(NSStringFromClass(Account), sourceData: self.signInAccount?, params: params, url: url)
+                apiService.post(NSStringFromClass(Account), sourceData: self.signInAccount, params: params, url: url)
             } else {
                 var errorMessage = "Username or email should not contain spaces"
                 self.showAlertLabel(errorMessage)
@@ -91,10 +91,10 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
         let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
         
         if textField == passTextField {
-            if countElements(string) > 0 {
+            if count(string) > 0 {
                 let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
                 let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
-                let resultingStringLengthIsLegal = countElements(prospectiveText) <= 4
+                let resultingStringLengthIsLegal = count(prospectiveText) <= 4
                 result = replacementStringIsLegal && resultingStringLengthIsLegal
             }
         }
@@ -105,10 +105,10 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         // println("got result from sign up")
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as Int
+            var status = response["status_code"] as! Int
             if (status == 400) {
                 // println("got result status 400")
-                var statusText = response["status_txt"] as String
+                var statusText = response["status_txt"] as! String
                 self.stopLoading()
                 self.showAlertLabel(statusText)
             }
@@ -120,11 +120,11 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
             }
             
             if status == 200 {
-                var data = response["data"] as NSDictionary!
+                var data = response["data"] as! NSDictionary!
                 if from == "POST_" + NSStringFromClass(Account) {
                     self.signInAccount = Account.saveToCoreData(data)
                     let predicate = NSPredicate(format: "name= %@", "aces")
-                    if let site = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate!) as? Site {
+                    if let site = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site {
                         Session.signIn(self.signInAccount!, site: site)
                         self.stopLoading()
                         self.navigationController?.popToRootViewControllerAnimated(true)

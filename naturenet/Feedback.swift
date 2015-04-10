@@ -21,12 +21,12 @@ class Feedback: NNModel {
     @NSManaged var account: Account
     
     func parseFeedbackJSON(feedback: NSDictionary) {
-        self.uid = feedback["id"] as Int
-        self.content = feedback["content"] as String
-        self.kind = feedback["kind"] as String
-        self.modified_at = feedback["modified_at"] as NSNumber
-        self.created_at = feedback["created_at"] as NSNumber
-        var accountID = feedback["account"]!["id"] as Int
+        self.uid = feedback["id"] as! Int
+        self.content = feedback["content"] as! String
+        self.kind = feedback["kind"] as! String
+        self.modified_at = feedback["modified_at"] as! NSNumber
+        self.created_at = feedback["created_at"] as! NSNumber
+        var accountID = feedback["account"]!["id"] as! Int
         self.account_id = accountID
         let predicate = NSPredicate(format: "uid = \(accountID)")
         // the feedback can be other user's comment in "feedbacks"

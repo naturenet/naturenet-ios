@@ -57,7 +57,7 @@ class ActivityDetailViewController: UIViewController, UINavigationControllerDele
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "activityToObservation" {
-            let detailVC = segue.destinationViewController as ObservationDetailController
+            let detailVC = segue.destinationViewController as! ObservationDetailController
 //            detailVC.imageFromCamera = self.cameraImage!
 //            detailVC.imageFromObservation?.image = self.cameraImage!
 //            detailVC.imageFromObservation?.isFromGallery = false
@@ -88,13 +88,13 @@ class ActivityDetailViewController: UIViewController, UINavigationControllerDele
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         println("picker cancel.")
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("activityToObservation", sender: self)

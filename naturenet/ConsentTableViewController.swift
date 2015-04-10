@@ -55,7 +55,7 @@ class ConsentTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellNib = UINib(nibName: "ConsentTableViewCell", bundle: NSBundle.mainBundle())
         tableView.registerNib(cellNib, forCellReuseIdentifier: "consentTableViewCell")
-        let cell = tableView.dequeueReusableCellWithIdentifier("consentTableViewCell", forIndexPath: indexPath) as ConsentTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("consentTableViewCell", forIndexPath: indexPath) as! ConsentTableViewCell
         cell.consentTextLabel?.text = data![indexPath.row]
     
         return cell
@@ -66,7 +66,7 @@ class ConsentTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as ConsentTableViewCell
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as! ConsentTableViewCell
         cell.setSelected(true, animated: true)
         if !cell.consentSwitch.on {
             cell.consentSwitch.on = true
@@ -77,7 +77,7 @@ class ConsentTableViewController: UITableViewController {
     }
   
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as ConsentTableViewCell
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: indexPath.row, inSection: 0)) as! ConsentTableViewCell
 
    
             cell.consentSwitch.on = false
@@ -87,12 +87,12 @@ class ConsentTableViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "consentToSignUp" {
-            let destinationVC = segue.destinationViewController as SignUpViewController
+            let destinationVC = segue.destinationViewController as! SignUpViewController
             var consentStr = ""
             var selectedIndex = 0
             for selection in selections {
                 if selection == 1 {
-                    let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))! as ConsentTableViewCell
+                    let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))! as! ConsentTableViewCell
                     consentStr += cell.consentTextLabel!.text!
                 }
                 selectedIndex++
@@ -105,7 +105,7 @@ class ConsentTableViewController: UITableViewController {
     
     @IBAction func consentSendPressed(sender: UIBarButtonItem) {
         for index in 0...3 {
-            let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0))! as ConsentTableViewCell
+            let cell = consentTableView.cellForRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0))! as! ConsentTableViewCell
             if cell.selected {
                 selections[index] = 1
             } else {

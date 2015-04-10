@@ -72,7 +72,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             if data.getStatus() == "ready to send" {
                 var noteObjectId = data.objectID
                 let predicate = NSPredicate(format: "self = %@", noteObjectId)
-                var note = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as Note
+                var note = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as! Note
                 self.receivedNoteFromObservation = nil
                 note.push(self.apiService)
                 uploadNumbers++
@@ -91,7 +91,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // in the background thread.
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as Int
+            var status = response["status_code"] as! Int
             if status == 600 {
                 if let note = sourceData as? Note {
                     self.updateReceivedNoteStatus(note)
@@ -100,10 +100,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
             
-            var uid = response["data"]!["id"] as Int
+            var uid = response["data"]!["id"] as! Int
             if from == "POST_" + NSStringFromClass(Note) {
                 println("now after post_note, ready for uploading feedbacks")
-                var modifiedAt = response["data"]!["modified_at"] as NSNumber
+                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
                 if let newNote = sourceData as? Note {
                     newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     newNote.doPushFeedbacks(self.apiService)
@@ -121,7 +121,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
                 println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
-                var modifiedAt = response["data"]!["modified_at"] as NSNumber
+                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
                 if let newNoteFeedback = sourceData as? Feedback {
                     newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 }
@@ -148,7 +148,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     // The cell that is returned must be retrieved from a call to dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("obscell", forIndexPath: indexPath) as HomeCell
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("obscell", forIndexPath: indexPath) as! HomeCell
         var cellImage = self.celldata[indexPath.row] as ObservationCell
         self.showImageIntoCell(cellImage, cell: cell, indexPath: indexPath)
         return cell
@@ -178,7 +178,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ObservationsToDetail" {
-            let detailVC = segue.destinationViewController as ObservationDetailController
+            let detailVC = segue.destinationViewController as! ObservationDetailController
             detailVC.sourceViewController = NSStringFromClass(ObservationsController)
             // if passed from a cell
             if let indexPath = sender as? NSIndexPath {
@@ -298,13 +298,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController!) {
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         // println("picker cancel.")
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.pickedImage?.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("ObservationsToDetail", sender: self)
@@ -332,7 +332,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 var medias = mNote.getMedias()
                 // println("you have \(medias.count) medias")
                 for media in medias {
-                    var mMedia = media as Media
+                    var mMedia = media as! Media
                     // url is empty, but has fullpath or thumbpath, then check whether the file exists
                     if mMedia.url == nil {
                         let fileManager = NSFileManager.defaultManager()
@@ -421,7 +421,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         var predicate = NSPredicate(format: "SELF = %@", cellImage.objectID)
         
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        if let mNote = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext) as Note? {
+        if let mNote = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext) as? Note {
             var media = mNote.getSingleMedia()
             media!.setLocalThumbPath(tPath)
         }
@@ -490,7 +490,7 @@ class ObservationCell {
     }
     
     func toString() -> String {
-        return "cell modified at \(self.modifiedAt.longLongValue) local thumpath is: \(self.localThumbPath?) local fullpath is: \(self.localFullPath?)"
+        return "cell modified at \(self.modifiedAt.longLongValue) local thumpath is: \(self.localThumbPath) local fullpath is: \(self.localFullPath)"
     }
     
     // save to local document directory

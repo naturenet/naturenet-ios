@@ -47,7 +47,7 @@ class NoteLocationTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("locationSelectionCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("locationSelectionCell", forIndexPath: indexPath) as! UITableViewCell
         var activity = self.landmarks[indexPath.row] as Context
         cell.textLabel?.text = activity.title
         if activity.title == selectedLocation {
@@ -73,7 +73,7 @@ class NoteLocationTableViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "passedLocationSelection" {
-            let cell = sender as UITableViewCell
+            let cell = sender as! UITableViewCell
             let indexPath = locationsTableView.indexPathForCell(cell)
             selectedLocation = landmarks[indexPath!.row].title
             println("selected loc \(selectedLocation)")

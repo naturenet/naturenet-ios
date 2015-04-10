@@ -25,7 +25,7 @@ class Site: NNModel {
     
     class func saveToCoreData(data: NSDictionary) -> Site {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as Site
+        var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as! Site
         mSite.parseJSON(data)
         mSite.commit()
         return mSite
@@ -34,12 +34,12 @@ class Site: NNModel {
     // update data in core data
     override func updateToCoreData(data: NSDictionary) {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var contexts = data["contexts"] as NSArray
+        var contexts = data["contexts"] as! NSArray
         for tContext in contexts {
-            let uid = tContext["id"] as Int
+            let uid = tContext["id"] as! Int
             var predicate = NSPredicate(format: "uid = \(uid)")
-            var mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as Context
-            mContext.updateToCoreData(tContext as NSDictionary)
+            var mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! Context
+            mContext.updateToCoreData(tContext as! NSDictionary)
         }
         SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
 
@@ -48,12 +48,12 @@ class Site: NNModel {
     // parse site JSON data
     func parseJSON(data: NSDictionary) -> Site {
         self.created_at = NSNumber(unsignedLongLong: UInt64(NSDate().timeIntervalSince1970 * 1000))
-        self.name = data["name"] as String
-        var contexts = data["contexts"] as NSArray
-        self.site_description = data["description"] as String
-        self.image_url = data["image_url"] as String
+        self.name = data["name"] as! String
+        var contexts = data["contexts"] as! NSArray
+        self.site_description = data["description"] as! String
+        self.image_url = data["image_url"] as! String
         self.state = STATE.DOWNLOADED
-        self.uid = data["id"] as Int
+        self.uid = data["id"] as! Int
         self.resovleContextData(contexts)
         // println("A new site " + self.toString() + " saved")
         return self
@@ -67,8 +67,8 @@ class Site: NNModel {
         
         for tContext in contexts {
             let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as Context
-            mContext.parseContextJSON(tContext as NSDictionary)
+            var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as! Context
+            mContext.parseContextJSON(tContext as! NSDictionary)
             mContext.site_uid = self.uid
 //            mContext.site = self
             mContext.commit()
@@ -89,7 +89,7 @@ class Site: NNModel {
     
     // get landmarks
     func getLandmarks() -> [Context] {
-        var contexts = getContexts() as [Context]
+        var contexts = getContexts() as! [Context]
         var landmarks = [Context]()
         for context in contexts {
             if context.kind == "Landmark" {
@@ -108,8 +108,8 @@ class Site: NNModel {
         }
         
         for tContext in contexts {
-            var contextUID = tContext["id"] as Int
-            var name = tContext["name"] as String
+            var contextUID = tContext["id"] as! Int
+            var name = tContext["name"] as! String
             var cDescription: String?
             if tContext["description"] != nil {
                 cDescription = tContext["description"] as? String
@@ -119,8 +119,8 @@ class Site: NNModel {
             if var ext = tContext["extras"] as? String {
                 extras = ext as String
             }
-            var title = tContext["title"] as String
-            var kind = tContext["kind"] as String
+            var title = tContext["title"] as! String
+            var kind = tContext["kind"] as! String
             var contextDict: [String: AnyObject?]  = ["uid": contextUID, "description": cDescription, "title": title, "kind": kind, "extras": extras]
             contextDictArrays.append(contextDict)
         }

@@ -30,7 +30,7 @@ class NoteActivitySelectionViewController: UIViewController, UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("activitySelectionCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("activitySelectionCell", forIndexPath: indexPath) as! UITableViewCell
         var activity = self.activities[indexPath.row] as Context
         cell.textLabel?.text = activity.title
         
@@ -68,7 +68,7 @@ class NoteActivitySelectionViewController: UIViewController, UITableViewDelegate
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "passedActivitySelection" {
-            let cell = sender as UITableViewCell
+            let cell = sender as! UITableViewCell
             let indexPath = activitySelectionTableView.indexPathForCell(cell)
             selectedActivityTitle = activities[indexPath!.row].title
         }
