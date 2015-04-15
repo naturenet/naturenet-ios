@@ -8,19 +8,26 @@
 
 import UIKit
 
-class BirdCountingDetailTableViewController: UITableViewController, UIPickerViewDelegate {
+class BirdCountingDetailTableViewController: UITableViewController, UIPickerViewDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var addPhotoBtn: UIButton!
     @IBOutlet var tableview: UITableView!
+    @IBOutlet weak var numberPickerView: UIPickerView!
+    @IBOutlet weak var numberTextLable: UILabel!
+    @IBOutlet weak var detailTextField: UITextField!
     
-    var numberPickerHidden = true
+    var numberPickerIsShowing = false
+    let numberPickerCellIndexPathRow = 1
+    let numberPickerCellIndexPathSection = 1
 
     let pickerData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10+"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         customizeButton()
-
+        hideNumberPickerCell()
+        signUpForKeyboardNotifications()
+        self.detailTextField.delegate = self
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -58,39 +65,60 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
         return 2
     }
 
-//    override func tableView(tableview: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        var height = super.tableView(tableview, heightForRowAtIndexPath: indexPath)
-//        if indexPath.section == 1 {
-//            if indexPath.row == 1 {
-//                height = 0
-//            }
-//        }
-//        return height
-//    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let indexPathForPicker = NSIndexPath(forRow: 1, inSection: 1)
-        let indexPaths: [NSIndexPath] = [indexPathForPicker]
-        let cell = tableView.cellForRowAtIndexPath(indexPathForPicker)!
-        if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                if cell.hidden {
-                    cell.hidden = false
-//                    tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
-                } else {
-                    cell.hidden = true
-//                    tableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: UITableViewRowAnimation.Fade)
-
+    override func tableView(tableview: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        var height = super.tableView(tableview, heightForRowAtIndexPath: indexPath)
+        if indexPath.section == numberPickerCellIndexPathSection {
+            if indexPath.row == numberPickerCellIndexPathRow  {
+                if !self.numberPickerIsShowing {
+                    height = 0
                 }
-        
             }
         }
+        return height
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                if self.numberPickerIsShowing {
+                    self.hideNumberPickerCell()
+                } else {
+                    self.showNumberPickerCell()
+                }
+            }
+            if indexPath.row == 2 {
+                if self.numberPickerIsShowing {
+                    self.hideNumberPickerCell()
+                }
+             }
+        }
         
-//        self.tableView.reloadData()
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.detailTextField.resignFirstResponder()
+
+    }
+    
+    private func showNumberPickerCell() {
+        self.numberPickerIsShowing = true
+        self.tableview.beginUpdates()
+        self.tableview.endUpdates()
+        self.numberPickerView.hidden = false
+        
         
     }
-
-
+    
+    private func hideNumberPickerCell() {
+        self.numberPickerIsShowing = false
+        self.tableview.beginUpdates()
+        self.tableview.endUpdates()
+        self.numberPickerView.hidden = true
+    }
+    
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // pickerView
+    //----------------------------------------------------------------------------------------------------------------------
+    
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -104,9 +132,30 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let indexPathForPicker = NSIndexPath(forRow: 0, inSection: 1)
+        self.numberTextLable.text = pickerData[row]
+    }
+    
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // keyboard events
+    //----------------------------------------------------------------------------------------------------------------------
+
+    func signUpForKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow", name: UIKeyboardWillShowNotification, object: nil)
+    }
+    
+    func keyboardWillShow() {
+        if self.numberPickerIsShowing {
+            self.hideNumberPickerCell()
+        }
     }
 
-
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.detailTextField.resignFirstResponder()
+        return false
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

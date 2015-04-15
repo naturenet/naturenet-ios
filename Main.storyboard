@@ -878,7 +878,7 @@ The researchers and other visitors will be able to look at your contributions an
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UFS-jY-fex" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="mKz-YX-JQE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1071" y="-1382"/>
+            <point key="canvasLocation" x="1295" y="-1442"/>
         </scene>
         <!--Observation-->
         <scene sceneID="eNB-Kf-sha">
@@ -1117,7 +1117,7 @@ The researchers and other visitors will be able to look at your contributions an
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="io2-wi-xr1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1136" y="-604"/>
+            <point key="canvasLocation" x="1381" y="-660"/>
         </scene>
         <!--About-->
         <scene sceneID="9Ko-Dm-v1W">
@@ -1277,7 +1277,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SG8-zI-uKM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1541" y="163"/>
+            <point key="canvasLocation" x="1381" y="18"/>
         </scene>
         <!--Bird Counting-->
         <scene sceneID="zee-3N-vnZ">
@@ -1445,11 +1445,12 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                     <connections>
                         <outlet property="birdsCollectionView" destination="J3d-vV-4fm" id="APf-Ol-8sj"/>
                         <segue destination="ge3-uC-lRe" kind="show" identifier="birdCountingDetail" id="m0n-Dy-9Ef"/>
+                        <segue destination="VoY-hl-Epj" kind="show" identifier="birdcountingToObservations" id="tdU-1S-E9G"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZg-dB-hDO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="461" y="793"/>
+            <point key="canvasLocation" x="135" y="970"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
@@ -1623,8 +1624,14 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                                         <constraint firstAttribute="width" constant="143" id="USH-x2-6zL"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Ys-Iv-qM8">
+                                                    <rect key="frame" x="161" y="64" width="278" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jOZ-2R-14d">
-                                                    <rect key="frame" x="161" y="8" width="133" height="133"/>
+                                                    <rect key="frame" x="449" y="8" width="133" height="133"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="jOZ-2R-14d" secondAttribute="height" multiplier="1:1" id="WNf-cF-VAl"/>
                                                     </constraints>
@@ -1639,13 +1646,16 @@ your Photo</string>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="leading" secondItem="ST4-jB-CVq" secondAttribute="trailing" constant="10" id="1Qn-zm-KaJ"/>
                                                 <constraint firstItem="ST4-jB-CVq" firstAttribute="leading" secondItem="IXH-gA-mbb" secondAttribute="leadingMargin" id="4Po-aL-vok"/>
                                                 <constraint firstItem="ST4-jB-CVq" firstAttribute="bottom" secondItem="IXH-gA-mbb" secondAttribute="bottomMargin" id="6zm-6w-MYq"/>
+                                                <constraint firstAttribute="centerY" secondItem="1Ys-Iv-qM8" secondAttribute="centerY" id="AYq-fJ-TH6"/>
                                                 <constraint firstItem="jOZ-2R-14d" firstAttribute="centerY" secondItem="ST4-jB-CVq" secondAttribute="centerY" id="FGF-NH-HNq"/>
                                                 <constraint firstItem="ST4-jB-CVq" firstAttribute="top" secondItem="IXH-gA-mbb" secondAttribute="topMargin" id="FYR-hl-VUp"/>
+                                                <constraint firstItem="1Ys-Iv-qM8" firstAttribute="centerX" secondItem="IXH-gA-mbb" secondAttribute="centerX" id="GyI-Qq-njp"/>
                                                 <constraint firstItem="jOZ-2R-14d" firstAttribute="bottom" secondItem="IXH-gA-mbb" secondAttribute="bottomMargin" id="Kij-j0-P1r"/>
                                                 <constraint firstItem="jOZ-2R-14d" firstAttribute="top" secondItem="IXH-gA-mbb" secondAttribute="topMargin" id="WrZ-L3-g3p"/>
+                                                <constraint firstItem="1Ys-Iv-qM8" firstAttribute="leading" secondItem="ST4-jB-CVq" secondAttribute="trailing" constant="10" id="gEX-cK-0Wb"/>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="leading" secondItem="1Ys-Iv-qM8" secondAttribute="trailing" constant="10" id="vcR-Fo-RXw"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1658,7 +1668,7 @@ your Photo</string>
                             </tableViewSection>
                             <tableViewSection id="Yp3-OI-gsZ">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="numberPickerCell" textLabel="mAA-ai-Uvb" detailTextLabel="ZJQ-eq-H2i" style="IBUITableViewCellStyleValue1" id="XTS-u1-YyU">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="numberPickerCell" textLabel="mAA-ai-Uvb" detailTextLabel="ZJQ-eq-H2i" style="IBUITableViewCellStyleValue1" id="XTS-u1-YyU">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XTS-u1-YyU" id="mKc-oJ-qKd">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1669,7 +1679,7 @@ your Photo</string>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZJQ-eq-H2i">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZJQ-eq-H2i">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -1678,13 +1688,22 @@ your Photo</string>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell hidden="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="birdDetailCell" rowHeight="150" id="6nO-9H-4jm">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="birdDetailCell" rowHeight="150" id="6nO-9H-4jm">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6nO-9H-4jm" id="xIb-Ik-bgI">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Xj-1l-taU">
-                                                    <rect key="frame" x="13" y="-7" width="574" height="162"/>
+                                                    <rect key="frame" x="140" y="-7" width="320" height="162"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="315" id="9xg-At-hgX"/>
+                                                        <constraint firstAttribute="height" constant="140" id="eMk-9D-Co1"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="9xg-At-hgX"/>
+                                                        </mask>
+                                                    </variation>
                                                     <connections>
                                                         <outlet property="dataSource" destination="ge3-uC-lRe" id="bbx-ph-gQo"/>
                                                         <outlet property="delegate" destination="ge3-uC-lRe" id="aLo-yE-gEQ"/>
@@ -1692,39 +1711,40 @@ your Photo</string>
                                                 </pickerView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="4Xj-1l-taU" secondAttribute="trailing" constant="5" id="WIN-UP-irF"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="4Xj-1l-taU" secondAttribute="bottom" constant="4" id="r8o-Y6-jMc"/>
-                                                <constraint firstItem="4Xj-1l-taU" firstAttribute="leading" secondItem="xIb-Ik-bgI" secondAttribute="leadingMargin" constant="5" id="uJj-r3-tSK"/>
-                                                <constraint firstItem="4Xj-1l-taU" firstAttribute="top" secondItem="xIb-Ik-bgI" secondAttribute="topMargin" constant="4" id="yRJ-92-abI"/>
+                                                <constraint firstAttribute="centerY" secondItem="4Xj-1l-taU" secondAttribute="centerY" id="koP-so-bpw"/>
+                                                <constraint firstItem="4Xj-1l-taU" firstAttribute="centerX" secondItem="xIb-Ik-bgI" secondAttribute="centerX" id="x9X-N9-wRe"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="eiG-c7-Nid" detailTextLabel="jTG-ou-9aE" style="IBUITableViewCellStyleValue1" id="5U9-q4-oEJ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="5U9-q4-oEJ">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5U9-q4-oEJ" id="ekk-EV-So3">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Other Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eiG-c7-Nid">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="This is Mallard" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jTG-ou-9aE">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Other Details" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WtA-dx-yAH">
+                                                    <rect key="frame" x="8" y="11" width="584" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="WtA-dx-yAH" firstAttribute="centerY" secondItem="ekk-EV-So3" secondAttribute="centerY" id="N7B-ar-pI0"/>
+                                                <constraint firstItem="WtA-dx-yAH" firstAttribute="leading" secondItem="ekk-EV-So3" secondAttribute="leadingMargin" id="S2g-IS-nDZ"/>
+                                                <constraint firstItem="WtA-dx-yAH" firstAttribute="leading" secondItem="ekk-EV-So3" secondAttribute="leadingMargin" id="dAh-K2-MGy"/>
+                                                <constraint firstItem="WtA-dx-yAH" firstAttribute="centerX" secondItem="ekk-EV-So3" secondAttribute="centerX" id="ygE-L9-Hiu"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="dAh-K2-MGy"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
                         <connections>
-                            <outlet property="dataSource" destination="ge3-uC-lRe" id="7y8-r9-cCg"/>
                             <outlet property="delegate" destination="ge3-uC-lRe" id="mZc-G7-fgR"/>
                         </connections>
                     </tableView>
@@ -1733,12 +1753,15 @@ your Photo</string>
                     </navigationItem>
                     <connections>
                         <outlet property="addPhotoBtn" destination="jOZ-2R-14d" id="ecK-8X-GDr"/>
+                        <outlet property="detailTextField" destination="WtA-dx-yAH" id="5iU-mt-vK0"/>
+                        <outlet property="numberPickerView" destination="4Xj-1l-taU" id="U60-L0-j1Y"/>
+                        <outlet property="numberTextLable" destination="ZJQ-eq-H2i" id="Xqr-qC-Pjd"/>
                         <outlet property="tableview" destination="BHd-2q-hZ2" id="GQD-B3-gdt"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fb6-Ko-EKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1541" y="1217"/>
+            <point key="canvasLocation" x="1405" y="782"/>
         </scene>
     </scenes>
     <resources>
@@ -1748,8 +1771,8 @@ your Photo</string>
         <image name="loading" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PbE-tg-8FU"/>
         <segue reference="9ac-AY-f52"/>
-        <segue reference="EWU-e4-npt"/>
+        <segue reference="tdU-1S-E9G"/>
+        <segue reference="cMI-fD-Rxu"/>
     </inferredMetricsTieBreakers>
 </document>

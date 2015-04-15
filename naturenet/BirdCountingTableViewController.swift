@@ -25,7 +25,6 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     // The cell that is returned must be retrieved from a call to dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("birdcell", forIndexPath: indexPath) as! BirdCountingCollectionViewCell
-//        cell.mLabel.text = self.items[indexPath.row]
         // cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.whiteColor() : UIColor.lightGrayColor()
         cell.imageView.image = UIImage(named: "bird")
         cell.label.text = items[indexPath.row]
@@ -51,6 +50,13 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     // implement UICollectionViewDelegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("birdCountingDetail", sender: self.birdsCollectionView.cellForItemAtIndexPath(indexPath))
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 2 && indexPath.row == 0 {
+            self.performSegueWithIdentifier("birdcountingToObservations", sender: self)
+        }
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
