@@ -16,11 +16,17 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     @IBOutlet weak var numberTextLable: UILabel!
     @IBOutlet weak var detailTextField: UITextField!
     
+    // cells
     var numberPickerIsShowing = false
     let numberPickerCellIndexPathRow = 1
     let numberPickerCellIndexPathSection = 1
+    let detailCellIndexPath = NSIndexPath(forRow: 0, inSection: 2)
+    let locationCellIndexPath = NSIndexPath(forRow: 2, inSection: 2)
+    
 
+    // data
     let pickerData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10+"]
+    var landmarks: [Context] = Session.getLandmarks()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,14 +54,14 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
         
     }
     
-    
-    //----------------------------------------------------------------------------------------------------------------------
-    // tableView
-    //----------------------------------------------------------------------------------------------------------------------
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // tableView
+    //----------------------------------------------------------------------------------------------------------------------
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -77,6 +83,8 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
         if indexPath.section == 1 {
             if indexPath.row == 0 {
                 if self.numberPickerIsShowing {
@@ -92,8 +100,31 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
             }
         }
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-//        self.detailTextField.resignFirstResponder()
+        if indexPath.section == 2 {
+            // description input cell, programatically push NoteDescriptionViewController
+            if indexPath.row == 0 {
+                let nextViewController :NoteDescriptionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NoteDescriptionViewController")
+                    as! NoteDescriptionViewController
+                let cell = self.tableview.cellForRowAtIndexPath(self.detailCellIndexPath)!
+                if cell.detailTextLabel?.text != "Detail" {
+                    nextViewController.noteContent = cell.detailTextLabel?.text
+                }
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            }
+            
+            if indexPath.row == 2 {
+                let nextViewController :NoteLocationTableViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NoteLocationTableViewController")
+                    as! NoteLocationTableViewController
+                let cell = self.tableview.cellForRowAtIndexPath(self.locationCellIndexPath)!
+                nextViewController.selectedLocation = cell.detailTextLabel?.text
+                nextViewController.landmarks = self.landmarks
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            }
+            
+            if self.numberPickerIsShowing {
+                self.hideNumberPickerCell()
+            }
+        }
 
     }
     
@@ -153,6 +184,32 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.detailTextField.resignFirstResponder()
         return false
+    }
+    
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // IBActions for unwind segues
+    //----------------------------------------------------------------------------------------------------------------------
+    
+    // receive data from note description textview
+    @IBAction func passedDescription(segue:UIStoryboardSegue) {
+        let noteDescriptionVC = segue.sourceViewController as! NoteDescriptionViewController
+        let cell = self.tableview.cellForRowAtIndexPath(self.detailCellIndexPath)!
+        if let desc = noteDescriptionVC.noteContent {
+            cell.detailTextLabel?.text = desc
+        }
+        self.navigationItem.rightBarButtonItem?.style = .Done
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    // receive data from activity selection
+    @IBAction func passedLocationSelection(segue:UIStoryboardSegue) {
+        let noteLocationSelectionVC = segue.sourceViewController as! NoteLocationTableViewController
+        let locationCell = self.tableview.cellForRowAtIndexPath(locationCellIndexPath)
+        if let locationTitle = noteLocationSelectionVC.selectedLocation {
+            locationCell?.detailTextLabel?.text = locationTitle
+        }
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     /*

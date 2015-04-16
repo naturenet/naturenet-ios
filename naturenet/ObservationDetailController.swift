@@ -193,19 +193,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         println("error happened locationmanager \(error.domain)")
         var message = "NatureNet requires to acess your location"
-        noLocationAlert(message)
-
-    }
-    
-    func noLocationAlert(message: String) {
-        var alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        var okAction = UIAlertAction(title: "Settings", style: .Default, handler: { (action) -> Void in
-            UIApplication.sharedApplication().openURL(NSURL(string:UIApplicationOpenSettingsURLString)!)
-            return
-        })
-        alert.addAction(okAction)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        AlertControllerHelper.noLocationAlert(message, controller: self)
     }
     
     // @Deprecated
@@ -241,7 +229,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         // make sure the user is in the park
         if locationLat < upleftLat && locationLat > bottomrightLat
             && locationLon < bottomrightLon && locationLon > upleftLon {
-            var minDistance = 2000.0
+            var minDistance = 2000.0  // unit meter
             for landmark in self.landmarks {
                 if let location = landmark.getCoordinatesForLandmark() {
                     var distance: CLLocationDistance = userLocaiton.distanceFromLocation(location)

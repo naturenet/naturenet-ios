@@ -30,6 +30,7 @@ class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
         noteContent = noteDescriptionTextView.text
     }
     
+    
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -37,4 +38,7 @@ class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
             noteContent = noteDescriptionTextView.text
         }
     }
+    
+
+    
 }

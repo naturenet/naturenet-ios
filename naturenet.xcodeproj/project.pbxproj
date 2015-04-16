@@ -55,6 +55,7 @@
 		FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE67D801A6F7BC30096D594 /* APIAdapter.swift */; };
 		FCEC985A1A9ACC28007C4ED5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEC98591A9ACC28007C4ED5 /* MapKit.framework */; };
 		FCEC985C1A9ACD57007C4ED5 /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEC985B1A9ACD57007C4ED5 /* TourViewController.swift */; };
+		FCFD1B831AE01A2B00BFA138 /* AlertControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFD1B821AE01A2B00BFA138 /* AlertControllerHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		FCE67D801A6F7BC30096D594 /* APIAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAdapter.swift; sourceTree = "<group>"; };
 		FCEC98591A9ACC28007C4ED5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FCEC985B1A9ACD57007C4ED5 /* TourViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourViewController.swift; sourceTree = "<group>"; };
+		FCFD1B821AE01A2B00BFA138 /* AlertControllerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertControllerHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +264,7 @@
 				FC1134C51A6430EF00D548E8 /* APIService.swift */,
 				FCE67D801A6F7BC30096D594 /* APIAdapter.swift */,
 				FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */,
+				FCFD1B821AE01A2B00BFA138 /* AlertControllerHelper.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				FCA005491A832B010066686D /* Feedback.swift in Sources */,
 				FCB9DD741A91763C00D1781D /* ActivityDetailViewController.swift in Sources */,
 				FC5EBE431AB0072D006B02B7 /* LogInTableViewCell.swift in Sources */,
+				FCFD1B831AE01A2B00BFA138 /* AlertControllerHelper.swift in Sources */,
 				FC1134BD1A64308D00D548E8 /* SignInViewController.swift in Sources */,
 				FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */,
 				FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */,

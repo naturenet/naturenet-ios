@@ -102,5 +102,20 @@ class Session: NSManagedObject {
         }
         return site
     }
+    
+    class func getLandmarks() -> [Context] {
+        var landmarks: [Context] = []
+        if let site: Site = Session.getSite() {
+            let siteContexts = site.getContexts()
+            for sContext in siteContexts {
+                let context = sContext as! Context
+                if context.kind == "Landmark" {
+                    landmarks.append(context)
+                }
+            }
+        }
+        
+        return landmarks
+    }
   
 }
