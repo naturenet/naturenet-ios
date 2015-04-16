@@ -26,8 +26,8 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
         super.viewDidLoad()
         customizeButton()
         hideNumberPickerCell()
-        signUpForKeyboardNotifications()
-        self.detailTextField.delegate = self
+//        signUpForKeyboardNotifications()
+//        self.detailTextField.delegate = self
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -40,7 +40,6 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
         addPhotoBtn.layer.cornerRadius = 0.5 * addPhotoBtn.bounds.size.width
         addPhotoBtn.layer.borderWidth = 1.0
         addPhotoBtn.layer.borderColor = UIColor.darkGrayColor().CGColor
-        //        self.addPhotoBtn.clipsToBounds = true
         addPhotoBtn.addTarget(self, action: "addPhotoButtonPressed", forControlEvents: .TouchUpInside)
     }
     
@@ -62,7 +61,7 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 2
+        return 3
     }
 
     override func tableView(tableview: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -90,11 +89,11 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
                 if self.numberPickerIsShowing {
                     self.hideNumberPickerCell()
                 }
-             }
+            }
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.detailTextField.resignFirstResponder()
+//        self.detailTextField.resignFirstResponder()
 
     }
     
