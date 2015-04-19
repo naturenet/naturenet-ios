@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1654,17 +1654,24 @@ your Photo</string>
                                                         <action selector="openCamera" destination="ge3-uC-lRe" eventType="touchUpInside" id="7XU-Mx-2YU"/>
                                                     </connections>
                                                 </button>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sc2-uz-jDG">
+                                                    <rect key="frame" x="459" y="8" width="133" height="133"/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="trailing" secondItem="sc2-uz-jDG" secondAttribute="trailing" id="1sX-rn-x2j"/>
                                                 <constraint firstItem="ST4-jB-CVq" firstAttribute="leading" secondItem="IXH-gA-mbb" secondAttribute="leadingMargin" id="4Po-aL-vok"/>
                                                 <constraint firstItem="ST4-jB-CVq" firstAttribute="bottom" secondItem="IXH-gA-mbb" secondAttribute="bottomMargin" id="6zm-6w-MYq"/>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="top" secondItem="sc2-uz-jDG" secondAttribute="top" id="7uC-u5-MDn"/>
                                                 <constraint firstAttribute="centerY" secondItem="1Ys-Iv-qM8" secondAttribute="centerY" id="AYq-fJ-TH6"/>
                                                 <constraint firstItem="jOZ-2R-14d" firstAttribute="centerY" secondItem="ST4-jB-CVq" secondAttribute="centerY" id="FGF-NH-HNq"/>
                                                 <constraint firstItem="ST4-jB-CVq" firstAttribute="top" secondItem="IXH-gA-mbb" secondAttribute="topMargin" id="FYR-hl-VUp"/>
                                                 <constraint firstItem="1Ys-Iv-qM8" firstAttribute="centerX" secondItem="IXH-gA-mbb" secondAttribute="centerX" id="GyI-Qq-njp"/>
                                                 <constraint firstItem="jOZ-2R-14d" firstAttribute="bottom" secondItem="IXH-gA-mbb" secondAttribute="bottomMargin" id="Kij-j0-P1r"/>
                                                 <constraint firstItem="jOZ-2R-14d" firstAttribute="top" secondItem="IXH-gA-mbb" secondAttribute="topMargin" id="WrZ-L3-g3p"/>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="leading" secondItem="sc2-uz-jDG" secondAttribute="leading" id="atJ-2T-Pj2"/>
                                                 <constraint firstItem="1Ys-Iv-qM8" firstAttribute="leading" secondItem="ST4-jB-CVq" secondAttribute="trailing" constant="10" id="gEX-cK-0Wb"/>
+                                                <constraint firstItem="jOZ-2R-14d" firstAttribute="bottom" secondItem="sc2-uz-jDG" secondAttribute="bottom" id="ryc-N5-oeX"/>
                                                 <constraint firstItem="jOZ-2R-14d" firstAttribute="leading" secondItem="1Ys-Iv-qM8" secondAttribute="trailing" constant="10" id="vcR-Fo-RXw"/>
                                             </constraints>
                                             <variation key="default">
@@ -1805,6 +1812,7 @@ your Photo</string>
                         <outlet property="addPhotoBtn" destination="jOZ-2R-14d" id="ecK-8X-GDr"/>
                         <outlet property="numberPickerView" destination="4Xj-1l-taU" id="U60-L0-j1Y"/>
                         <outlet property="numberTextLable" destination="ZJQ-eq-H2i" id="Xqr-qC-Pjd"/>
+                        <outlet property="previewImageview" destination="sc2-uz-jDG" id="sA5-eO-CEw"/>
                         <outlet property="tableview" destination="BHd-2q-hZ2" id="GQD-B3-gdt"/>
                     </connections>
                 </tableViewController>

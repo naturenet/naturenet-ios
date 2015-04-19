@@ -11,11 +11,12 @@ import UIKit
 class BirdCountingDetailTableViewController: UITableViewController, UIPickerViewDelegate,
                     UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    // UI elements
     @IBOutlet weak var addPhotoBtn: UIButton!
     @IBOutlet var tableview: UITableView!
     @IBOutlet weak var numberPickerView: UIPickerView!
     @IBOutlet weak var numberTextLable: UILabel!
-    @IBOutlet weak var detailTextField: UITextField!
+    @IBOutlet weak var previewImageview: UIImageView!
     
     // cells
     var numberPickerIsShowing = false
@@ -28,6 +29,7 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     // data
     let pickerData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "10+"]
     var landmarks: [Context] = Session.getLandmarks()
+    var prevImage: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -195,28 +197,30 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     // after picking or taking a photo didFinishPickingMediaWithInfo
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
-//        self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
-//        self.performSegueWithIdentifier("tourToObservationDetail", sender: self)
+        self.prevImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.previewImageview.image = prevImage
+        self.addPhotoBtn.hidden = true
+        self.previewImageview.hidden = false
     }
     
     //----------------------------------------------------------------------------------------------------------------------
     // keyboard events
     //----------------------------------------------------------------------------------------------------------------------
 
-    func signUpForKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow", name: UIKeyboardWillShowNotification, object: nil)
-    }
-    
-    func keyboardWillShow() {
-        if self.numberPickerIsShowing {
-            self.hideNumberPickerCell()
-        }
-    }
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.detailTextField.resignFirstResponder()
-        return false
-    }
+//    func signUpForKeyboardNotifications() {
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow", name: UIKeyboardWillShowNotification, object: nil)
+//    }
+//    
+//    func keyboardWillShow() {
+//        if self.numberPickerIsShowing {
+//            self.hideNumberPickerCell()
+//        }
+//    }
+//
+//    func textFieldShouldReturn(textField: UITextField) -> Bool {
+//        self.detailTextField.resignFirstResponder()
+//        return false
+//    }
     
     
     //----------------------------------------------------------------------------------------------------------------------
