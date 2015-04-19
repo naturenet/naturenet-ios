@@ -310,10 +310,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         self.performSegueWithIdentifier("ObservationsToDetail", sender: self)
     }
     
-    // implement later if it is needed
+    /* MARK
     func getLocaitonFromPhoto(info: [NSObject : AnyObject]) {
-
-    }
+        // implement later if it is needed
+    } */
 
     //----------------------------------------------------------------------------------------------
     // some utility functions

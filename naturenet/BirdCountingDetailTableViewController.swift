@@ -8,7 +8,8 @@
 
 import UIKit
 
-class BirdCountingDetailTableViewController: UITableViewController, UIPickerViewDelegate, UITextFieldDelegate {
+class BirdCountingDetailTableViewController: UITableViewController, UIPickerViewDelegate,
+                    UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var addPhotoBtn: UIButton!
     @IBOutlet var tableview: UITableView!
@@ -166,6 +167,37 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
         self.numberTextLable.text = pickerData[row]
     }
     
+    //----------------------------------------------------------------------------------------------------------------------
+    // pick from camera or gallary
+    //----------------------------------------------------------------------------------------------------------------------
+    @IBAction func openCamera() {
+        var picker:UIImagePickerController = UIImagePickerController()
+        picker.delegate = self
+        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+            picker.sourceType = UIImagePickerControllerSourceType.Camera
+            self.presentViewController(picker, animated: true, completion: nil)
+        } else {
+            openGallary(picker)
+        }
+    }
+    
+    func openGallary(picker: UIImagePickerController!) {
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.presentViewController(picker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // after picking or taking a photo didFinishPickingMediaWithInfo
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+//        self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+//        self.performSegueWithIdentifier("tourToObservationDetail", sender: self)
+    }
     
     //----------------------------------------------------------------------------------------------------------------------
     // keyboard events
