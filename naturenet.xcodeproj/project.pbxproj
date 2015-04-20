@@ -27,6 +27,7 @@
 		FC1134CB1A64310100D548E8 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134CA1A64310100D548E8 /* HomeCell.swift */; };
 		FC1134CE1A64317F00D548E8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC1134CD1A64317F00D548E8 /* CoreData.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		FC3EDBE81A678840008C0293 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3EDBE71A678840008C0293 /* Account.swift */; };
+		FC5973A61AE36C3800EDA96B /* ActivityDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5973A51AE36C3800EDA96B /* ActivityDetailTableViewController.swift */; };
 		FC5BA3841A77FE1D0069D59F /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3831A77FE1D0069D59F /* Note.swift */; };
 		FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */; };
 		FC5BA3891A7859400069D59F /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5BA3881A7859400069D59F /* Media.swift */; };
@@ -47,7 +48,6 @@
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
 		FCB1D51E1A9524FB006267E9 /* ConsentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */; };
 		FCB1D5201A95B9F3006267E9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB1D51F1A95B9F3006267E9 /* SignUpViewController.swift */; };
-		FCB9DD741A91763C00D1781D /* ActivityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */; };
 		FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317D91A887473003FC954 /* CoreLocation.framework */; };
 		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
 		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
@@ -93,6 +93,7 @@
 		FC1134CA1A64310100D548E8 /* HomeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		FC1134CD1A64317F00D548E8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		FC3EDBE71A678840008C0293 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		FC5973A51AE36C3800EDA96B /* ActivityDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityDetailTableViewController.swift; sourceTree = "<group>"; };
 		FC5BA3831A77FE1D0069D59F /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftCoreDataHelper.swift; sourceTree = "<group>"; };
 		FC5BA3881A7859400069D59F /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
@@ -113,7 +114,6 @@
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsentTableViewController.swift; sourceTree = "<group>"; };
 		FCB1D51F1A95B9F3006267E9 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityDetailViewController.swift; sourceTree = "<group>"; };
 		FCD317D91A887473003FC954 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FCD317EE1A892476003FC954 /* libCloudinary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCloudinary.a; path = ../../../../Downloads/cloudinary_ios_v1.0.12/libCloudinary.a; sourceTree = "<group>"; };
 		FCD317F11A8924E6003FC954 /* CLCloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCloudinary.h; sourceTree = "<group>"; };
@@ -230,7 +230,6 @@
 				FCA005461A82D2110066686D /* NoteActivitySelectionViewController.swift */,
 				FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */,
 				FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */,
-				FCB9DD731A91763C00D1781D /* ActivityDetailViewController.swift */,
 				FC6F24D41A94571C00FEF9FE /* DesignIdeaViewController.swift */,
 				FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */,
 				FCB1D51F1A95B9F3006267E9 /* SignUpViewController.swift */,
@@ -238,6 +237,7 @@
 				FCE66FAE1A9D121C001E1110 /* LocationDetailViewController.swift */,
 				FC0861711AD4EB93001CA012 /* BirdCountingTableViewController.swift */,
 				FC077EA61AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift */,
+				FC5973A51AE36C3800EDA96B /* ActivityDetailTableViewController.swift */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -419,12 +419,12 @@
 				FC1134CB1A64310100D548E8 /* HomeCell.swift in Sources */,
 				FC1134961A642DD500D548E8 /* AppDelegate.swift in Sources */,
 				FC3EDBE81A678840008C0293 /* Account.swift in Sources */,
+				FC5973A61AE36C3800EDA96B /* ActivityDetailTableViewController.swift in Sources */,
 				FCB1D51E1A9524FB006267E9 /* ConsentTableViewController.swift in Sources */,
 				FC5BA38B1A78BACF0069D59F /* ObservationsController.swift in Sources */,
 				FCB1D5201A95B9F3006267E9 /* SignUpViewController.swift in Sources */,
 				FC6F24D51A94571C00FEF9FE /* DesignIdeaViewController.swift in Sources */,
 				FCA005491A832B010066686D /* Feedback.swift in Sources */,
-				FCB9DD741A91763C00D1781D /* ActivityDetailViewController.swift in Sources */,
 				FC5EBE431AB0072D006B02B7 /* LogInTableViewCell.swift in Sources */,
 				FCFD1B831AE01A2B00BFA138 /* AlertControllerHelper.swift in Sources */,
 				FC1134BD1A64308D00D548E8 /* SignInViewController.swift in Sources */,

@@ -104,7 +104,7 @@ class ActivitiesTableViewController: UITableViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "activityDetail" {
-            let destinationVC = segue.destinationViewController as! ActivityDetailViewController
+            let destinationVC = segue.destinationViewController as! ActivityDetailTableViewController
             // if passed from a cell
             if let indexPath = sender as? NSIndexPath {
                 let selectedCell = activities[indexPath.row]
