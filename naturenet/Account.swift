@@ -81,6 +81,24 @@ class Account: NNModel {
         
     }
     
+    func saveNote(selectedActivity: Context, content: String?, longitude: NSNumber?, latitude: NSNumber?) -> Note {
+        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
+        if longitude != nil && latitude != nil {
+            mNote.longitude = longitude!
+            mNote.latitude = latitude!
+        }
+        mNote.account = self
+        mNote.kind = "FieldNote"
+        mNote.state = NNModel.STATE.NEW
+        if let desc = content {
+            mNote.content = desc
+        }
+        mNote.context = selectedActivity
+        
+        return mNote
+    }
+    
     // toString, debug use
     func toString() -> String {
         var string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"

@@ -75,7 +75,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         }
         parseService.delegate = self
         createIndicator()
-        Site.doPullByNameFromServer(parseService, name: "aces")
+        Site.doPullByNameFromServer(parseService, name: "elsewhere")
     }
     
     override func viewDidLoad() {
@@ -246,7 +246,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
         var sitename = data["name"] as! String
-        let predicate = NSPredicate(format: "name = %@", "aces")
+        let predicate = NSPredicate(format: "name = %@", "elsewhere")
         let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
         if exisitingSite != nil {
             // println("You have aces site in core data: "  + exisitingSite!.toString())

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActivitiesTableViewController: UITableViewController {
+class ActivitiesTableViewController: UITableViewController, APIControllerProtocol {
 
     var activities: [Context] = [Context]()
     
@@ -133,8 +133,50 @@ class ActivitiesTableViewController: UITableViewController {
     
     func refreshActivityList() {
 //        self.refreshControl?.attributedTitle = NSString("Last Upate: ")
+        var parseService = APIService()
+
+        Site.doPullByNameFromServer(parseService, name: "aces")
         self.refreshControl?.endRefreshing()
     }
+    
+    // after getting data from server
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
+        dispatch_async(dispatch_get_main_queue(), {
+            var status = response["status_code"] as! Int
+            if (status == 400) {
+                var errorMessage = "We didn't recognize your NatureNet Name or Password"
+                return
+            }
+            
+            // 600 is self defined error code on the phone's side
+            if (status == 600) {
+                var errorMessage = "Internet seems not working"
+                // self.createAlert(errorMessage)
+                return
+            }
+            
+            if from == "Site" {
+                var data = response["data"] as! NSDictionary!
+                var model = data["_model_"] as! String
+                self.handleSiteData(data)
+            }
+        })
+    }
+    
+    // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
+    func handleSiteData(data: NSDictionary) {
+        var sitename = data["name"] as! String
+        let predicate = NSPredicate(format: "name = %@", "aces")
+        let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
+        if exisitingSite != nil {
+            // println("You have aces site in core data: "  + exisitingSite!.toString())
+            // should check if modified date is changed here!! but no modified date returned from API
+            exisitingSite!.updateToCoreData(data)
+        } else {
+//            self.site = Site.saveToCoreData(data)
+        }
+    }
+
 
     /*
     // Override to support conditional editing of the table view.

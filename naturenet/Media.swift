@@ -99,5 +99,7 @@ class Media: NNModel, CLUploaderDelegate {
         self.updateProgressDelegate?.onUpdateProgress(progress)
         println("uploading to cloudinary... wait! \(progress * 100)%")
     }
+    
+    
 
 }

@@ -8,9 +8,12 @@
 
 import UIKit
 
-class BirdCountingTableViewController: UITableViewController, UICollectionViewDelegate {
+class BirdCountingTableViewController: UITableViewController, UICollectionViewDelegate, SaveObservationProtocol {
+    
     // UI
     @IBOutlet weak var birdsCollectionView: UICollectionView!
+    
+    let apiService = APIService()
     
     // tableview data
     var items = ["Black-billed Magpie", "Pine Siskin", "Stellers Jay", "Red-breasted", "Mallard", "American Goldfinch"]
@@ -57,7 +60,6 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
         if indexPath.section == 2 && indexPath.row == 0 {
             self.performSegueWithIdentifier("birdcountingToObservations", sender: self)
         }
-        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -66,14 +68,17 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
             let cell = sender as! BirdCountingCollectionViewCell
             let indexPath = birdsCollectionView.indexPathForCell(cell)
             destViewController.navigationItem.title = items[indexPath!.row]
+            destViewController.saveObservationDelegate = self
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
-
         }
         
     }
     
-    @IBAction func saveBirdObservation() {
+    func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
         self.navigationController?.popViewControllerAnimated(true)
+//        apiService.delegate = self
+//        note.push(apiService)
     }
+
 
 }

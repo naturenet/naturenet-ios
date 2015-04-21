@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(Note)
 class Note: NNModel {
@@ -209,6 +210,40 @@ class Note: NNModel {
         apiService.post(NSStringFromClass(Note), sourceData: self, params: params, url: url)
     }
  
+    // save a new note's media
+    func doSaveMedia(image: UIImage, timestamp: UInt64) -> Media {
+        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var fileName = String(timestamp) + ".jpg"
+        var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(image, 1.0), name: fileName)
+        var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as! Media
+        media.note = self
+        media.state = NNModel.STATE.NEW
+        media.full_path = fullPath
+        media.created_at = createdAt
+        media.commit()
+        
+        return media
+    }
+    
+    // save a new note's feedback
+    func doSaveFeedback(landmark: Context, timestamp: UInt64) -> Feedback {
+        let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as! Feedback
+        if let account = Session.getAccount() {
+            feedback.account = account
+        }
+        feedback.state = NNModel.STATE.NEW
+        feedback.kind = "landmark"
+        feedback.note = self
+        feedback.target_model = "Note"
+        feedback.content = landmark.name
+        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        feedback.created_at = Double(createdAt)
+        feedback.commit()
+        return feedback
+    }
+    
     func doPushMedias(apiService: APIService) {
         for media in getMedias() {
             let noteMedia = media as! Media

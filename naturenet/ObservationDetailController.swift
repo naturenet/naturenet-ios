@@ -259,6 +259,9 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     //----------------------------------------------------------------------------------------------------------------------
 
     func saveNote() -> Note {
+        var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
+        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        
         var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
         var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
         if imageFromObservation != nil {
@@ -284,35 +287,16 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             mNote.context = selectedActivity
         }
         
-        var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
-        var createdAt = NSNumber(unsignedLongLong: timestamp)
         mNote.created_at = createdAt
         mNote.modified_at = createdAt
         
         // save to Media
-        var fileName = String(timestamp) + ".jpg"
-        var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(self.noteImageView.image, 1.0), name: fileName)
-        var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as! Media
-        media.note = mNote
-        media.state = NNModel.STATE.NEW
-        media.full_path = fullPath
-        media.created_at = createdAt
-        self.noteMedia = media
-        media.commit()
+        self.noteMedia = mNote.doSaveMedia(self.noteImageView.image!, timestamp: timestamp)
         
         // save to Feedback
         if let landmark = locationLabel.text {
             var selectedLandmark = getLandmarkByName(landmark)!
-            var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as! Feedback
-            feedback.account = account!
-            feedback.state = NNModel.STATE.NEW
-            feedback.kind = "landmark"
-            feedback.note = mNote
-            feedback.target_model = "Note"
-            feedback.content = selectedLandmark.name
-            feedback.created_at = Double(createdAt)
-            self.feedback = feedback
-            feedback.commit()
+            self.feedback = mNote.doSaveFeedback(selectedLandmark, timestamp: timestamp)
         }
         
         mNote.commit()

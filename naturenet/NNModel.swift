@@ -37,13 +37,8 @@ class NNModel: NSManagedObject {
         SwiftCoreDataHelper.saveManagedObjectContext(context)
     }
     
-//    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-//        super.init(entity: entity, insertIntoManagedObjectContext: context?)
-//        self.state = STATE.NEW
-//    }
-    
     // pull information from coredata
-    // ** Deprecated **
+    // ** Deprecated ** //
     class func doPullByNameFromCoreData(entityname: String, attr: String, name: String?) -> NNModel? {
         var model: NNModel?
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
@@ -106,10 +101,7 @@ class NNModel: NSManagedObject {
     }
     
     // update local data with the server
-    func updateToCoreData(data: NSDictionary) {
-        
-    }
-
+    func updateToCoreData(data: NSDictionary) { }
     
     // update remote uid and state
     func updateAfterPost(idFromServer: Int, modifiedAtFromServer: NSNumber?) {

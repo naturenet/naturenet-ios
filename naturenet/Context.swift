@@ -89,6 +89,29 @@ class Context: NNModel {
         return location
     }
 
+    class func getLandmarkByName(name: String, landmarks: [Context]) -> Context {
+        var rLandmark: Context!
+        for landmark in landmarks {
+            if landmark.title == name {
+                rLandmark = landmark
+                break
+            }
+        }
+        return rLandmark
+    }
+    
+    // find context (e.g. landmark or activity)
+    class func getContextByName(name: String, contexts: [Context]) -> Context! {
+        var context: Context!
+        for contx in contexts {
+            if contx.title == name {
+                context = contx
+                break
+            }
+        }
+        return context
+    }
+    
     func toString() -> String {
         return  "name: \(name) title: \(title)"
     }

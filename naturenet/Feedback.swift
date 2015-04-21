@@ -36,6 +36,10 @@ class Feedback: NNModel {
         self.state = STATE.DOWNLOADED
     }
     
+    func save() {
+        
+    }
+    
     override func doPushNew(apiService: APIService) {
         var posturl = APIAdapter.api.getCreateFeedbackLink(self.kind, model: self.target_model, uid: self.note.uid.integerValue, userName: self.account.username)
 //        println{"request feedback link is: \(posturl)"}
