@@ -70,5 +70,9 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
         }
         
     }
+    
+    @IBAction func saveBirdObservation() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
 
 }

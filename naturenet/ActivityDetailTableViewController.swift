@@ -8,10 +8,12 @@
 
 import UIKit
 
-class ActivityDetailTableViewController: UITableViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ActivityDetailTableViewController: UITableViewController, UINavigationControllerDelegate,
+                        UIImagePickerControllerDelegate, SaveObservationProtocol, APIControllerProtocol {
+    
     var activity: Context!
     var cameraImage: UIImage!
-
+    var apiService = APIService()
     
     @IBOutlet weak var activityIconImageView: UIImageView!
     @IBOutlet var tableview: UITableView!
@@ -20,6 +22,7 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        apiService.delegate = self
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -53,16 +56,13 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
         return 1
     }
 
-    func setupView() {
+    private func setupView() {
         var iconURL = activity.extras
         loadImageFromWeb(iconURL, imageView: activityIconImageView)
         self.navigationItem.title = activity.title
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         activityDescriptionLabel.text = activity.context_description
-//        let descriptionCellIndexPath = NSIndexPath(forRow: 0, inSection: 1)
-//        let descriptionCell = self.tableview.cellForRowAtIndexPath(descriptionCellIndexPath)!
-//        descriptionCell.textLabel!.text = activity.context_description
     }
     
     private func loadImageFromWeb(iconURL: String, imageView: UIImageView) {
@@ -90,7 +90,8 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
             //            detailVC.imageFromObservation?.isFromGallery = false
             detailVC.imageFromObservation = ObservationsController.PickedImage(image: self.cameraImage, isFromGallery: false)
             detailVC.activityNameFromActivityDetail = activity.title
-            detailVC.sourceViewController = NSStringFromClass(ActivityDetailViewController)
+            detailVC.saveObservationDelegate = self
+            detailVC.sourceViewController = NSStringFromClass(ActivityDetailTableViewController)
         }
     }
     
@@ -126,9 +127,57 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("activityToObservation", sender: self)
     }
-
     
- 
+    
+    func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
+         note.push(apiService)
+    }
+    
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            var status = response["status_code"] as! Int
+            if status == 600 {
+                if let note = sourceData as? Note {
+                }
+                AlertControllerHelper.createGeneralAlert("Please check your Internet connection", controller: self)
+                return
+            }
+            
+            var uid = response["data"]!["id"] as! Int
+            if from == "POST_" + NSStringFromClass(Note) {
+                println("now after post_note, ready for uploading feedbacks")
+                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                if let newNote = sourceData as? Note {
+                    newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    newNote.doPushFeedbacks(self.apiService)
+                    if let newNoteMedia = newNote.getSingleMedia() {
+                        if newNoteMedia.url != nil {
+                        } else {
+                            newNoteMedia.apiService = self.apiService
+                            newNoteMedia.uploadToCloudinary()
+                        }
+                    }
+                }
+            }
+            if from == "POST_" + NSStringFromClass(Feedback) {
+                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
+                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                if let newNoteFeedback = sourceData as? Feedback {
+                    newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                }
+            }
+            if from == "POST_" + NSStringFromClass(Media) {
+                println("now after post_media")
+                if let newNoteMedia = sourceData as? Media {
+                    newNoteMedia.updateAfterPost(uid, modifiedAtFromServer: nil)
+
+                }
+            }
+        })
+
+    }
+    
     
     /*
     // Override to support conditional editing of the table view.

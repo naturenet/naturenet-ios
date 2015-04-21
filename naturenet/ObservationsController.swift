@@ -42,7 +42,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         loadData()
         
         // if the received photo is from Activity/Tour/Location
-        if sourceViewController == NSStringFromClass(ActivityDetailViewController)
+        if sourceViewController == NSStringFromClass(ActivityDetailTableViewController)
             || sourceViewController == NSStringFromClass(TourViewController)
             || sourceViewController == NSStringFromClass(LocationDetailViewController) {
             self.receivedNoteFromObservation!.push(apiService)
@@ -58,7 +58,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,7 +95,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 if let note = sourceData as? Note {
                     self.updateReceivedNoteStatus(note)
                 }
-                self.createAlert("Please check your Internet connection")
+                AlertControllerHelper.createGeneralAlert("Please check your Internet connection", controller: self)
+
                 return
             }
             
@@ -322,7 +322,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // load data for this collectionview
     func loadData() {
         if !Session.isSignedIn() {
-            createAlert("You have to signed in!")
+            AlertControllerHelper.createGeneralAlert("You have to signed in!", controller: self)
             return
         }
         if let account = Session.getAccount() {
@@ -428,14 +428,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     }
     
     
-    // create an alert
-    func createAlert(message: String) {
-        var alert = UIAlertController(title: "Internet Connection Problem", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
+
 }
 
 //----------------------------------------------------------------------------------------------
