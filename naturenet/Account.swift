@@ -67,7 +67,20 @@ class Account: NNModel {
         var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: context) as! [Note]
         return results
     }
+    
+    // get notes of this user by activity
+    func getNotesByActivity(activity: Context) -> [Note]{
+        let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let predicate = NSPredicate(format: "account = %@", self.objectID)
+        let predicate2 = NSPredicate(format: "context = %@", activity.objectID)
+        let compound = NSCompoundPredicate.andPredicateWithSubpredicates([predicate, predicate2])
+        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: compound, managedObjectContext: context) as! [Note]
         
+        // println("got \(results.count) results")
+        return results
+        
+    }
+    
     // toString, debug use
     func toString() -> String {
         var string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"

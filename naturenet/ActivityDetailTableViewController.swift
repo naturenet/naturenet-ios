@@ -14,16 +14,17 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     var activity: Context!
     var cameraImage: UIImage!
     var apiService = APIService()
+    var notesInActivtity: [Note]?
     
     @IBOutlet weak var activityIconImageView: UIImageView!
     @IBOutlet var tableview: UITableView!
     @IBOutlet weak var activityDescriptionLabel: UILabel!
+    @IBOutlet weak var numOfNoteInActivity: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         apiService.delegate = self
-
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -63,6 +64,9 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 160.0
         activityDescriptionLabel.text = activity.context_description
+        self.notesInActivtity = Session.getAccount()?.getNotesByActivity(self.activity)
+        let number: Int = notesInActivtity!.count
+        self.numOfNoteInActivity.text = String(number)
     }
     
     private func loadImageFromWeb(iconURL: String, imageView: UIImageView) {
@@ -129,17 +133,16 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     }
     
     
+    // implement saveObservation to conform SaveObservationProtocol
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
          note.push(apiService)
     }
     
+    // implement didReceiveResults to conform APIControllerProtocol
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
-        
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as! Int
             if status == 600 {
-                if let note = sourceData as? Note {
-                }
                 AlertControllerHelper.createGeneralAlert("Please check your Internet connection", controller: self)
                 return
             }
@@ -177,6 +180,7 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
         })
 
     }
+    
     
     
     /*

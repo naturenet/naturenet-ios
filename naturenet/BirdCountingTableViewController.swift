@@ -9,10 +9,11 @@
 import UIKit
 
 class BirdCountingTableViewController: UITableViewController, UICollectionViewDelegate {
+    // UI
     @IBOutlet weak var birdsCollectionView: UICollectionView!
     
+    // tableview data
     var items = ["Black-billed Magpie", "Pine Siskin", "Stellers Jay", "Red-breasted", "Mallard", "American Goldfinch"]
-    //    var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     var images = ["nnObservations", "nnActivities", "nnDesign", "nnAces", "nnProfile", "nnAbout"]
     
     //----------------------------------------------------------------------------------------------------------------------

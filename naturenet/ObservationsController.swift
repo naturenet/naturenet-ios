@@ -42,13 +42,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         loadData()
         
         // if the received photo is from Activity/Tour/Location
-        if sourceViewController == NSStringFromClass(ActivityDetailTableViewController)
-            || sourceViewController == NSStringFromClass(TourViewController)
-            || sourceViewController == NSStringFromClass(LocationDetailViewController) {
-            self.receivedNoteFromObservation!.push(apiService)
-            self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: NNModel.STATE.SENDING)
-            self.uploadProgressView.setProgress(0.01, animated: true)
-        }
+//        if sourceViewController == NSStringFromClass(ActivityDetailTableViewController)
+//            || sourceViewController == NSStringFromClass(TourViewController)
+//            || sourceViewController == NSStringFromClass(LocationDetailViewController) {
+//            self.receivedNoteFromObservation!.push(apiService)
+//            self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: NNModel.STATE.SENDING)
+//            self.uploadProgressView.setProgress(0.01, animated: true)
+//        }
         
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
@@ -158,10 +158,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // be carefull here
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-            let screenSize: CGRect = UIScreen.mainScreen().bounds
-            let screenWidth = screenSize.width;
-            let screenHeight = screenSize.height;
-            return CGSize(width: screenWidth/2-5, height: screenWidth/2-5)
+            // let screenSize: CGRect = UIScreen.mainScreen().bounds
+            let viewSize = collectionView.bounds
+            let screenWidth = viewSize.width;
+            return CGSize(width: screenWidth/2 , height: screenWidth/2)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -175,7 +175,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     //----------------------------------------------------------------------------------------------------------------------
     // segues setup
     //----------------------------------------------------------------------------------------------------------------------
-    
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ObservationsToDetail" {
             let detailVC = segue.destinationViewController as! ObservationDetailController
@@ -202,6 +202,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             self.uploadProgressView.setProgress(0.01, animated: false)
         }
         note.push(apiService)
+//        self.receivedNoteFromObservation = note
         updateReceivedNoteStatus(note, state: NNModel.STATE.SENDING)
     }
     

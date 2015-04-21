@@ -117,5 +117,5 @@ class Session: NSManagedObject {
         
         return landmarks
     }
-  
+    
 }
