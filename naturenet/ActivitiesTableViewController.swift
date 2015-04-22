@@ -7,25 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class ActivitiesTableViewController: UITableViewController, APIControllerProtocol {
 
-    var activities: [Context] = [Context]()
+    var acesActivities: [Context] = [Context]()
+    var nonAcesActivities: [Context] = [Context]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Session.isSignedIn() {
-            if let site: Site = Session.getSite() {
-                let siteContexts = site.getContexts()
-                for sContext in siteContexts {
-                    let context = sContext as! Context
-                    if context.kind == "Activity" {
-                        self.activities.append(context)
-                    }
-                }
-            }
-        }
-
+        loadActivities()
          // Uncomment the following line to preserve selection between presentations
          self.clearsSelectionOnViewWillAppear = true
 
@@ -38,14 +29,13 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl?.addTarget(self, action: "refreshActivityList", forControlEvents: UIControlEvents.ValueChanged)
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data sourc
+    // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
@@ -57,10 +47,10 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         // Return the number of rows in the section.
         var rows: Int!
         if section == 0 {
-            rows = activities.count
+            rows = acesActivities.count
         }
         if section == 1 {
-            rows = 1
+            rows = nonAcesActivities.count
         }
         
         return rows
@@ -72,32 +62,52 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             headerTitle = "Activities in ACES"
         }
         if section == 1 {
-            headerTitle = "Activities out of ACES"
+            headerTitle = "Not in ACES"
         }
         return headerTitle
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("activitiesCell", forIndexPath: indexPath) as! UITableViewCell
+        var activityIconURL: String!
+
         if indexPath.section == 0 {
-            var activity = self.activities[indexPath.row] as Context
+            var activity = self.acesActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
-            var activityIconURL = activity.extras
-            loadImageFromWeb(activityIconURL, cell: cell, index: indexPath.row)
+            if activity.title != "Bird Counting" {
+                activityIconURL = activity.extras
+            } else if activity.title == "Bird Counting" {
+                let birdsURLs = activity.extras as NSString
+                if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
+                    let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+                    activityIconURL = json["Icon"] as! String
+                }
+            }
+            
         }
         
         if indexPath.section == 1 {
-            cell.textLabel?.text = "Not in Aspen"
+            var activity = self.nonAcesActivities[indexPath.row] as Context
+            activityIconURL = activity.extras
+            cell.textLabel?.text = activity.title
         }
+        
+        loadImageFromWeb(activityIconURL, cell: cell, index: indexPath.row)
+
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
-            self.performSegueWithIdentifier("activityDetail", sender: indexPath)
+            let cell = tableView.cellForRowAtIndexPath(indexPath)
+            if cell?.textLabel?.text == "Bird Counting" {
+                self.performSegueWithIdentifier("birdCounting", sender: indexPath)
+            } else {
+                self.performSegueWithIdentifier("activityDetail", sender: indexPath)
+            }
         }
         if indexPath.section == 1 {
-            self.performSegueWithIdentifier("birdCounting", sender: indexPath)
+            self.performSegueWithIdentifier("activityDetail", sender: indexPath)
         }
 
     }
@@ -107,15 +117,70 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             let destinationVC = segue.destinationViewController as! ActivityDetailTableViewController
             // if passed from a cell
             if let indexPath = sender as? NSIndexPath {
-                let selectedCell = activities[indexPath.row]
-                destinationVC.activity = selectedCell
+                var selectedActivity: Context!
+                if indexPath.section == 0 {
+                    selectedActivity = acesActivities[indexPath.row]
+                }
+                
+                if indexPath.section == 1 {
+                    selectedActivity = nonAcesActivities[indexPath.row]
+                }
+                
+                destinationVC.activity = selectedActivity
             }
         }
         
         if segue.identifier == "birdCounting" {
-            
+            let destinationVC = segue.destinationViewController as! BirdCountingTableViewController
+            if let indexPath = sender as? NSIndexPath {
+                var activity = self.acesActivities[indexPath.row] as Context
+                // destinationVC.activity = activity
+                destinationVC.activityDescription = activity.context_description
+                let birdsURLs = activity.extras as NSString
+
+                if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
+                    let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+                    destinationVC.activityThumbURL = json["Icon"] as! String
+                    let birdsJSON = json["Birds"] as? [NSDictionary]
+                    let birds = self.convertBirdJSONToBirds(birdsJSON!)
+                    destinationVC.birds = birds
+                }
+            }
         }
 
+    }
+    
+    private func loadActivities() {
+//        if Session.isSignedIn() {
+//            if let site: Site = Session.getSite() {
+//                let siteContexts = site.getContexts()
+//                for sContext in siteContexts {
+//                    let context = sContext as! Context
+//                    if context.kind == "Activity" {
+//                        self.acesActivities.append(context)
+//                    }
+//                }
+//            }
+//        }
+        
+        
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let predicate = NSPredicate(format: "kind = %@", "Activity")
+        var activities:[Context] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! [Context]
+        for activity in activities {
+            if activity.kind == "Activity" {
+                if activity.site_uid == 6 {
+                    self.nonAcesActivities.append(activity)
+                }
+                
+                if activity.site_uid == 2 {
+                    self.acesActivities.append(activity)
+                }
+            }
+            
+        }
+        
+        
     }
     
     private func loadImageFromWeb(iconURL: String, cell: UITableViewCell, index: Int ) {
@@ -129,6 +194,24 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 cell.imageView?.image = image
             }
         })
+    }
+    
+    // give a JSON output an array of BirdCount (defined in BirdCountingTableViewController)
+    private func convertBirdJSONToBirds(birdsJSON: [NSDictionary]) -> [BirdCountingTableViewController.BirdCount] {
+        var birds: [BirdCountingTableViewController.BirdCount] = []
+        for birdJSON in birdsJSON {
+            var bird = BirdCountingTableViewController.BirdCount()
+            if let name = birdJSON["name"] as? String {
+                bird.name = name
+            }
+            if let url = birdJSON["image"] as? String {
+                bird.thumbnailURL = url
+            }
+            bird.count = 0
+            birds.append(bird)
+        }
+        
+        return birds
     }
     
     func refreshActivityList() {
@@ -178,49 +261,5 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     }
 
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -1267,12 +1267,28 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FKT-6g-ZAL">
                                                                         <rect key="frame" x="8" y="8" width="126" height="101"/>
                                                                     </imageView>
+                                                                    <label userInteractionEnabled="NO" alpha="0.69999999999999973" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DQO-e7-2MA">
+                                                                        <rect key="frame" x="8" y="88" width="126" height="21"/>
+                                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <color key="textColor" red="0.73453282828282829" green="0.062241122651002859" blue="0.14171629987344292" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="bTN-zO-Ehv">
+                                                                        <rect key="frame" x="61" y="49" width="20" height="20"/>
+                                                                        <color key="color" red="0.17062526259999999" green="0.4695789058" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </activityIndicatorView>
                                                                 </subviews>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
                                                             <constraints>
+                                                                <constraint firstItem="FKT-6g-ZAL" firstAttribute="trailing" secondItem="DQO-e7-2MA" secondAttribute="trailing" id="4nv-ay-hAW"/>
                                                                 <constraint firstItem="v5T-21-9m1" firstAttribute="trailing" secondItem="sWO-SK-Ixc" secondAttribute="trailingMargin" id="KEZ-Vz-C3D"/>
                                                                 <constraint firstAttribute="centerX" secondItem="v5T-21-9m1" secondAttribute="centerX" id="LGL-qP-0Lf"/>
+                                                                <constraint firstItem="DQO-e7-2MA" firstAttribute="bottom" secondItem="FKT-6g-ZAL" secondAttribute="bottom" id="NqU-T9-FmT"/>
+                                                                <constraint firstItem="FKT-6g-ZAL" firstAttribute="centerX" secondItem="bTN-zO-Ehv" secondAttribute="centerX" id="XcP-SJ-KEr"/>
+                                                                <constraint firstItem="FKT-6g-ZAL" firstAttribute="centerY" secondItem="bTN-zO-Ehv" secondAttribute="centerY" id="XsN-rs-L1F"/>
+                                                                <constraint firstItem="FKT-6g-ZAL" firstAttribute="leading" secondItem="DQO-e7-2MA" secondAttribute="leading" id="b4X-GT-o93"/>
                                                                 <constraint firstItem="v5T-21-9m1" firstAttribute="leading" secondItem="sWO-SK-Ixc" secondAttribute="leadingMargin" id="i8t-c3-ICD"/>
                                                                 <constraint firstItem="v5T-21-9m1" firstAttribute="top" secondItem="FKT-6g-ZAL" secondAttribute="bottom" constant="8" id="jdr-rv-KA0"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="FKT-6g-ZAL" secondAttribute="trailing" id="pRk-Oi-1K2"/>
@@ -1291,6 +1307,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                                             <connections>
                                                                 <outlet property="imageView" destination="FKT-6g-ZAL" id="sVE-aa-c2E"/>
                                                                 <outlet property="label" destination="v5T-21-9m1" id="iGm-pM-ANj"/>
+                                                                <outlet property="loadingIndicator" destination="bTN-zO-Ehv" id="nbf-hU-hxs"/>
+                                                                <outlet property="numberLabel" destination="DQO-e7-2MA" id="5hR-cY-iT3"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
@@ -1309,25 +1327,93 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection id="MZU-Ir-FHn">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Vtd-QH-J3V" detailTextLabel="Exv-8L-GXF" style="IBUITableViewCellStyleValue1" id="5mr-PN-QRJ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="birdDetailCell" rowHeight="130" id="e0t-Ea-sHw">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5mr-PN-QRJ" id="Jrm-Mq-fcs">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e0t-Ea-sHw" id="03F-Aa-VJW">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="My Observations" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vtd-QH-J3V">
+                                                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYE-L2-CzB">
+                                                    <rect key="frame" x="140" y="-16" width="320" height="162"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="130" id="QLb-2K-kxi"/>
+                                                        <constraint firstAttribute="width" constant="315" id="fDY-gW-51W"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="fDY-gW-51W"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <connections>
+                                                        <outlet property="dataSource" destination="C6g-qo-Rrm" id="f0b-yE-yhQ"/>
+                                                        <outlet property="delegate" destination="C6g-qo-Rrm" id="Qbe-AS-fuQ"/>
+                                                    </connections>
+                                                </pickerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="wYE-L2-CzB" firstAttribute="centerX" secondItem="03F-Aa-VJW" secondAttribute="centerX" id="Vsc-T5-SAv"/>
+                                                <constraint firstAttribute="centerY" secondItem="wYE-L2-CzB" secondAttribute="centerY" id="vKf-Pl-HKZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="uIO-zt-3XB">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="fkN-yl-21i" detailTextLabel="cr9-4v-QcP" style="IBUITableViewCellStyleValue1" id="qeE-jD-onK">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qeE-jD-onK" id="HyY-og-sLu">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fkN-yl-21i">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="3" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Exv-8L-GXF">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cr9-4v-QcP">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="iLj-Nx-E72" detailTextLabel="iAx-5Y-g8Y" style="IBUITableViewCellStyleValue1" id="5pj-gn-mnl">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5pj-gn-mnl" id="yoD-iu-bJA">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Activity" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iLj-Nx-E72">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Bird Counting" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iAx-5Y-g8Y">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="zSq-aF-ZZx" detailTextLabel="Rte-nL-KPH" style="IBUITableViewCellStyleValue1" id="V8P-V8-Hyz">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V8P-V8-Hyz" id="rex-X4-3ZN">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zSq-aF-ZZx">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Other" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rte-nL-KPH">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1341,10 +1427,13 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                             <outlet property="delegate" destination="C6g-qo-Rrm" id="ebZ-Dy-PPP"/>
                         </connections>
                     </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="birdActivityDescriptionLabel" destination="A3z-sT-7r3" id="qXA-AU-HR4"/>
+                        <outlet property="birdActivityImageView" destination="q1i-Xb-oCK" id="smI-Jy-xmf"/>
                         <outlet property="birdsCollectionView" destination="J3d-vV-4fm" id="APf-Ol-8sj"/>
+                        <outlet property="numberPickerView" destination="wYE-L2-CzB" id="bde-BZ-g8e"/>
                         <segue destination="ge3-uC-lRe" kind="show" identifier="birdCountingDetail" id="m0n-Dy-9Ef"/>
-                        <segue destination="VoY-hl-Epj" kind="show" identifier="birdcountingToObservations" id="tdU-1S-E9G"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZg-dB-hDO" userLabel="First Responder" sceneMemberID="firstResponder"/>

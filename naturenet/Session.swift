@@ -134,4 +134,18 @@ class Session: NSManagedObject {
         return contexts
     }
     
+    // type can be "Landmark" or "Activity"
+    class func getContexts(type: String, site: Site) -> [Context] {
+        var contexts: [Context] = []
+        let siteContexts = site.getContexts()
+        for sContext in siteContexts {
+            let context = sContext as! Context
+            if context.kind == type {
+                contexts.append(context)
+            }
+        }
+        
+        return contexts
+    }
+    
 }

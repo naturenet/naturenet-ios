@@ -38,8 +38,15 @@ class Site: NNModel {
         for tContext in contexts {
             let uid = tContext["id"] as! Int
             var predicate = NSPredicate(format: "uid = \(uid)")
-            var mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! Context
-            mContext.updateToCoreData(tContext as! NSDictionary)
+            if var mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as? Context {
+                mContext.updateToCoreData(tContext as! NSDictionary)
+            } else {
+                var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as! Context
+                mContext.parseContextJSON(tContext as! NSDictionary)
+                mContext.site_uid = self.uid
+                mContext.commit()
+                self.contexts.addObject(mContext)
+            }
         }
         SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
 
