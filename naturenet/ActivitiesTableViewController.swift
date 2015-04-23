@@ -74,9 +74,9 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         if indexPath.section == 0 {
             var activity = self.acesActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
-            if activity.title != "Bird Counting" {
+            if activity.name != "aces_Bird_Counting" {
                 activityIconURL = activity.extras
-            } else if activity.title == "Bird Counting" {
+            } else if activity.name == "aces_Bird_Counting" {
                 let birdsURLs = activity.extras as NSString
                 if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
                     let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
@@ -101,7 +101,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         if indexPath.section == 0 {
             let cell = tableView.cellForRowAtIndexPath(indexPath)
             if cell?.textLabel?.text == "Bird Counting" {
-                self.performSegueWithIdentifier("birdCounting", sender: indexPath)
+                self.performSegueWithIdentifier("birdActivity", sender: indexPath)
             } else {
                 self.performSegueWithIdentifier("activityDetail", sender: indexPath)
             }
@@ -130,12 +130,13 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             }
         }
         
-        if segue.identifier == "birdCounting" {
-            let destinationVC = segue.destinationViewController as! BirdCountingTableViewController
+        if segue.identifier == "birdActivity" {
+            let destinationVC = segue.destinationViewController as! BirdActivityTableViewController
             if let indexPath = sender as? NSIndexPath {
                 var activity = self.acesActivities[indexPath.row] as Context
                 // destinationVC.activity = activity
                 destinationVC.activityDescription = activity.context_description
+                destinationVC.navigationItem.title = activity.title
                 let birdsURLs = activity.extras as NSString
 
                 if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
@@ -143,7 +144,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                     destinationVC.activityThumbURL = json["Icon"] as! String
                     let birdsJSON = json["Birds"] as? [NSDictionary]
                     let birds = self.convertBirdJSONToBirds(birdsJSON!)
-                    destinationVC.birds = birds
+//                    destinationVC.birds = birds
                 }
             }
         }

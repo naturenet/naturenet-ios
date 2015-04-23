@@ -1172,11 +1172,42 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                     <connections>
                         <segue destination="C6g-qo-Rrm" kind="show" identifier="birdCounting" id="9vL-or-Lp1"/>
                         <segue destination="lH2-Y3-ZYY" kind="show" identifier="activityDetail" id="jEH-Eg-iuN"/>
+                        <segue destination="WTd-We-naF" kind="show" identifier="birdActivity" id="nWE-W7-lnA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qp1-ge-Zhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-74" y="58"/>
+        </scene>
+        <!--Bird Activity -->
+        <scene sceneID="LLi-wz-0iZ">
+            <objects>
+                <tableViewController title="Bird Activity " id="WTd-We-naF" customClass="BirdActivityTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Ao9-iX-But">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="106" id="oiA-rN-6ow">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oiA-rN-6ow" id="v3R-wY-HWV">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="WTd-We-naF" id="Tdi-n1-ZW9"/>
+                            <outlet property="delegate" destination="WTd-We-naF" id="kkJ-2y-7nK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="9w7-6A-DhO">
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="0ic-eq-woI"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GSk-ig-yEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="457" y="722"/>
         </scene>
         <!--Bird Counting-->
         <scene sceneID="zee-3N-vnZ">
@@ -1189,7 +1220,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         <sections>
                             <tableViewSection id="iLC-py-uyj">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="1tK-3M-arm">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="100" id="1tK-3M-arm">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1tK-3M-arm" id="aUA-8C-QWe">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1317,6 +1348,9 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                                         <outlet property="delegate" destination="C6g-qo-Rrm" id="Kz4-68-I39"/>
                                                     </connections>
                                                 </collectionView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dco-iL-ULS">
+                                                    <rect key="frame" x="10" y="-122" width="20" height="20"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="J3d-vV-4fm" firstAttribute="centerY" secondItem="0Hk-q1-KPh" secondAttribute="centerY" id="5tB-Hy-7Xb"/>
@@ -1433,12 +1467,13 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         <outlet property="birdActivityImageView" destination="q1i-Xb-oCK" id="smI-Jy-xmf"/>
                         <outlet property="birdsCollectionView" destination="J3d-vV-4fm" id="APf-Ol-8sj"/>
                         <outlet property="numberPickerView" destination="wYE-L2-CzB" id="bde-BZ-g8e"/>
+                        <outlet property="tableview" destination="paB-Rb-deq" id="3ji-Jq-Scc"/>
                         <segue destination="ge3-uC-lRe" kind="show" identifier="birdCountingDetail" id="m0n-Dy-9Ef"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZg-dB-hDO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="135" y="970"/>
+            <point key="canvasLocation" x="33" y="1294"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
@@ -1804,7 +1839,7 @@ your Photo</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fb6-Ko-EKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1405" y="782"/>
+            <point key="canvasLocation" x="1337" y="938"/>
         </scene>
         <!--Activity Detail Table View Controller-->
         <scene sceneID="fPo-bd-TND">

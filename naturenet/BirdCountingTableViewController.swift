@@ -15,6 +15,7 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     @IBOutlet weak var numberPickerView: UIPickerView!
     @IBOutlet weak var birdActivityImageView: UIImageView!
     @IBOutlet weak var birdActivityDescriptionLabel: UILabel!
+    @IBOutlet var tableview: UITableView!
     
     // data
     var activity: Context!
@@ -22,6 +23,8 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     var activityDescription: String!
     var birds: [BirdCount] = [BirdCount]()
     let apiService = APIService()
+    var numberPickerIsShowing = false
+
     
     // tableview data
     var items = ["Black-billed Magpie", "Pine Siskin", "Stellers Jay", "Red-breasted", "Mallard", "American Goldfinch"]
@@ -31,6 +34,7 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
+        hideNumberPickerCell()
     }
     
     //----------------------------------------------------------------------------------------------------------------------
@@ -58,7 +62,6 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
             let viewSize = collectionView.bounds
             let cellWidth = viewSize.width/3 - 10
             let cellHeight = viewSize.height/2 - 10
-            
             return CGSize(width: cellWidth, height: cellHeight)
     }
     
@@ -71,6 +74,7 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
         let cell = self.birdsCollectionView.cellForItemAtIndexPath(indexPath) as! BirdCountingCollectionViewCell
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.blueColor().CGColor
+        showNumberPickerCell()
 //        self.performSegueWithIdentifier("birdCountingDetail", sender: self.birdsCollectionView.cellForItemAtIndexPath(indexPath))
     }
     
@@ -84,10 +88,40 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
 //        if indexPath.section == 2 && indexPath.row == 0 {
 //            self.performSegueWithIdentifier("birdcountingToObservations", sender: self)
 //        }
-     
+        if indexPath.section == 0 || indexPath.section == 2 {
+            self.hideNumberPickerCell()
+        }
         
     }
     
+    override func tableView(tableview: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        var height = super.tableView(tableview, heightForRowAtIndexPath: indexPath)
+        if indexPath.section == 1 {
+            if indexPath.row == 1  {
+                if !self.numberPickerIsShowing {
+                    height = 0
+                }
+            }
+        }
+        return height
+    }
+    
+    
+    private func showNumberPickerCell() {
+        self.numberPickerIsShowing = true
+        self.tableview.beginUpdates()
+        self.tableview.endUpdates()
+        self.numberPickerView.hidden = false
+    }
+    
+    private func hideNumberPickerCell() {
+        self.numberPickerIsShowing = false
+        self.tableview.beginUpdates()
+        self.tableview.endUpdates()
+        self.numberPickerView.hidden = true
+    }
+    
+
     
     //----------------------------------------------------------------------------------------------------------------------
     // pickerView

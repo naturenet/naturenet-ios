@@ -48,6 +48,9 @@
 		FCAE49B01A75E31E0011283A /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAE49AF1A75E31E0011283A /* Session.swift */; };
 		FCB1D51E1A9524FB006267E9 /* ConsentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */; };
 		FCB1D5201A95B9F3006267E9 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB1D51F1A95B9F3006267E9 /* SignUpViewController.swift */; };
+		FCBEE99A1AE8968A001E70FC /* BirdActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE9981AE8968A001E70FC /* BirdActivityTableViewCell.swift */; };
+		FCBEE99B1AE8968A001E70FC /* BirdActivityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FCBEE9991AE8968A001E70FC /* BirdActivityTableViewCell.xib */; };
+		FCBEE99D1AE89B0D001E70FC /* BirdActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */; };
 		FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317D91A887473003FC954 /* CoreLocation.framework */; };
 		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
 		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
@@ -114,6 +117,9 @@
 		FCAE49AF1A75E31E0011283A /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsentTableViewController.swift; sourceTree = "<group>"; };
 		FCB1D51F1A95B9F3006267E9 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		FCBEE9981AE8968A001E70FC /* BirdActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdActivityTableViewCell.swift; sourceTree = "<group>"; };
+		FCBEE9991AE8968A001E70FC /* BirdActivityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BirdActivityTableViewCell.xib; sourceTree = "<group>"; };
+		FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdActivityTableViewController.swift; sourceTree = "<group>"; };
 		FCD317D91A887473003FC954 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FCD317EE1A892476003FC954 /* libCloudinary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCloudinary.a; path = ../../../../Downloads/cloudinary_ios_v1.0.12/libCloudinary.a; sourceTree = "<group>"; };
 		FCD317F11A8924E6003FC954 /* CLCloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCloudinary.h; sourceTree = "<group>"; };
@@ -223,6 +229,7 @@
 				FCA005431A82888C0066686D /* cells */,
 				FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */,
 				FC5973A51AE36C3800EDA96B /* ActivityDetailTableViewController.swift */,
+				FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */,
 				FC077EA61AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift */,
 				FC0861711AD4EB93001CA012 /* BirdCountingTableViewController.swift */,
 				FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */,
@@ -280,6 +287,8 @@
 				FC5EBE411AB0072D006B02B7 /* LogInTableViewCell.swift */,
 				FC5EBE421AB0072D006B02B7 /* LogInTableViewCell.xib */,
 				FC077EA41AD4F1F400F0A1E2 /* BirdCountingCollectionViewCell.swift */,
+				FCBEE9981AE8968A001E70FC /* BirdActivityTableViewCell.swift */,
+				FCBEE9991AE8968A001E70FC /* BirdActivityTableViewCell.xib */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -385,6 +394,7 @@
 				FC67C1581AA16EBE0012B903 /* ConsentTableViewCell.xib in Resources */,
 				FC5EBE441AB0072D006B02B7 /* LogInTableViewCell.xib in Resources */,
 				FC1134B91A642FAE00D548E8 /* Main.storyboard in Resources */,
+				FCBEE99B1AE8968A001E70FC /* BirdActivityTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,8 +437,10 @@
 				FCA005491A832B010066686D /* Feedback.swift in Sources */,
 				FC5EBE431AB0072D006B02B7 /* LogInTableViewCell.swift in Sources */,
 				FCFD1B831AE01A2B00BFA138 /* AlertControllerHelper.swift in Sources */,
+				FCBEE99D1AE89B0D001E70FC /* BirdActivityTableViewController.swift in Sources */,
 				FC1134BD1A64308D00D548E8 /* SignInViewController.swift in Sources */,
 				FC8007AB1A80902900510E30 /* ProfileTableViewCell.swift in Sources */,
+				FCBEE99A1AE8968A001E70FC /* BirdActivityTableViewCell.swift in Sources */,
 				FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */,
 				FC5BA3841A77FE1D0069D59F /* Note.swift in Sources */,
 				FC1134BF1A64309E00D548E8 /* HomeViewController.swift in Sources */,
