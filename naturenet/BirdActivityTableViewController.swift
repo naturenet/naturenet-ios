@@ -10,6 +10,8 @@ import UIKit
 
 class BirdActivityTableViewController: UITableViewController, UIPickerViewDelegate {
 
+    @IBOutlet var tableview: UITableView!
+    
     // data
     var activity: Context!
     var activityThumbURL: String!
@@ -35,23 +37,31 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidLayoutSubviews() {
+        tableview.footerViewForSection(0)?.textLabel.textAlignment = .Right
+        
+    }
+    
     //----------------------------------------------------------------------------------------------------------------------
     // tableView
     //----------------------------------------------------------------------------------------------------------------------
 
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 4
+        return 3
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 1
+        var rows: Int = 1
+        if section == 1 {
+            rows = 2
+        }
+        return rows
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -75,11 +85,28 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     
     override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         var footer: String?
-        if section == 2 {
+        if section == 0 {
+            footer = "Sent"
+        }
+        if section == 1 {
             footer = "Since April 2013"
         }
         return footer
     }
+    
+//    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        if section == 0 {
+//            
+//            var statusLabel = UILabel()
+//            statusLabel.text = "Send"
+//            //        pickerLabel.font = UIFont.systemFontOfSize(20)
+//            statusLabel.textColor = UIColor.blueColor()
+//            statusLabel.textAlignment = .Right
+//            return statusLabel
+//        }
+//        
+//        return super.tableView.footerViewForSection(section)
+//    }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
@@ -91,7 +118,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             loadImageFromWeb(activityThumbURL, imageview: cell.previewImageView, indicatorView: cell.loadingIndicator)
             let numberPickerViewer = cell.numberPickerView
             numberPickerViewer.delegate = self
-            numberPickerViewer.layoutSubviews()
+            cell.setSelected(false, animated: true)
             return cell
         } else {
             var cell = tableView.dequeueReusableCellWithIdentifier("BirdActivityRegularCell") as? UITableViewCell
@@ -102,14 +129,20 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             
             
             if indexPath.section == 1 {
-                cell!.textLabel?.text = "You have seen"
-                cell!.detailTextLabel?.text = "2"
+                if indexPath.row == 0 {
+                    cell!.textLabel?.text = "You have seen"
+                    cell!.detailTextLabel?.text = "2"
+                }
+                if indexPath.row == 1 {
+                    cell!.textLabel?.text = "Total in Aces"
+                    cell!.detailTextLabel?.text = "20"
+                }
             }
+//            if indexPath.section == 2 {
+//                cell!.textLabel?.text = "Total in Aces"
+//                cell!.detailTextLabel?.text = "20"
+//            }
             if indexPath.section == 2 {
-                cell!.textLabel?.text = "Total in Aces"
-                cell!.detailTextLabel?.text = "20"
-            }
-            if indexPath.section == 3 {
                 cell!.textLabel?.text = "Notes"
                 cell!.detailTextLabel?.text = "note for the bird"
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator

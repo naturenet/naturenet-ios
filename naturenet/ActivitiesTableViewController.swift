@@ -74,16 +74,27 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         if indexPath.section == 0 {
             var activity = self.acesActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
-            if activity.name != "aces_Bird_Counting" {
-                activityIconURL = activity.extras
-            } else if activity.name == "aces_Bird_Counting" {
-                let birdsURLs = activity.extras as NSString
-                if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
-                    let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-                    activityIconURL = json["Icon"] as! String
-                }
-            }
+//            if activity.name != "aces_Bird_Counting" {
+//                activityIconURL = activity.extras
+//            } else if activity.name == "aces_Bird_Counting" {
+//                let birdsURLs = activity.extras as NSString
+//                if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
+//                    let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+//                    activityIconURL = json["Icon"] as! String
+//                }
+//            }
             
+            
+            let birdsURLs = activity.extras as NSString
+            if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
+                if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                    activityIconURL = json["Icon"] as! String
+                } else {
+                    activityIconURL = birdsURLs as String
+                }
+            } else {
+                activityIconURL = birdsURLs as String
+            }
         }
         
         if indexPath.section == 1 {
@@ -100,7 +111,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             let cell = tableView.cellForRowAtIndexPath(indexPath)
-            if cell?.textLabel?.text == "Bird Counting" {
+            if cell?.textLabel?.text == "How Many Mallards?" {
                 self.performSegueWithIdentifier("birdActivity", sender: indexPath)
             } else {
                 self.performSegueWithIdentifier("activityDetail", sender: indexPath)
@@ -185,16 +196,20 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     }
     
     private func loadImageFromWeb(iconURL: String, cell: UITableViewCell, index: Int ) {
-        var url = NSURL(string: iconURL)
-        let urlRequest = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-            response, data, error in
-            if error != nil {
-            } else {
-                let image = UIImage(data: data)
-                cell.imageView?.image = image
-            }
-        })
+        if let url = NSURL(string: iconURL) {
+            let urlRequest = NSURLRequest(URL: url)
+            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                response, data, error in
+                if error != nil {
+                    
+                    
+                } else {
+                    let image = UIImage(data: data)
+                    cell.imageView?.image = image
+                }
+            })
+        }
+      
     }
     
     // give a JSON output an array of BirdCount (defined in BirdCountingTableViewController)

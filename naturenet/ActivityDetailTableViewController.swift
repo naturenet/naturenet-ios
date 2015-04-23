@@ -70,16 +70,17 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     }
     
     private func loadImageFromWeb(iconURL: String, imageView: UIImageView) {
-        var url = NSURL(string: iconURL)
-        let urlRequest = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-            response, data, error in
-            if error != nil {
-            } else {
-                let image = UIImage(data: data)
-                imageView.image = image
-            }
-        })
+        if let url = NSURL(string: iconURL) {
+            let urlRequest = NSURLRequest(URL: url)
+            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+                response, data, error in
+                if error != nil {
+                } else {
+                    let image = UIImage(data: data)
+                    imageView.image = image
+                }
+            })
+        }
     }
 
     //----------------------------------------------------------------------------------------------------------------------
