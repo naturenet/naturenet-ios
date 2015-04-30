@@ -13,6 +13,7 @@ class BirdActivityTableViewCell: UITableViewCell {
     @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var numberPickerView: UIPickerView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var birdNameLabel: UILabel!
     
     
     override func awakeFromNib() {

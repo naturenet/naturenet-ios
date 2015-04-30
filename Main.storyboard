@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4dx-qS-qFF">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -1137,8 +1137,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <scene sceneID="G3m-07-AEJ">
             <objects>
                 <tableViewController id="t4G-Hw-JHV" customClass="ActivitiesTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="5D8-2k-lgn">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="3" sectionFooterHeight="3" id="5D8-2k-lgn">
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -1153,7 +1153,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="loading" id="giK-3T-WHu">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="networkerror" id="giK-3T-WHu">
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -1165,11 +1165,13 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                             <outlet property="delegate" destination="t4G-Hw-JHV" id="N1n-L3-3Ie"/>
                         </connections>
                     </tableView>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Activities" id="uvr-FT-QeU"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="8iq-7w-TpV">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
+                        <outlet property="tableview" destination="5D8-2k-lgn" id="ezJ-XD-OqO"/>
                         <segue destination="C6g-qo-Rrm" kind="show" identifier="birdCounting" id="9vL-or-Lp1"/>
                         <segue destination="lH2-Y3-ZYY" kind="show" identifier="activityDetail" id="jEH-Eg-iuN"/>
                         <segue destination="WTd-We-naF" kind="show" identifier="birdActivity" id="nWE-W7-lnA"/>
@@ -1183,12 +1185,12 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <scene sceneID="LLi-wz-0iZ">
             <objects>
                 <tableViewController title="Bird Activity " id="WTd-We-naF" customClass="BirdActivityTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Ao9-iX-But">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="5" sectionFooterHeight="5" id="Ao9-iX-But">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="106" id="oiA-rN-6ow">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="birdactivitycell" rowHeight="106" id="oiA-rN-6ow">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oiA-rN-6ow" id="v3R-wY-HWV">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1202,7 +1204,11 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Title" id="9w7-6A-DhO">
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="0ic-eq-woI"/>
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="0ic-eq-woI">
+                            <connections>
+                                <action selector="sendPressed:" destination="WTd-We-naF" id="6eO-aH-Lii"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableview" destination="Ao9-iX-But" id="dEY-0a-hiG"/>
@@ -1210,7 +1216,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GSk-ig-yEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="457" y="722"/>
+            <point key="canvasLocation" x="1086" y="621"/>
         </scene>
         <!--Bird Counting-->
         <scene sceneID="zee-3N-vnZ">
@@ -1476,7 +1482,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZg-dB-hDO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="33" y="1294"/>
+            <point key="canvasLocation" x="433" y="1352"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
@@ -1842,7 +1848,7 @@ your Photo</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fb6-Ko-EKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1337" y="938"/>
+            <point key="canvasLocation" x="1289" y="1352"/>
         </scene>
         <!--Activity Detail Table View Controller-->
         <scene sceneID="fPo-bd-TND">
@@ -1882,7 +1888,7 @@ your Photo</string>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4OK-Aj-MWg" id="zDd-HG-dNz">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ErH-r5-zu9">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="12" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ErH-r5-zu9">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1945,13 +1951,13 @@ your Photo</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uqp-V8-RYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1295" y="-17"/>
+            <point key="canvasLocation" x="1289" y="-55"/>
         </scene>
     </scenes>
     <resources>
         <image name="bird" width="64" height="64"/>
         <image name="bulb" width="128" height="128"/>
-        <image name="loading" width="128" height="128"/>
+        <image name="networkerror" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fSU-fq-ZZv"/>

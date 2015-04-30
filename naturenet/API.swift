@@ -27,7 +27,8 @@ class API {
     
     // get site api link
     func getSiteLink(siteName: String) -> String {
-        return root + "site/" + siteName + "/long"
+         return root + "site/" + siteName + "/long"
+//        return root + "conelstext/active/at" + siteName + "/long"
     }
     
     // get createAccount api link

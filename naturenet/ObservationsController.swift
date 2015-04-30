@@ -95,8 +95,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 if let note = sourceData as? Note {
                     self.updateReceivedNoteStatus(note)
                 }
-                AlertControllerHelper.createGeneralAlert("Please check your Internet connection", controller: self)
-
+                let alertTitle = "Internet Connection Problem"
+                let alertMessage = "Please check your Internet connection"
+                AlertControllerHelper.createGeneralAlert(alertTitle, message: alertMessage, controller: self)
                 return
             }
             
@@ -323,7 +324,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // load data for this collectionview
     func loadData() {
         if !Session.isSignedIn() {
-            AlertControllerHelper.createGeneralAlert("You have to signed in!", controller: self)
+            let alertMessage = "You have to signed in!"
+            AlertControllerHelper.createGeneralAlert("Alert", message: alertMessage, controller: self)
             return
         }
         if let account = Session.getAccount() {

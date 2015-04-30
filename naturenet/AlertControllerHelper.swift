@@ -23,8 +23,8 @@ class AlertControllerHelper {
     }
     
     // create an alert
-    class func createGeneralAlert(message: String, controller: UIViewController) {
-        var alert = UIAlertController(title: "Internet Connection Problem", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+    class func createGeneralAlert(alertTitle: String, message: String, controller: UIViewController) {
+        var alert = UIAlertController(title: alertTitle, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
             controller.dismissViewControllerAnimated(true, completion: nil)
         }))

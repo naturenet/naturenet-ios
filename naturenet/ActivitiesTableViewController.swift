@@ -13,21 +13,34 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
 
     var acesActivities: [Context] = [Context]()
     var nonAcesActivities: [Context] = [Context]()
+    var cellActivities: [TableviewCellActivity] = [TableviewCellActivity] ()
+    
+    // UI
+    @IBOutlet var tableview: UITableView!
+    
+    struct TableviewCellActivity {
+        var cellSection: Int
+        var cellIndexPath: NSIndexPath
+        var isBirdActivity: Bool
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadActivities()
          // Uncomment the following line to preserve selection between presentations
-         self.clearsSelectionOnViewWillAppear = true
-
+        self.clearsSelectionOnViewWillAppear = true
+        
+//        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
+        self.edgesForExtendedLayout = UIRectEdge.None
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        self.refreshControl = UIRefreshControl()
-//        self.refreshControl?.backgroundColor = UIColor.purpleColor()
+        // self.refreshControl?.backgroundColor = UIColor.greenColor()
         self.refreshControl?.tintColor = UIColor.darkGrayColor()
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl?.addTarget(self, action: "refreshActivityList", forControlEvents: UIControlEvents.ValueChanged)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,14 +50,10 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
         var rows: Int!
         if section == 0 {
             rows = acesActivities.count
@@ -70,31 +79,25 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("activitiesCell", forIndexPath: indexPath) as! UITableViewCell
         var activityIconURL: String!
-
+        var isJSONActivity: Bool = false
+        
         if indexPath.section == 0 {
             var activity = self.acesActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
-//            if activity.name != "aces_Bird_Counting" {
-//                activityIconURL = activity.extras
-//            } else if activity.name == "aces_Bird_Counting" {
-//                let birdsURLs = activity.extras as NSString
-//                if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
-//                    let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-//                    activityIconURL = json["Icon"] as! String
-//                }
-//            }
-            
-            
             let birdsURLs = activity.extras as NSString
+            // check the link is in a JSON String or not, if it is in a JSON object, get the value from "Icon" key
             if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
                 if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
                     activityIconURL = json["Icon"] as! String
+                    isJSONActivity = true
                 } else {
                     activityIconURL = birdsURLs as String
                 }
             } else {
                 activityIconURL = birdsURLs as String
             }
+            var cellActivity: TableviewCellActivity = TableviewCellActivity(cellSection: indexPath.section, cellIndexPath: indexPath, isBirdActivity: isJSONActivity)
+            self.cellActivities.append(cellActivity)
         }
         
         if indexPath.section == 1 {
@@ -103,7 +106,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             cell.textLabel?.text = activity.title
         }
         
-        loadImageFromWeb(activityIconURL, cell: cell, index: indexPath.row)
+        loadImageFromWeb(ImageHelper.createThumbCloudinaryLink(activityIconURL, width: 200, height: 200), cell: cell, index: indexPath.row)
 
         return cell
     }
@@ -111,7 +114,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             let cell = tableView.cellForRowAtIndexPath(indexPath)
-            if cell?.textLabel?.text == "How Many Mallards?" {
+            if cellActivities[indexPath.row].isBirdActivity {
                 self.performSegueWithIdentifier("birdActivity", sender: indexPath)
             } else {
                 self.performSegueWithIdentifier("activityDetail", sender: indexPath)
@@ -149,38 +152,27 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 destinationVC.activityDescription = activity.context_description
                 destinationVC.navigationItem.title = activity.title
                 let birdsURLs = activity.extras as NSString
-
                 if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
                     let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
                     destinationVC.activityThumbURL = json["Icon"] as! String
                     let birdsJSON = json["Birds"] as? [NSDictionary]
                     let birds = self.convertBirdJSONToBirds(birdsJSON!)
-//                    destinationVC.birds = birds
+                    destinationVC.birds = birds
+                    destinationVC.activity = activity
                 }
             }
         }
 
     }
     
+    // load activities for this tableview
     private func loadActivities() {
-//        if Session.isSignedIn() {
-//            if let site: Site = Session.getSite() {
-//                let siteContexts = site.getContexts()
-//                for sContext in siteContexts {
-//                    let context = sContext as! Context
-//                    if context.kind == "Activity" {
-//                        self.acesActivities.append(context)
-//                    }
-//                }
-//            }
-//        }
-        
-        
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let predicate = NSPredicate(format: "kind = %@", "Activity")
         var activities:[Context] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! [Context]
         for activity in activities {
             if activity.kind == "Activity" {
+                // it is risky here
                 if activity.site_uid == 6 {
                     self.nonAcesActivities.append(activity)
                 }
@@ -190,9 +182,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 }
             }
             
-        }
-        
-        
+        }        
     }
     
     private func loadImageFromWeb(iconURL: String, cell: UITableViewCell, index: Int ) {
@@ -201,7 +191,8 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
                 response, data, error in
                 if error != nil {
-                    
+                    let image = UIImage(named: "networkerror")
+                    cell.imageView?.image = image
                     
                 } else {
                     let image = UIImage(data: data)
@@ -213,29 +204,31 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     }
     
     // give a JSON output an array of BirdCount (defined in BirdCountingTableViewController)
-    private func convertBirdJSONToBirds(birdsJSON: [NSDictionary]) -> [BirdCountingTableViewController.BirdCount] {
-        var birds: [BirdCountingTableViewController.BirdCount] = []
+    private func convertBirdJSONToBirds(birdsJSON: [NSDictionary]) -> [BirdActivityTableViewController.BirdCount] {
+        var birds: [BirdActivityTableViewController.BirdCount] = []
         for birdJSON in birdsJSON {
-            var bird = BirdCountingTableViewController.BirdCount()
+            var bird = BirdActivityTableViewController.BirdCount()
             if let name = birdJSON["name"] as? String {
                 bird.name = name
             }
             if let url = birdJSON["image"] as? String {
-                bird.thumbnailURL = url
+                bird.thumbnailURL = ImageHelper.createThumbCloudinaryLink(url, width: 200, height: 200)
             }
-            bird.count = 0
+            bird.countNumber = "0"
             birds.append(bird)
         }
         
         return birds
     }
     
+    // pull to refresh
     func refreshActivityList() {
-//        self.refreshControl?.attributedTitle = NSString("Last Upate: ")
         var parseService = APIService()
+        parseService.delegate = self
+        self.tableview.beginUpdates()
 
         Site.doPullByNameFromServer(parseService, name: "aces")
-        self.refreshControl?.endRefreshing()
+        Site.doPullByNameFromServer(parseService, name: "elsewhere")
     }
     
     // after getting data from server
@@ -259,16 +252,17 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
+            self.refreshControl?.endRefreshing()
+            self.tableview.endUpdates()
         })
     }
     
     // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
         var sitename = data["name"] as! String
-        let predicate = NSPredicate(format: "name = %@", "aces")
+        let predicate = NSPredicate(format: "name = %@", sitename)
         let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
         if exisitingSite != nil {
-            // println("You have aces site in core data: "  + exisitingSite!.toString())
             // should check if modified date is changed here!! but no modified date returned from API
             exisitingSite!.updateToCoreData(data)
         } else {

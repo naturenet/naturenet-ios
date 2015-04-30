@@ -35,6 +35,7 @@
 		FC5C318C1A8CFFA400A59B89 /* ActivitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */; };
 		FC5EBE431AB0072D006B02B7 /* LogInTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5EBE411AB0072D006B02B7 /* LogInTableViewCell.swift */; };
 		FC5EBE441AB0072D006B02B7 /* LogInTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC5EBE421AB0072D006B02B7 /* LogInTableViewCell.xib */; };
+		FC5F34BF1AF0A04800C42540 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5F34BE1AF0A04800C42540 /* ImageHelper.swift */; };
 		FC6764201A8162EA0041B788 /* ObservationDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */; };
 		FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */; };
 		FC6764241A8203F10041B788 /* NoteDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */; };
@@ -104,6 +105,7 @@
 		FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivitiesTableViewController.swift; sourceTree = "<group>"; };
 		FC5EBE411AB0072D006B02B7 /* LogInTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInTableViewCell.swift; sourceTree = "<group>"; };
 		FC5EBE421AB0072D006B02B7 /* LogInTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInTableViewCell.xib; sourceTree = "<group>"; };
+		FC5F34BE1AF0A04800C42540 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		FC67641F1A8162EA0041B788 /* ObservationDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservationDetailController.swift; sourceTree = "<group>"; };
 		FC6764211A81F9620041B788 /* EditObsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditObsTableViewCell.swift; sourceTree = "<group>"; };
 		FC6764231A8203F10041B788 /* NoteDescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteDescriptionViewController.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				FCE67D801A6F7BC30096D594 /* APIAdapter.swift */,
 				FC5BA3861A78114B0069D59F /* SwiftCoreDataHelper.swift */,
 				FCFD1B821AE01A2B00BFA138 /* AlertControllerHelper.swift */,
+				FC5F34BE1AF0A04800C42540 /* ImageHelper.swift */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				FCD318031A892E98003FC954 /* Wrappy.m in Sources */,
 				FC1134C81A6430EF00D548E8 /* APIService.swift in Sources */,
 				FC077EA51AD4F1F400F0A1E2 /* BirdCountingCollectionViewCell.swift in Sources */,
+				FC5F34BF1AF0A04800C42540 /* ImageHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
