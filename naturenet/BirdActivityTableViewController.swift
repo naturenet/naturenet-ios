@@ -76,6 +76,15 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - LASTTWOSECTIONS {
             height = 135.0
         }
+
+        return height
+    }
+    
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        var height = super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+        if indexPath.section == 0 {
+            height = 100
+        }
         return height
     }
     
@@ -106,6 +115,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
 //        return footer
 //    }
     
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - LASTTWOSECTIONS {
             let cellNib = UINib(nibName: "BirdActivityTableViewCell", bundle: NSBundle.mainBundle())
@@ -129,7 +139,9 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             }
             
             if indexPath.section == 0 {
-                cell!.textLabel?.numberOfLines = 8
+//                cell!.textLabel?.numberOfLines = 8
+                cell!.textLabel?.numberOfLines = 0
+                cell!.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
                 cell!.textLabel?.text = activityDescription
                 cell?.selectionStyle = UITableViewCellSelectionStyle.None
             }
@@ -291,7 +303,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         var content = descriptionCell?.detailTextLabel?.text
         let birdJSONs = convertBirdCountToJSON(birds)
         let contentObject: [String : AnyObject] = ["type" : "bird", "birds" : birdJSONs, "content": content!]
-        let contentJSON = self.JSONStringify(contentObject, prettyPrinted: false)
+        let contentJSON = self.JSONStringify(contentObject, prettyPrinted: true)
         println(contentJSON)
         mNote.content = contentJSON
 

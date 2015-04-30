@@ -106,7 +106,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             cell.textLabel?.text = activity.title
         }
         
-        loadImageFromWeb(ImageHelper.createThumbCloudinaryLink(activityIconURL, width: 200, height: 200), cell: cell, index: indexPath.row)
+        loadImageFromWeb(ImageHelper.createThumbCloudinaryLink(activityIconURL, width: 128, height: 128), cell: cell, index: indexPath.row)
 
         return cell
     }
@@ -155,9 +155,10 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
                     let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
                     destinationVC.activityThumbURL = json["Icon"] as! String
-                    let birdsJSON = json["Birds"] as? [NSDictionary]
-                    let birds = self.convertBirdJSONToBirds(birdsJSON!)
-                    destinationVC.birds = birds
+                    if let birdsJSON = json["Birds"] as? [NSDictionary] {
+                        let birds = self.convertBirdJSONToBirds(birdsJSON)
+                        destinationVC.birds = birds
+                    }
                     destinationVC.activity = activity
                 }
             }
