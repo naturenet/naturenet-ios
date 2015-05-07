@@ -71,7 +71,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             headerTitle = "Activities in ACES"
         }
         if section == 1 {
-            headerTitle = "Not in ACES"
+            headerTitle = "Activities outside ACES"
         }
         return headerTitle
     }
@@ -173,17 +173,27 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         var activities:[Context] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! [Context]
         for activity in activities {
             if activity.kind == "Activity" {
-                // it is risky here
-                if activity.site_uid == 6 {
-                    self.nonAcesActivities.append(activity)
+                let extras = activity.extras as NSString
+                if let data = extras.dataUsingEncoding(NSUTF8StringEncoding) {
+                    if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                        if let active = json["active"] as? Bool {
+                            if active  {
+                                // it is risky here
+                                if activity.site_uid == 6 {
+                                    self.nonAcesActivities.append(activity)
+                                }
+                                
+                                if activity.site_uid == 2 {
+                                    self.acesActivities.append(activity)
+                                }
+                            }
+                        }
+    
+                    }
                 }
                 
-                if activity.site_uid == 2 {
-                    self.acesActivities.append(activity)
-                }
             }
-            
-        }        
+        }
     }
     
     private func loadImageFromWeb(iconURL: String, cell: UITableViewCell, index: Int ) {

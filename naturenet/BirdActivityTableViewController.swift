@@ -21,16 +21,16 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     var noteDescription: String?
     
     // constant numbers of fixed sections
-    let NUMOFFIXEDSECTIONS = 3
+    let NUMOFFIXEDSECTIONS = 2
     let DESCRIPTIONSECTION = 0
-    let LASTTWOSECTIONS = 2
+    let NOTESECTION = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         for i in 0...20 {
             pickerData.append(String(i))
         }
-        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
+//        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -44,10 +44,10 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidLayoutSubviews() {
-        // reserved for a "sent" status
-        tableview.footerViewForSection(self.tableview.numberOfSections() - LASTTWOSECTIONS)?.textLabel.textAlignment = .Right
-    }
+//    override func viewDidLayoutSubviews() {
+//        // reserved for a "sent" status
+//        tableview.headerViewForSection(1)?.textLabel.textAlignment = NSTextAlignment.Right
+//    }
     
     //----------------------------------------------------------------------------------------------------------------------
     // tableView
@@ -56,24 +56,19 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // 3 is fixed for last two sections plus first section
+        // 2 is fixed for last two sections plus first section
         return birds.count + NUMOFFIXEDSECTIONS
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
         var rows: Int = 1
-        
-        if section == tableView.numberOfSections() - LASTTWOSECTIONS {
-            rows = 2
-        }
+    
         return rows
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var height = super.tableView(tableView, heightForRowAtIndexPath: indexPath)
-        if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - LASTTWOSECTIONS {
+        if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - 1 {
             height = 135.0
         }
 
@@ -90,34 +85,50 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var header: String?
-        if section > 0 && section < tableView.numberOfSections() - LASTTWOSECTIONS {
+        if section > 0 && section < tableView.numberOfSections() - 1 {
             header = birds[section-1].name
         }
         if section == 0 {
             header = "About this acitivty"
         }
-//        if section == tableView.numberOfSections() - LASTTWOSECTIONS {
-//            header = "Since April 2013"
-//        }
+
         return header
         
     }
     
 //    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
 //        var footer: String?
-//        if section == tableView.numberOfSections() - 3 {
-//            footer = "Sent"
-//        }
-//        if section == tableView.numberOfSections() - LASTTWOSECTIONS {
-//            footer = "Since April 2013"
+//        if section > 0 && section < tableView.numberOfSections() - 1 {
+//            footer = "Daily average this season: 20"
 //        }
 //
 //        return footer
 //    }
     
+    override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        var label: UILabel?
+        
+        if section > 0 && section < tableView.numberOfSections() - 1 {
+            var footer = "Daily average this season: 20  "
+            label = UILabel()
+            label!.text = footer
+            label!.textColor = UIColor.grayColor()
+            label!.font = UIFont.systemFontOfSize(16)
+            label!.textAlignment = NSTextAlignment.Right
+        
+        }
+        
+        return label
+        
+    }
+
+    override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 20
+    }
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - LASTTWOSECTIONS {
+        if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - 1 {
             let cellNib = UINib(nibName: "BirdActivityTableViewCell", bundle: NSBundle.mainBundle())
             tableView.registerNib(cellNib, forCellReuseIdentifier: "BirdActivityTableViewCell")
             let cell = tableView.dequeueReusableCellWithIdentifier("BirdActivityTableViewCell", forIndexPath: indexPath) as! BirdActivityTableViewCell
@@ -139,26 +150,26 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             }
             
             if indexPath.section == 0 {
-//                cell!.textLabel?.numberOfLines = 8
+                // cell!.textLabel?.numberOfLines = 8
                 cell!.textLabel?.numberOfLines = 0
                 cell!.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
                 cell!.textLabel?.text = activityDescription
                 cell?.selectionStyle = UITableViewCellSelectionStyle.None
             }
             
-            if indexPath.section == tableView.numberOfSections() - LASTTWOSECTIONS {
-                if indexPath.row == 0 {
-                    cell!.textLabel?.text = "You have seen"
-                    cell!.detailTextLabel?.text = "2"
-                }
-                if indexPath.row == 1 {
-                    cell!.textLabel?.text = "Total in Aces Since 2013"
-                    cell!.detailTextLabel?.text = "20"
-                }
-                cell?.selectionStyle = UITableViewCellSelectionStyle.None
-            }
+//            if indexPath.section == tableView.numberOfSections() - LASTTWOSECTIONS {
+//                if indexPath.row == 0 {
+//                    cell!.textLabel?.text = "You have seen"
+//                    cell!.detailTextLabel?.text = "2"
+//                }
+//                if indexPath.row == 1 {
+//                    cell!.textLabel?.text = "Total in Aces Since 2013"
+//                    cell!.detailTextLabel?.text = "20"
+//                }
+//                cell?.selectionStyle = UITableViewCellSelectionStyle.None
+//            }
 
-            if indexPath.section == tableView.numberOfSections() - LASTTWOSECTIONS + 1 {
+            if indexPath.section == tableView.numberOfSections() - 1 {
                 cell!.textLabel?.text = "Note"
                 if let nDescription = self.noteDescription {
                     cell!.detailTextLabel?.text = self.noteDescription
@@ -176,7 +187,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == tableView.numberOfSections() - 1 {
-            let nextViewController :NoteDescriptionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NoteDescriptionViewController")
+            let nextViewController: NoteDescriptionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NoteDescriptionViewController")
                 as! NoteDescriptionViewController
             let cell = self.tableview.cellForRowAtIndexPath(indexPath)!
             if  let noteDescription = cell.detailTextLabel?.text {
@@ -302,7 +313,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         let descriptionCell = self.tableView.cellForRowAtIndexPath(noteIndexPath) as UITableViewCell!
         var content = descriptionCell?.detailTextLabel?.text
         let birdJSONs = convertBirdCountToJSON(birds)
-        let contentObject: [String : AnyObject] = ["type" : "bird", "birds" : birdJSONs, "content": content!]
+        let contentObject: [String : AnyObject] = ["type" : "bird", "birds" : birdJSONs, "description": content!]
         let contentJSON = self.JSONStringify(contentObject, prettyPrinted: true)
         println(contentJSON)
         mNote.content = contentJSON
@@ -350,8 +361,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         func toDictionary() -> [String: String] {
             return [
                 "birdname": self.name,
-                "birdcount": self.countNumber,
-                "birdurl": self.thumbnailURL
+                "birdcount": self.countNumber 
             ]
         }
         

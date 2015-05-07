@@ -46,6 +46,12 @@ class Context: NNModel {
     // update data in core data
     override func updateToCoreData(data: NSDictionary) {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+
+//        var contexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: nil, managedObjectContext: managedContext) as! [Context]
+//        for context in contexts {
+//            managedContext.deleteObject(context)
+//        }
+        
         self.setValue(data["id"] as! Int, forKey: "uid")
         self.setValue(data["name"] as! String, forKey: "name")
         if let desc = data["description"] as? String {
