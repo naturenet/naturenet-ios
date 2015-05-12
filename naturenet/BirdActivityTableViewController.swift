@@ -69,7 +69,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var height = super.tableView(tableView, heightForRowAtIndexPath: indexPath)
         if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - 1 {
-            height = 135.0
+            height = 140.0
         }
 
         return height
@@ -150,11 +150,10 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             }
             
             if indexPath.section == 0 {
-                // cell!.textLabel?.numberOfLines = 8
-                cell!.textLabel?.numberOfLines = 0
-                cell!.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
+                cell!.textLabel?.numberOfLines = 3
                 cell!.textLabel?.text = activityDescription
                 cell?.selectionStyle = UITableViewCellSelectionStyle.None
+
             }
             
 //            if indexPath.section == tableView.numberOfSections() - LASTTWOSECTIONS {
@@ -186,6 +185,13 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 0 {
+            let cell = self.tableview.cellForRowAtIndexPath(indexPath)
+            cell!.textLabel?.numberOfLines = 0
+            cell!.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            cell!.textLabel?.text = activityDescription
+        }
+        
         if indexPath.section == tableView.numberOfSections() - 1 {
             let nextViewController: NoteDescriptionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NoteDescriptionViewController")
                 as! NoteDescriptionViewController
@@ -311,10 +317,14 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
 
         let noteIndexPath = NSIndexPath(forRow: 0, inSection: self.tableView.numberOfSections() - 1)
         let descriptionCell = self.tableView.cellForRowAtIndexPath(noteIndexPath) as UITableViewCell!
-        var content = descriptionCell?.detailTextLabel?.text
         let birdJSONs = convertBirdCountToJSON(birds)
-        let contentObject: [String : AnyObject] = ["type" : "bird", "birds" : birdJSONs, "description": content!]
-        let contentJSON = self.JSONStringify(contentObject, prettyPrinted: true)
+        
+        var contentObject: [String : AnyObject] = ["type" : "bird", "birds" : birdJSONs, "description": ""]
+
+        if var content = descriptionCell?.detailTextLabel?.text {
+            contentObject = ["type" : "bird", "birds" : birdJSONs, "description": content]
+        }
+        let contentJSON = self.JSONStringify(contentObject, prettyPrinted: false)
         println(contentJSON)
         mNote.content = contentJSON
 
@@ -339,7 +349,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         return birdJSONs
     }
     
-    private func JSONStringify(value: AnyObject, prettyPrinted: Bool = true) -> String {
+    private func JSONStringify(value: AnyObject, prettyPrinted: Bool = false) -> String {
         var options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : nil
         if NSJSONSerialization.isValidJSONObject(value) {
             if let data = NSJSONSerialization.dataWithJSONObject(value, options: options, error: nil) {
@@ -360,8 +370,8 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         
         func toDictionary() -> [String: String] {
             return [
-                "birdname": self.name,
-                "birdcount": self.countNumber 
+                "name": self.name,
+                "count": self.countNumber 
             ]
         }
         
