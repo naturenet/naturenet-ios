@@ -15,6 +15,9 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     var nonAcesActivities: [Context] = [Context]()
     var cellActivities: [TableviewCellActivity] = [TableviewCellActivity] ()
     
+    let ACESSITENAME = "aces"
+    let BACKYARDSITENAME = "elsewhere"
+    
     // UI
     @IBOutlet var tableview: UITableView!
     
@@ -26,8 +29,9 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadActivities()
-         // Uncomment the following line to preserve selection between presentations
+        self.loadActivities()
+        
+        // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
         
 //        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
@@ -88,8 +92,11 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             // check the link is in a JSON String or not, if it is in a JSON object, get the value from "Icon" key
             if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
                 if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                    if let isBirdActivity = json["type"] as? String {
+                        isJSONActivity = true
+                    }
                     activityIconURL = json["Icon"] as! String
-                    isJSONActivity = true
+
                 } else {
                     activityIconURL = birdsURLs as String
                 }
@@ -103,7 +110,13 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         if indexPath.section == 1 {
             var activity = self.nonAcesActivities[indexPath.row] as Context
             activityIconURL = activity.extras
-            cell.textLabel?.text = activity.title
+            if let data = activityIconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
+                if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                    activityIconURL = json["Icon"] as! String
+                    cell.textLabel?.text = activity.title
+
+                }
+            }
         }
         
         loadImageFromWeb(ImageHelper.createThumbCloudinaryLink(activityIconURL, width: 128, height: 128), cell: cell, index: indexPath.row)
@@ -168,31 +181,12 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     
     // load activities for this tableview
     private func loadActivities() {
-        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        let predicate = NSPredicate(format: "kind = %@", "Activity")
-        var activities:[Context] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! [Context]
-        for activity in activities {
-            if activity.kind == "Activity" {
-                let extras = activity.extras as NSString
-                if let data = extras.dataUsingEncoding(NSUTF8StringEncoding) {
-                    if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-                        if let active = json["active"] as? Bool {
-                            if active  {
-                                // it is risky here
-                                if activity.site_uid == 6 {
-                                    self.nonAcesActivities.append(activity)
-                                }
-                                
-                                if activity.site_uid == 2 {
-                                    self.acesActivities.append(activity)
-                                }
-                            }
-                        }
-    
-                    }
-                }
-                
-            }
+        if let acesSite = Session.getSiteByName(ACESSITENAME) {
+            self.acesActivities = Session.getActiveContextsBySite("Activity", site: acesSite)
+        }
+        
+        if let site = Session.getSiteByName(BACKYARDSITENAME) {
+            self.nonAcesActivities = Session.getActiveContextsBySite("Activity", site: site)
         }
     }
     

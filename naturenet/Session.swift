@@ -20,7 +20,7 @@ class Session: NSManagedObject {
     class var sharedInstance: Session {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         struct Singleton {
-//            static let instance = SwiftCoreDataHelper.getEntityByModelName(NSStringFromClass(Session), managedObjectContext: managedContext) as Session
+            // static let instance = SwiftCoreDataHelper.getEntityByModelName(NSStringFromClass(Session), managedObjectContext: managedContext) as Session
              static let instance = Session()
         }
         return Singleton.instance
@@ -103,6 +103,20 @@ class Session: NSManagedObject {
         return site
     }
     
+    class func getSiteByName(name: String) -> Site? {
+        var site: Site?
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var sites:[Site] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Site), withPredicate: nil, managedObjectContext: managedContext) as! [Site]
+        if sites.count > 0 {
+            for s in sites {
+                if s.name == name {
+                    site = s
+                }
+            }
+        }
+        return site
+    }
+    
     class func getLandmarks() -> [Context] {
         var landmarks: [Context] = []
         if let site: Site = Session.getSite() {
@@ -144,8 +158,41 @@ class Session: NSManagedObject {
                 contexts.append(context)
             }
         }
-        
         return contexts
+    }
+    
+    // type can be "Landmark" or "Activity"
+    // only returns active contexts
+    class func getActiveContextsBySite(type: String, site: Site?) -> [Context] {
+        var contexts: [Context] = []
+
+        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let predicate = NSPredicate(format: "kind = %@", type)
+        var activities:[Context] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! [Context]
+        for activity in activities {
+            if activity.kind == type {
+                let extras = activity.extras as NSString
+                if let data = extras.dataUsingEncoding(NSUTF8StringEncoding) {
+                    if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                        if let active = json["active"] as? Bool {
+                            if active {
+                                if site != nil {
+                                    // it is risky here, choose activity name or uid
+                                    if activity.site_uid == site!.uid {
+                                        contexts.append(activity)
+                                    }
+                                } else {
+                                    contexts.append(activity)
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return contexts
+    
     }
     
 }

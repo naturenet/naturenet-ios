@@ -390,18 +390,21 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // initialize self.activities and self.landmarks
     func loadContexts() {
-        if let site: Site = Session.getSite() {
-            let siteContexts = site.getContexts()
-            for sContext in siteContexts {
-                let context = sContext as! Context
-                if context.kind == "Landmark" {
-                    self.landmarks.append(context)
-                }
-                if context.kind == "Activity" {
-                    self.activities.append(context)
-                }
-            }
-        }
+//        if let site: Site = Session.getSite() {
+//            let siteContexts = site.getContexts()
+//            for sContext in siteContexts {
+//                let context = sContext as! Context
+//                if context.kind == "Landmark" {
+//                    self.landmarks.append(context)
+//                }
+//                if context.kind == "Activity" {
+//                    self.activities.append(context)
+//                }
+//            }
+//        }
+        
+        self.landmarks = Session.getContexts("Landmark")
+        self.activities = Session.getActiveContextsBySite("Activity", site: nil)
     }
     
     // load image into imageview

@@ -39,6 +39,7 @@ class Context: NNModel {
         self.title = context["title"] as! String
         self.kind = context["kind"] as! String
         self.state = STATE.DOWNLOADED
+        
         return self
     }
     

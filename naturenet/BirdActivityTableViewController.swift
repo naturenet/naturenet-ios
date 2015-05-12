@@ -305,7 +305,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         
         var account = Session.getAccount()
         mNote.account = account!
-        mNote.kind = "FieldNote"
+        mNote.kind = "BirdCounting"
         mNote.state = NNModel.STATE.NEW
         mNote.context = self.activity
 

@@ -15,7 +15,7 @@ class Site: NNModel {
     @NSManaged var image_url: String
     @NSManaged var name: String
     @NSManaged var kind: String
-    @NSManaged var contexts: NSMutableArray
+//    @NSManaged var contexts: NSMutableArray
     
     // pull info from remote server
     class func doPullByNameFromServer(parseService: APIService, name: String) {
@@ -38,9 +38,6 @@ class Site: NNModel {
 //        for context in contexts {
 //            managedContext.deleteObject(context)
 //        }
-//        var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as! Site
-//        mSite.parseJSON(data)
-//        mSite.commit()
         
         var contexts = data["contexts"] as! NSArray
         for tContext in contexts {
@@ -48,13 +45,17 @@ class Site: NNModel {
             var predicate = NSPredicate(format: "uid = \(uid)")
             if var mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as? Context {
                 mContext.updateToCoreData(tContext as! NSDictionary)
+//                mContext.site = self
+
             } else {
                 var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as! Context
                 mContext.parseContextJSON(tContext as! NSDictionary)
                 mContext.site_uid = self.uid
+                // mContext.site = self
                 mContext.commit()
-                self.contexts.addObject(mContext)
+//                self.contexts.addObject(mContext)
             }
+
         }
         SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
 
@@ -87,9 +88,9 @@ class Site: NNModel {
             mContext.site_uid = self.uid
 //            mContext.site = self
             mContext.commit()
-            self.contexts.addObject(mContext)
+//            self.contexts.addObject(mContext)
             SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
-            println("A new context:{ " + mContext.toString() + " } saved!")
+            // println("A new context:{ " + mContext.toString() + " } saved!")
         }
     }
     
