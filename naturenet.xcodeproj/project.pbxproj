@@ -52,6 +52,8 @@
 		FCBEE99A1AE8968A001E70FC /* BirdActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE9981AE8968A001E70FC /* BirdActivityTableViewCell.swift */; };
 		FCBEE99B1AE8968A001E70FC /* BirdActivityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FCBEE9991AE8968A001E70FC /* BirdActivityTableViewCell.xib */; };
 		FCBEE99D1AE89B0D001E70FC /* BirdActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */; };
+		FCC3869E1B0314E6004A96AE /* ActivityIconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC3869C1B0314E6004A96AE /* ActivityIconTableViewCell.swift */; };
+		FCC3869F1B0314E6004A96AE /* ActivityIconTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FCC3869D1B0314E6004A96AE /* ActivityIconTableViewCell.xib */; };
 		FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317D91A887473003FC954 /* CoreLocation.framework */; };
 		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
 		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
@@ -122,6 +124,8 @@
 		FCBEE9981AE8968A001E70FC /* BirdActivityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdActivityTableViewCell.swift; sourceTree = "<group>"; };
 		FCBEE9991AE8968A001E70FC /* BirdActivityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BirdActivityTableViewCell.xib; sourceTree = "<group>"; };
 		FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdActivityTableViewController.swift; sourceTree = "<group>"; };
+		FCC3869C1B0314E6004A96AE /* ActivityIconTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIconTableViewCell.swift; sourceTree = "<group>"; };
+		FCC3869D1B0314E6004A96AE /* ActivityIconTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityIconTableViewCell.xib; sourceTree = "<group>"; };
 		FCD317D91A887473003FC954 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FCD317EE1A892476003FC954 /* libCloudinary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCloudinary.a; path = ../../../../Downloads/cloudinary_ios_v1.0.12/libCloudinary.a; sourceTree = "<group>"; };
 		FCD317F11A8924E6003FC954 /* CLCloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCloudinary.h; sourceTree = "<group>"; };
@@ -292,6 +296,8 @@
 				FC077EA41AD4F1F400F0A1E2 /* BirdCountingCollectionViewCell.swift */,
 				FCBEE9981AE8968A001E70FC /* BirdActivityTableViewCell.swift */,
 				FCBEE9991AE8968A001E70FC /* BirdActivityTableViewCell.xib */,
+				FCC3869C1B0314E6004A96AE /* ActivityIconTableViewCell.swift */,
+				FCC3869D1B0314E6004A96AE /* ActivityIconTableViewCell.xib */,
 			);
 			name = cells;
 			sourceTree = "<group>";
@@ -395,6 +401,7 @@
 				FC1134BB1A642FDC00D548E8 /* Images.xcassets in Resources */,
 				FC1134A31A642DD600D548E8 /* LaunchScreen.xib in Resources */,
 				FC67C1581AA16EBE0012B903 /* ConsentTableViewCell.xib in Resources */,
+				FCC3869F1B0314E6004A96AE /* ActivityIconTableViewCell.xib in Resources */,
 				FC5EBE441AB0072D006B02B7 /* LogInTableViewCell.xib in Resources */,
 				FC1134B91A642FAE00D548E8 /* Main.storyboard in Resources */,
 				FCBEE99B1AE8968A001E70FC /* BirdActivityTableViewCell.xib in Resources */,
@@ -426,6 +433,7 @@
 				FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */,
 				FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */,
 				FC077EA71AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift in Sources */,
+				FCC3869E1B0314E6004A96AE /* ActivityIconTableViewCell.swift in Sources */,
 				FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */,
 				FC0861721AD4EB93001CA012 /* BirdCountingTableViewController.swift in Sources */,
 				FC1134991A642DD500D548E8 /* naturenet.xcdatamodeld in Sources */,

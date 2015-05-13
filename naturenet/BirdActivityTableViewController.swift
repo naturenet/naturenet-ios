@@ -19,19 +19,19 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     var activityDescription: String!
     var pickerData: [String] = [String]()
     var noteDescription: String?
+    var isDescriptionExpanded = false
     
     // constant numbers of fixed sections
-    let NUMOFFIXEDSECTIONS = 2
-    let DESCRIPTIONSECTION = 0
-    let NOTESECTION = 1
+    let NUMOFFIXEDSECTIONS = 3
+    let ICONSECTION = 0
+    let DESCRIPTIONSECTION = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
         for i in 0...20 {
             pickerData.append(String(i))
         }
-//        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
-        
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -68,7 +68,10 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var height = super.tableView(tableView, heightForRowAtIndexPath: indexPath)
-        if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - 1 {
+        if indexPath.section == ICONSECTION {
+            height = 60.0
+        }
+        if indexPath.section > DESCRIPTIONSECTION && indexPath.section < tableView.numberOfSections() - 1 {
             height = 140.0
         }
 
@@ -77,18 +80,19 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var height = super.tableView(tableView, heightForRowAtIndexPath: indexPath)
-        if indexPath.section == 0 {
-            height = 100
+        if indexPath.section == DESCRIPTIONSECTION {
+            height = 300
         }
         return height
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var header: String?
-        if section > 0 && section < tableView.numberOfSections() - 1 {
-            header = birds[section-1].name
+        if section > DESCRIPTIONSECTION && section < tableView.numberOfSections() - 1 {
+            var birdIndex = section - DESCRIPTIONSECTION - 1
+            header = birds[birdIndex].name
         }
-        if section == 0 {
+        if section == DESCRIPTIONSECTION {
             header = "About this acitivty"
         }
 
@@ -96,19 +100,22 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         
     }
     
-//    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-//        var footer: String?
-//        if section > 0 && section < tableView.numberOfSections() - 1 {
-//            footer = "Daily average this season: 20"
-//        }
-//
-//        return footer
-//    }
-    
+    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        var footer: String?
+        if section > DESCRIPTIONSECTION && section < tableView.numberOfSections() - 1 {
+            footer = "Daily average this season: 20"
+        }
+
+        return footer
+    }
+   
+    /*
+     * reserverd for placing the footer right
+    //
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         var label: UILabel?
         
-        if section > 0 && section < tableView.numberOfSections() - 1 {
+        if section > DESCRIPTIONSECTION && section < tableView.numberOfSections() - 1 {
             var footer = "Daily average this season: 20  "
             label = UILabel()
             label!.text = footer
@@ -125,17 +132,29 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     override func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20
     }
+    */
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section > 0 && indexPath.section < tableView.numberOfSections() - 1 {
+        if indexPath.section == ICONSECTION {
+            // "activityImageCell" is defined in ActivitesTableViewController scence
+            let cellNib = UINib(nibName: "ActivityIconTableViewCell", bundle: NSBundle.mainBundle())
+            tableView.registerNib(cellNib, forCellReuseIdentifier: "ActivityIconTableViewCell")
+            let cell = tableView.dequeueReusableCellWithIdentifier("ActivityIconTableViewCell", forIndexPath: indexPath) as! ActivityIconTableViewCell
+            ImageHelper.loadImageFromWeb(self.activityThumbURL, imageview: cell.activityIconImageView, indicatorView: cell.activityIndicator)
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            return cell
+        }
+        
+        if indexPath.section > DESCRIPTIONSECTION && indexPath.section < tableView.numberOfSections() - 1 {
             let cellNib = UINib(nibName: "BirdActivityTableViewCell", bundle: NSBundle.mainBundle())
             tableView.registerNib(cellNib, forCellReuseIdentifier: "BirdActivityTableViewCell")
             let cell = tableView.dequeueReusableCellWithIdentifier("BirdActivityTableViewCell", forIndexPath: indexPath) as! BirdActivityTableViewCell
             cell.loadingIndicator.startAnimating()
             cell.loadingIndicator.color = UIColor.blueColor()
             if birds.count > 0 {
-                loadImageFromWeb(birds[indexPath.section - 1].thumbnailURL, imageview: cell.previewImageView, indicatorView: cell.loadingIndicator)
+                var birdIndex = indexPath.section - DESCRIPTIONSECTION - 1
+                loadImageFromWeb(birds[birdIndex].thumbnailURL, imageview: cell.previewImageView, indicatorView: cell.loadingIndicator)
                 cell.birdNameLabel.text = "Today"
             }
             let numberPickerViewer = cell.numberPickerView
@@ -144,30 +163,16 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             return cell
         } else {
             var cell = tableView.dequeueReusableCellWithIdentifier("BirdActivityRegularCell") as? UITableViewCell
-
             if cell == nil {
                 cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: "BirdActivityRegularCell") as UITableViewCell
             }
             
-            if indexPath.section == 0 {
-                cell!.textLabel?.numberOfLines = 3
+            if indexPath.section == DESCRIPTIONSECTION {
+                cell!.textLabel?.numberOfLines = 2
                 cell!.textLabel?.text = activityDescription
-                cell?.selectionStyle = UITableViewCellSelectionStyle.None
+                // cell?.selectionStyle = UITableViewCellSelectionStyle.None
 
             }
-            
-//            if indexPath.section == tableView.numberOfSections() - LASTTWOSECTIONS {
-//                if indexPath.row == 0 {
-//                    cell!.textLabel?.text = "You have seen"
-//                    cell!.detailTextLabel?.text = "2"
-//                }
-//                if indexPath.row == 1 {
-//                    cell!.textLabel?.text = "Total in Aces Since 2013"
-//                    cell!.detailTextLabel?.text = "20"
-//                }
-//                cell?.selectionStyle = UITableViewCellSelectionStyle.None
-//            }
-
             if indexPath.section == tableView.numberOfSections() - 1 {
                 cell!.textLabel?.text = "Note"
                 if let nDescription = self.noteDescription {
@@ -179,17 +184,25 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
             return cell!
-
         }
+        
         
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
+        if indexPath.section == DESCRIPTIONSECTION {
             let cell = self.tableview.cellForRowAtIndexPath(indexPath)
-            cell!.textLabel?.numberOfLines = 0
-            cell!.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            cell!.textLabel?.text = activityDescription
+            if isDescriptionExpanded {
+                cell!.textLabel?.numberOfLines = 2
+                isDescriptionExpanded = false
+            } else {
+                cell!.textLabel?.numberOfLines = 0
+                cell!.textLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
+                cell!.textLabel?.text = activityDescription
+                isDescriptionExpanded = true
+            }
+            self.tableview.beginUpdates()
+            self.tableview.endUpdates()
         }
         
         if indexPath.section == tableView.numberOfSections() - 1 {
@@ -202,6 +215,17 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
                 }
             }
             self.navigationController?.pushViewController(nextViewController, animated: true)
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        println("de-clicked")
+
+        if indexPath.section == DESCRIPTIONSECTION {
+            let cell = self.tableview.cellForRowAtIndexPath(indexPath)
+            cell!.textLabel?.numberOfLines = 2
+            self.tableview.beginUpdates()
+            self.tableview.endUpdates()
         }
     }
     
@@ -251,6 +275,12 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         return pickerLabel
     }
     
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.navigationItem.rightBarButtonItem?.enabled = true
+        self.navigationItem.rightBarButtonItem?.title = "Send"
+
+    }
+    
     // implement didReceiveResults to conform APIControllerProtocol
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
@@ -273,6 +303,9 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
                 if let newNote = sourceData as? Note {
                     newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 }
+                
+                self.navigationItem.rightBarButtonItem?.title = "Sent"
+                self.navigationItem.rightBarButtonItem?.enabled = false
             }
             
 

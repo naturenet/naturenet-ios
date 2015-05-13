@@ -20,6 +20,7 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     @IBOutlet var tableview: UITableView!
     @IBOutlet weak var activityDescriptionLabel: UILabel!
     @IBOutlet weak var numOfNoteInActivity: UILabel!
+    @IBOutlet weak var iconActivityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,20 +47,22 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
         return 3
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
+
         return 1
     }
 
     private func setupView() {
         var iconURL = activity.extras
-        loadImageFromWeb(iconURL, imageView: activityIconImageView)
+        if let data = iconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
+            if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                iconURL = json["Icon"] as! String
+                ImageHelper.loadImageFromWeb(iconURL, imageview: activityIconImageView, indicatorView: iconActivityIndicator)            }
+        }
+
         self.navigationItem.title = activity.title
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 180.0
@@ -69,21 +72,6 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
         self.numOfNoteInActivity.text = String(number)
     }
     
-    private func loadImageFromWeb(iconURL: String, imageView: UIImageView) {
-        if let url = NSURL(string: iconURL) {
-            let urlRequest = NSURLRequest(URL: url)
-            NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-                response, data, error in
-                if error != nil {
-                    let image = UIImage(named: "networkerror")
-                    imageView.image = image
-                } else {
-                    let image = UIImage(data: data)
-                    imageView.image = image
-                }
-            })
-        }
-    }
 
     //----------------------------------------------------------------------------------------------------------------------
     // segues setup

@@ -1185,14 +1185,50 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
         <scene sceneID="LLi-wz-0iZ">
             <objects>
                 <tableViewController title="Bird Activity " id="WTd-We-naF" customClass="BirdActivityTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="3" sectionFooterHeight="5" id="Ao9-iX-But">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="5" id="Ao9-iX-But">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="birdactivitycell" rowHeight="106" id="oiA-rN-6ow">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="birdActivityDescriptionCell" rowHeight="50" id="oiA-rN-6ow">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oiA-rN-6ow" id="v3R-wY-HWV">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description goes here" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8g-C5-Rhm">
+                                            <rect key="frame" x="8" y="8" width="159" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="d8g-C5-Rhm" firstAttribute="top" secondItem="v3R-wY-HWV" secondAttribute="topMargin" id="NWD-92-Dri"/>
+                                        <constraint firstItem="d8g-C5-Rhm" firstAttribute="leading" secondItem="v3R-wY-HWV" secondAttribute="leadingMargin" id="orv-E1-6cS"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="birdActivitySendCell" id="9Ge-Bd-vH4">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Ge-Bd-vH4" id="kr2-Gt-5Gc">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your observation has been sent!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OQI-d1-U15">
+                                            <rect key="frame" x="177" y="11" width="246" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.80559501262626265" green="0.092033093101522676" blue="0.15625479484150778" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="OQI-d1-U15" secondAttribute="centerY" id="FV4-Cd-VXM"/>
+                                        <constraint firstAttribute="centerX" secondItem="OQI-d1-U15" secondAttribute="centerX" id="Q1X-yg-gCO"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="BirdActivityRegularCell" id="hMA-g4-Y4e">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hMA-g4-Y4e" id="ZPC-cv-qqf">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -1861,11 +1897,15 @@ your Photo</string>
                         <sections>
                             <tableViewSection id="1ad-1V-CBw">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="activityImageCell" rowHeight="60" id="5zX-gw-vMc">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="activityImageCell" rowHeight="60" id="5zX-gw-vMc" customClass="ActivityIconTableViewCell" customModule="NatureNet" customModuleProvider="target">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5zX-gw-vMc" id="yW1-Aq-TFN">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kBD-fb-55h">
+                                                    <rect key="frame" x="290" y="20" width="20" height="20"/>
+                                                    <color key="color" red="0.17062526259999999" green="0.4695789058" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xMM-IQ-IkC">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                                 </imageView>
@@ -1943,6 +1983,7 @@ your Photo</string>
                     <connections>
                         <outlet property="activityDescriptionLabel" destination="ErH-r5-zu9" id="OQT-NB-jtx"/>
                         <outlet property="activityIconImageView" destination="xMM-IQ-IkC" id="r3M-v0-206"/>
+                        <outlet property="iconActivityIndicator" destination="kBD-fb-55h" id="Bpg-ZM-GGf"/>
                         <outlet property="numOfNoteInActivity" destination="AOM-NJ-X7B" id="pbQ-c9-6M0"/>
                         <outlet property="tableView" destination="KJx-FC-hF0" id="AXe-36-6iT"/>
                         <outlet property="tableview" destination="KJx-FC-hF0" id="Xag-Ev-d5q"/>

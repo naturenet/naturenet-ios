@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ImageHelper {
     
@@ -26,5 +27,24 @@ class ImageHelper {
         }
         // println("new url is " + newURL)
         return newURL
+    }
+    
+    class func loadImageFromWeb(iconURL: String, imageview: UIImageView, indicatorView: UIActivityIndicatorView?) {
+        var url = NSURL(string: iconURL)
+        let urlRequest = NSURLRequest(URL: url!)
+        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
+            response, data, error in
+            if error != nil {
+                let image = UIImage(named: "networkerror")
+                imageview.image = image
+            } else {
+                let image = UIImage(data: data)
+                imageview.image = image
+            }
+            if indicatorView != nil {
+                indicatorView!.hidden = true
+                indicatorView!.stopAnimating()
+            }
+        })
     }
 }
