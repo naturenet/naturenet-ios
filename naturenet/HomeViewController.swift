@@ -115,16 +115,16 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
 
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "designIdeaSeg" {
-            let destinationVC = segue.destinationViewController as! DesignIdeaViewController
-            destinationVC.delegate = self
-            if self.designIdeaInput != nil {
-                destinationVC.designIdeaSavedInput = self.designIdeaInput
-            }
-        }
-        // self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
-    }
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//        if segue.identifier == "designIdeaSeg" {
+//            let destinationVC = segue.destinationViewController as! DesignIdeaViewController
+//            destinationVC.delegate = self
+//            if self.designIdeaInput != nil {
+//                destinationVC.designIdeaSavedInput = self.designIdeaInput
+//            }
+//        }
+//        // self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
+//    }
 
     // implement saveInputStateProtocol
     func saveInputState(input: String?) {

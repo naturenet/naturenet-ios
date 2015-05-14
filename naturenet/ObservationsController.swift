@@ -41,15 +41,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         apiService.delegate = self
         loadData()
         
-        // if the received photo is from Activity/Tour/Location
-//        if sourceViewController == NSStringFromClass(ActivityDetailTableViewController)
-//            || sourceViewController == NSStringFromClass(TourViewController)
-//            || sourceViewController == NSStringFromClass(LocationDetailViewController) {
-//            self.receivedNoteFromObservation!.push(apiService)
-//            self.updateReceivedNoteStatus(self.receivedNoteFromObservation!, state: NNModel.STATE.SENDING)
-//            self.uploadProgressView.setProgress(0.01, animated: true)
-//        }
-        
         refresher = UIRefreshControl()
         refresher.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refresher.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)

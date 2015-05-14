@@ -137,31 +137,6 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     }
     
     @IBAction func sendPressed(sender: UIBarButtonItem) {
-//        if sourceViewController == NSStringFromClass(ActivityDetailTableViewController)
-//            || sourceViewController == NSStringFromClass(TourViewController)
-//            || sourceViewController == NSStringFromClass(LocationDetailViewController) {
-//            let nextViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ObservationsViewController")
-//                                    as! ObservationsController
-//            self.navigationController?.pushViewController(nextViewController, animated: true)
-//            nextViewController.sourceViewController = sourceViewController
-//            self.saveNote()
-////            self.saveObservationDelegate = nextViewController
-////            nextViewController.cameraImage = self.imageFromCamera
-////            self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
-//            nextViewController.receivedNoteFromObservation = self.note
-//        }
-//        
-//        if sourceViewController == NSStringFromClass(ObservationsController) {
-//            self.navigationController?.popViewControllerAnimated(true)
-//            if self.imageFromObservation != nil {
-//                self.saveNote()
-//                self.saveObservationDelegate?.saveObservation(self.note!, media: self.noteMedia, feedback: self.feedback)
-//            } else {
-//                self.updateNote()
-//                self.saveObservationDelegate?.saveObservation(self.note!, media: nil, feedback: self.feedback)
-//            }
-//        }
-        
         self.navigationController?.popViewControllerAnimated(true)
         if self.imageFromObservation != nil {
             self.saveNote()
@@ -194,13 +169,13 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         // var userLocation = CLLocation(latitude: 39.195698, longitude: -106.822153)
         // update current location as the location selection
         var landmarkName = determineLandmarkByLocation(userLocation)
-        println("detected location is: \(landmarkName)");
+        // println("detected location is: \(landmarkName)");
         self.locationLabel.text = landmarkName
     }
     
     // implement location didFailWithError
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        println("error happened locationmanager \(error.domain)")
+        // println("error happened locationmanager \(error.domain)")
         var message = "NatureNet requires to acess your location"
         AlertControllerHelper.noLocationAlert(message, controller: self)
     }

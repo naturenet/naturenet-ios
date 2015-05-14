@@ -54,6 +54,8 @@
 		FCBEE99D1AE89B0D001E70FC /* BirdActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */; };
 		FCC3869E1B0314E6004A96AE /* ActivityIconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC3869C1B0314E6004A96AE /* ActivityIconTableViewCell.swift */; };
 		FCC3869F1B0314E6004A96AE /* ActivityIconTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FCC3869D1B0314E6004A96AE /* ActivityIconTableViewCell.xib */; };
+		FCC386A11B03C037004A96AE /* DesignIdeasTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC386A01B03C037004A96AE /* DesignIdeasTableViewController.swift */; };
+		FCC386A31B03DB66004A96AE /* DesignIdeaDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC386A21B03DB66004A96AE /* DesignIdeaDetailTableViewController.swift */; };
 		FCD317DA1A887473003FC954 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317D91A887473003FC954 /* CoreLocation.framework */; };
 		FCD317EF1A892476003FC954 /* libCloudinary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD317EE1A892476003FC954 /* libCloudinary.a */; };
 		FCD318031A892E98003FC954 /* Wrappy.m in Sources */ = {isa = PBXBuildFile; fileRef = FCD318021A892E98003FC954 /* Wrappy.m */; };
@@ -126,6 +128,8 @@
 		FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdActivityTableViewController.swift; sourceTree = "<group>"; };
 		FCC3869C1B0314E6004A96AE /* ActivityIconTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIconTableViewCell.swift; sourceTree = "<group>"; };
 		FCC3869D1B0314E6004A96AE /* ActivityIconTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityIconTableViewCell.xib; sourceTree = "<group>"; };
+		FCC386A01B03C037004A96AE /* DesignIdeasTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignIdeasTableViewController.swift; sourceTree = "<group>"; };
+		FCC386A21B03DB66004A96AE /* DesignIdeaDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignIdeaDetailTableViewController.swift; sourceTree = "<group>"; };
 		FCD317D91A887473003FC954 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FCD317EE1A892476003FC954 /* libCloudinary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCloudinary.a; path = ../../../../Downloads/cloudinary_ios_v1.0.12/libCloudinary.a; sourceTree = "<group>"; };
 		FCD317F11A8924E6003FC954 /* CLCloudinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCloudinary.h; sourceTree = "<group>"; };
@@ -236,6 +240,8 @@
 				FC5C318B1A8CFFA400A59B89 /* ActivitiesTableViewController.swift */,
 				FC5973A51AE36C3800EDA96B /* ActivityDetailTableViewController.swift */,
 				FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */,
+				FCC386A01B03C037004A96AE /* DesignIdeasTableViewController.swift */,
+				FCC386A21B03DB66004A96AE /* DesignIdeaDetailTableViewController.swift */,
 				FC077EA61AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift */,
 				FC0861711AD4EB93001CA012 /* BirdCountingTableViewController.swift */,
 				FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */,
@@ -446,6 +452,7 @@
 				FCB1D5201A95B9F3006267E9 /* SignUpViewController.swift in Sources */,
 				FC6F24D51A94571C00FEF9FE /* DesignIdeaViewController.swift in Sources */,
 				FCA005491A832B010066686D /* Feedback.swift in Sources */,
+				FCC386A31B03DB66004A96AE /* DesignIdeaDetailTableViewController.swift in Sources */,
 				FC5EBE431AB0072D006B02B7 /* LogInTableViewCell.swift in Sources */,
 				FCFD1B831AE01A2B00BFA138 /* AlertControllerHelper.swift in Sources */,
 				FCBEE99D1AE89B0D001E70FC /* BirdActivityTableViewController.swift in Sources */,
@@ -460,6 +467,7 @@
 				FC5BA3891A7859400069D59F /* Media.swift in Sources */,
 				FC5BA3871A78114B0069D59F /* SwiftCoreDataHelper.swift in Sources */,
 				FCEC985C1A9ACD57007C4ED5 /* TourViewController.swift in Sources */,
+				FCC386A11B03C037004A96AE /* DesignIdeasTableViewController.swift in Sources */,
 				FC031E581A833E71007F67D7 /* NoteLocationTableViewController.swift in Sources */,
 				FCD318031A892E98003FC954 /* Wrappy.m in Sources */,
 				FC1134C81A6430EF00D548E8 /* APIService.swift in Sources */,

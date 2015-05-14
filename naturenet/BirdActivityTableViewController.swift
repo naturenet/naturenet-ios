@@ -20,6 +20,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     var pickerData: [String] = [String]()
     var noteDescription: String?
     var isDescriptionExpanded = false
+    let apiService = APIService()
     
     // constant numbers of fixed sections
     let NUMOFFIXEDSECTIONS = 3
@@ -32,6 +33,15 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             pickerData.append(String(i))
         }
 
+        apiService.delegate = self
+        if let account = Session.getAccount() {
+            let username = account.username
+            let activityName = activity.name
+            let api = API()
+            let url = api.getBirdCountLink(username, birdActivityName: activityName)
+            apiService.getResponse(NSStringFromClass(BirdActivityTableViewController), url: url)
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -178,7 +188,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
                 if let nDescription = self.noteDescription {
                     cell!.detailTextLabel?.text = self.noteDescription
                 } else {
-                    cell!.detailTextLabel?.text = ""
+                    cell!.detailTextLabel?.text = " "
                 }
                 cell?.selectionStyle = UITableViewCellSelectionStyle.Default
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
@@ -215,17 +225,6 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
                 }
             }
             self.navigationController?.pushViewController(nextViewController, animated: true)
-        }
-    }
-    
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        println("de-clicked")
-
-        if indexPath.section == DESCRIPTIONSECTION {
-            let cell = self.tableview.cellForRowAtIndexPath(indexPath)
-            cell!.textLabel?.numberOfLines = 2
-            self.tableview.beginUpdates()
-            self.tableview.endUpdates()
         }
     }
     
@@ -282,13 +281,11 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     }
     
     // implement didReceiveResults to conform APIControllerProtocol
+    // get response from APIs
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as! Int
-            if status == 600 {
-                if let note = sourceData as? Note {
-                    
-                }
+            if status == APIService.CRASHERROR {
                 let alertTitle = "Internet Connection Problem"
                 let alertMessage = "Please check your Internet connection"
                 AlertControllerHelper.createGeneralAlert(alertTitle, message: alertMessage, controller: self)
@@ -296,16 +293,22 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             }
             
             if status == 200 {
-                var uid = response["data"]!["id"] as! Int
-                println("now after post_birdactivity. Done!")
-                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
-                self.navigationItem.title = self.activity.title
-                if let newNote = sourceData as? Note {
-                    newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                }
+                if from == "POST_" + NSStringFromClass(Note) {
+                    var uid = response["data"]!["id"] as! Int
+                    println("now after post_birdactivity. Done!")
+                    var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                    self.navigationItem.title = self.activity.title
+                    if let newNote = sourceData as? Note {
+                        newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    }
+                    
+                    self.navigationItem.rightBarButtonItem?.title = "Sent"
+                    self.navigationItem.rightBarButtonItem?.enabled = false
+                } else  {
                 
-                self.navigationItem.rightBarButtonItem?.title = "Sent"
-                self.navigationItem.rightBarButtonItem?.enabled = false
+                    
+                }
+
             }
             
 
@@ -314,22 +317,21 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     
     // receive data from note description textview
     @IBAction func passedDescription(segue:UIStoryboardSegue) {
+        self.navigationItem.rightBarButtonItem?.style = .Done
+        self.navigationController?.popViewControllerAnimated(true)
         let noteDescriptionVC = segue.sourceViewController as! NoteDescriptionViewController
         let indexPath = NSIndexPath(forRow: 0, inSection: self.tableview.numberOfSections() - 1)
         let cell = self.tableview.cellForRowAtIndexPath(indexPath)!
         if let desc = noteDescriptionVC.noteContent {
             self.noteDescription = desc
             cell.detailTextLabel?.text = desc
-        }
-        self.navigationItem.rightBarButtonItem?.style = .Done
-        self.navigationController?.popViewControllerAnimated(true)
+            println("cell text is \(cell.detailTextLabel?.text)")
+        }        
     }
     
     @IBAction func sendPressed(sender: UIBarButtonItem) {
         self.navigationItem.title = "Sending..."
         let note = saveNote()
-        let apiService = APIService()
-        apiService.delegate = self
         note.push(apiService)
     }
     
@@ -368,7 +370,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     }
     
     func convertBirdCountToJSON(birds: [BirdCount]) -> [NSDictionary] {
-        var section = 1
+        var section = DESCRIPTIONSECTION + 1
         var birdJSONs = [NSDictionary]()
         for bird in birds {
             var indexPath = NSIndexPath(forRow: 0, inSection: section)
@@ -400,6 +402,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         var name: String!
         var countNumber: String!
         var thumbnailURL: String!
+        var seasonalCount: String?
         
         func toDictionary() -> [String: String] {
             return [

@@ -15,6 +15,7 @@ protocol APIControllerProtocol {
 
 class APIService {
     var delegate: APIControllerProtocol?
+    static let CRASHERROR = 600
     
     init() {
     }
@@ -33,14 +34,14 @@ class APIService {
             var error: NSError?
             if error != nil {
                 println(error!)
-                var erorrMessage = ["status_code" : 600]
+                var erorrMessage = ["status_code" : APIService.CRASHERROR]
                 self.delegate?.didReceiveResults(from, sourceData: nil, response: erorrMessage)
             } else {
                 if  let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as? NSDictionary {
                     self.delegate?.didReceiveResults(from, sourceData: nil, response: jsonResult)
 
                 } else {
-                    var message = ["status_code" : 600]
+                    var message = ["status_code" : APIService.CRASHERROR]
                     self.delegate?.didReceiveResults(from,sourceData: nil, response: message)
                 }
             }
@@ -74,7 +75,7 @@ class APIService {
                 println(err!.localizedDescription)
                 let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
                 println("Error could not parse JSON: '\(jsonStr)'")
-                var erorrMessage = ["status_code" : 600]
+                var erorrMessage = ["status_code" : APIService.CRASHERROR]
                 self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
             }
             else {
@@ -90,7 +91,7 @@ class APIService {
                     // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
                     let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
                     println("Error could not parse JSON: \(jsonStr)")
-                    var erorrMessage = ["status_code" : 600]
+                    var erorrMessage = ["status_code" : APIService.CRASHERROR]
                     self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
 
                 }

@@ -62,4 +62,10 @@ class API {
         return root + "feedback/\(uid)/update"
     }
     
+    // get bird count api link
+    func getBirdCountLink(username: String, birdActivityName: String) -> String {
+        return root + "account/\(username)/activity/\(birdActivityName)/countstats"
+    
+    }
+    
 }

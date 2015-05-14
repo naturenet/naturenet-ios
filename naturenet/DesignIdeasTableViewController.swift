@@ -1,22 +1,19 @@
 //
-//  ActivitiesTableViewController.swift
-//  naturenet
+//  DesignIdeasTableViewController.swift
+//  NatureNet
 //
-//  Created by Jinyue Xia on 2/12/15.
+//  Created by Jinyue Xia on 5/13/15.
 //  Copyright (c) 2015 Jinyue Xia. All rights reserved.
 //
 
 import UIKit
-import CoreData
 
-class ActivitiesTableViewController: UITableViewController, APIControllerProtocol {
+class DesignIdeasTableViewController: UITableViewController, APIControllerProtocol {
 
     var acesActivities: [Context] = [Context]()
-    var nonAcesActivities: [Context] = [Context]()
     var cellActivities: [TableviewCellActivity] = [TableviewCellActivity] ()
     
     let ACESSITENAME = "aces"
-    let BACKYARDSITENAME = "elsewhere"
     
     // UI
     @IBOutlet var tableview: UITableView!
@@ -34,7 +31,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
         
-//        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
+        //        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
         //self.edgesForExtendedLayout = UIRectEdge.None
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
@@ -46,24 +43,21 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         self.refreshControl?.addTarget(self, action: "refreshActivityList", forControlEvents: UIControlEvents.ValueChanged)
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var rows: Int!
         if section == 0 {
             rows = acesActivities.count
-        }
-        if section == 1 {
-            rows = nonAcesActivities.count
         }
         
         return rows
@@ -72,16 +66,16 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var headerTitle: String!
         if section == 0 {
-            headerTitle = "Activities in ACES"
+            headerTitle = "Design Ideas"
         }
         if section == 1 {
             headerTitle = "Activities outside ACES"
         }
         return headerTitle
     }
-
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("activitiesCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("designIdeaListCell", forIndexPath: indexPath) as! UITableViewCell
         var activityIconURL: String!
         var isJSONActivity: Bool = false
         
@@ -96,7 +90,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                         isJSONActivity = true
                     }
                     activityIconURL = json["Icon"] as! String
-
+                    
                 } else {
                     activityIconURL = birdsURLs as String
                 }
@@ -106,42 +100,25 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             var cellActivity: TableviewCellActivity = TableviewCellActivity(cellSection: indexPath.section, cellIndexPath: indexPath, isBirdActivity: isJSONActivity)
             self.cellActivities.append(cellActivity)
         }
-        
-        if indexPath.section == 1 {
-            var activity = self.nonAcesActivities[indexPath.row] as Context
-            activityIconURL = activity.extras
-            if let data = activityIconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
-                if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
-                    activityIconURL = json["Icon"] as! String
-                    cell.textLabel?.text = activity.title
-
-                }
-            }
-        }
-        
         loadImageFromWeb(ImageHelper.createThumbCloudinaryLink(activityIconURL, width: 128, height: 128), cell: cell, index: indexPath.row)
-
+        
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             let cell = tableView.cellForRowAtIndexPath(indexPath)
-            if cellActivities[indexPath.row].isBirdActivity {
-                self.performSegueWithIdentifier("birdActivity", sender: indexPath)
-            } else {
-                self.performSegueWithIdentifier("activityDetail", sender: indexPath)
-            }
+            self.performSegueWithIdentifier("designIdeaDetail", sender: indexPath)
         }
         if indexPath.section == 1 {
             self.performSegueWithIdentifier("activityDetail", sender: indexPath)
         }
-
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "activityDetail" {
-            let destinationVC = segue.destinationViewController as! ActivityDetailTableViewController
+        if segue.identifier == "designIdeaDetail" {
+            let destinationVC = segue.destinationViewController as! DesignIdeaDetailTableViewController
             // if passed from a cell
             if let indexPath = sender as? NSIndexPath {
                 var selectedActivity: Context!
@@ -149,44 +126,16 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                     selectedActivity = acesActivities[indexPath.row]
                 }
                 
-                if indexPath.section == 1 {
-                    selectedActivity = nonAcesActivities[indexPath.row]
-                }
-                
                 destinationVC.activity = selectedActivity
             }
         }
         
-        if segue.identifier == "birdActivity" {
-            let destinationVC = segue.destinationViewController as! BirdActivityTableViewController
-            if let indexPath = sender as? NSIndexPath {
-                var activity = self.acesActivities[indexPath.row] as Context
-                // destinationVC.activity = activity
-                destinationVC.activityDescription = activity.context_description
-                destinationVC.navigationItem.title = activity.title
-                let birdsURLs = activity.extras as NSString
-                if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
-                    let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
-                    destinationVC.activityThumbURL = json["Icon"] as! String
-                    if let birdsJSON = json["Birds"] as? [NSDictionary] {
-                        let birds = self.convertBirdJSONToBirds(birdsJSON)
-                        destinationVC.birds = birds
-                    }
-                    destinationVC.activity = activity
-                }
-            }
-        }
-
     }
     
     // load activities for this tableview
     private func loadActivities() {
         if let acesSite = Session.getSiteByName(ACESSITENAME) {
-            self.acesActivities = Session.getActiveContextsBySite("Activity", site: acesSite)
-        }
-        
-        if let site = Session.getSiteByName(BACKYARDSITENAME) {
-            self.nonAcesActivities = Session.getActiveContextsBySite("Activity", site: site)
+            self.acesActivities = Session.getActiveContextsBySite("Design", site: acesSite)
         }
     }
     
@@ -205,7 +154,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 }
             })
         }
-      
+        
     }
     
     // give a JSON output an array of BirdCount (defined in BirdCountingTableViewController)
@@ -231,7 +180,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         var parseService = APIService()
         parseService.delegate = self
         self.tableview.beginUpdates()
-
+        
         Site.doPullByNameFromServer(parseService, name: "aces")
         Site.doPullByNameFromServer(parseService, name: "elsewhere")
     }
@@ -271,10 +220,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             // should check if modified date is changed here!! but no modified date returned from API
             exisitingSite!.updateToCoreData(data)
         } else {
-//            self.site = Site.saveToCoreData(data)
+            //            self.site = Site.saveToCoreData(data)
         }
     }
-
-
-
 }
