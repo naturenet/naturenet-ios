@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate, saveInputStateProtocol {
+class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate, SaveInputStateProtocol {
     
     // UI Outlets
     @IBOutlet var profileTableView: UITableView!

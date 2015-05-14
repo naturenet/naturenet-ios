@@ -297,6 +297,9 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="R2O-BN-s9b">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
                         <segue destination="v1g-2W-SQy" kind="show" identifier="designIdeaDetail" id="Knj-TC-MPG"/>
                     </connections>
@@ -1079,16 +1082,16 @@ The researchers and other visitors will be able to look at your contributions an
                         <sections>
                             <tableViewSection id="CXv-ci-IPf">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="5dI-MH-t0h">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="designIdeaIconCell" rowHeight="60" id="5dI-MH-t0h">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5dI-MH-t0h" id="VX8-V2-Ugg">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Dgl-1F-KVk">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                                 </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EaD-43-I2S">
-                                                    <rect key="frame" x="290" y="12" width="20" height="20"/>
+                                                    <rect key="frame" x="290" y="20" width="20" height="20"/>
                                                     <color key="color" red="0.17062526259999999" green="0.4695789058" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -1107,41 +1110,31 @@ The researchers and other visitors will be able to look at your contributions an
                             </tableViewSection>
                             <tableViewSection headerTitle="About this design idea" id="4Up-LH-tWT">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="tnm-1R-3th">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="designIdeaDescriptionCell" textLabel="goQ-r3-kN6" style="IBUITableViewCellStyleDefault" id="tnm-1R-3th">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tnm-1R-3th" id="krQ-ml-LY4">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="imC-6u-RZk">
-                                                    <rect key="frame" x="8" y="11" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="goQ-r3-kN6">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="imC-6u-RZk" firstAttribute="leading" secondItem="krQ-ml-LY4" secondAttribute="leadingMargin" id="3fB-zL-csX"/>
-                                                <constraint firstItem="imC-6u-RZk" firstAttribute="top" secondItem="krQ-ml-LY4" secondAttribute="topMargin" constant="3" id="IKQ-7V-Swe"/>
-                                                <constraint firstAttribute="centerY" secondItem="imC-6u-RZk" secondAttribute="centerY" constant="0.5" id="TdC-yC-mKV"/>
-                                            </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="IKQ-7V-Swe"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Leave your design idea for this app" id="DJW-E2-3o5">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="09m-xR-gj2">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="designIdeaIconCell" rowHeight="150" id="09m-xR-gj2">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="09m-xR-gj2" id="rqc-hl-ZgW">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aN2-nY-0Y7">
-                                                    <rect key="frame" x="8" y="8" width="584" height="81"/>
+                                                    <rect key="frame" x="8" y="8" width="584" height="131"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -1163,8 +1156,18 @@ The researchers and other visitors will be able to look at your contributions an
                             <outlet property="delegate" destination="v1g-2W-SQy" id="MrR-Sw-9HF"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="I8k-xo-77Y">
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="jcr-iF-2Ef">
+                            <connections>
+                                <action selector="ideaSendPressed:" destination="v1g-2W-SQy" id="Eno-Bu-1N8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="pdt-pg-qgo">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
-                        <outlet property="activityDescriptionLabel" destination="imC-6u-RZk" id="N5q-ZG-Nph"/>
+                        <outlet property="activityDescriptionLabel" destination="goQ-r3-kN6" id="po8-z8-cs4"/>
                         <outlet property="activityIconImageView" destination="Dgl-1F-KVk" id="czY-ax-8AZ"/>
                         <outlet property="iconActivityIndicator" destination="EaD-43-I2S" id="alq-GJ-hJq"/>
                         <outlet property="ideaTextView" destination="aN2-nY-0Y7" id="nGQ-ZE-Pac"/>
@@ -1743,8 +1746,8 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-uJ-50B">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ByW-uJ-50B">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="activitySelectionCell" textLabel="Usd-ZV-BCq" style="IBUITableViewCellStyleDefault" id="oWQ-gN-t4z">

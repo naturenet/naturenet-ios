@@ -7,13 +7,30 @@
 //
 
 import UIKit
+import CoreLocation
 
-class DesignIdeaDetailTableViewController: UITableViewController, APIControllerProtocol {
+protocol SaveInputStateProtocol {
+    func saveInputState(input: String?)
+}
+
+class DesignIdeaDetailTableViewController: UITableViewController, APIControllerProtocol, CLLocationManagerDelegate {
 
     var activity: Context!
-    var cameraImage: UIImage!
     var apiService = APIService()
-    var notesInActivtity: [Note]?
+    
+    var idea: Note?
+    var designIdeaSavedInput: String?
+    var delegate: SaveInputStateProtocol?
+    
+    let locationManager = CLLocationManager()
+    // data for this page
+    var userLat: CLLocationDegrees?
+    var userLon: CLLocationDegrees?
+    
+    // alert types
+    let INTERNETPROBLEM = 0
+    let SUCCESS = 1
+    let NOINPUT = 2
     
     @IBOutlet weak var activityIconImageView: UIImageView!
     @IBOutlet weak var activityDescriptionLabel: UILabel!
@@ -24,18 +41,10 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupTextview()
         apiService.delegate = self
-        ideaTextView.layer.cornerRadius = 5
-        ideaTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
-        ideaTextView.layer.borderWidth = 1
-     
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        // self.edgesForExtendedLayout = UIRectEdge.None
-        
+        self.initLocationManager()
+
         self.navigationController?.setToolbarHidden(false, animated: true)
     }
     
@@ -54,7 +63,6 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return 1
     }
     
@@ -64,71 +72,139 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         if let data = iconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
             if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
                 iconURL = json["Icon"] as! String
-                ImageHelper.loadImageFromWeb(iconURL, imageview: activityIconImageView, indicatorView: iconActivityIndicator)            }
+                ImageHelper.loadImageFromWeb(iconURL, imageview: activityIconImageView, indicatorView: iconActivityIndicator)
+            }
         }
         
         self.navigationItem.title = activity.title
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 180.0
         activityDescriptionLabel.text = activity.context_description
     }
     
     
-    
     //----------------------------------------------------------------------------------------------------------------------
-    // segues setup
+    // LocationManager
     //----------------------------------------------------------------------------------------------------------------------
+    func initLocationManager() {
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.startUpdatingLocation()
+    }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "activityToObservation" {
-          
+    // implement location didUpdataLocation
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        // println("location is  \(locations)")
+        var userLocation: CLLocation = locations[0] as! CLLocation
+        self.userLat = userLocation.coordinate.latitude
+        self.userLon = userLocation.coordinate.longitude
+    }
+    
+    // implement location didFailWithError
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        // println("error happened locationmanager \(error.domain)")
+        var message = "NatureNet requires to acess your location"
+        AlertControllerHelper.noLocationAlert(message, controller: self)
+    }
+
+    
+    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
+        dispatch_async(dispatch_get_main_queue(), {
+            if from == "POST_" + NSStringFromClass(Note) {
+                var status = response["status_code"] as! Int
+                if status == APIService.CRASHERROR {
+                    self.createAlert(nil, message: "Looks you have a problem with Internet connection!", type: self.INTERNETPROBLEM)
+                    return
+                }
+                
+                if status == 200 {
+                    var uid = response["data"]!["id"] as! Int
+                    println("now after post_designIdea. Done!")
+                    var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                    self.idea!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
+                    self.designIdeaSavedInput = nil
+                }
+                
+            }
+            self.createAlert(nil, message: "Your idea has been sent, thanks!", type: self.SUCCESS)
+        })
+    }
+    
+    @IBAction func backpressed() {
+        self.delegate?.saveInputState(designIdeaSavedInput)
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    // when typing, change rightBarButtonItem style to be Done(bold)
+    func textViewDidChange(textView: UITextView!) {
+        self.navigationItem.rightBarButtonItem?.enabled = true
+        self.navigationItem.rightBarButtonItem?.style = .Done
+        if count(self.ideaTextView.text) == 0 {
+            self.navigationItem.rightBarButtonItem?.enabled = false
+        }
+        self.designIdeaSavedInput = textView.text
+    }
+    
+    // touch starts, dismiss keyboard
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.ideaTextView.resignFirstResponder()
+    }
+    
+    @IBAction func ideaSendPressed(sender: UIBarButtonItem) {
+        if count(self.ideaTextView.text) == 0 {
+            // here should never be called
+            self.createAlert("Oops", message: "Your input is empty!", type: self.NOINPUT)
+        } else {
+            self.idea = saveIdea()
+            self.idea!.push(apiService)
         }
     }
     
-    // implement didReceiveResults to conform APIControllerProtocol
-    func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
-        dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as! Int
-            if status == 600 {
-                let alertTitle = "Internet Connection Problem"
-                let alertMessage = "Please check your Internet connection"
-                AlertControllerHelper.createGeneralAlert(alertTitle, message: alertMessage, controller: self)
-                return
-            }
-            
-            var uid = response["data"]!["id"] as! Int
-            if from == "POST_" + NSStringFromClass(Note) {
-                println("now after post_note, ready for uploading feedbacks")
-                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
-                if let newNote = sourceData as? Note {
-                    newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                    newNote.doPushFeedbacks(self.apiService)
-                    if let newNoteMedia = newNote.getSingleMedia() {
-                        if newNoteMedia.url != nil {
-                        } else {
-                            newNoteMedia.apiService = self.apiService
-                            newNoteMedia.uploadToCloudinary()
-                        }
-                    }
+    func createAlert(title: String?, message: String, type: Int) {
+        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: {
+            action in
+            if type == self.SUCCESS {
+                if action.style == .Default{
+                    self.navigationController?.popViewControllerAnimated(true)
                 }
             }
-            if from == "POST_" + NSStringFromClass(Feedback) {
-                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
-                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
-                if let newNoteFeedback = sourceData as? Feedback {
-                    newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
-                }
-            }
-            if from == "POST_" + NSStringFromClass(Media) {
-                println("now after post_media")
-                if let newNoteMedia = sourceData as? Media {
-                    newNoteMedia.updateAfterPost(uid, modifiedAtFromServer: nil)
-                    
-                }
-            }
-        })
-        
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    // save to core data first
+    func saveIdea() -> Note {
+        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        var note = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
+        note.state = NNModel.STATE.NEW
+        if let account = Session.getAccount() {
+            note.account = account
+        }
+        
+        if userLon != nil && userLat != nil {
+            note.longitude = self.userLon!
+            note.latitude = self.userLat!
+        }
+        
+        note.context = activity
 
+        note.kind = "DesignIdea"
+        note.content = self.ideaTextView.text
+        note.commit()
+        SwiftCoreDataHelper.saveManagedObjectContext(nsManagedContext)
+        return note
+    }
+    
+    // initialize textview, add boarders to the textview
+    func setupTextview() {
+        ideaTextView.layer.cornerRadius = 5
+        ideaTextView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        ideaTextView.layer.borderWidth = 1
+        if designIdeaSavedInput != nil {
+            ideaTextView.text = designIdeaSavedInput
+            self.navigationItem.rightBarButtonItem?.enabled = true
+        }
+    }
 
 }

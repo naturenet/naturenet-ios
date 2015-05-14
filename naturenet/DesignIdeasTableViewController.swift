@@ -8,36 +8,19 @@
 
 import UIKit
 
-class DesignIdeasTableViewController: UITableViewController, APIControllerProtocol {
+class DesignIdeasTableViewController: UITableViewController, APIControllerProtocol, SaveInputStateProtocol {
 
-    var acesActivities: [Context] = [Context]()
-    var cellActivities: [TableviewCellActivity] = [TableviewCellActivity] ()
+    var ideaActivities: [Context] = []
     
     let ACESSITENAME = "aces"
-    
-    // UI
-    @IBOutlet var tableview: UITableView!
-    
-    struct TableviewCellActivity {
-        var cellSection: Int
-        var cellIndexPath: NSIndexPath
-        var isBirdActivity: Bool
-    }
-    
+    var designIdeaInput: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadActivities()
         
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
-        
-        //        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
-        //self.edgesForExtendedLayout = UIRectEdge.None
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        // self.refreshControl?.backgroundColor = UIColor.greenColor()
         self.refreshControl?.tintColor = UIColor.darkGrayColor()
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl?.addTarget(self, action: "refreshActivityList", forControlEvents: UIControlEvents.ValueChanged)
@@ -57,9 +40,8 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var rows: Int!
         if section == 0 {
-            rows = acesActivities.count
+            rows = ideaActivities.count
         }
-        
         return rows
     }
     
@@ -67,9 +49,6 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         var headerTitle: String!
         if section == 0 {
             headerTitle = "Design Ideas"
-        }
-        if section == 1 {
-            headerTitle = "Activities outside ACES"
         }
         return headerTitle
     }
@@ -80,7 +59,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         var isJSONActivity: Bool = false
         
         if indexPath.section == 0 {
-            var activity = self.acesActivities[indexPath.row] as Context
+            var activity = self.ideaActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
             let birdsURLs = activity.extras as NSString
             // check the link is in a JSON String or not, if it is in a JSON object, get the value from "Icon" key
@@ -97,8 +76,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
             } else {
                 activityIconURL = birdsURLs as String
             }
-            var cellActivity: TableviewCellActivity = TableviewCellActivity(cellSection: indexPath.section, cellIndexPath: indexPath, isBirdActivity: isJSONActivity)
-            self.cellActivities.append(cellActivity)
+          
         }
         loadImageFromWeb(ImageHelper.createThumbCloudinaryLink(activityIconURL, width: 128, height: 128), cell: cell, index: indexPath.row)
         
@@ -110,9 +88,6 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
             let cell = tableView.cellForRowAtIndexPath(indexPath)
             self.performSegueWithIdentifier("designIdeaDetail", sender: indexPath)
         }
-        if indexPath.section == 1 {
-            self.performSegueWithIdentifier("activityDetail", sender: indexPath)
-        }
         
     }
     
@@ -123,10 +98,11 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
             if let indexPath = sender as? NSIndexPath {
                 var selectedActivity: Context!
                 if indexPath.section == 0 {
-                    selectedActivity = acesActivities[indexPath.row]
+                    selectedActivity = ideaActivities[indexPath.row]
                 }
                 
                 destinationVC.activity = selectedActivity
+                destinationVC.designIdeaSavedInput = self.designIdeaInput
             }
         }
         
@@ -135,7 +111,9 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     // load activities for this tableview
     private func loadActivities() {
         if let acesSite = Session.getSiteByName(ACESSITENAME) {
-            self.acesActivities = Session.getActiveContextsBySite("Design", site: acesSite)
+            self.ideaActivities = Session.getActiveContextsBySite("Design", site: acesSite) as [Context]
+            // sort the list of ideas
+            self.ideaActivities.sort({ $0.uid.compare($1.uid) == NSComparisonResult.OrderedDescending })
         }
     }
     
@@ -157,32 +135,18 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         
     }
     
-    // give a JSON output an array of BirdCount (defined in BirdCountingTableViewController)
-    private func convertBirdJSONToBirds(birdsJSON: [NSDictionary]) -> [BirdActivityTableViewController.BirdCount] {
-        var birds: [BirdActivityTableViewController.BirdCount] = []
-        for birdJSON in birdsJSON {
-            var bird = BirdActivityTableViewController.BirdCount()
-            if let name = birdJSON["name"] as? String {
-                bird.name = name
-            }
-            if let url = birdJSON["image"] as? String {
-                bird.thumbnailURL = ImageHelper.createThumbCloudinaryLink(url, width: 200, height: 200)
-            }
-            bird.countNumber = "0"
-            birds.append(bird)
-        }
-        
-        return birds
-    }
     
     // pull to refresh
     func refreshActivityList() {
         var parseService = APIService()
         parseService.delegate = self
-        self.tableview.beginUpdates()
-        
+        self.tableView.beginUpdates()
         Site.doPullByNameFromServer(parseService, name: "aces")
-        Site.doPullByNameFromServer(parseService, name: "elsewhere")
+    }
+    
+    // implement saveInputState to conform SaveInputStateProtocol
+    func saveInputState(input: String?) {
+        self.designIdeaInput = input
     }
     
     // after getting data from server
@@ -195,7 +159,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
             }
             
             // 600 is self defined error code on the phone's side
-            if (status == 600) {
+            if (status == APIService.CRASHERROR) {
                 var errorMessage = "Internet seems not working"
                 // self.createAlert(errorMessage)
                 return
@@ -207,7 +171,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
                 self.handleSiteData(data)
             }
             self.refreshControl?.endRefreshing()
-            self.tableview.endUpdates()
+            self.tableView.endUpdates()
         })
     }
     

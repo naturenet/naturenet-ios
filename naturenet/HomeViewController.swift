@@ -10,14 +10,13 @@ import UIKit
 import CoreData
 
 class HomeViewController : UIViewController, UICollectionViewDataSource,
-                        UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, saveInputStateProtocol  {
+                        UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, SaveInputStateProtocol  {
 
     @IBOutlet weak var homeCollectionView: UICollectionView!
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var signinBtn: UIButton!
         
     var items = ["Observations", "Activities", "Design Ideas", "ACES Tour", "Profile", "About"]
-//    var images = ["camera", "activity", "bulb", "map", "profile", "about"]
     var images = ["nnObservations", "nnActivities", "nnDesign", "nnAces", "nnProfile", "nnAbout"]
 
     var designIdeaInput: String?

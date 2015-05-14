@@ -8,9 +8,6 @@
 
 import UIKit
 
-protocol saveInputStateProtocol {
-   func saveInputState(input: String?)
-}
 
 class DesignIdeaViewController: UIViewController, APIControllerProtocol {
 
@@ -19,7 +16,7 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     var apiService = APIService()
     var idea: Note?
     var designIdeaSavedInput: String?
-    var delegate: saveInputStateProtocol?
+    var delegate: SaveInputStateProtocol?
     
     // alert types
     let INTERNETPROBLEM = 0
@@ -61,11 +58,11 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
             self.createAlert(nil, message: "Your idea has been sent, thanks!", type: self.SUCCESS)
         })
     }
-    
-    @IBAction func backgroundTap(sender: UIControl) {
-        ideaTextView.resignFirstResponder()
-    }
-    
+//    
+//    @IBAction func backgroundTap(sender: UIControl) {
+//        ideaTextView.resignFirstResponder()
+//    }
+//    
     @IBAction func backpressed() {
         self.delegate?.saveInputState(designIdeaSavedInput)
         self.navigationController?.popViewControllerAnimated(true)

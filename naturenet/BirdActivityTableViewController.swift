@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class BirdActivityTableViewController: UITableViewController, UIPickerViewDelegate, APIControllerProtocol {
+class BirdActivityTableViewController: UITableViewController, UIPickerViewDelegate, APIControllerProtocol, CLLocationManagerDelegate {
 
     @IBOutlet var tableview: UITableView!
     
@@ -22,6 +23,12 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     var isDescriptionExpanded = false
     let apiService = APIService()
     
+    let locationManager = CLLocationManager()
+    
+    // data for this page
+    var userLat: CLLocationDegrees?
+    var userLon: CLLocationDegrees?
+    
     // constant numbers of fixed sections
     let NUMOFFIXEDSECTIONS = 3
     let ICONSECTION = 0
@@ -32,6 +39,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         for i in 0...20 {
             pickerData.append(String(i))
         }
+        self.navigationItem.rightBarButtonItem?.enabled = false
 
         apiService.delegate = self
         if let account = Session.getAccount() {
@@ -42,11 +50,11 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             apiService.getResponse(NSStringFromClass(BirdActivityTableViewController), url: url)
         }
         
+        initLocationManager()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -113,7 +121,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         var footer: String?
         if section > DESCRIPTIONSECTION && section < tableView.numberOfSections() - 1 {
-            footer = "Daily average this season: 20"
+            footer = "Daily average this season: " + "--"
         }
 
         return footer
@@ -249,6 +257,31 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     }
     
     //----------------------------------------------------------------------------------------------------------------------
+    // LocationManager
+    //----------------------------------------------------------------------------------------------------------------------
+    func initLocationManager() {
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.startUpdatingLocation()
+    }
+    
+    // implement location didUpdataLocation
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        // println("location is  \(locations)")
+        var userLocation: CLLocation = locations[0] as! CLLocation
+        self.userLat = userLocation.coordinate.latitude
+        self.userLon = userLocation.coordinate.longitude
+    }
+    
+    // implement location didFailWithError
+    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        // println("error happened locationmanager \(error.domain)")
+        var message = "NatureNet requires to acess your location"
+        AlertControllerHelper.noLocationAlert(message, controller: self)
+    }
+
+    //----------------------------------------------------------------------------------------------------------------------
     // pickerView
     //----------------------------------------------------------------------------------------------------------------------
     
@@ -305,14 +338,40 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
                     self.navigationItem.rightBarButtonItem?.title = "Sent"
                     self.navigationItem.rightBarButtonItem?.enabled = false
                 } else  {
-                
-                    
+                    if let data = response["data"] as? NSDictionary {
+                        if let birds = data["birds"] as? NSArray {
+                            for bird in birds {
+                                var birdname = bird["name"] as! String
+                                for b in self.birds {
+                                    if birdname == b.name {
+                                        b.countNumber = bird["count"] as! String
+                                        b.seasonalCount = bird["seasonal_count"] as? Int
+                                    }
+                                }
+                            }
+                            self.noteDescription = data["description"] as? String
+                            self.updateStats()
+                        }
+                    }
                 }
-
             }
-            
-
         })
+    }
+    
+    private func updateStats() {
+        var section = DESCRIPTIONSECTION + 1
+        for bird in birds {
+            var indexPath = NSIndexPath(forRow: 0, inSection: section)
+            if let  cell = self.tableview.cellForRowAtIndexPath(indexPath) as? BirdActivityTableViewCell {
+                var pickerview = cell.numberPickerView
+                pickerview.selectRow(bird.countNumber.toInt()!, inComponent: 0, animated: true)
+            }
+            if bird.seasonalCount != nil {
+                self.tableView.footerViewForSection(section)?.textLabel.text = "Daily average this season: " + String(bird.seasonalCount!)
+            }
+            section++
+        }
+        
     }
     
     // receive data from note description textview
@@ -325,8 +384,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         if let desc = noteDescriptionVC.noteContent {
             self.noteDescription = desc
             cell.detailTextLabel?.text = desc
-            println("cell text is \(cell.detailTextLabel?.text)")
-        }        
+        }
     }
     
     @IBAction func sendPressed(sender: UIBarButtonItem) {
@@ -350,6 +408,11 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         mNote.state = NNModel.STATE.NEW
         mNote.context = self.activity
 
+        if userLon != nil && userLat != nil {
+            mNote.longitude = self.userLon!
+            mNote.latitude = self.userLat!
+        }
+        
         let noteIndexPath = NSIndexPath(forRow: 0, inSection: self.tableView.numberOfSections() - 1)
         let descriptionCell = self.tableView.cellForRowAtIndexPath(noteIndexPath) as UITableViewCell!
         let birdJSONs = convertBirdCountToJSON(birds)
@@ -402,7 +465,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         var name: String!
         var countNumber: String!
         var thumbnailURL: String!
-        var seasonalCount: String?
+        var seasonalCount: Int?
         
         func toDictionary() -> [String: String] {
             return [
