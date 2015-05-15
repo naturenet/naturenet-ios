@@ -360,12 +360,12 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     }
     
     
-    // update
+    // update status
     private func updateStats() {
         var section = DESCRIPTIONSECTION + 1
         for bird in birds {
             var indexPath = NSIndexPath(forRow: 0, inSection: section)
-            if let  cell = self.tableview.cellForRowAtIndexPath(indexPath) as? BirdActivityTableViewCell {
+            if let cell = self.tableview.cellForRowAtIndexPath(indexPath) as? BirdActivityTableViewCell {
                 var pickerview = cell.numberPickerView
                 pickerview.selectRow(bird.countNumber.toInt()!, inComponent: 0, animated: true)
             }
@@ -373,6 +373,10 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
                 self.tableView.footerViewForSection(section)?.textLabel.text = "Daily average this season: " + String(bird.seasonalCount!)
             }
             section++
+        }
+        let descIndexPath = NSIndexPath(forRow: 0, inSection: self.tableView.numberOfSections() - 1)
+        if let cell = self.tableview.cellForRowAtIndexPath(descIndexPath) {
+            cell.detailTextLabel?.text = self.noteDescription
         }
         
     }
