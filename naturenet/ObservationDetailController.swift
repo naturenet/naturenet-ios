@@ -258,8 +258,9 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         }
         
         if let activity = activityLable.text {
-            var selectedActivity = getActivityByName(activity)!
-            mNote.context = selectedActivity
+            if let selectedActivity = getActivityByName(activity) {
+                mNote.context = selectedActivity
+            }
         }
         
         mNote.created_at = createdAt

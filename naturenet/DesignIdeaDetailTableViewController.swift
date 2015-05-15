@@ -44,12 +44,6 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         setupTextview()
         apiService.delegate = self
         self.initLocationManager()
-
-        self.navigationController?.setToolbarHidden(false, animated: true)
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.setToolbarHidden(true, animated: true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,7 +60,6 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         return 1
     }
     
-    
     private func setupView() {
         var iconURL = activity.extras
         if let data = iconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
@@ -75,13 +68,11 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
                 ImageHelper.loadImageFromWeb(iconURL, imageview: activityIconImageView, indicatorView: iconActivityIndicator)
             }
         }
-        
         self.navigationItem.title = activity.title
         tableView.rowHeight = UITableViewAutomaticDimension
         activityDescriptionLabel.text = activity.context_description
     }
-    
-    
+
     //----------------------------------------------------------------------------------------------------------------------
     // LocationManager
     //----------------------------------------------------------------------------------------------------------------------
@@ -98,6 +89,7 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         var userLocation: CLLocation = locations[0] as! CLLocation
         self.userLat = userLocation.coordinate.latitude
         self.userLon = userLocation.coordinate.longitude
+        self.locationManager.stopUpdatingLocation()
     }
     
     // implement location didFailWithError
@@ -107,7 +99,6 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         AlertControllerHelper.noLocationAlert(message, controller: self)
     }
 
-    
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         dispatch_async(dispatch_get_main_queue(), {
             if from == "POST_" + NSStringFromClass(Note) {

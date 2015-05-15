@@ -18,7 +18,6 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadActivities()
-        
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
         self.refreshControl?.tintColor = UIColor.darkGrayColor()
@@ -52,6 +51,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         }
         return headerTitle
     }
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("designIdeaListCell", forIndexPath: indexPath) as! UITableViewCell
@@ -140,7 +140,6 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     func refreshActivityList() {
         var parseService = APIService()
         parseService.delegate = self
-        self.tableView.beginUpdates()
         Site.doPullByNameFromServer(parseService, name: "aces")
     }
     
@@ -171,7 +170,10 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
                 self.handleSiteData(data)
             }
             self.refreshControl?.endRefreshing()
-            self.tableView.endUpdates()
+            self.tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRectMake(0.0, 0.0, self.tableView.bounds.size.width, 0.01))
+            self.tableView.reloadData()
+
+
         })
     }
     

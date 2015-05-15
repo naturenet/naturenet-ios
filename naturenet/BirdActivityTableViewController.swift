@@ -272,6 +272,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         var userLocation: CLLocation = locations[0] as! CLLocation
         self.userLat = userLocation.coordinate.latitude
         self.userLon = userLocation.coordinate.longitude
+        self.locationManager.stopUpdatingLocation()
     }
     
     // implement location didFailWithError
@@ -358,6 +359,8 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         })
     }
     
+    
+    // update
     private func updateStats() {
         var section = DESCRIPTIONSECTION + 1
         for bird in birds {
