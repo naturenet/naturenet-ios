@@ -13,7 +13,7 @@ protocol SaveInputStateProtocol {
     func saveInputState(input: String?)
 }
 
-class DesignIdeaDetailTableViewController: UITableViewController, APIControllerProtocol, CLLocationManagerDelegate {
+class DesignIdeaDetailTableViewController: UITableViewController, APIControllerProtocol, CLLocationManagerDelegate, UITextViewDelegate {
 
     var activity: Context!
     var apiService = APIService()
@@ -43,6 +43,7 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         setupView()
         setupTextview()
         apiService.delegate = self
+        ideaTextView.delegate = self
         self.initLocationManager()
     }
     
@@ -50,6 +51,13 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // after press back, save the input of design idea
+        self.delegate?.saveInputState(designIdeaSavedInput)
+    }
+    
     
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -120,14 +128,10 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
             self.createAlert(nil, message: "Your idea has been sent, thanks!", type: self.SUCCESS)
         })
     }
-    
-    @IBAction func backpressed() {
-        self.delegate?.saveInputState(designIdeaSavedInput)
-        self.navigationController?.popViewControllerAnimated(true)
-    }
+
     
     // when typing, change rightBarButtonItem style to be Done(bold)
-    func textViewDidChange(textView: UITextView!) {
+    func textViewDidChange(textView: UITextView) {
         self.navigationItem.rightBarButtonItem?.enabled = true
         self.navigationItem.rightBarButtonItem?.style = .Done
         if count(self.ideaTextView.text) == 0 {
