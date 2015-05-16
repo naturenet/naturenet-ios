@@ -8,7 +8,10 @@
 
 import UIKit
 
-
+/**
+    Deprecated
+    A new controller: DesignIdeaDetailTableViewController.swift
+*/
 class DesignIdeaViewController: UIViewController, APIControllerProtocol {
 
     @IBOutlet weak var ideaTextView: UITextView!

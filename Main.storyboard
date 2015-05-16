@@ -307,7 +307,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Od1-4G-627" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-808" y="-139"/>
+            <point key="canvasLocation" x="-221" y="75"/>
         </scene>
         <!--Profile-->
         <scene sceneID="5sj-ed-Tm4">
@@ -417,12 +417,13 @@
                         <outlet property="numOfObsLabel" destination="9f0-aQ-xtO" id="Xma-97-nMC"/>
                         <outlet property="profileTableView" destination="xw9-E7-ZRW" id="9mK-C2-ek7"/>
                         <outlet property="welcomeLabel" destination="SGH-LC-e9f" id="uUK-Ue-1Xi"/>
-                        <segue destination="2z6-fJ-NyL" kind="show" identifier="profileToDesignIdea" id="CdL-uj-8Z8"/>
+                        <segue destination="2z6-fJ-NyL" kind="show" identifier="" id="CdL-uj-8Z8"/>
+                        <segue destination="IyN-eE-LLI" kind="show" identifier="profileToDesignIdea" id="O9R-nq-1DU"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Hq-Eh-EL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="84" y="-657"/>
+            <point key="canvasLocation" x="-59" y="-658"/>
         </scene>
         <!--Sign In-->
         <scene sceneID="85P-qF-8A2">
@@ -1173,7 +1174,7 @@ The researchers and other visitors will be able to look at your contributions an
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="POJ-72-f91" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-18" y="18"/>
+            <point key="canvasLocation" x="526" y="53"/>
         </scene>
         <!--Design Idea-->
         <scene sceneID="zYZ-JQ-Lzz">
@@ -1242,7 +1243,7 @@ The researchers and other visitors will be able to look at your contributions an
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="io2-wi-xr1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1780" y="-710"/>
+            <point key="canvasLocation" x="1069" y="-848"/>
         </scene>
         <!--About-->
         <scene sceneID="9Ko-Dm-v1W">
@@ -1328,7 +1329,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qp1-ge-Zhv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="410" y="873"/>
+            <point key="canvasLocation" x="154" y="1081"/>
         </scene>
         <!--Bird Activity -->
         <scene sceneID="LLi-wz-0iZ">
@@ -1415,7 +1416,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GSk-ig-yEw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1241" y="704"/>
+            <point key="canvasLocation" x="1093" y="976"/>
         </scene>
         <!--Bird Counting-->
         <scene sceneID="zee-3N-vnZ">
@@ -1681,7 +1682,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZg-dB-hDO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="430" y="1867"/>
+            <point key="canvasLocation" x="886" y="1787"/>
         </scene>
         <!--Description-->
         <scene sceneID="NUy-L4-WP1">
@@ -2047,7 +2048,7 @@ your Photo</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fb6-Ko-EKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1164" y="1746"/>
+            <point key="canvasLocation" x="1780" y="1787"/>
         </scene>
         <!--Activity Detail Table View Controller-->
         <scene sceneID="fPo-bd-TND">
@@ -2155,7 +2156,7 @@ your Photo</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uqp-V8-RYR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1289" y="-55"/>
+            <point key="canvasLocation" x="1397" y="97"/>
         </scene>
     </scenes>
     <resources>
@@ -2165,6 +2166,7 @@ your Photo</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="7uj-vr-wDB"/>
+        <segue reference="O9R-nq-1DU"/>
         <segue reference="fSU-fq-ZZv"/>
     </inferredMetricsTieBreakers>
 </document>

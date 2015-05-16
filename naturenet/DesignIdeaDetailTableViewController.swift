@@ -36,7 +36,6 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
     @IBOutlet weak var activityDescriptionLabel: UILabel!
     @IBOutlet weak var iconActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var ideaTextView: UITextView!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
