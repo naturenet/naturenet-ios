@@ -42,7 +42,8 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         
         // self.refreshControl?.backgroundColor = UIColor.greenColor()
         self.refreshControl?.tintColor = UIColor.darkGrayColor()
-        self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        // do not set title in viewDidLoad, it causes a big gap on the top tableview after pull to refresh
+        // self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl?.addTarget(self, action: "refreshActivityList", forControlEvents: UIControlEvents.ValueChanged)
         
     }
@@ -227,10 +228,10 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     }
     
     // pull to refresh
-    func refreshActivityList() {
+    @IBAction func refreshActivityList() {
         var parseService = APIService()
         parseService.delegate = self
-        self.tableview.beginUpdates()
+//        self.tableview.beginUpdates()
 
         Site.doPullByNameFromServer(parseService, name: "aces")
         Site.doPullByNameFromServer(parseService, name: "elsewhere")
@@ -258,7 +259,8 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 self.handleSiteData(data)
             }
             self.refreshControl?.endRefreshing()
-            self.tableview.endUpdates()
+            self.tableView.reloadData()
+//            self.tableview.endUpdates()
         })
     }
     

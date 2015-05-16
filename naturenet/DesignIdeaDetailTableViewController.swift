@@ -43,6 +43,7 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         setupTextview()
         apiService.delegate = self
         ideaTextView.delegate = self
+        self.navigationItem.rightBarButtonItem?.enabled = false
         self.initLocationManager()
     }
     

@@ -8,6 +8,9 @@
 
 import UIKit
 
+//
+// Deprecated
+//
 class BirdCountingTableViewController: UITableViewController, UICollectionViewDelegate, SaveObservationProtocol, UIPickerViewDelegate {
     
     // UI
@@ -48,7 +51,6 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         var cell = collectionView.dequeueReusableCellWithReuseIdentifier("birdcell", forIndexPath: indexPath) as! BirdCountingCollectionViewCell
         // cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.whiteColor() : UIColor.lightGrayColor()
-//        cell.imageView.image = UIImage(named: "bird")
         cell.loadingIndicator.hidden = false
         cell.loadingIndicator.startAnimating()
         loadImageFromWeb(birds[indexPath.row].thumbnailURL, imageview: cell.imageView, indicatorView: cell.loadingIndicator)
@@ -75,7 +77,6 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.blueColor().CGColor
         showNumberPickerCell()
-//        self.performSegueWithIdentifier("birdCountingDetail", sender: self.birdsCollectionView.cellForItemAtIndexPath(indexPath))
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
@@ -160,8 +161,6 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     
     func saveObservation(note: Note, media: Media?, feedback: Feedback?) {
         self.navigationController?.popViewControllerAnimated(true)
-//        apiService.delegate = self
-//        note.push(apiService)
     }
     
     private func initView() {

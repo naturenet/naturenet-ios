@@ -9,6 +9,9 @@
 import UIKit
 import CoreLocation
 
+// 
+// Deprecated
+//
 class BirdCountingDetailTableViewController: UITableViewController, UIPickerViewDelegate,
                                         UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
 

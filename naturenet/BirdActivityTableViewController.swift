@@ -62,15 +62,9 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         // Dispose of any resources that can be recreated.
     }
     
-//    override func viewDidLayoutSubviews() {
-//        // reserved for a "sent" status
-//        tableview.headerViewForSection(1)?.textLabel.textAlignment = NSTextAlignment.Right
-//    }
-    
     //----------------------------------------------------------------------------------------------------------------------
     // tableView
     //----------------------------------------------------------------------------------------------------------------------
-
 
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -80,7 +74,6 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var rows: Int = 1
-    
         return rows
     }
 
@@ -222,7 +215,8 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             self.tableview.beginUpdates()
             self.tableview.endUpdates()
         }
-        
+
+
         if indexPath.section == tableView.numberOfSections() - 1 {
             let nextViewController: NoteDescriptionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NoteDescriptionViewController")
                 as! NoteDescriptionViewController
