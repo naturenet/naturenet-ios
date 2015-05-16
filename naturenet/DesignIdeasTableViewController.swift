@@ -100,7 +100,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
                 if indexPath.section == 0 {
                     selectedActivity = ideaActivities[indexPath.row]
                 }
-                
+                destinationVC.delegate = self
                 destinationVC.activity = selectedActivity
                 destinationVC.designIdeaSavedInput = self.designIdeaInput
             }
@@ -146,6 +146,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     // implement saveInputState to conform SaveInputStateProtocol
     func saveInputState(input: String?) {
         self.designIdeaInput = input
+        println(input)
     }
     
     // after getting data from server
