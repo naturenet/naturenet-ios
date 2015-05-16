@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate, SaveInputStateProtocol {
+class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate {
     
     // UI Outlets
     @IBOutlet var profileTableView: UITableView!
@@ -57,19 +57,10 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "profileToDesignIdea" {
-            let destinationVC = segue.destinationViewController as! DesignIdeaViewController
-            destinationVC.delegate = self
-            if self.designIdeaInput != nil {
-                destinationVC.designIdeaSavedInput = self.designIdeaInput
-            }
+            let destinationVC = segue.destinationViewController as! DesignIdeasTableViewController
         }
     }
-    
-    // implement saveInputStateProtocol
-    func saveInputState(input: String?) {
-        self.designIdeaInput = input
-    }
-    
+        
     func createPopAlert() {
         var popover:UIPopoverController?
         var title = "Before you sign out, do you have any suggestions to make NatureNet better?"
