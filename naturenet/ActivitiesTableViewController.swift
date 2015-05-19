@@ -34,14 +34,12 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         // Uncomment the following line to preserve selection between presentations
         self.clearsSelectionOnViewWillAppear = true
         
-//        self.tableview.tableHeaderView = UIView(frame: CGRectMake(0, 0, self.tableview.bounds.size.width, 0.1))
-        //self.edgesForExtendedLayout = UIRectEdge.None
-        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         // self.refreshControl?.backgroundColor = UIColor.greenColor()
         self.refreshControl?.tintColor = UIColor.darkGrayColor()
+        
         // do not set title in viewDidLoad, it causes a big gap on the top tableview after pull to refresh
         // self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl?.addTarget(self, action: "refreshActivityList", forControlEvents: UIControlEvents.ValueChanged)
@@ -232,7 +230,6 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         var parseService = APIService()
         parseService.delegate = self
 //        self.tableview.beginUpdates()
-
         Site.doPullByNameFromServer(parseService, name: "aces")
         Site.doPullByNameFromServer(parseService, name: "elsewhere")
     }
@@ -258,8 +255,8 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
-            self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
 //            self.tableview.endUpdates()
         })
     }

@@ -68,6 +68,10 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
         return 1
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.ideaTextView.resignFirstResponder()
+    }
+    
     private func setupView() {
         var iconURL = activity.extras
         if let data = iconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
@@ -112,7 +116,7 @@ class DesignIdeaDetailTableViewController: UITableViewController, APIControllerP
             if from == "POST_" + NSStringFromClass(Note) {
                 var status = response["status_code"] as! Int
                 if status == APIService.CRASHERROR {
-                    self.createAlert(nil, message: "Looks you have a problem with Internet connection!", type: self.INTERNETPROBLEM)
+                    self.createAlert(nil, message: "Looks like you have a problem with Internet connection!", type: self.INTERNETPROBLEM)
                     return
                 }
                 

@@ -269,7 +269,7 @@
             <objects>
                 <tableViewController title="Design Ideas" id="IyN-eE-LLI" customClass="DesignIdeasTableViewController" customModule="NatureNet" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="iJO-RR-7b0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -296,7 +296,13 @@
                             <outlet property="delegate" destination="IyN-eE-LLI" id="km8-w2-KEr"/>
                         </connections>
                     </tableView>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" title="Design Ideas" id="bl7-PW-HJ0">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="3Kc-fm-zga">
+                            <connections>
+                                <action selector="refreshActivityList" destination="IyN-eE-LLI" id="D60-d9-3TS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="82c-KA-AkZ">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1120,7 +1126,7 @@ The researchers and other visitors will be able to look at your contributions an
                             </tableViewSection>
                             <tableViewSection headerTitle="About this design idea" id="4Up-LH-tWT">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="designIdeaDescriptionCell" textLabel="goQ-r3-kN6" style="IBUITableViewCellStyleDefault" id="tnm-1R-3th">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="designIdeaDescriptionCell" textLabel="goQ-r3-kN6" style="IBUITableViewCellStyleDefault" id="tnm-1R-3th">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tnm-1R-3th" id="krQ-ml-LY4">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1333,7 +1339,7 @@ NatureNet is funded by the National Science Foundation (IIS-1221513) in a grant 
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="ZbQ-XJ-sg6">
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
-                            <fragment content="Pull to Refresh">
+                            <fragment content="Pull to refresh">
                                 <attributes>
                                     <font key="NSFont" metaFont="smallSystem"/>
                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
@@ -2186,8 +2192,8 @@ your Photo</string>
         <image name="networkerror" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Xmz-uw-dx3"/>
         <segue reference="Bgt-hD-Bey"/>
+        <segue reference="O9R-nq-1DU"/>
         <segue reference="fSU-fq-ZZv"/>
     </inferredMetricsTieBreakers>
 </document>

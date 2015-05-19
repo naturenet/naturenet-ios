@@ -135,7 +135,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     
     
     // pull to refresh
-    func refreshActivityList() {
+    @IBAction func refreshActivityList() {
         var parseService = APIService()
         parseService.delegate = self
         Site.doPullByNameFromServer(parseService, name: "aces")
@@ -144,7 +144,6 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     // implement saveInputState to conform SaveInputStateProtocol
     func saveInputState(input: String?) {
         self.designIdeaInput = input
-        println(input)
     }
     
     // after getting data from server
@@ -168,10 +167,8 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
-            self.refreshControl?.endRefreshing()
-            self.tableView.tableHeaderView = UITableViewHeaderFooterView(frame: CGRectMake(0.0, 0.0, self.tableView.bounds.size.width, 0.01))
             self.tableView.reloadData()
-
+            self.refreshControl?.endRefreshing()
 
         })
     }
