@@ -229,7 +229,6 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     @IBAction func refreshActivityList() {
         var parseService = APIService()
         parseService.delegate = self
-//        self.tableview.beginUpdates()
         Site.doPullByNameFromServer(parseService, name: "aces")
         Site.doPullByNameFromServer(parseService, name: "elsewhere")
     }
@@ -255,9 +254,12 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
+            // reload the data for tableView
+            self.loadActivities()
             self.tableView.reloadData()
+//            self.tableView.beginUpdates()
+//            self.tableView.endUpdates()
             self.refreshControl?.endRefreshing()
-//            self.tableview.endUpdates()
         })
     }
     

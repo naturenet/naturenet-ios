@@ -17,7 +17,9 @@ class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        UIBarButtonItem.appearance().setTitleTextAttributes({NSForegroundColorAttributeName: UIColor.blueColor()}, forState: .Disabled)
-        noteDescriptionTextView.text = noteContent
+        if noteContent != nil {
+            noteDescriptionTextView.text = noteContent!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        }
         noteDescriptionTextView.becomeFirstResponder()
     }
 
@@ -35,10 +37,7 @@ class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "passedDescription" {
-            noteContent = noteDescriptionTextView.text
+            noteContent = noteDescriptionTextView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         }
     }
-    
-
-    
 }

@@ -42,6 +42,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         self.navigationItem.rightBarButtonItem?.enabled = false
 
         apiService.delegate = self
+        
         if let account = Session.getAccount() {
             let username = account.username
             let activityName = activity.name
@@ -51,15 +52,11 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         }
         
         initLocationManager()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //----------------------------------------------------------------------------------------------------------------------
@@ -144,7 +141,6 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         return 20
     }
     */
-    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == ICONSECTION {
@@ -353,8 +349,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         })
     }
     
-    
-    // update status
+    // update stats
     private func updateStats() {
         var section = DESCRIPTIONSECTION + 1
         for bird in birds {
@@ -424,7 +419,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             contentObject = ["type" : "bird", "birds" : birdJSONs, "description": content]
         }
         let contentJSON = self.JSONStringify(contentObject, prettyPrinted: false)
-        println(contentJSON)
+        // println(contentJSON)
         mNote.content = contentJSON
 
         mNote.created_at = createdAt

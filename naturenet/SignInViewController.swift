@@ -169,8 +169,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
             var status = response["status_code"] as! Int
+            var errorMessage = "Loading..."
             if (status == 400) {
-                var errorMessage = "We didn't recognize your NatureNet Name or Password"
+                if from == "Account" {
+                    errorMessage = "We didn't recognize your NatureNet Name or Password"
+                }
                 self.showFailMessage(errorMessage)
                 self.pauseIndicator()
                 return

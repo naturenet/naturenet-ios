@@ -85,6 +85,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         if indexPath.section == 0 {
             let cell = tableView.cellForRowAtIndexPath(indexPath)
             self.performSegueWithIdentifier("designIdeaDetail", sender: indexPath)
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"Back", style: .Plain, target: nil, action: nil)
         }
         
     }
@@ -133,8 +134,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         
     }
     
-    
-    // pull to refresh
+    // pull to refresh or refresh
     @IBAction func refreshActivityList() {
         var parseService = APIService()
         parseService.delegate = self
@@ -167,6 +167,8 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
+            // reload the data for tableView
+            self.loadActivities()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
 
