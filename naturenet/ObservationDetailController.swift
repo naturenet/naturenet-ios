@@ -54,6 +54,10 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         }
     }
 
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.setToolbarHidden(true, animated: true)
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
