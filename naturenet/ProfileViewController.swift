@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UITableViewController, UITableViewDelegate, UINavigationControllerDelegate {
+class ProfileViewController: UITableViewController, UINavigationControllerDelegate {
     
     // UI Outlets
     @IBOutlet var profileTableView: UITableView!
@@ -64,35 +64,40 @@ class ProfileViewController: UITableViewController, UITableViewDelegate, UINavig
     func createPopAlert() {
         var popover:UIPopoverController?
         var title = "Before you sign out, do you have any suggestions to make NatureNet better?"
-        var alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        if #available(iOS 8.0, *) {
+            var alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-        var singoutAction = UIAlertAction(title: "Sign me out", style: UIAlertActionStyle.Destructive) {
-            UIAlertAction in
-            Session.signOut()
-            self.navigationController?.popToRootViewControllerAnimated(true)
-        }
         
-        var yesAction = UIAlertAction(title: "Leave a design idea", style: UIAlertActionStyle.Default) {
-            UIAlertAction in
-            self.performSegueWithIdentifier("profileToDesignIdea", sender: self)
+            var singoutAction = UIAlertAction(title: "Sign me out", style: UIAlertActionStyle.Destructive) {
+                UIAlertAction in
+                Session.signOut()
+                self.navigationController?.popToRootViewControllerAnimated(true)
+            }
+            
+            var yesAction = UIAlertAction(title: "Leave a design idea", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.performSegueWithIdentifier("profileToDesignIdea", sender: self)
 
-        }
-        
-        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
-            UIAlertAction in
-        }
+            }
+            
+            var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                UIAlertAction in
+            }
  
-        // Add the actions
-        alert.addAction(singoutAction)
-        alert.addAction(yesAction)
-        alert.addAction(cancelAction)
-        
-        // Present the actionsheet
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else {
-            popover = UIPopoverController(contentViewController: alert)
+            // Add the actions
+            alert.addAction(singoutAction)
+            alert.addAction(yesAction)
+            alert.addAction(cancelAction)
+            
+            // Present the actionsheet
+            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            else {
+                popover = UIPopoverController(contentViewController: alert)
+            }
+        } else {
+            // Fallback on earlier versions
         }
     }
 

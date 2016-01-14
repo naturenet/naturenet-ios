@@ -12,7 +12,7 @@ class API {
     var root : String
     
     init() {
-        self.root = "http://naturenet.herokuapp.com/api/"
+        self.root = "http://naturenet-dev.herokuapp.com/api/"
     }
     
     // get account api link

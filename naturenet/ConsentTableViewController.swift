@@ -116,9 +116,13 @@ class ConsentTableViewController: UITableViewController {
     }
     
     func createWarningAlert() {
-        var alert = UIAlertController(title: "Oops", message: "You must agree required ones!", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if #available(iOS 8.0, *) {
+            let alert = UIAlertController(title: "Oops", message: "You must agree required ones!", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
 }

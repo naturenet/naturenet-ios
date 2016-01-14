@@ -43,16 +43,16 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         dispatch_async(dispatch_get_main_queue(), {
             if from == "POST_" + NSStringFromClass(Note) {
-                var status = response["status_code"] as! Int
+                let status = response["status_code"] as! Int
                 if status == 600 {
                     self.createAlert(nil, message: "Looks you have a problem with Internet connection!", type: self.INTERNETPROBLEM)
                     return
                 }
                 
                 if status == 200 {
-                    var uid = response["data"]!["id"] as! Int
-                    println("now after post_designIdea. Done!")
-                    var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                    let uid = response["data"]!["id"] as! Int
+                    print("now after post_designIdea. Done!")
+                    let modifiedAt = response["data"]!["modified_at"] as! NSNumber
                     self.idea!.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     self.designIdeaSavedInput = nil
                 }
@@ -75,19 +75,19 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     func textViewDidChange(textView: UITextView!) {
         self.navigationItem.rightBarButtonItem?.enabled = true
         self.navigationItem.rightBarButtonItem?.style = .Done
-        if count(self.ideaTextView.text) == 0 {
+        if self.ideaTextView.text.characters.count == 0 {
             self.navigationItem.rightBarButtonItem?.enabled = false
         }
         self.designIdeaSavedInput = textView.text
     }
     
     // touch starts, dismiss keyboard
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.ideaTextView.resignFirstResponder()
     }
     
     @IBAction func ideaSendPressed(sender: UIBarButtonItem) {
-        if count(self.ideaTextView.text) == 0 {
+        if self.ideaTextView.text.characters.count == 0 {
             // here should never be called
             self.createAlert("Oops", message: "Your input is empty!", type: self.NOINPUT)
         } else {
@@ -97,29 +97,33 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
     }
     
     func createAlert(title: String?, message: String, type: Int) {
-        var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: {
-            action in
-            if type == self.SUCCESS {
-                if action.style == .Default{
-                    self.navigationController?.popViewControllerAnimated(true)
+        if #available(iOS 8.0, *) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: {
+                action in
+                if type == self.SUCCESS {
+                    if action.style == .Default{
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
                 }
-            }
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     // save to core data first
     func saveIdea() -> Note {
-        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var note = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
+        let nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let note = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
         note.state = NNModel.STATE.NEW
         if let account = Session.getAccount() {
             note.account = account
         }
         
         if let site = Session.getSite() {
-            var contexts = site.getContexts() as! [Context]
+            let contexts = site.getContexts() as! [Context]
             for context in contexts {
                 if context.kind == "Design" {
                     note.context = context

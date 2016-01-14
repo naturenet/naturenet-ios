@@ -41,11 +41,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     }
     
     @IBAction func usernameTextFieldDidChange(sender: UITextField) {
-        if !textFieldUname.text.isEmpty && !textFieldUpass.text.isEmpty {
+        if !textFieldUname.text!.isEmpty && !textFieldUpass.text!.isEmpty {
             self.signButton.enabled = true
             self.signButton.alpha = 1.0
         }
-        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+        if textFieldUname.text!.isEmpty || textFieldUpass.text!.isEmpty {
             self.signButton.enabled = false
             self.signButton.alpha = 0.7
             
@@ -53,11 +53,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     }
     
     @IBAction func passTextFieldDidChange(sender: UITextField) {
-        if !textFieldUname.text.isEmpty && !textFieldUpass.text.isEmpty {
+        if !textFieldUname.text!.isEmpty && !textFieldUpass.text!.isEmpty {
             self.signButton.enabled = true
             self.signButton.alpha = 1.0
         }
-        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+        if textFieldUname.text!.isEmpty || textFieldUpass.text!.isEmpty {
             self.signButton.enabled = false
             self.signButton.alpha = 0.7
         }
@@ -67,7 +67,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         textFieldUname.resignFirstResponder()
         textFieldUpass.resignFirstResponder()
         // should never be called
-        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+        if textFieldUname.text!.isEmpty || textFieldUpass.text!.isEmpty {
             self.signButton.enabled = false
             self.signButton.alpha = 0.7
             self.showFailMessage("username or password cannot be empty")
@@ -84,7 +84,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+        if textFieldUname.text!.isEmpty || textFieldUpass.text!.isEmpty {
             self.signButton.enabled = false
             self.signButton.alpha = 0.7
         }
@@ -92,7 +92,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
 
     func textFieldDidBeginEditing(textField: UITextField) {
         self.alertLabel.hidden = true
-        if textFieldUname.text.isEmpty || textFieldUpass.text.isEmpty {
+        if textFieldUname.text!.isEmpty || textFieldUpass.text!.isEmpty {
             self.signButton.enabled = false
             self.signButton.alpha = 0.7
         }
@@ -101,13 +101,13 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     // password textfield delegate, examine length not exceed 4
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         var result = true
-        let prospectiveText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        let prospectiveText = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
         
         if textField == textFieldUpass {
-            if count(string) > 0 {
+            if string.characters.count > 0 {
                 let disallowedCharacterSet = NSCharacterSet(charactersInString: "0123456789").invertedSet
                 let replacementStringIsLegal = string.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
-                let resultingStringLengthIsLegal = count(prospectiveText) <= 4
+                let resultingStringLengthIsLegal = prospectiveText.characters.count <= 4
                 result = replacementStringIsLegal && resultingStringLengthIsLegal
             }
         }
@@ -151,9 +151,17 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.layoutMargins = UIEdgeInsetsZero
+        if #available(iOS 8.0, *) {
+            cell.layoutMargins = UIEdgeInsetsZero
+        } else {
+            // Fallback on earlier versions
+        }
         cell.separatorInset = UIEdgeInsetsZero
-        cell.preservesSuperviewLayoutMargins = false
+        if #available(iOS 8.0, *) {
+            cell.preservesSuperviewLayoutMargins = false
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -168,7 +176,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     // after getting data from server
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as! Int
+            let status = response["status_code"] as! Int
             var errorMessage = "Loading..."
             if (status == 400) {
                 if from == "Account" {
@@ -181,7 +189,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             
             // 600 is self defined error code on the phone's side
             if (status == 600) {
-                var errorMessage = "Internet seems not working"
+                let errorMessage = "Internet seems not working"
                 // self.createAlert(errorMessage)
                 self.showFailMessage(errorMessage)
                 self.pauseIndicator()
@@ -191,20 +199,20 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             // println("received results from \(from)")
             if from == "Account" {
                 // var data = response["data"] as NSDictionary!
-                var data = response["data"] as! NSDictionary!
+                let data = response["data"] as! NSDictionary!
                 var model = data["_model_"] as! String
                 self.handleUserData(data)
             }
             
             if from == "Site" {
-                var data = response["data"] as! NSDictionary!
+                let data = response["data"] as! NSDictionary!
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
             
             if from == "Note" {
                 // response["data"] is an array of notes
-                var data = response["data"] as! NSArray!
+                let data = response["data"] as! NSArray!
                 self.handleNoteData(data)
                 self.pauseIndicator()
                 self.navigationController?.popToRootViewControllerAnimated(true)
@@ -214,13 +222,13 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     
     // parse account info and save
     func handleUserData(data: NSDictionary) {
-        var username = data["username"] as! String
-        var pass = data["password"] as! String
+        let username = data["username"] as! String
+        let pass = data["password"] as! String
         var email = data["email"] as! String
-        var modified_at = data["modified_at"] as! NSNumber
+        let modified_at = data["modified_at"] as! NSNumber
         
         if pass != self.textFieldUpass.text {
-            var errorMessage = "Password is Wrong"
+            let errorMessage = "Password is Wrong"
             self.showFailMessage(errorMessage)
             self.pauseIndicator()
             return
@@ -231,7 +239,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         if existingAccount != nil {
             // println("input user existing in core date: \(existingAccount?.toString())")
             // println("You have this user in core data: \(inputUser)")
-            var existingModifiedAt = existingAccount!.modified_at
+            let existingModifiedAt = existingAccount!.modified_at
             if existingModifiedAt != modified_at {
                 // usually user only is alllowed to change pass, email
                 existingAccount!.updateToCoreData(data)
@@ -261,7 +269,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         } else {
             self.site = Site.saveToCoreData(data)
         }
-        let inputUser = textFieldUname.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let inputUser = textFieldUname.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if !SignInViewController.hasWhiteSpace(inputUser) {
             Account.doPullByNameFromServer(parseService, name: inputUser)
         } else {
@@ -280,7 +288,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         }
         
         for mNote in notes {
-            var serverNote = mNote as! NSDictionary
+            let serverNote = mNote as! NSDictionary
             var localNote: Note?
             let noteUID = serverNote["id"] as! Int
             let predicate = NSPredicate(format: "uid = \(noteUID)")
@@ -325,11 +333,15 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     
     // create an alert
     func createAlert(message: String) {
-        var alert = UIAlertController(title: "Sign In Failed", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if #available(iOS 8.0, *) {
+            let alert = UIAlertController(title: "Sign In Failed", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     // trim whitespace after a string and check the string has a whitespace

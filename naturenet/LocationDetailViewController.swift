@@ -43,7 +43,7 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
     @IBAction func openCamera() {
-        var picker:UIImagePickerController = UIImagePickerController()
+        let picker:UIImagePickerController = UIImagePickerController()
         picker.delegate = self
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
             picker.sourceType = UIImagePickerControllerSourceType.Camera
@@ -65,7 +65,7 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("tourDetailToObservation", sender: self)

@@ -30,8 +30,8 @@ class NoteActivitySelectionViewController: UIViewController, UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("activitySelectionCell", forIndexPath: indexPath) as! UITableViewCell
-        var activity = self.activities[indexPath.row] as Context
+        let cell = tableView.dequeueReusableCellWithIdentifier("activitySelectionCell", forIndexPath: indexPath) 
+        let activity = self.activities[indexPath.row] as Context
         cell.textLabel?.text = activity.title
         
         if activity.title == selectedActivityTitle {
@@ -44,7 +44,7 @@ class NoteActivitySelectionViewController: UIViewController, UITableViewDelegate
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        var selectedIndex = getActivityIndex(selectedActivityTitle)
+        let selectedIndex = getActivityIndex(selectedActivityTitle)
         //Other row is selected - need to deselect it
         let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))
         cell?.accessoryType = .None

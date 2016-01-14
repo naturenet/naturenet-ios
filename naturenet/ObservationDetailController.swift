@@ -158,29 +158,33 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     func initLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestAlwaysAuthorization()
+        if #available(iOS 8.0, *) {
+            self.locationManager.requestAlwaysAuthorization()
+        } else {
+            // Fallback on earlier versions
+        }
         self.locationManager.startUpdatingLocation()
     }
     
     // implement location didUpdataLocation
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        println("location is  \(locations)")
-        var userLocation: CLLocation = locations[0] as! CLLocation
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("location is  \(locations)")
+        let userLocation: CLLocation = locations[0] 
         self.userLat = userLocation.coordinate.latitude
         self.userLon = userLocation.coordinate.longitude
         self.locationManager.stopUpdatingLocation()
         // testing
         // var userLocation = CLLocation(latitude: 39.195698, longitude: -106.822153)
         // update current location as the location selection
-        var landmarkName = determineLandmarkByLocation(userLocation)
+        let landmarkName = determineLandmarkByLocation(userLocation)
         // println("detected location is: \(landmarkName)");
         self.locationLabel.text = landmarkName
     }
     
     // implement location didFailWithError
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         // println("error happened locationmanager \(error.domain)")
-        var message = "NatureNet requires to acess your location"
+        let message = "NatureNet requires to acess your location"
         AlertControllerHelper.noLocationAlert(message, controller: self)
     }
     
@@ -220,7 +224,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             var minDistance = 2000.0  // unit meter
             for landmark in self.landmarks {
                 if let location = landmark.getCoordinatesForLandmark() {
-                    var distance: CLLocationDistance = userLocaiton.distanceFromLocation(location)
+                    let distance: CLLocationDistance = userLocaiton.distanceFromLocation(location)
                     if distance < minDistance {
                         minDistance = distance
                         name = landmark.title
@@ -238,11 +242,11 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     //----------------------------------------------------------------------------------------------------------------------
 
     func saveNote() -> Note {
-        var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
-        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        let timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
+        let createdAt = NSNumber(unsignedLongLong: timestamp)
         
-        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
+        let nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
         if imageFromObservation != nil {
             if userLon != nil && userLat != nil {
                 mNote.longitude = self.userLon!
@@ -253,7 +257,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
                 UIImageWriteToSavedPhotosAlbum(self.noteImageView.image!, nil, nil, nil)
             }
         }
-        var account = Session.getAccount()
+        let account = Session.getAccount()
         mNote.account = account!
         mNote.kind = "FieldNote"
         mNote.state = NNModel.STATE.NEW
@@ -275,7 +279,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         
         // save to Feedback
         if let landmark = locationLabel.text {
-            var selectedLandmark = getLandmarkByName(landmark)!
+            let selectedLandmark = getLandmarkByName(landmark)!
             self.feedback = mNote.doSaveFeedback(selectedLandmark, timestamp: timestamp)
         }
         
@@ -290,14 +294,14 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             note!.content = desc
         }
         if let activity = activityLable.text {
-            var selectedActivity = getActivityByName(activity)!
+            let selectedActivity = getActivityByName(activity)!
             note!.context = selectedActivity
         }
         if let landmark = locationLabel.text {
-            var selectedLandmark = getLandmarkByName(landmark)!
-            var predicate = NSPredicate(format: "note = %@", note!.objectID)
-            var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var fetchedFeedback = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Feedback), withPredicate: predicate,
+            let selectedLandmark = getLandmarkByName(landmark)!
+            let predicate = NSPredicate(format: "note = %@", note!.objectID)
+            let nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+            let fetchedFeedback = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Feedback), withPredicate: predicate,
                 managedObjectContext: nsManagedContext) as! Feedback?
             if fetchedFeedback != nil {
                 fetchedFeedback!.content = selectedLandmark.name
@@ -324,7 +328,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
         
         // load note informaiton, e.g. description/media image
         if let noteObjectID = self.noteIdFromObservations {
-            var predicate = NSPredicate(format: "SELF = %@", noteObjectID)
+            let predicate = NSPredicate(format: "SELF = %@", noteObjectID)
             if let mNote = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Note), withPredicate: predicate,
                 managedObjectContext: SwiftCoreDataHelper.nsManagedObjectContext) as! Note? {
                    self.note = mNote
@@ -332,7 +336,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             self.noteMedia = self.note?.getSingleMedia()
             descriptionLabel.text = note!.content
             
-            var noteActivity = note!.context
+            let noteActivity = note!.context
             activityLable.text = noteActivity.title
             imageLoadingIndicator.startAnimating()
             if let fullPath = noteMedia?.full_path {
@@ -350,7 +354,7 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
                 loadFullImage(noteMedia!)
             }
             
-            var landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
+            let landmarkTitle = getLandmarkTitle(self.note!, contexts: self.landmarks)!
             locationLabel.text = landmarkTitle
         } else if self.imageFromObservation != nil {
             self.noteImageView.image = self.imageFromObservation!.image
@@ -385,19 +389,19 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
             if error != nil {
                 
             } else {
-                let image = UIImage(data: data)
+                let image = UIImage(data: data!)
                 self.noteImageView.image = image
                 self.imageLoadingIndicator.stopAnimating()
                 self.imageLoadingIndicator.removeFromSuperview()
-                self.saveFullImage(data, media: media)
+                self.saveFullImage(data!, media: media)
             }
         })
     }
     
     // func 
     func saveFullImage(data: NSData, media: Media) {
-        var fileName = String(media.created_at.longLongValue) + ".jpg"
-        var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
+        let fileName = String(media.created_at.longLongValue) + ".jpg"
+        let tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         media.full_path = tPath
         media.setLocalFullPath(tPath)
 
@@ -405,11 +409,11 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // get landmark locaiton titles
     func getLandmarkTitle(note: Note, contexts: [Context]) -> String? {
-        var feedbacks = note.getFeedbacks()
+        let feedbacks = note.getFeedbacks()
         var title: String?
         for feedback in feedbacks {
             // ?? not sure this is the right way to get landmark feedback
-            var landmarkFeedback = feedback as! Feedback
+            let landmarkFeedback = feedback as! Feedback
             for context in contexts {
                 if landmarkFeedback.content == context.name {
                     title = context.title

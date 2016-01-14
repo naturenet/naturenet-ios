@@ -29,10 +29,10 @@ class Session: NSManagedObject {
     class func isSignedIn() -> Bool {
         var isSigned: Bool = false;
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var results: NSArray = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: context)
+        let results: NSArray = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: context)
         // println("session retrieved \(results)")
         if results.count > 0 {
-            var session = results[0] as! Session
+            let session = results[0] as! Session
             if session.account.uid.integerValue > 0 {
                 isSigned = true
             }
@@ -42,7 +42,7 @@ class Session: NSManagedObject {
     
     class func signIn(accountID: Int, siteID: Int) {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as! Session
+        let session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as! Session
         session.account_id = accountID
         session.site_id = siteID
         SwiftCoreDataHelper.saveManagedObjectContext(managedContext)
@@ -52,13 +52,13 @@ class Session: NSManagedObject {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var sessionAccounts:[Session] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: managedContext) as! [Session]
         if sessionAccounts.count > 0 {
-            var session = sessionAccounts[0]
+            let session = sessionAccounts[0]
             session.setValue(account, forKey: "account")
             session.setValue(site, forKey: "site")
             session.account_id = account.uid
             session.site_id = site.uid
         } else {
-            var session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as! Session
+            let session = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Session), managedObjectConect: managedContext) as! Session
             session.account = account
             session.site = site
             session.account_id = account.uid
@@ -72,7 +72,7 @@ class Session: NSManagedObject {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var sessionAccounts:[Session] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: managedContext) as! [Session]
         if sessionAccounts.count > 0 {
-            var session = sessionAccounts[0]
+            let session = sessionAccounts[0]
             session.setValue(nil, forKey: "account")
             session.setValue(nil, forKey: "site")
             session.setValue(0, forKey: "account_id")
@@ -86,7 +86,7 @@ class Session: NSManagedObject {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var sessionAccounts:[Session] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: managedContext) as! [Session]
         if sessionAccounts.count > 0 {
-            var session = sessionAccounts[0]
+            let session = sessionAccounts[0]
             account = session.account
         }
         return account
@@ -97,7 +97,7 @@ class Session: NSManagedObject {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var sessions:[Session] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Session), withPredicate: nil, managedObjectContext: managedContext) as! [Session]
         if sessions.count > 0 {
-            var session = sessions[0]
+            let session = sessions[0]
             site = session.site
         }
         return site
@@ -106,7 +106,7 @@ class Session: NSManagedObject {
     class func getSiteByName(name: String) -> Site? {
         var site: Site?
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var sites:[Site] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Site), withPredicate: nil, managedObjectContext: managedContext) as! [Site]
+        let sites:[Site] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Site), withPredicate: nil, managedObjectContext: managedContext) as! [Site]
         if sites.count > 0 {
             for s in sites {
                 if s.name == name {
@@ -168,12 +168,12 @@ class Session: NSManagedObject {
 
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let predicate = NSPredicate(format: "kind = %@", type)
-        var activities:[Context] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! [Context]
+        let activities:[Context] = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as! [Context]
         for activity in activities {
             if activity.kind == type {
                 let extras = activity.extras as NSString
                 if let data = extras.dataUsingEncoding(NSUTF8StringEncoding) {
-                    if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                    if let json = (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary {
                         if let active = json["active"] as? Bool {
                             if active {
                                 if site != nil {

@@ -18,7 +18,7 @@ class SwiftCoreDataHelper {
     }
     
     class func insertManagedObject(className: String, managedObjectConect:NSManagedObjectContext) -> AnyObject {
-        let managedObject:NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName(className, inManagedObjectContext: managedObjectConect) as! NSManagedObject
+        let managedObject:NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName(className, inManagedObjectContext: managedObjectConect) 
         
         return managedObject
         
@@ -33,9 +33,10 @@ class SwiftCoreDataHelper {
     
     
     class func saveManagedObjectContext (managedObjectContext:NSManagedObjectContext) -> Bool {
-        if managedObjectContext.save(nil){
+        do {
+            try managedObjectContext.save()
             return true
-        }else{
+        } catch _ {
             return false
         }
     }
@@ -50,14 +51,14 @@ class SwiftCoreDataHelper {
         }
         
         fetchRequest.returnsObjectsAsFaults = false
-        let items:NSArray = managedObjectContext.executeFetchRequest(fetchRequest, error: nil)!
+        let items:NSArray = try! managedObjectContext.executeFetchRequest(fetchRequest)
         
         return items
     }
     
     class func fetchEntitySingle(className: String, withPredicate predicate: NSPredicate?, managedObjectContext:NSManagedObjectContext) -> AnyObject? {
         var entity: AnyObject?
-        var entities = fetchEntities(className, withPredicate: predicate, managedObjectContext:managedObjectContext)
+        let entities = fetchEntities(className, withPredicate: predicate, managedObjectContext:managedObjectContext)
         if entities.count > 0 {
             entity = entities[0] as AnyObject
         }

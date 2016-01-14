@@ -183,7 +183,7 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
     @IBAction func openCamera() {
-        var picker:UIImagePickerController = UIImagePickerController()
+        let picker:UIImagePickerController = UIImagePickerController()
         picker.delegate = self
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
             picker.sourceType = UIImagePickerControllerSourceType.Camera
@@ -205,7 +205,7 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.prevImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.previewImageview.image = prevImage
@@ -249,58 +249,62 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     func initLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestAlwaysAuthorization()
+        if #available(iOS 8.0, *) {
+            self.locationManager.requestAlwaysAuthorization()
+        } else {
+            // Fallback on earlier versions
+        }
         self.locationManager.startUpdatingLocation()
     }
     
     // implement location didUpdataLocation
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        println("location is  \(locations)")
-        var userLocation: CLLocation = locations[0] as! CLLocation
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("location is  \(locations)")
+        let userLocation: CLLocation = locations[0] 
         self.userLat = userLocation.coordinate.latitude
         self.userLon = userLocation.coordinate.longitude
         self.locationManager.stopUpdatingLocation()
-        var landmarkName = determineLandmarkByLocation(userLocation)
-        println("detected location is: \(landmarkName)")
+        let landmarkName = determineLandmarkByLocation(userLocation)
+        print("detected location is: \(landmarkName)")
         let landmarkCell = self.tableview.cellForRowAtIndexPath(locationCellIndexPath)
         landmarkCell?.detailTextLabel?.text = landmarkName
     }
     
     // implement location didFailWithError
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        println("error happened locationmanager \(error.domain)")
-        var message = "NatureNet requires to acess your location"
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("error happened locationmanager \(error.domain)")
+        let message = "NatureNet requires to acess your location"
         AlertControllerHelper.noLocationAlert(message, controller: self)
     }
 
     
     // save note
     private func saveNote()  {
-        var timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
-        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        let timestamp = UInt64(floor(NSDate().timeIntervalSince1970 * 1000))
+        let createdAt = NSNumber(unsignedLongLong: timestamp)
         
-        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
+        let nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
         if userLon != nil && userLat != nil {
             mNote.longitude = self.userLon!
             mNote.latitude = self.userLat!
         }
         UIImageWriteToSavedPhotosAlbum(self.previewImageview.image!, nil, nil, nil)
 
-        var account = Session.getAccount()
+        let account = Session.getAccount()
         mNote.account = account!
         mNote.kind = "FieldNote"
         mNote.state = NNModel.STATE.NEW
         
-        var numOfBirds = numberTextLable.text!
+        let numOfBirds = numberTextLable.text!
         let detailCell = self.tableview.cellForRowAtIndexPath(detailCellIndexPath)
-        var content = detailCell?.detailTextLabel?.text
+        let content = detailCell?.detailTextLabel?.text
         let contentObject: [String : String] = ["type" : "bird", "number" : numOfBirds, "content": content!]
         let contentJSON = self.JSONStringify(contentObject, prettyPrinted: false)
         mNote.content = contentJSON
         
         let activities = Session.getContexts("Activity")
-        var selectedActivity = Context.getContextByName("Bird Counting", contexts: activities)
+        let selectedActivity = Context.getContextByName("Bird Counting", contexts: activities)
         mNote.context = selectedActivity
         
         
@@ -314,7 +318,7 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
         let landmarkCell = self.tableview.cellForRowAtIndexPath(locationCellIndexPath)
         
         if let landmark = landmarkCell!.detailTextLabel?.text {
-            var selectedLandmark = Context.getContextByName(landmark, contexts: landmarks)
+            let selectedLandmark = Context.getContextByName(landmark, contexts: landmarks)
             self.feedback = mNote.doSaveFeedback(selectedLandmark, timestamp: timestamp)
         }
         
@@ -323,9 +327,9 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
     }
     
     private func JSONStringify(value: AnyObject, prettyPrinted: Bool = false) -> String {
-        var options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : nil
+        var options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted :  NSJSONWritingOptions(rawValue: 0)
         if NSJSONSerialization.isValidJSONObject(value) {
-            if let data = NSJSONSerialization.dataWithJSONObject(value, options: options, error: nil) {
+            if let data = try? NSJSONSerialization.dataWithJSONObject(value, options: options) {
                 if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {
                     return string as String
                 }
@@ -351,7 +355,7 @@ class BirdCountingDetailTableViewController: UITableViewController, UIPickerView
                 var minDistance = 2000.0  // unit meter
                 for landmark in self.landmarks {
                     if let location = landmark.getCoordinatesForLandmark() {
-                        var distance: CLLocationDistance = userLocaiton.distanceFromLocation(location)
+                        let distance: CLLocationDistance = userLocaiton.distanceFromLocation(location)
                         if distance < minDistance {
                             minDistance = distance
                             name = landmark.title

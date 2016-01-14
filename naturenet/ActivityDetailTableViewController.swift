@@ -62,7 +62,7 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     private func setupView() {
         var iconURL = activity.extras
         if let data = iconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
-            if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+            if let json = (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary {
                 iconURL = json["Icon"] as! String
                 ImageHelper.loadImageFromWeb(iconURL, imageview: activityIconImageView, indicatorView: iconActivityIndicator)            }
         }
@@ -98,7 +98,7 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
     @IBAction func openCamera() {
-        var picker:UIImagePickerController = UIImagePickerController()
+        let picker:UIImagePickerController = UIImagePickerController()
         picker.delegate = self
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
             picker.sourceType = UIImagePickerControllerSourceType.Camera
@@ -117,11 +117,11 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
-        println("picker cancel.")
+        print("picker cancel.")
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("activityToObservation", sender: self)
@@ -136,7 +136,7 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
     // implement didReceiveResults to conform APIControllerProtocol
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as! Int
+            let status = response["status_code"] as! Int
             if status == 600 {
                 let alertTitle = "Internet Connection Problem"
                 let alertMessage = "Please check your Internet connection"
@@ -144,10 +144,10 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
                 return
             }
             
-            var uid = response["data"]!["id"] as! Int
+            let uid = response["data"]!["id"] as! Int
             if from == "POST_" + NSStringFromClass(Note) {
-                println("now after post_note, ready for uploading feedbacks")
-                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                print("now after post_note, ready for uploading feedbacks")
+                let modifiedAt = response["data"]!["modified_at"] as! NSNumber
                 if let newNote = sourceData as? Note {
                     newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     newNote.doPushFeedbacks(self.apiService)
@@ -161,14 +161,14 @@ class ActivityDetailTableViewController: UITableViewController, UINavigationCont
                 }
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
-                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
-                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                print("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
+                let modifiedAt = response["data"]!["modified_at"] as! NSNumber
                 if let newNoteFeedback = sourceData as? Feedback {
                     newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 }
             }
             if from == "POST_" + NSStringFromClass(Media) {
-                println("now after post_media")
+                print("now after post_media")
                 if let newNoteMedia = sourceData as? Media {
                     newNoteMedia.updateAfterPost(uid, modifiedAtFromServer: nil)
 

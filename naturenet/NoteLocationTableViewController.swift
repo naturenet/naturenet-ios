@@ -47,8 +47,8 @@ class NoteLocationTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("locationSelectionCell", forIndexPath: indexPath) as! UITableViewCell
-        var activity = self.landmarks[indexPath.row] as Context
+        let cell = tableView.dequeueReusableCellWithIdentifier("locationSelectionCell", forIndexPath: indexPath) 
+        let activity = self.landmarks[indexPath.row] as Context
         cell.textLabel?.text = activity.title
         if activity.title == selectedLocation {
             cell.accessoryType = .Checkmark
@@ -60,7 +60,7 @@ class NoteLocationTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        var selectedIndex = getLandmarkIndex(selectedLocation)
+        let selectedIndex = getLandmarkIndex(selectedLocation)
         //Other row is selected - need to deselect it
         let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0))
         cell?.accessoryType = .None
@@ -76,7 +76,7 @@ class NoteLocationTableViewController: UITableViewController {
             let cell = sender as! UITableViewCell
             let indexPath = locationsTableView.indexPathForCell(cell)
             selectedLocation = landmarks[indexPath!.row].title
-            println("selected loc \(selectedLocation)")
+            print("selected loc \(selectedLocation)")
 
         }
     }

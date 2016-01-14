@@ -39,25 +39,29 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     
     func initMap() {
         // request to authorize to use location
-        locationManager.requestAlwaysAuthorization()
-        var latitude: CLLocationDegrees = 39.195998
-        var longitude: CLLocationDegrees = -106.821823
-        var latDelta: CLLocationDegrees = 0.0005
-        var lonDelta: CLLocationDegrees = 0.0005
-        var span: MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
-        var location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
-        var region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+        if #available(iOS 8.0, *) {
+            locationManager.requestAlwaysAuthorization()
+        } else {
+            // Fallback on earlier versions
+        }
+        let latitude: CLLocationDegrees = 39.195998
+        let longitude: CLLocationDegrees = -106.821823
+        let latDelta: CLLocationDegrees = 0.0005
+        let lonDelta: CLLocationDegrees = 0.0005
+        let span: MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
+        let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+        let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
         
         acesMapView.setRegion(region, animated: true)
         acesMapView.mapType = MKMapType.Satellite
         acesMapView.showsUserLocation = true
         
         // programmatically add locaiton, camera, refresh buttonBarItems
-        var locationBtnItem = MKUserTrackingBarButtonItem(mapView: self.acesMapView)
-        var flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
-        var cameraItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Camera, target: self, action: "openCamera")
-        var refreshItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLocations")
-        var items: [UIBarButtonItem] = [locationBtnItem, flexibleSpaceItem, cameraItem, flexibleSpaceItem, refreshItem]
+        let locationBtnItem = MKUserTrackingBarButtonItem(mapView: self.acesMapView)
+        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        let cameraItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Camera, target: self, action: "openCamera")
+        let refreshItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshLocations")
+        let items: [UIBarButtonItem] = [locationBtnItem, flexibleSpaceItem, cameraItem, flexibleSpaceItem, refreshItem]
         self.toolBar.setItems(items, animated: true)
     }
     
@@ -70,7 +74,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     // mapView setup functions
     //----------------------------------------------------------------------------------------------------------------------
     
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
         if !(annotation is TourLocationAnnotation) {
             return nil
         }
@@ -80,23 +84,23 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         var anView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId)
         if anView == nil {
             anView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            anView.canShowCallout = true
+            anView!.canShowCallout = true
         }
         else {
-            anView.annotation = annotation
+            anView!.annotation = annotation
         }
         
         //Set annotation-specific properties **AFTER**
         //the view is dequeued or created...
         
         let cpa = annotation as! TourLocationAnnotation
-        anView.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
-        anView.image = UIImage(named: cpa.imageName)
+        anView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+        anView!.image = UIImage(named: cpa.imageName)
         return anView
         
     }
     
-    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         self.performSegueWithIdentifier("tourToDetail", sender: view)
     }
     
@@ -119,14 +123,14 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     }
     
     func refreshLocations() {
-        var parseService = APIService()
+        let parseService = APIService()
         parseService.delegate = self
         Site.doPullByNameFromServer(parseService, name: "aces")
     }
     
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as! Int
+            let status = response["status_code"] as! Int
             if (status == 400) {
                 var errorMessage = "We didn't recognize your NatureNet Name or Password"
                 return
@@ -139,7 +143,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
             }
             
             if from == "Site" {
-                var data = response["data"] as! NSDictionary!
+                let data = response["data"] as! NSDictionary!
                 var sitename = data["name"] as! String
                 let predicate = NSPredicate(format: "name = %@", "aces")
                 let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
@@ -166,7 +170,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
     @IBAction func openCamera() {
-        var picker:UIImagePickerController = UIImagePickerController()
+        let picker:UIImagePickerController = UIImagePickerController()
         picker.delegate = self
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
             picker.sourceType = UIImagePickerControllerSourceType.Camera
@@ -188,7 +192,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.cameraImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("tourToObservationDetail", sender: self)
@@ -199,7 +203,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     func coordinatesToLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees,
                     latDelta: CLLocationDegrees, lonDelta: CLLocationDegrees) -> CLLocationCoordinate2D {
         var span: MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
-        var location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
+        let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         return location
     }
     
@@ -208,10 +212,10 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         var lonNumber: CLLocationDegrees?
         var tourAnnotations = [TourLocationAnnotation] ()
         if let site = Session.getSite() {
-            var landmarks = site.getLandmarks()
+            let landmarks = site.getLandmarks()
             for landmark in landmarks {
-                var extras = landmark.extras
-                var tourAnnotation = TourLocationAnnotation()
+                let extras = landmark.extras
+                let tourAnnotation = TourLocationAnnotation()
                 tourAnnotation.title = landmark.title
                 // because entry "Other" has no extras, no description
                 if extras.isEmpty {
@@ -222,13 +226,13 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
                 var lonCoordinate = coordinate[1].componentsSeparatedByString(":") as [String]
                 latNumber = (latCoordinate[1] as NSString).doubleValue
                 lonNumber = (lonCoordinate[1] as NSString).doubleValue
-                var location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latNumber!, lonNumber!)
+                let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latNumber!, lonNumber!)
                 // println("location \(location.latitude) \(location.longitude)")
                 tourAnnotation.subtitle = landmark.context_description
                 tourAnnotation.coordinate = location
                 
                 var title = landmark.title.componentsSeparatedByString(".")
-                if let iconIndex = title[0].toInt() {
+                if let iconIndex = Int(title[0]) {
                     tourAnnotation.imageName = self.locationIconNames[iconIndex - 1]
                 }
                 tourAnnotations.append(tourAnnotation)

@@ -24,7 +24,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     override func viewWillAppear(animated: Bool) {
         if Session.isSignedIn() {
             signinBtn.hidden = true
-            var account = Session.getAccount()
+            let account = Session.getAccount()
             welcomeLabel.text = "Welcome, " + account!.username
             welcomeLabel.hidden = false
         } else {
@@ -63,7 +63,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     
     // The cell that is returned must be retrieved from a call to dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("homecell", forIndexPath: indexPath) as! HomeCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("homecell", forIndexPath: indexPath) as! HomeCell
         cell.mLabel.text = self.items[indexPath.row]
         // cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.whiteColor() : UIColor.lightGrayColor()
         cell.mImageView.image = UIImage(named: self.images[indexPath.row])
@@ -137,11 +137,15 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     
     // create an alert
     func createAlert(message: String) {
-        var alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if #available(iOS 8.0, *) {
+            let alert = UIAlertController(title: message, message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
 }

@@ -12,7 +12,7 @@ import UIKit
 class ImageHelper {
     
     class func createThumbCloudinaryLink(url: String, width: Int, height: Int) -> String {
-        var urlArr = split(url) { $0 == "/" }
+        let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
         var newURL = "http:"
         for str in urlArr {
             if str == "http:" {
@@ -38,7 +38,7 @@ class ImageHelper {
                 let image = UIImage(named: "networkerror")
                 imageview.image = image
             } else {
-                let image = UIImage(data: data)
+                let image = UIImage(data: data!)
                 imageview.image = image
             }
             if indicatorView != nil {

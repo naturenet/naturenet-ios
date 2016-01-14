@@ -34,24 +34,24 @@ class Note: NNModel {
             self.latitude = lat
         } else {
             self.latitude = 0.0
-            println("no latitude")
+            print("no latitude")
         }
         
         if let lon = mNote["longitude"] as? Float {
             self.longitude = lon
         } else {
             self.longitude = 0.0
-            println("no longitude")
+            print("no longitude")
         }
 
         self.content = mNote["content"] as! String
-        var contextID = mNote["context"]!["id"] as! Int
+        let contextID = mNote["context"]!["id"] as! Int
         self.context_id = contextID
         
         let contextPredicate = NSPredicate(format: "uid = \(contextID)")
         let context = NNModel.fetechEntitySingle(NSStringFromClass(Context), predicate: contextPredicate) as! Context
         self.context = context
-        var accountID = mNote["account"]!["id"] as! Int
+        let accountID = mNote["account"]!["id"] as! Int
         self.account_id = accountID
 
         let accountPredicate = NSPredicate(format: "uid = \(accountID)")
@@ -59,9 +59,9 @@ class Note: NNModel {
         self.account = account
         self.status = mNote["status"] as! String
         self.state = STATE.DOWNLOADED
-        var medias = mNote["medias"] as! NSArray
+        let medias = mNote["medias"] as! NSArray
         setMedias(medias)
-        var feedbacks = mNote["feedbacks"] as! NSArray
+        let feedbacks = mNote["feedbacks"] as! NSArray
         setFeedbacks(feedbacks)
         return self
     }
@@ -90,7 +90,7 @@ class Note: NNModel {
         }
         self.setValue(STATE.DOWNLOADED, forKey: "state")
         SwiftCoreDataHelper.saveManagedObjectContext(SwiftCoreDataHelper.nsManagedObjectContext)
-        println("note with \(self.uid) is: { \(self.toString()) } is updated")
+        print("note with \(self.uid) is: { \(self.toString()) } is updated")
         
         self.commit()
     }
@@ -98,9 +98,9 @@ class Note: NNModel {
     // give a new note save to Note data
     class func saveToCoreData(mNote: NSDictionary) -> Note {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as! Note
+        let note =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: context) as! Note
         note.parseNoteJSON(mNote)
-        println("note with \(note.uid) is: { \(note.toString()) } is saved")
+        print("note with \(note.uid) is: { \(note.toString()) } is saved")
         note.commit()
         return note
     }
@@ -109,7 +109,7 @@ class Note: NNModel {
     func setMedias(medias: NSArray) {
         for mediaDict in medias {
             let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var media =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: context) as! Media
+            let media =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: context) as! Media
             media.parseMediaJSON(mediaDict as! NSDictionary)
             media.note = self
             SwiftCoreDataHelper.saveManagedObjectContext(context)
@@ -120,7 +120,7 @@ class Note: NNModel {
     func setFeedbacks(feedbacks: NSArray) {
         for feedbackDict in feedbacks {
             let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var feedback =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: context) as! Feedback
+            let feedback =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: context) as! Feedback
             feedback.parseFeedbackJSON(feedbackDict as! NSDictionary)
             feedback.note = self
             feedback.target_model = NSStringFromClass(Note)
@@ -136,7 +136,7 @@ class Note: NNModel {
         let request = NSFetchRequest(entityName: NSStringFromClass(Media))
         request.returnsDistinctResults = false
         request.predicate = NSPredicate(format: "note = %@", self.objectID)
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        let results: NSArray = try! context.executeFetchRequest(request)
         return results
     }
     
@@ -156,14 +156,14 @@ class Note: NNModel {
         let request = NSFetchRequest(entityName: NSStringFromClass(Feedback))
         request.returnsDistinctResults = false
         request.predicate = NSPredicate(format: "note = %@", self.objectID)
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        let results: NSArray = try! context.executeFetchRequest(request)
         return results
     }
     
     // getSignleFeedback
     func getSignleFeedback() -> Feedback? {
         var landmark: Feedback?
-        var feedbacks = getFeedbacks() as! [Feedback]
+        let feedbacks = getFeedbacks() as! [Feedback]
         if feedbacks.count > 0 {
             for feedback in feedbacks {
                 if feedback.kind == "landmark" {
@@ -180,7 +180,7 @@ class Note: NNModel {
     // not straightforward, but this the way how data stored in the server
     func getLandmark() -> String? {
         var landmark: String?
-        var feedbacks = getFeedbacks() as! [Feedback]
+        let feedbacks = getFeedbacks() as! [Feedback]
         if feedbacks.count > 0 {
             for feedback in feedbacks {
                 if feedback.kind == "landmark" {
@@ -195,8 +195,8 @@ class Note: NNModel {
     // push a new note to remote server as HTTP post
     // returned JSON will be sent to apiService's delegate: ObservationsController
     override func doPushNew(apiService: APIService) -> Void {
-        var url = APIAdapter.api.getCreateNoteLink(Session.getAccount()!.username)
-        var params = ["kind": self.kind, "content": self.content, "context": self.context.name,
+        let url = APIAdapter.api.getCreateNoteLink(Session.getAccount()!.username)
+        let params = ["kind": self.kind, "content": self.content, "context": self.context.name,
                         "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Note), sourceData: self, params: params, url: url)
     }
@@ -204,8 +204,8 @@ class Note: NNModel {
     // update an existing note to remote server as HTTP post
     // returned JSON will be sent to apiService's delegate: ObservationsController
     override func doPushUpdate(apiService: APIService) {
-        var url = APIAdapter.api.getUpdateNoteLink(self.uid.integerValue)
-        var params = ["kind": self.kind, "username": self.account.username, "content": self.content, "context": self.context.name,
+        let url = APIAdapter.api.getUpdateNoteLink(self.uid.integerValue)
+        let params = ["kind": self.kind, "username": self.account.username, "content": self.content, "context": self.context.name,
             "longitude": self.longitude, "latitude": self.latitude] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Note), sourceData: self, params: params, url: url)
     }
@@ -215,7 +215,7 @@ class Note: NNModel {
         var createdAt = NSNumber(unsignedLongLong: timestamp)
         let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         var fileName = String(timestamp) + ".jpg"
-        var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(image, 1.0), name: fileName)
+        var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(image, 1.0)!, name: fileName)
         var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as! Media
         media.note = self
         media.state = NNModel.STATE.NEW
@@ -229,7 +229,7 @@ class Note: NNModel {
     // save a new note's feedback
     func doSaveFeedback(landmark: Context, timestamp: UInt64) -> Feedback {
         let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as! Feedback
+        let feedback = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Feedback), managedObjectConect: nsManagedContext) as! Feedback
         if let account = Session.getAccount() {
             feedback.account = account
         }
@@ -238,7 +238,7 @@ class Note: NNModel {
         feedback.note = self
         feedback.target_model = "Note"
         feedback.content = landmark.name
-        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        let createdAt = NSNumber(unsignedLongLong: timestamp)
         feedback.created_at = Double(createdAt)
         feedback.commit()
         return feedback

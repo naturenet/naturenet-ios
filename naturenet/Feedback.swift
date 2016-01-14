@@ -26,7 +26,7 @@ class Feedback: NNModel {
         self.kind = feedback["kind"] as! String
         self.modified_at = feedback["modified_at"] as! NSNumber
         self.created_at = feedback["created_at"] as! NSNumber
-        var accountID = feedback["account"]!["id"] as! Int
+        let accountID = feedback["account"]!["id"] as! Int
         self.account_id = accountID
         let predicate = NSPredicate(format: "uid = \(accountID)")
         // the feedback can be other user's comment in "feedbacks"
@@ -41,16 +41,16 @@ class Feedback: NNModel {
     }
     
     override func doPushNew(apiService: APIService) {
-        var posturl = APIAdapter.api.getCreateFeedbackLink(self.kind, model: self.target_model, uid: self.note.uid.integerValue, userName: self.account.username)
+        let posturl = APIAdapter.api.getCreateFeedbackLink(self.kind, model: self.target_model, uid: self.note.uid.integerValue, userName: self.account.username)
 //        println{"request feedback link is: \(posturl)"}
-        var params = ["content": self.content] as Dictionary<String, Any>
+        let params = ["content": self.content] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Feedback), sourceData: self, params: params, url: posturl)
     }
     
     override func doPushUpdate(apiService: APIService) {
-        var posturl = APIAdapter.api.getUpdateFeedbackLink(self.uid.integerValue)
+        let posturl = APIAdapter.api.getUpdateFeedbackLink(self.uid.integerValue)
         //        println{"request feedback link is: \(posturl)"}
-        var params = ["content": self.content, "username": self.account.username] as Dictionary<String, Any>
+        let params = ["content": self.content, "username": self.account.username] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Feedback), sourceData: self, params: params, url: posturl)
     }
 

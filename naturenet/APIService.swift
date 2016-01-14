@@ -33,17 +33,22 @@ class APIService {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             var error: NSError?
             if error != nil {
-                println(error!)
+                print(error!)
                 var erorrMessage = ["status_code" : APIService.CRASHERROR]
                 self.delegate?.didReceiveResults(from, sourceData: nil, response: erorrMessage)
             } else {
-                if  let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &error) as? NSDictionary {
-                    self.delegate?.didReceiveResults(from, sourceData: nil, response: jsonResult)
+                do
+                {
+                    let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+                    if (jsonResult != nil)  {
+                        self.delegate?.didReceiveResults(from, sourceData: nil, response: jsonResult!)
 
-                } else {
-                    var message = ["status_code" : APIService.CRASHERROR]
-                    self.delegate?.didReceiveResults(from,sourceData: nil, response: message)
+                    } else {
+                        var message = ["status_code" : APIService.CRASHERROR]
+                        self.delegate?.didReceiveResults(from,sourceData: nil, response: message)
+                    }
                 }
+                catch { }
             }
         })
         
@@ -65,37 +70,42 @@ class APIService {
 
         var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            var strData = NSString(data: data, encoding: NSUTF8StringEncoding)
+            var strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
             // println("Body: \(strData)")
             var err: NSError?
-            var json = NSJSONSerialization.JSONObjectWithData(data, options: .MutableLeaves, error: &err) as? NSDictionary
             
-            // Did the JSONObjectWithData constructor return an error? If so, log the error to the console
-            if(err != nil) {
-                println(err!.localizedDescription)
-                let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println("Error could not parse JSON: '\(jsonStr)'")
-                var erorrMessage = ["status_code" : APIService.CRASHERROR]
-                self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
-            }
-            else {
-                // The JSONObjectWithData constructor didn't return an error. But, we should still
-                // check and make sure that json has a value using optional binding.
-                if let parseJSON = json {
-                    // Okay, the parsedJSON is here, let's get the value for 'success' out of it
-                    var success = parseJSON["status_code"] as? Int
-                    // println("Succes: \(success)")
-                    self.delegate?.didReceiveResults(source, sourceData: sourceData, response: parseJSON)
-                }
-                else {
-                    // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
-                    let jsonStr = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    println("Error could not parse JSON: \(jsonStr)")
+            do {
+            
+                var json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves) as? NSDictionary
+                
+                // Did the JSONObjectWithData constructor return an error? If so, log the error to the console
+                if(err != nil) {
+                    print(err!.localizedDescription)
+                    let jsonStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                    print("Error could not parse JSON: '\(jsonStr)'")
                     var erorrMessage = ["status_code" : APIService.CRASHERROR]
                     self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
+                }
+                else {
+                    // The JSONObjectWithData constructor didn't return an error. But, we should still
+                    // check and make sure that json has a value using optional binding.
+                    if let parseJSON = json {
+                        // Okay, the parsedJSON is here, let's get the value for 'success' out of it
+                        var success = parseJSON["status_code"] as? Int
+                        // println("Succes: \(success)")
+                        self.delegate?.didReceiveResults(source, sourceData: sourceData, response: parseJSON)
+                    }
+                    else {
+                        // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
+                        let jsonStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                        print("Error could not parse JSON: \(jsonStr)")
+                        var erorrMessage = ["status_code" : APIService.CRASHERROR]
+                        self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
 
+                    }
                 }
             }
+            catch {}
         })
         
         task.resume()

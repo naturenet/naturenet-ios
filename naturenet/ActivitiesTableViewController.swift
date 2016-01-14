@@ -80,17 +80,17 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("activitiesCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("activitiesCell", forIndexPath: indexPath) 
         var activityIconURL: String!
         var isJSONActivity: Bool = false
         
         if indexPath.section == 0 {
-            var activity = self.acesActivities[indexPath.row] as Context
+            let activity = self.acesActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
             let birdsURLs = activity.extras as NSString
             // check the link is in a JSON String or not, if it is in a JSON object, get the value from "Icon" key
             if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
-                if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                if let json = (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary {
                     if let isBirdActivity = json["type"] as? String {
                         isJSONActivity = true
                     }
@@ -102,15 +102,15 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             } else {
                 activityIconURL = birdsURLs as String
             }
-            var cellActivity: TableviewCellActivity = TableviewCellActivity(cellSection: indexPath.section, cellIndexPath: indexPath, isBirdActivity: isJSONActivity)
+            let cellActivity: TableviewCellActivity = TableviewCellActivity(cellSection: indexPath.section, cellIndexPath: indexPath, isBirdActivity: isJSONActivity)
             self.cellActivities.append(cellActivity)
         }
         
         if indexPath.section == 1 {
-            var activity = self.nonAcesActivities[indexPath.row] as Context
+            let activity = self.nonAcesActivities[indexPath.row] as Context
             activityIconURL = activity.extras
             if let data = activityIconURL.dataUsingEncoding(NSUTF8StringEncoding)  {
-                if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                if let json = (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary {
                     activityIconURL = json["Icon"] as! String
                     cell.textLabel?.text = activity.title
 
@@ -159,13 +159,13 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
         if segue.identifier == "birdActivity" {
             let destinationVC = segue.destinationViewController as! BirdActivityTableViewController
             if let indexPath = sender as? NSIndexPath {
-                var activity = self.acesActivities[indexPath.row] as Context
+                let activity = self.acesActivities[indexPath.row] as Context
                 // destinationVC.activity = activity
                 destinationVC.activityDescription = activity.context_description
                 destinationVC.navigationItem.title = activity.title
                 let birdsURLs = activity.extras as NSString
                 if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
-                    let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as! NSDictionary
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                     destinationVC.activityThumbURL = json["Icon"] as! String
                     if let birdsJSON = json["Birds"] as? [NSDictionary] {
                         let birds = self.convertBirdJSONToBirds(birdsJSON)
@@ -199,7 +199,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
                     cell.imageView?.image = image
                     
                 } else {
-                    let image = UIImage(data: data)
+                    let image = UIImage(data: data!)
                     cell.imageView?.image = image
                 }
             })
@@ -211,7 +211,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     private func convertBirdJSONToBirds(birdsJSON: [NSDictionary]) -> [BirdActivityTableViewController.BirdCount] {
         var birds: [BirdActivityTableViewController.BirdCount] = []
         for birdJSON in birdsJSON {
-            var bird = BirdActivityTableViewController.BirdCount()
+            let bird = BirdActivityTableViewController.BirdCount()
             if let name = birdJSON["name"] as? String {
                 bird.name = name
             }
@@ -227,7 +227,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     
     // pull to refresh
     @IBAction func refreshActivityList() {
-        var parseService = APIService()
+        let parseService = APIService()
         parseService.delegate = self
         Site.doPullByNameFromServer(parseService, name: "aces")
         Site.doPullByNameFromServer(parseService, name: "elsewhere")
@@ -236,7 +236,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     // after getting data from server
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as! Int
+            let status = response["status_code"] as! Int
             if (status == 400) {
                 var errorMessage = "We didn't recognize your NatureNet Name or Password"
                 return
@@ -250,7 +250,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
             }
             
             if from == "Site" {
-                var data = response["data"] as! NSDictionary!
+                let data = response["data"] as! NSDictionary!
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
@@ -265,7 +265,7 @@ class ActivitiesTableViewController: UITableViewController, APIControllerProtoco
     
     // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
-        var sitename = data["name"] as! String
+        let sitename = data["name"] as! String
         let predicate = NSPredicate(format: "name = %@", sitename)
         let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
         if exisitingSite != nil {

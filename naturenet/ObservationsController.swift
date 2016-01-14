@@ -60,9 +60,9 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         var uploadNumbers: Int = 0
         for data in celldata {
             if data.getStatus() == "ready to send" {
-                var noteObjectId = data.objectID
+                let noteObjectId = data.objectID
                 let predicate = NSPredicate(format: "self = %@", noteObjectId)
-                var note = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as! Note
+                let note = NNModel.fetechEntitySingle(NSStringFromClass(Note), predicate: predicate) as! Note
                 self.receivedNoteFromObservation = nil
                 note.push(self.apiService)
                 uploadNumbers++
@@ -81,7 +81,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // in the background thread.
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as! Int
+            let status = response["status_code"] as! Int
             if status == 600 {
                 if let note = sourceData as? Note {
                     self.updateReceivedNoteStatus(note)
@@ -92,10 +92,10 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
             
-            var uid = response["data"]!["id"] as! Int
+            let uid = response["data"]!["id"] as! Int
             if from == "POST_" + NSStringFromClass(Note) {
-                println("now after post_note, ready for uploading feedbacks")
-                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                print("now after post_note, ready for uploading feedbacks")
+                let modifiedAt = response["data"]!["modified_at"] as! NSNumber
                 if let newNote = sourceData as? Note {
                     newNote.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                     newNote.doPushFeedbacks(self.apiService)
@@ -112,14 +112,14 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 }
             }
             if from == "POST_" + NSStringFromClass(Feedback) {
-                println("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
-                var modifiedAt = response["data"]!["modified_at"] as! NSNumber
+                print("now after post_feedback, if this is a new note, ready for uploading to cloudinary, otherwise, do update")
+                let modifiedAt = response["data"]!["modified_at"] as! NSNumber
                 if let newNoteFeedback = sourceData as? Feedback {
                     newNoteFeedback.updateAfterPost(uid, modifiedAtFromServer: modifiedAt)
                 }
             }
             if from == "POST_" + NSStringFromClass(Media) {
-                println("now after post_media")
+                print("now after post_media")
                 if let newNoteMedia = sourceData as? Media {
                     newNoteMedia.updateAfterPost(uid, modifiedAtFromServer: nil)
                     self.updateReceivedNoteStatus(newNoteMedia.note)
@@ -140,8 +140,8 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     // The cell that is returned must be retrieved from a call to dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("obscell", forIndexPath: indexPath) as! HomeCell
-        var cellImage = self.celldata[indexPath.row] as ObservationCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("obscell", forIndexPath: indexPath) as! HomeCell
+        let cellImage = self.celldata[indexPath.row] as ObservationCell
         self.showImageIntoCell(cellImage, cell: cell, indexPath: indexPath)
         return cell
     }
@@ -200,7 +200,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     
     // refresh data
     func updateCollectionView(note: Note, media: Media) {
-        var newCell = ObservationCell(objectID: note.objectID, state: note.state.integerValue,
+        let newCell = ObservationCell(objectID: note.objectID, state: note.state.integerValue,
             modifiedAt: note.modified_at)
         newCell.localFullPath = media.full_path
         celldata.insert(newCell, atIndex: 0)
@@ -238,38 +238,41 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     // pick from camera or gallary
     //----------------------------------------------------------------------------------------------------------------------
     @IBAction func pickImage(sender: AnyObject) {
-        var picker:UIImagePickerController = UIImagePickerController()
+        let picker:UIImagePickerController = UIImagePickerController()
         // remember to assign delegate to self
         picker.delegate = self
         self.pickedImage = PickedImage(image: nil, isFromGallery: false)
         
         var popover:UIPopoverController?
-        var alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-        
-        var cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
-            UIAlertAction in
-            self.openCamera(picker)
-        }
-        
-        var gallaryAction = UIAlertAction(title: "Gallery", style: UIAlertActionStyle.Default) {
-            UIAlertAction in
-            self.openGallary(picker)
-        }
-        var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
-            UIAlertAction in
-            self.imagePickerControllerDidCancel(picker)
-        }
-        
-        // Add the actions
-        alert.addAction(cameraAction)
-        alert.addAction(gallaryAction)
-        alert.addAction(cancelAction)
-        // Present the actionsheet
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else {
-            popover = UIPopoverController(contentViewController: alert)
+        if #available(iOS 8.0, *) {
+            let alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.openCamera(picker)
+            }
+            
+            let gallaryAction = UIAlertAction(title: "Gallery", style: UIAlertActionStyle.Default) {
+                UIAlertAction in
+                self.openGallary(picker)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+                UIAlertAction in
+                self.imagePickerControllerDidCancel(picker)
+            }
+            
+            // Add the actions
+            alert.addAction(cameraAction)
+            alert.addAction(gallaryAction)
+            alert.addAction(cancelAction)
+            // Present the actionsheet
+            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            else {
+                popover = UIPopoverController(contentViewController: alert)
+            }
+        } else {
+            // Fallback on earlier versions
         }
     }
     
@@ -297,7 +300,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
     }
     
     // after picking or taking a photo didFinishPickingMediaWithInfo
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         self.pickedImage?.image = info[UIImagePickerControllerOriginalImage] as? UIImage
         self.performSegueWithIdentifier("ObservationsToDetail", sender: self)
@@ -320,13 +323,13 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             return
         }
         if let account = Session.getAccount() {
-            var notes = account.getNotes()
+            let notes = account.getNotes()
             for note in notes {
-                var mNote = note as Note
-                var medias = mNote.getMedias()
+                let mNote = note as Note
+                let medias = mNote.getMedias()
                 // println("you have \(medias.count) medias")
                 for media in medias {
-                    var mMedia = media as! Media
+                    let mMedia = media as! Media
                     // url is empty, but has fullpath or thumbpath, then check whether the file exists
                     if mMedia.url == nil {
                         let fileManager = NSFileManager.defaultManager()
@@ -336,7 +339,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                         }
                     }
                     
-                    var obscell = ObservationCell(objectID: mNote.objectID,
+                    let obscell = ObservationCell(objectID: mNote.objectID,
                         state: mNote.state.integerValue, modifiedAt: mNote.modified_at)
                     if let tPath = mMedia.thumb_path {
                         obscell.localThumbPath = tPath
@@ -350,7 +353,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                     celldata.append(obscell)
                 }
             }
-            celldata.sort({$0.modifiedAt.longLongValue > $1.modifiedAt.longLongValue})
+            celldata.sortInPlace({$0.modifiedAt.longLongValue > $1.modifiedAt.longLongValue})
         }
     }
     
@@ -384,7 +387,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         }
         
         if let imageurl = cellImage.imageURL {
-            var url = cellImage.getThumbnailURL()
+            let url = cellImage.getThumbnailURL()
             let nsurl = NSURL(string: url)
             self.loadImageFromWeb(nsurl!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
         }
@@ -398,25 +401,25 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             if error != nil {
                 
             } else {
-                let image = UIImage(data: data)
+                let image = UIImage(data: data!)
                 cell.mImageView.image = image
                 activityIndicator.stopAnimating()
                 activityIndicator.removeFromSuperview()
                 var cellImage = self.celldata[index] as ObservationCell
-                self.saveImageThumb(cellImage, data: data)
+                self.saveImageThumb(cellImage, data: data!)
             }
         })
     }
     
     func saveImageThumb(cellImage: ObservationCell, data: NSData) {
-        var fileName = String(cellImage.modifiedAt.longLongValue) + ".jpg"
-        var tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
+        let fileName = String(cellImage.modifiedAt.longLongValue) + ".jpg"
+        let tPath: String = ObservationCell.saveToDocumentDirectory(data, name: fileName)!
         cellImage.localThumbPath = tPath
-        var predicate = NSPredicate(format: "SELF = %@", cellImage.objectID)
+        let predicate = NSPredicate(format: "SELF = %@", cellImage.objectID)
         
-        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
         if let mNote = SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: nsManagedContext) as? Note {
-            var media = mNote.getSingleMedia()
+            let media = mNote.getSingleMedia()
             media!.setLocalThumbPath(tPath)
         }
     }
@@ -460,7 +463,7 @@ class ObservationCell {
     }
     
     func getThumbnailURL() -> String {
-        var urlArr = split(imageURL!) {$0 == "/"}
+        let urlArr = (imageURL!).characters.split {$0 == "/"}.map { String($0) }
         var newURL = "http:"
         for str in urlArr {
             if str == "http:" {

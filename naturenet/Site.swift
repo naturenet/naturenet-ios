@@ -19,13 +19,13 @@ class Site: NNModel {
     
     // pull info from remote server
     class func doPullByNameFromServer(parseService: APIService, name: String) {
-        var siteUrl = APIAdapter.api.getSiteLink(name)
+        let siteUrl = APIAdapter.api.getSiteLink(name)
         parseService.getResponse(NSStringFromClass(Site), url: siteUrl)
     }
     
     class func saveToCoreData(data: NSDictionary) -> Site {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as! Site
+        let mSite =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Site), managedObjectConect: managedContext) as! Site
         mSite.parseJSON(data)
         mSite.commit()
         return mSite
@@ -39,16 +39,16 @@ class Site: NNModel {
 //            managedContext.deleteObject(context)
 //        }
         
-        var contexts = data["contexts"] as! NSArray
+        let contexts = data["contexts"] as! NSArray
         for tContext in contexts {
             let uid = tContext["id"] as! Int
-            var predicate = NSPredicate(format: "uid = \(uid)")
-            if var mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as? Context {
+            let predicate = NSPredicate(format: "uid = \(uid)")
+            if let mContext =  SwiftCoreDataHelper.fetchEntitySingle(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext) as? Context {
                 mContext.updateToCoreData(tContext as! NSDictionary)
 //                mContext.site = self
 
             } else {
-                var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as! Context
+                let mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as! Context
                 mContext.parseContextJSON(tContext as! NSDictionary)
                 mContext.site_uid = self.uid
                 // mContext.site = self
@@ -65,7 +65,7 @@ class Site: NNModel {
     func parseJSON(data: NSDictionary) -> Site {
         self.created_at = NSNumber(unsignedLongLong: UInt64(NSDate().timeIntervalSince1970 * 1000))
         self.name = data["name"] as! String
-        var contexts = data["contexts"] as! NSArray
+        let contexts = data["contexts"] as! NSArray
         self.site_description = data["description"] as! String
         self.image_url = data["image_url"] as! String
         self.state = STATE.DOWNLOADED
@@ -83,7 +83,7 @@ class Site: NNModel {
         
         for tContext in contexts {
             let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-            var mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as! Context
+            let mContext =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Context), managedObjectConect: managedContext) as! Context
             mContext.parseContextJSON(tContext as! NSDictionary)
             mContext.site_uid = self.uid
 //            mContext.site = self
@@ -98,14 +98,14 @@ class Site: NNModel {
     func getContexts() -> NSArray {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         // let predicate = NSPredicate(format: "site = %@", self.objectID)
-        var predicate = NSPredicate(format: "site_uid = \(self.uid)")
-        var sitecontexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext)
+        let predicate = NSPredicate(format: "site_uid = \(self.uid)")
+        let sitecontexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: predicate, managedObjectContext: managedContext)
         return sitecontexts
     }
     
     // get landmarks
     func getLandmarks() -> [Context] {
-        var contexts = getContexts() as! [Context]
+        let contexts = getContexts() as! [Context]
         var landmarks = [Context]()
         for context in contexts {
             if context.kind == "Landmark" {
@@ -124,7 +124,7 @@ class Site: NNModel {
         }
         
         for tContext in contexts {
-            var contextUID = tContext["id"] as! Int
+            let contextUID = tContext["id"] as! Int
             var name = tContext["name"] as! String
             var cDescription: String?
             if tContext["description"] != nil {
@@ -132,12 +132,12 @@ class Site: NNModel {
             }
             
             var extras: String?
-            if var ext = tContext["extras"] as? String {
+            if let ext = tContext["extras"] as? String {
                 extras = ext as String
             }
-            var title = tContext["title"] as! String
-            var kind = tContext["kind"] as! String
-            var contextDict: [String: AnyObject?]  = ["uid": contextUID, "description": cDescription, "title": title, "kind": kind, "extras": extras]
+            let title = tContext["title"] as! String
+            let kind = tContext["kind"] as! String
+            let contextDict: [String: AnyObject?]  = ["uid": contextUID, "description": cDescription, "title": title, "kind": kind, "extras": extras]
             contextDictArrays.append(contextDict)
         }
         
@@ -146,7 +146,7 @@ class Site: NNModel {
     }
 
     func toString() -> String {
-        var string = "name: \(name) uid: \(uid) created: \(created_at) state: \(state)"
+        let string = "name: \(name) uid: \(uid) created: \(created_at) state: \(state)"
         return string
     }
 

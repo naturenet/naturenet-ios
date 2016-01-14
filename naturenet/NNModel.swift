@@ -47,7 +47,7 @@ class NNModel: NSManagedObject {
         if name != nil {
             request.predicate = NSPredicate(format: "\(attr) = %@", name!)
         }
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        let results: NSArray = try! context.executeFetchRequest(request)
         if results.count > 0 {
             for res in results {
                 if let tModel = res as? NNModel {
@@ -55,7 +55,7 @@ class NNModel: NSManagedObject {
                 }
             }
         } else {
-            println("no matched in doPullByNameFromCoreData")
+            print("no matched in doPullByNameFromCoreData")
         }
         return model
     }
@@ -68,7 +68,7 @@ class NNModel: NSManagedObject {
         let request = NSFetchRequest(entityName: entityname)
         request.returnsDistinctResults = false
         request.predicate = NSPredicate(format: "uid = \(uid)")
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        let results: NSArray = try! context.executeFetchRequest(request)
         if results.count > 0 {
             for res in results {
                 if let tModel = res as? NNModel {
@@ -76,7 +76,7 @@ class NNModel: NSManagedObject {
                 }
             }
         } else {
-            println("no matched in doPullByUIDFromCoreData")
+            print("no matched in doPullByUIDFromCoreData")
         }
         return model
     }
@@ -87,7 +87,7 @@ class NNModel: NSManagedObject {
         let request = NSFetchRequest(entityName: entityname)
         request.returnsDistinctResults = false
         request.predicate = predicate
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        let results: NSArray = try! context.executeFetchRequest(request)
         if results.count > 0 {
             for res in results {
                 if let tModel = res as? NNModel {
@@ -95,7 +95,7 @@ class NNModel: NSManagedObject {
                 }
             }
         } else {
-            println("no matched entity in fetechEntitySingle")
+            print("no matched entity in fetechEntitySingle")
         }
         return model
     }

@@ -68,7 +68,7 @@ class Media: NNModel, CLUploaderDelegate {
     
     func doPushNew(apiService: APIService, params: Dictionary<String, Any>) {
         self.apiService = apiService
-        var posturl = APIAdapter.api.getCreateMediaLink(self.note.uid.integerValue)
+        let posturl = APIAdapter.api.getCreateMediaLink(self.note.uid.integerValue)
         self.apiService!.post(NSStringFromClass(Media), sourceData: self, params: params, url: posturl)
     }
     
@@ -76,7 +76,7 @@ class Media: NNModel, CLUploaderDelegate {
     // cloudinary upload
     func uploadToCloudinary() {
         var image = UIImage(named: self.full_path!)
-        let forUpload = UIImageJPEGRepresentation(image, 0.6) as NSData
+        let forUpload = UIImageJPEGRepresentation(image!, 0.6)! as NSData
         cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
         cloudinary.config().setValue("893246586645466", forKey: "api_key")
         cloudinary.config().setValue("8Liy-YcDCvHZpokYZ8z3cUxCtyk", forKey: "api_secret")
@@ -87,17 +87,17 @@ class Media: NNModel, CLUploaderDelegate {
     func onCloudinaryCompletion(successResult:[NSObject : AnyObject]!, errorResult:String!, code:Int, idContext:AnyObject!) {
         let publicId = successResult["public_id"] as! String
         self.url = successResult["url"] as? String
-        println("now cloudinary uploaded, public id is: \(publicId), ready for uploading media")
+        print("now cloudinary uploaded, public id is: \(publicId), ready for uploading media")
         // push media after cloudinary is finished
-        var params = ["link": publicId] as Dictionary<String, Any>
+        let params = ["link": publicId] as Dictionary<String, Any>
         self.doPushNew(self.apiService!, params: params)
     }
     
     func onCloudinaryProgress(bytesWritten:Int, totalBytesWritten:Int, totalBytesExpectedToWrite:Int, idContext:AnyObject!) {
         //do any progress update you may need
-        var progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
+        let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite) as Float
         self.updateProgressDelegate?.onUpdateProgress(progress)
-        println("uploading to cloudinary... wait! \(progress * 100)%")
+        print("uploading to cloudinary... wait! \(progress * 100)%")
     }
     
     

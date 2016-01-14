@@ -52,17 +52,17 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("designIdeaListCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("designIdeaListCell", forIndexPath: indexPath) 
         var activityIconURL: String!
         var isJSONActivity: Bool = false
         
         if indexPath.section == 0 {
-            var activity = self.ideaActivities[indexPath.row] as Context
+            let activity = self.ideaActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
             let birdsURLs = activity.extras as NSString
             // check the link is in a JSON String or not, if it is in a JSON object, get the value from "Icon" key
             if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
-                if let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary {
+                if let json = (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary {
                     if let isBirdActivity = json["type"] as? String {
                         isJSONActivity = true
                     }
@@ -112,7 +112,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         if let acesSite = Session.getSiteByName(ACESSITENAME) {
             self.ideaActivities = Session.getActiveContextsBySite("Design", site: acesSite) as [Context]
             // sort the list of ideas
-            self.ideaActivities.sort({ $0.uid.compare($1.uid) == NSComparisonResult.OrderedDescending })
+            self.ideaActivities.sortInPlace({ $0.uid.compare($1.uid) == NSComparisonResult.OrderedDescending })
         }
     }
     
@@ -126,7 +126,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
                     cell.imageView?.image = image
                     
                 } else {
-                    let image = UIImage(data: data)
+                    let image = UIImage(data: data!)
                     cell.imageView?.image = image
                 }
             })
@@ -136,7 +136,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     
     // pull to refresh or refresh
     @IBAction func refreshActivityList() {
-        var parseService = APIService()
+        let parseService = APIService()
         parseService.delegate = self
         Site.doPullByNameFromServer(parseService, name: "aces")
     }
@@ -149,7 +149,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     // after getting data from server
     func didReceiveResults(from: String, sourceData: NNModel?, response: NSDictionary) -> Void {
         dispatch_async(dispatch_get_main_queue(), {
-            var status = response["status_code"] as! Int
+            let status = response["status_code"] as! Int
             if (status == 400) {
                 var errorMessage = "We didn't recognize your NatureNet Name or Password"
                 return
@@ -163,7 +163,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
             }
             
             if from == "Site" {
-                var data = response["data"] as! NSDictionary!
+                let data = response["data"] as! NSDictionary!
                 var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
@@ -177,7 +177,7 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     
     // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
-        var sitename = data["name"] as! String
+        let sitename = data["name"] as! String
         let predicate = NSPredicate(format: "name = %@", sitename)
         let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
         if exisitingSite != nil {

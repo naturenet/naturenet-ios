@@ -20,7 +20,7 @@ class Account: NNModel {
 
     // pull info from remote server
     class func doPullByNameFromServer(parseService: APIService, name: String) {
-        var accountUrl = APIAdapter.api.getAccountLink(name)
+        let accountUrl = APIAdapter.api.getAccountLink(name)
         parseService.getResponse(NSStringFromClass(Account), url: accountUrl)
     }
     
@@ -46,9 +46,9 @@ class Account: NNModel {
     // save a new account in core data
     class func saveToCoreData(mAccount: NSDictionary) -> Account {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as! Account
+        let account =  SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Account), managedObjectConect: context) as! Account
         account.parseJSON(mAccount)
-        println("account with \(account.uid) is: { \(account.toString()) } is saved")
+        print("account with \(account.uid) is: { \(account.toString()) } is saved")
         account.commit()
         return account
     }
@@ -56,15 +56,15 @@ class Account: NNModel {
     // push a new user to remote server as HTTP post
     // returned JSON will be sent to apiService's delegate: ObservationsController
     override func doPushNew(apiService: APIService) -> Void {
-        var url = APIAdapter.api.getCreateAccountLink(self.username)
-        var params = ["name": self.name, "password": self.password, "email": self.email] as Dictionary<String, Any>
+        let url = APIAdapter.api.getCreateAccountLink(self.username)
+        let params = ["name": self.name, "password": self.password, "email": self.email] as Dictionary<String, Any>
         apiService.post(NSStringFromClass(Account), sourceData: self,  params: params, url: url)
     }
     
     func getNotes() -> [Note] {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var predicate = NSPredicate(format: "account = %@", self.objectID)
-        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: context) as! [Note]
+        let predicate = NSPredicate(format: "account = %@", self.objectID)
+        let results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: predicate, managedObjectContext: context) as! [Note]
         return results
     }
     
@@ -73,8 +73,8 @@ class Account: NNModel {
         let context: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         let predicate = NSPredicate(format: "account = %@", self.objectID)
         let predicate2 = NSPredicate(format: "context = %@", activity.objectID)
-        let compound = NSCompoundPredicate.andPredicateWithSubpredicates([predicate, predicate2])
-        var results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: compound, managedObjectContext: context) as! [Note]
+        let compound = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, predicate2])
+        let results = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Note), withPredicate: compound, managedObjectContext: context) as! [Note]
         
         // println("got \(results.count) results")
         return results
@@ -82,8 +82,8 @@ class Account: NNModel {
     }
     
     func saveNote(selectedActivity: Context, content: String?, longitude: NSNumber?, latitude: NSNumber?) -> Note {
-        var nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
+        let nsManagedContext = SwiftCoreDataHelper.nsManagedObjectContext
+        let mNote = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Note), managedObjectConect: nsManagedContext) as! Note
         if longitude != nil && latitude != nil {
             mNote.longitude = longitude!
             mNote.latitude = latitude!
@@ -101,14 +101,14 @@ class Account: NNModel {
     
     // toString, debug use
     func toString() -> String {
-        var string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"
+        let string = "username: \(username) pass: \(password) uid: \(uid)  modified: \(modified_at) username: \(username) state: \(state)"
         return string
     }
     
     // pull this user's note
     func pullnotes(parseService: APIService) {
-        var accountUrl = APIAdapter.api.getAccountNotesLink(self.username)
-        println("api service is from \(NSStringFromClass(Note)) url is: \(accountUrl) " )
+        let accountUrl = APIAdapter.api.getAccountNotesLink(self.username)
+        print("api service is from \(NSStringFromClass(Note)) url is: \(accountUrl) " )
         parseService.getResponse(NSStringFromClass(Note), url: accountUrl)
     }
     

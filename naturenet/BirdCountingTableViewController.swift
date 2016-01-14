@@ -49,7 +49,7 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     
     // The cell that is returned must be retrieved from a call to dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("birdcell", forIndexPath: indexPath) as! BirdCountingCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("birdcell", forIndexPath: indexPath) as! BirdCountingCollectionViewCell
         // cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.whiteColor() : UIColor.lightGrayColor()
         cell.loadingIndicator.hidden = false
         cell.loadingIndicator.startAnimating()
@@ -170,7 +170,7 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
     }
     
     func sendPressed() {
-        println("bird send")
+        print("bird send")
     }
     
     private func loadImageFromWeb(iconURL: String, imageview: UIImageView, indicatorView: UIActivityIndicatorView?) {
@@ -180,7 +180,7 @@ class BirdCountingTableViewController: UITableViewController, UICollectionViewDe
             response, data, error in
             if error != nil {
             } else {
-                let image = UIImage(data: data)
+                let image = UIImage(data: data!)
                 imageview.image = image
                 if indicatorView != nil {
                     indicatorView!.hidden = true
