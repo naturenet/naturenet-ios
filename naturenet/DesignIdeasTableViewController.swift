@@ -54,8 +54,8 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("designIdeaListCell", forIndexPath: indexPath) 
         var activityIconURL: String!
-        var isJSONActivity: Bool = false
-        
+        // var isJSONActivity: Bool = false
+      
         if indexPath.section == 0 {
             let activity = self.ideaActivities[indexPath.row] as Context
             cell.textLabel?.text = activity.title
@@ -63,8 +63,8 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
             // check the link is in a JSON String or not, if it is in a JSON object, get the value from "Icon" key
             if let data = birdsURLs.dataUsingEncoding(NSUTF8StringEncoding)  {
                 if let json = (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary {
-                    if let isBirdActivity = json["type"] as? String {
-                        isJSONActivity = true
+                    if let _ = json["type"] as? String {
+                        // isJSONActivity = true
                     }
                     activityIconURL = json["Icon"] as! String
                     
@@ -83,7 +83,6 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
             self.performSegueWithIdentifier("designIdeaDetail", sender: indexPath)
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"Back", style: .Plain, target: nil, action: nil)
         }
@@ -151,20 +150,20 @@ class DesignIdeasTableViewController: UITableViewController, APIControllerProtoc
         dispatch_async(dispatch_get_main_queue(), {
             let status = response["status_code"] as! Int
             if (status == 400) {
-                var errorMessage = "We didn't recognize your NatureNet Name or Password"
+                let errorMessage = "We didn't recognize your NatureNet Name or Password"
+                print(errorMessage)
                 return
             }
             
             // 600 is self defined error code on the phone's side
             if (status == APIService.CRASHERROR) {
-                var errorMessage = "Internet seems not working"
-                // self.createAlert(errorMessage)
+                let errorMessage = "Internet seems not working"
+                print(errorMessage)
                 return
             }
             
             if from == "Site" {
                 let data = response["data"] as! NSDictionary!
-                var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
             // reload the data for tableView

@@ -74,7 +74,7 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     // mapView setup functions
     //----------------------------------------------------------------------------------------------------------------------
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if !(annotation is TourLocationAnnotation) {
             return nil
         }
@@ -132,19 +132,20 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
         dispatch_async(dispatch_get_main_queue(), {
             let status = response["status_code"] as! Int
             if (status == 400) {
-                var errorMessage = "We didn't recognize your NatureNet Name or Password"
+                let errorMessage = "We didn't recognize your NatureNet Name or Password"
+                print(errorMessage)
                 return
             }
             
             // 600 is self defined error code on the phone's side
             if (status == 600) {
-                var errorMessage = "Internet seems not working"
+                let errorMessage = "Internet seems not working"
+                print(errorMessage)
                 return
             }
             
             if from == "Site" {
                 let data = response["data"] as! NSDictionary!
-                var sitename = data["name"] as! String
                 let predicate = NSPredicate(format: "name = %@", "aces")
                 let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
                 if exisitingSite != nil {
@@ -202,7 +203,6 @@ class TourViewController: UIViewController, MKMapViewDelegate, UINavigationContr
     // given latitude and longtitude, return CLLocationCoordinate2D
     func coordinatesToLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees,
                     latDelta: CLLocationDegrees, lonDelta: CLLocationDegrees) -> CLLocationCoordinate2D {
-        var span: MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
         let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude, longitude)
         return location
     }

@@ -57,30 +57,29 @@ class ProfileViewController: UITableViewController, UINavigationControllerDelega
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "profileToDesignIdea" {
-            let destinationVC = segue.destinationViewController as! DesignIdeasTableViewController
+            let _ = segue.destinationViewController as! DesignIdeasTableViewController
         }
     }
         
     func createPopAlert() {
-        var popover:UIPopoverController?
-        var title = "Before you sign out, do you have any suggestions to make NatureNet better?"
+        let title = "Before you sign out, do you have any suggestions to make NatureNet better?"
         if #available(iOS 8.0, *) {
-            var alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            let alert:UIAlertController = UIAlertController(title: title, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         
-            var singoutAction = UIAlertAction(title: "Sign me out", style: UIAlertActionStyle.Destructive) {
+            let singoutAction = UIAlertAction(title: "Sign me out", style: UIAlertActionStyle.Destructive) {
                 UIAlertAction in
                 Session.signOut()
                 self.navigationController?.popToRootViewControllerAnimated(true)
             }
             
-            var yesAction = UIAlertAction(title: "Leave a design idea", style: UIAlertActionStyle.Default) {
+            let yesAction = UIAlertAction(title: "Leave a design idea", style: UIAlertActionStyle.Default) {
                 UIAlertAction in
                 self.performSegueWithIdentifier("profileToDesignIdea", sender: self)
 
             }
             
-            var cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
                 UIAlertAction in
             }
  
@@ -94,7 +93,7 @@ class ProfileViewController: UITableViewController, UINavigationControllerDelega
                 self.presentViewController(alert, animated: true, completion: nil)
             }
             else {
-                popover = UIPopoverController(contentViewController: alert)
+                // popover = UIPopoverController(contentViewController: alert)
             }
         } else {
             // Fallback on earlier versions
@@ -109,7 +108,7 @@ class ProfileViewController: UITableViewController, UINavigationControllerDelega
     
     private func setupTableView() {
         if let account = Session.getAccount() {
-            var notes = account.getNotes()
+            let notes = account.getNotes()
             var numOfDesginIdeas = 0
             var numOfObservations = 0
             

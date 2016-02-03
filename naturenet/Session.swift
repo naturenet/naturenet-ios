@@ -18,7 +18,6 @@ class Session: NSManagedObject {
     @NSManaged var site: Site
     
     class var sharedInstance: Session {
-        let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
         struct Singleton {
             // static let instance = SwiftCoreDataHelper.getEntityByModelName(NSStringFromClass(Session), managedObjectContext: managedContext) as Session
              static let instance = Session()

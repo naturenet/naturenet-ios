@@ -212,11 +212,11 @@ class Note: NNModel {
  
     // save a new note's media
     func doSaveMedia(image: UIImage, timestamp: UInt64) -> Media {
-        var createdAt = NSNumber(unsignedLongLong: timestamp)
+        let createdAt = NSNumber(unsignedLongLong: timestamp)
         let nsManagedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-        var fileName = String(timestamp) + ".jpg"
-        var fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(image, 1.0)!, name: fileName)
-        var media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as! Media
+        let fileName = String(timestamp) + ".jpg"
+        let fullPath = ObservationCell.saveToDocumentDirectory(UIImageJPEGRepresentation(image, 1.0)!, name: fileName)
+        let media = SwiftCoreDataHelper.insertManagedObject(NSStringFromClass(Media), managedObjectConect: nsManagedContext) as! Media
         media.note = self
         media.state = NNModel.STATE.NEW
         media.full_path = fullPath

@@ -25,7 +25,6 @@ class SwiftCoreDataHelper {
     }
     
     class func getEntityByModelName(className:NSString, managedObjectContext:NSManagedObjectContext) -> AnyObject {
-        let fetchRequest:NSFetchRequest = NSFetchRequest()
         let entetyDescription:NSEntityDescription = NSEntityDescription.entityForName(className as String, inManagedObjectContext: managedObjectContext)!
         let entity = NSManagedObject(entity: entetyDescription, insertIntoManagedObjectContext: managedObjectContext)
         return entity

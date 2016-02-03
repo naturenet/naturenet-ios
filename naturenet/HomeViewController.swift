@@ -73,12 +73,9 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
     // programmatically set the cell's size
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            var photoPath =  self.images[indexPath.row]
-            var mImage = UIImage(named: self.images[indexPath.row])
             let screenSize: CGRect = UIScreen.mainScreen().bounds
             let screenWidth = screenSize.width;
-            let screenHeight = screenSize.height;
-            
+          
             return CGSize(width: screenWidth/2 - 30, height: screenWidth/2 - 20)
     }
     
@@ -113,18 +110,7 @@ class HomeViewController : UIViewController, UICollectionViewDataSource,
         }
 
     }
-    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "designIdeaSeg" {
-//            let destinationVC = segue.destinationViewController as! DesignIdeaViewController
-//            destinationVC.delegate = self
-//            if self.designIdeaInput != nil {
-//                destinationVC.designIdeaSavedInput = self.designIdeaInput
-//            }
-//        }
-//        // self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.Plain, target:nil, action:nil)
-//    }
-
+  
     // implement saveInputStateProtocol
     func saveInputState(input: String?) {
         self.designIdeaInput = input

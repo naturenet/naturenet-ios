@@ -30,7 +30,7 @@ class ImageHelper {
     }
     
     class func loadImageFromWeb(iconURL: String, imageview: UIImageView, indicatorView: UIActivityIndicatorView?) {
-        var url = NSURL(string: iconURL)
+        let url = NSURL(string: iconURL)
         let urlRequest = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
             response, data, error in

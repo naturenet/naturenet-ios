@@ -380,9 +380,9 @@ class ObservationDetailController: UITableViewController, CLLocationManagerDeleg
     
     // load image into imageview
     func loadFullImage(media: Media) {
-        var url = media.url!
+        let url = media.url!
         // println("passed image url is: \(url)")
-        var nsurl: NSURL = NSURL(string: url)!
+        let nsurl: NSURL = NSURL(string: url)!
         let urlRequest = NSURLRequest(URL: nsurl)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
             response, data, error in

@@ -200,13 +200,11 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
             if from == "Account" {
                 // var data = response["data"] as NSDictionary!
                 let data = response["data"] as! NSDictionary!
-                var model = data["_model_"] as! String
                 self.handleUserData(data)
             }
             
             if from == "Site" {
                 let data = response["data"] as! NSDictionary!
-                var model = data["_model_"] as! String
                 self.handleSiteData(data)
             }
             
@@ -224,7 +222,6 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     func handleUserData(data: NSDictionary) {
         let username = data["username"] as! String
         let pass = data["password"] as! String
-        var email = data["email"] as! String
         let modified_at = data["modified_at"] as! NSNumber
         
         if pass != self.textFieldUpass.text {
@@ -257,7 +254,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     // parse site info and save
     // !!!if site exists, no update, should check modified date is changed!! but no modified date returned from API
     func handleSiteData(data: NSDictionary) {
-        var sitename = data["name"] as! String
+        let sitename = data["name"] as! String
         
         let predicate = NSPredicate(format: "name = %@", sitename)
         let exisitingSite = NNModel.fetechEntitySingle(NSStringFromClass(Site), predicate: predicate) as? Site
@@ -273,7 +270,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
         if !SignInViewController.hasWhiteSpace(inputUser) {
             Account.doPullByNameFromServer(parseService, name: inputUser)
         } else {
-            var errorMessage = "Username is not valid"
+            let errorMessage = "Username is not valid"
             self.showFailMessage(errorMessage)
             self.pauseIndicator()
         }
@@ -348,7 +345,7 @@ class SignInViewController: UIViewController, APIControllerProtocol, UITextField
     class func hasWhiteSpace(string: String) -> Bool {
         var hasSpace = false
         let whitespace = NSCharacterSet.whitespaceCharacterSet()
-        if let range = string.rangeOfCharacterFromSet(whitespace) {
+        if let _ = string.rangeOfCharacterFromSet(whitespace) {
             hasSpace = true
         }
         return hasSpace

@@ -75,7 +75,7 @@ class Media: NNModel, CLUploaderDelegate {
     //----------------------------------------------------------------------------------------------
     // cloudinary upload
     func uploadToCloudinary() {
-        var image = UIImage(named: self.full_path!)
+        let image = UIImage(named: self.full_path!)
         let forUpload = UIImageJPEGRepresentation(image!, 0.6)! as NSData
         cloudinary.config().setValue("university-of-colorado", forKey: "cloud_name")
         cloudinary.config().setValue("893246586645466", forKey: "api_key")

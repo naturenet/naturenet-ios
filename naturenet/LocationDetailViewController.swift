@@ -19,7 +19,6 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         if locationTitle == "Other" {
             navItem.title = locationTitle
         } else {
@@ -32,7 +31,6 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func backpressed() {
@@ -76,9 +74,6 @@ class LocationDetailViewController: UIViewController, UINavigationControllerDele
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let detailVC = segue.destinationViewController as! ObservationDetailController
-//        detailVC.imageFromCamera = self.cameraImage!
-//        detailVC.imageFromObservation?.image = self.cameraImage!
-//        detailVC.imageFromObservation?.isFromGallery = false
         detailVC.imageFromObservation = ObservationsController.PickedImage(image: self.cameraImage, isFromGallery: false)
         detailVC.sourceViewController = NSStringFromClass(LocationDetailViewController)
 

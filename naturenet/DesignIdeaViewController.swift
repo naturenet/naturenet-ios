@@ -61,11 +61,7 @@ class DesignIdeaViewController: UIViewController, APIControllerProtocol {
             self.createAlert(nil, message: "Your idea has been sent, thanks!", type: self.SUCCESS)
         })
     }
-//    
-//    @IBAction func backgroundTap(sender: UIControl) {
-//        ideaTextView.resignFirstResponder()
-//    }
-//    
+
     @IBAction func backpressed() {
         self.delegate?.saveInputState(designIdeaSavedInput)
         self.navigationController?.popViewControllerAnimated(true)

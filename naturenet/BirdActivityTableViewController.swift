@@ -119,7 +119,6 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
    
     /*
      * reserverd for placing the footer right
-    //
     override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         var label: UILabel?
         
@@ -160,7 +159,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             cell.loadingIndicator.startAnimating()
             cell.loadingIndicator.color = UIColor.blueColor()
             if birds.count > 0 {
-                var birdIndex = indexPath.section - DESCRIPTIONSECTION - 1
+                let birdIndex = indexPath.section - DESCRIPTIONSECTION - 1
                 loadImageFromWeb(birds[birdIndex].thumbnailURL, imageview: cell.previewImageView, indicatorView: cell.loadingIndicator)
                 cell.birdNameLabel.text = "Today"
             }
@@ -182,7 +181,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             }
             if indexPath.section == tableView.numberOfSections - 1 {
                 cell!.textLabel?.text = "Note"
-                if let nDescription = self.noteDescription {
+                if let _ = self.noteDescription {
                     cell!.detailTextLabel?.text = self.noteDescription
                 } else {
                     cell!.detailTextLabel?.text = " "
@@ -227,7 +226,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     }
     
     private func loadImageFromWeb(iconURL: String, imageview: UIImageView, indicatorView: UIActivityIndicatorView?) {
-        var url = NSURL(string: iconURL)
+        let url = NSURL(string: iconURL)
         let urlRequest = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
             response, data, error in
@@ -288,7 +287,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
         return pickerData.count
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerData[row]
     }
   
@@ -357,9 +356,9 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     private func updateStats() {
         var section = DESCRIPTIONSECTION + 1
         for bird in birds {
-            var indexPath = NSIndexPath(forRow: 0, inSection: section)
+            let indexPath = NSIndexPath(forRow: 0, inSection: section)
             if let cell = self.tableview.cellForRowAtIndexPath(indexPath) as? BirdActivityTableViewCell {
-                var pickerview = cell.numberPickerView
+                let pickerview = cell.numberPickerView
                 pickerview.selectRow(Int(bird.countNumber)!, inComponent: 0, animated: true)
             }
             if bird.seasonalCount != nil {
@@ -423,7 +422,6 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
             contentObject = ["type" : "bird", "birds" : birdJSONs, "description": content]
         }
         let contentJSON = self.JSONStringify(contentObject, prettyPrinted: false)
-        // println(contentJSON)
         mNote.content = contentJSON
 
         mNote.created_at = createdAt
@@ -448,7 +446,7 @@ class BirdActivityTableViewController: UITableViewController, UIPickerViewDelega
     }
     
     private func JSONStringify(value: AnyObject, prettyPrinted: Bool = false) -> String {
-        var options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions(rawValue: 0)
+        let options = prettyPrinted ? NSJSONWritingOptions.PrettyPrinted : NSJSONWritingOptions(rawValue: 0)
         if NSJSONSerialization.isValidJSONObject(value) {
             if let data = try? NSJSONSerialization.dataWithJSONObject(value, options: options) {
                 if let string = NSString(data: data, encoding: NSUTF8StringEncoding) {

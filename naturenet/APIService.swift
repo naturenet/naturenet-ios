@@ -26,15 +26,14 @@ class APIService {
     }
     
     func request(from: String, url: String) {
-        var nsURL = NSURL(string: url)
+        let nsURL = NSURL(string: url)
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         let task = NSURLSession.sharedSession().dataTaskWithURL(nsURL!, completionHandler: {
             (data, response, error) in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            var error: NSError?
             if error != nil {
                 print(error!)
-                var erorrMessage = ["status_code" : APIService.CRASHERROR]
+                let erorrMessage = ["status_code" : APIService.CRASHERROR]
                 self.delegate?.didReceiveResults(from, sourceData: nil, response: erorrMessage)
             } else {
                 do
@@ -44,7 +43,7 @@ class APIService {
                         self.delegate?.didReceiveResults(from, sourceData: nil, response: jsonResult!)
 
                     } else {
-                        var message = ["status_code" : APIService.CRASHERROR]
+                        let message = ["status_code" : APIService.CRASHERROR]
                         self.delegate?.didReceiveResults(from,sourceData: nil, response: message)
                     }
                 }
@@ -57,33 +56,29 @@ class APIService {
 
     // send a http post request
     func post(from: String, sourceData: NNModel?, params : Dictionary<String, Any>, url: String) {
-        var source: String = "POST_" + from
-        var request = NSMutableURLRequest(URL: NSURL(string: url)!)
-        var session = NSURLSession.sharedSession()
+        let source: String = "POST_" + from
+        let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+        let session = NSURLSession.sharedSession()
         request.HTTPMethod = "POST"
-        var httpBody = paramsToHttpBody(params)
+        let httpBody = paramsToHttpBody(params)
         request.HTTPBody = httpBody.dataUsingEncoding(NSUTF8StringEncoding)
-        var err: NSError?
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
-        var task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            var strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
             // println("Body: \(strData)")
-            var err: NSError?
-            
             do {
             
-                var json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves) as? NSDictionary
+                let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves) as? NSDictionary
                 
                 // Did the JSONObjectWithData constructor return an error? If so, log the error to the console
-                if(err != nil) {
-                    print(err!.localizedDescription)
+                if(error != nil) {
+                    print(error!.localizedDescription)
                     let jsonStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
                     print("Error could not parse JSON: '\(jsonStr)'")
-                    var erorrMessage = ["status_code" : APIService.CRASHERROR]
+                    let erorrMessage = ["status_code" : APIService.CRASHERROR]
                     self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
                 }
                 else {
@@ -91,7 +86,7 @@ class APIService {
                     // check and make sure that json has a value using optional binding.
                     if let parseJSON = json {
                         // Okay, the parsedJSON is here, let's get the value for 'success' out of it
-                        var success = parseJSON["status_code"] as? Int
+                        // let success = parseJSON["status_code"] as? Int
                         // println("Succes: \(success)")
                         self.delegate?.didReceiveResults(source, sourceData: sourceData, response: parseJSON)
                     }
@@ -99,7 +94,7 @@ class APIService {
                         // Woa, okay the json object was nil, something went worng. Maybe the server isn't running?
                         let jsonStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
                         print("Error could not parse JSON: \(jsonStr)")
-                        var erorrMessage = ["status_code" : APIService.CRASHERROR]
+                        let erorrMessage = ["status_code" : APIService.CRASHERROR]
                         self.delegate?.didReceiveResults(source, sourceData: sourceData, response: erorrMessage)
 
                     }

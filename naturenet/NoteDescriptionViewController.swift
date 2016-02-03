@@ -16,7 +16,6 @@ class NoteDescriptionViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        UIBarButtonItem.appearance().setTitleTextAttributes({NSForegroundColorAttributeName: UIColor.blueColor()}, forState: .Disabled)
         if noteContent != nil {
             noteDescriptionTextView.text = noteContent!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         }

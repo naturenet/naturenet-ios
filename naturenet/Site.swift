@@ -34,11 +34,7 @@ class Site: NNModel {
     // update data in core data
     override func updateToCoreData(data: NSDictionary) {
         let managedContext: NSManagedObjectContext = SwiftCoreDataHelper.nsManagedObjectContext
-//        var contexts = SwiftCoreDataHelper.fetchEntities(NSStringFromClass(Context), withPredicate: nil, managedObjectContext: managedContext) as! [Context]
-//        for context in contexts {
-//            managedContext.deleteObject(context)
-//        }
-        
+
         let contexts = data["contexts"] as! NSArray
         for tContext in contexts {
             let uid = tContext["id"] as! Int
@@ -125,7 +121,6 @@ class Site: NNModel {
         
         for tContext in contexts {
             let contextUID = tContext["id"] as! Int
-            var name = tContext["name"] as! String
             var cDescription: String?
             if tContext["description"] != nil {
                 cDescription = tContext["description"] as? String

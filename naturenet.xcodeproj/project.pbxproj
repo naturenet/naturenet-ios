@@ -11,8 +11,6 @@
 		FC012CC21A76AD9800D9CBF1 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC012CC11A76AD9800D9CBF1 /* Context.swift */; };
 		FC031E581A833E71007F67D7 /* NoteLocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */; };
 		FC077EA51AD4F1F400F0A1E2 /* BirdCountingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC077EA41AD4F1F400F0A1E2 /* BirdCountingCollectionViewCell.swift */; };
-		FC077EA71AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC077EA61AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift */; };
-		FC0861721AD4EB93001CA012 /* BirdCountingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0861711AD4EB93001CA012 /* BirdCountingTableViewController.swift */; };
 		FC1134961A642DD500D548E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1134951A642DD500D548E8 /* AppDelegate.swift */; };
 		FC1134991A642DD500D548E8 /* naturenet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC1134971A642DD500D548E8 /* naturenet.xcdatamodeld */; };
 		FC1134A31A642DD600D548E8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC1134A11A642DD600D548E8 /* LaunchScreen.xib */; };
@@ -81,8 +79,6 @@
 		FC012CC11A76AD9800D9CBF1 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		FC031E571A833E71007F67D7 /* NoteLocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteLocationTableViewController.swift; sourceTree = "<group>"; };
 		FC077EA41AD4F1F400F0A1E2 /* BirdCountingCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdCountingCollectionViewCell.swift; sourceTree = "<group>"; };
-		FC077EA61AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdCountingDetailTableViewController.swift; sourceTree = "<group>"; };
-		FC0861711AD4EB93001CA012 /* BirdCountingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BirdCountingTableViewController.swift; sourceTree = "<group>"; };
 		FC1134901A642DD500D548E8 /* NatureNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NatureNet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1134941A642DD500D548E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC1134951A642DD500D548E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -242,8 +238,6 @@
 				FCBEE99C1AE89B0C001E70FC /* BirdActivityTableViewController.swift */,
 				FCC386A01B03C037004A96AE /* DesignIdeasTableViewController.swift */,
 				FCC386A21B03DB66004A96AE /* DesignIdeaDetailTableViewController.swift */,
-				FC077EA61AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift */,
-				FC0861711AD4EB93001CA012 /* BirdCountingTableViewController.swift */,
 				FCB1D51D1A9524FB006267E9 /* ConsentTableViewController.swift */,
 				FC6F24D41A94571C00FEF9FE /* DesignIdeaViewController.swift */,
 				FC1134BE1A64309E00D548E8 /* HomeViewController.swift */,
@@ -440,10 +434,8 @@
 				FC5C318C1A8CFFA400A59B89 /* ActivitiesTableViewController.swift in Sources */,
 				FCA005471A82D2110066686D /* NoteActivitySelectionViewController.swift in Sources */,
 				FC6764221A81F9620041B788 /* EditObsTableViewCell.swift in Sources */,
-				FC077EA71AD5907900F0A1E2 /* BirdCountingDetailTableViewController.swift in Sources */,
 				FCC3869E1B0314E6004A96AE /* ActivityIconTableViewCell.swift in Sources */,
 				FCE67D811A6F7BC30096D594 /* APIAdapter.swift in Sources */,
-				FC0861721AD4EB93001CA012 /* BirdCountingTableViewController.swift in Sources */,
 				FC1134991A642DD500D548E8 /* naturenet.xcdatamodeld in Sources */,
 				FC1134CB1A64310100D548E8 /* HomeCell.swift in Sources */,
 				FC1134961A642DD500D548E8 /* AppDelegate.swift in Sources */,

@@ -33,7 +33,6 @@ class NNModel: NSManagedObject {
         } else if (state == STATE.DOWNLOADED) {
             state = STATE.SYNCED
         }
-//        doCommitChildren();
         SwiftCoreDataHelper.saveManagedObjectContext(context)
     }
     

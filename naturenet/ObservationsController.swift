@@ -243,7 +243,6 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
         picker.delegate = self
         self.pickedImage = PickedImage(image: nil, isFromGallery: false)
         
-        var popover:UIPopoverController?
         if #available(iOS 8.0, *) {
             let alert:UIAlertController = UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
             let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default) {
@@ -269,7 +268,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 self.presentViewController(alert, animated: true, completion: nil)
             }
             else {
-                popover = UIPopoverController(contentViewController: alert)
+                // popover = UIPopoverController(contentViewController: alert)
             }
         } else {
             // Fallback on earlier versions
@@ -386,7 +385,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
             }
         }
         
-        if let imageurl = cellImage.imageURL {
+        if let _ = cellImage.imageURL {
             let url = cellImage.getThumbnailURL()
             let nsurl = NSURL(string: url)
             self.loadImageFromWeb(nsurl!, cell: cell, activityIndicator: activityIndicator, index: indexPath.row)
@@ -405,7 +404,7 @@ class ObservationsController: UIViewController, UINavigationControllerDelegate, 
                 cell.mImageView.image = image
                 activityIndicator.stopAnimating()
                 activityIndicator.removeFromSuperview()
-                var cellImage = self.celldata[index] as ObservationCell
+                let cellImage = self.celldata[index] as ObservationCell
                 self.saveImageThumb(cellImage, data: data!)
             }
         })

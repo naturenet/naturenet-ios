@@ -74,11 +74,11 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
             let password = passTextField.text
             let email = emailTextField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if !SignInViewController.hasWhiteSpace(username) && !SignInViewController.hasWhiteSpace(email) {
-                var url = APIAdapter.api.getCreateAccountLink(username)
-                var params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
+                let url = APIAdapter.api.getCreateAccountLink(username)
+                let params = ["name": name, "password": password, "email": email, "consent": consentString] as Dictionary<String, Any>
                 apiService.post(NSStringFromClass(Account), sourceData: self.signInAccount, params: params, url: url)
             } else {
-                var errorMessage = "Username or email should not contain spaces"
+                let errorMessage = "Username or email should not contain spaces"
                 self.showAlertLabel(errorMessage)
                 self.stopLoading()
             }
@@ -179,15 +179,5 @@ class SignUpViewController: UIViewController, APIControllerProtocol, UITextField
         self.loadingIndicator.hidden = true
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
