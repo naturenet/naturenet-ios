@@ -1,4 +1,5 @@
 # naturenet-ios
+DEPRECATED: see https://github.com/naturenet/naturenet_ios
 =======================
 NatureNet iOS 
 
